@@ -1,0 +1,1176 @@
+﻿<script type="text/javascript" src="../../../thirdparty/md5/md5.js"></script>
+<script src="../../../thirdparty/sm4/base64.js"></script>
+<script src="../../../thirdparty/sm4/sm4.js"></script>
+<script src="../../../thirdparty/sm4/myEncDec.js"></script>
+<title>互联网用户</title>
+
+<style>
+  .layui-form-label{line-height: 32px;}
+  #page {margin: 20px;}
+  .layui-form-select dl {max-width: 100% !important;top: 33px;}
+  .layui-layer-page .layui-layer-content {
+
+    position: relative;
+
+    overflow: auto;
+
+  }{
+
+    overflow:visible;
+
+  }
+
+</style>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>用户</cite></a>
+    <a><cite>互联网用户</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card h100">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+      <div class="top_btn">
+        <button class="layui-btn layuiadmin-btn-admin" id="addUser" data-type="add">新建用户</button>
+        <button class="layui-btn layuiadmin-btn-admin" id="importItUser">导入用户</button>
+        <button class="layui-btn layuiadmin-btn-admin" id="exportUserTpl" onclick="exportUserTpl()">下载模板</button>
+        <button class="layui-btn layuiadmin-btn-admin" onclick="exportItUser()">导出用户</button>
+        <button class="layui-btn layuiadmin-btn-admin" data-type="del">删除用户</button>
+        <button class="layui-btn layuiadmin-btn-admin" data-type="userStop">停用</button>
+        <button class="layui-btn layuiadmin-btn-admin" data-type="userRestore">恢复</button>
+        <button class="layui-btn layuiadmin-btn-admin" data-type="resetPassword">重置密码</button>
+      </div>
+      <form class="layui-form">
+        <div class="layui-form-item">
+          <!--<div class="layui-inline">
+            <label class="layui-form-label">ID</label>
+            <div class="layui-input-block">
+              <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>-->
+          <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+              <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+
+          <!--<div class="layui-inline">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+              <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline sex">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+              <select name="sex">
+                <option value="" selected="selected">不限</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+              </select>
+            </div>
+          </div>-->
+          <div class="layui-inline">
+            <label class="layui-form-label">所属组织</label>
+            <div class="layui-input-block">
+              <select name="groupId" id="orgs">
+                <option value="" selected disabled hidden>请选择</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="layui-inline">
+            <label class="layui-form-label">所属角色</label>
+            <div class="layui-input-block">
+              <select name="roleId" id="role">
+                <option value="" selected disabled hidden>请选择</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline top_search_btn">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="layui-card-body">
+      <div class="table-area">
+        <table id="demo" lay-filter="demo"></table>
+      </div>
+      <script type="text/html" id="buttonTpl">
+        {{#  if(d.check == true){ }}
+        <button class="layui-btn layui-btn-xs">已审核</button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+        {{#  } }}
+      </script>
+      <script type="text/html" id="table-useradmin-admin">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="c"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+        {{#  if(d.role == '超级管理员'){ }}
+        <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        {{#  } else { }}
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        {{#  } }}
+      </script>
+      <div id="page"></div>
+    </div>
+  </div>
+</div>
+
+<!--表头工具模板-->
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">新建</button>
+    <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+    <button class="layui-btn layui-btn-sm" lay-event="organ">新建组织</button>
+    <button class="layui-btn layui-btn-sm" lay-event="role">新建角色</button>
+    <!--<button class="layui-btn layui-btn-sm" lay-event="limit">新建权限</button>-->
+    <button class="layui-btn layui-btn-sm" lay-event="open">开通</button>
+    <button class="layui-btn layui-btn-sm" lay-event="logout">注销</button>
+    <!--<button class="layui-btn layui-btn-sm" lay-event="import">批量导入</button>-->
+  </div>
+</script>
+
+<!--弹出层模板 重置密码-->
+<script type="text/html" id="resetDataTemplate">
+  <form class="layui-form" lay-filter="resetForm">
+    <div class="layui-card-body">
+      <div class="layui-form-item">
+        <label class="layui-form-label">输入新密码：</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="passwordId" lay-verify="required">
+          <span class="bitianspan">必填</span>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">确认新密码：</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="passwordId2" lay-verify="required">
+          <span class="bitianspan">必填</span>
+        </div>
+      </div>
+      <div class="button-bar">
+        <button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+        <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+      </div>
+    </div>
+  </form>
+</script>
+
+<!--操作列模板-->
+<script type="text/html" id="barDemo">
+  <!--<a class="layui-btn layui-btn-xs" lay-event="limit">授权</a>
+  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="labelDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="findUser1">查看</a>
+  <a class="layui-btn layui-btn-xs layui-layer-page layui-layer-content" lay-event="addclass1">修改</a>
+</script>
+
+<script>
+    function  getGroup() {
+        ajax(service_prefix.member,"/group/tree","post",{}).then(data=>{
+            data.obj.forEach(function(item){
+            $("#orgs").append("<option value='"+item.id+"'>"+item.name+"</option>");
+
+        })
+        layui.form.render()
+    })
+
+    }
+    getGroup();
+    function  getRole() {
+        ajax(service_prefix.member,"/role/tree","post",{}).then(data=>{
+            data.obj.forEach(function(item){
+              $("#role").append("<option value='"+item.id+"'>"+item.name+"</option>");
+            })
+            layui.form.render()
+        })
+    }
+    getRole();
+
+    var userSetGroupTreeObj;
+    function getGroupTree(groupIds){
+      ajax(service_prefix.member,"/group/tree","post",{}).then(res=>{
+        var data = res.obj;
+        var flag = groupIds && groupIds.length>0;
+        for(var group of res.obj){
+          if(flag && groupIds.indexOf(group.id) >= 0) group.checked = true;
+        }
+        var settingss = {
+          check: {
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "", "N": "" }
+          },
+          data: {
+            simpleData: {
+              enable: true,  //true 、 false 分别表示 使用 、 不使用 简单数据模式
+              idKey: "id",  //节点数据中保存唯一标识的属性名称
+              pIdKey: "parentId",    //节点数据中保存其父节点唯一标识的属性名称
+              rootPId: -1  //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            }
+          },
+          view: { showLine: false,showIcon:true }
+        };
+        userSetGroupTreeObj = $.fn.zTree.init($("#userSetGroupTree"), settingss, data); //初始化树
+        userSetGroupTreeObj.expandAll(true);    //true 节点全部展开、false节点收缩
+      })
+    }
+
+    /**
+     * 设置弹出层表单数据
+     * @param {*} type
+     * @param {*} data
+     */
+    function setOpenDataResetPassword(ids,type,data) {
+      var tit = type;
+      console.log(ids);
+      setLayer('layer_open_data',tit,'500px','210px');
+      laytpl($('#resetDataTemplate').html()).render(data, function(html){
+        $('#layer_open_data').html(html);
+        setFormVal('resetForm',data);
+      });
+      //加载弹出框
+      setOpenLayer();
+      form.on('submit(submitBtnAdd)', function(data){
+        if(data.field.passwordId.length < 6 || data.field.passwordId.length>16){
+          layer.alert("密码长度在6位到16位之间");
+          return false;
+        }
+        if(data.field.passwordId != data.field.passwordId2){
+          layer.alert("两次输入的密码不一致");
+          return false;
+        }
+        var jsonData = {
+          ids: ids,
+          password: com.encrypted.passwordMd5?md5Salt(data.field.passwordId):data.field.passwordId
+        };
+        ajax(service_prefix.member,url+"/resetPassword","post",JSON.stringify(jsonData)).then(res=>{
+          if(res.success){
+            layer.alert("重置密码成功", function(index){
+              layer.closeAll();
+            });
+          }
+        })
+        return false;
+      });
+
+    }
+
+    /**
+     * 重置密码
+     */
+    function resetPassword(){
+      var data = checkChecked('demo');
+      if(data){
+        setOpenDataResetPassword(data,'重置密码',{});
+      }
+    }
+</script>
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html"  id="tableDataTemplate">
+  <form class="layui-form" lay-filter="editForm">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="layui-tab">
+          <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+            <li>所属组织</li>
+          </ul>
+          <div class="layui-tab-content" style="height: 575px;">
+            <div class="layui-tab-item layui-show" style="padding-top: 10px;">
+              <div class="layui-form-item">
+                <label class="layui-form-label">用户名:</label>
+                <div class="layui-input-block">
+                  <input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                  <span class="bitianspan">必填</span>
+                </div>
+              </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">真实姓名:</label>
+              <div class="layui-input-block">
+                <input type="text" name="trueName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                <span class="bitianspan">必填</span>
+              </div>
+            </div>
+              {{# if(!d.editType){ }}
+              <div class="layui-form-item">
+                <label class="layui-form-label">密码:</label>
+                <div class="layui-input-block">
+                  <input type="password" name="passWord" lay-verify="pass" placeholder="请输入" autocomplete="new-password" class="layui-input">
+                  <span class="bitianspan">必填</span>
+                  <span style="">（最少6个字符）</span>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">确认密码:</label>
+                <div class="layui-input-block">
+                  <input type="password" name="passWord2" lay-verify="pwd2" placeholder="请输入" autocomplete="off" class="layui-input">
+                  <span class="bitianspan">必填</span>
+                </div>
+              </div>
+              {{# } }}
+              <div class="layui-form-item">
+                <label class="layui-form-label">用户状态:</label>
+                <div class="layui-input-block">
+                  {{# if(d.stopState == 1){ }}
+                  <input type="radio" name="stopState" value="0">在职
+                  <input type="radio" name="stopState" value="1" checked="checked">离职
+                  <input type="radio" name="stopState" value="-1">未开通
+                  {{#  } else if(d.stopState == -1) { }}
+                  <input type="radio" name="stopState" value="0">在职
+                  <input type="radio" name="stopState" value="1">离职
+                  <input type="radio" name="stopState" value="-1" checked="checked">未开通
+                  {{#  } else { }}
+                  <input type="radio" name="stopState" value="0" checked="checked">在职
+                  <input type="radio" name="stopState" value="1">离职
+                  <input type="radio" name="stopState" value="-1">未开通
+                  {{# } }}
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">手机号码:</label>
+                <div class="layui-input-block">
+                  <input type="text" name="mobile" lay-verify="phone" placeholder="请输入" autocomplete="off" class="layui-input">
+                  <span class="bitianspan">必填</span>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">电子邮箱:</label>
+                <div class="layui-input-block">
+                  <input type="text" name="email" lay-verify="email" placeholder="请输入" autocomplete="off" class="layui-input">
+                  <span class="bitianspan">必填</span>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">头像:</label>
+                <div class="layui-upload layui-col-md8" style="float:left;">
+                  <input type="hidden" class="layui-upload-img" name="headUrl"  >
+                  <img id="demo1" width="180px" height="180px">
+                  <!--<button type="button" class="layui-btn" id="uploadHead" style="float: right;margin-top: 55px; margin-left: 5px">上传图片</button>-->
+                </div>
+                <div class="layui-col-md4"><button type="button" class="layui-btn" id="uploadHead" style="margin-top: 15px; margin-left: 145px">上传图片</button></div>
+              </div>
+             <!-- class="layui-col-md6"-->
+              <!-- <div class="layui-form-item">
+                <label class="layui-form-label">选择性别:</label>
+                <div class="layui-input-block">
+                  <input type="radio" name="sex" value="男" checked="checked">男
+                  <input type="radio" name="sex" value="女">女
+                </div>
+              </div> -->
+              <input hidden="hidden" name="id">
+              <input hidden="hidden" name="sign" value="3">
+
+              <div class="button-bar">
+                <button class="layui-btn" lay-submit lay-filter="addUser" type="button">确认</button>
+                <button class="layui-btn" type="button" data-type="close">取消</button>
+              </div>
+            </div>
+            <div class="layui-tab-item">
+              <div class="layui-card-body " style="border: 1px solid #e6e6e6;">
+                <ul id="userSetGroupTree" class="ztree" style="height: 510px;margin: 0 auto; overflow-y: auto;border: 1px solid #e6e6e6;">
+                </ul>
+              </div>
+              <div class="button-bar"style="margin-top: 20px">
+                <button class="layui-btn" lay-submit lay-filter="addUser">确认</button>
+                <button class="layui-btn" type="button" data-type="close">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</script>
+
+<script type="text/html" id="uploadTemplate">
+  <div class="layui-upload-drag" id="test10">
+    <i class="layui-icon"></i>
+    <p>点击上传，或将文件拖拽到此处</p>
+  </div>
+</script>
+
+<!--弹出层模板（删除）-->
+<script type="text/html"  id="delTableTemplate">
+  <br><p>&emsp;&emsp;是否删除数据</p>
+  <input hidden="hidden" value="{{d.ids}}">
+</script>
+<!--注销-->
+<script type="text/html"  id="setStatus">
+  <br><p>&emsp;&emsp;<span id="tempStatus"></span></p>
+  <input hidden="hidden" value="{{d.ids}}">
+</script>
+<!--注销-->
+<script type="text/html"  id="headImgTpl">
+  {{#  if(d.headUrl){ }}
+  <a href="{{d.headUrl}}" target="_blank"><img src="{{d.headUrl}}" width="20" height="20"></a>
+  {{#  } else { }}
+  <img src="common/img/u94.png" width="20" height="20">
+  {{#  } }}
+</script>
+
+<script>
+    var url = "/user";
+    // var url = "/user";
+    var baseOrder = [];
+    var defaultPageSize = 15;
+    var name="";
+    var usernameid1;
+    var classtreeid1;
+</script>
+<script>
+  function refreshList(){
+    doList(1,{});
+  }
+  layui.form.on("submit(addUser)",function(data){
+    var thisurl = "/user/addUser";
+      if(data.field.id){
+        thisurl = "/user/updateUser/" + data.field.id;
+      }
+    let param=data.field;
+    if(!data.field.id){//新增时
+      if(com.encrypted.passwordMd5){
+        param.passWord=md5Salt(data.field.passWord);
+        param.passWord2=md5Salt(data.field.passWord2);
+      }
+    }
+    if(com.encrypted.userSm4){
+      if(data.field.trueName){
+        param.trueName=myObj.sm4Encode(data.field.trueName);
+      }
+      param.mobile=myObj.sm4Encode(data.field.mobile);
+      param.email=myObj.sm4Encode(data.field.email);
+    }
+    var nodes = userSetGroupTreeObj.getCheckedNodes();
+    var groupIds = [];
+    for(var group of nodes){
+      groupIds.push(group.id);
+    }
+    ajax(service_prefix.member,thisurl,"post",JSON.stringify({entity:param,groupIds:groupIds})).then(res=>{
+      if(res.success){
+        layer.closeAll();
+        doList(1,{});
+      }else{
+        layer.alert(res.msg)
+      }
+    })
+    return false;
+  })
+
+    layui.form.on("submit(LAY-user-back-search)",function(data){
+        doList(1,data.field);
+        return false;
+    })
+
+    //渲染数据到table
+    function setTableData(data) {
+        var temp1 = "id";
+        var temp2 ="asc";
+        if(baseOrder.length>0){
+            temp1 = baseOrder[0].key;
+            if(baseOrder[0].value==true){
+                temp2 = "asc";
+            }else{
+                temp2 = "desc"
+            }
+        }
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#demo'
+                ,data:data.records
+                // ,toolbar: '#toolbarDemo'
+                ,limit:defaultPageSize
+                ,cols: [[
+                    {type:'checkbox',fixed: 'left'}
+                    ,{type:'numbers',title: '序号',fixed: 'left'}
+                    ,{field:'name', title: '用户名', width: 140,fixed: 'left'}
+                    ,{field:'headUrl', title: '头像', templet:"#headImgTpl"}
+                    ,{field:'email', title: '电子邮箱', width: 200,templet:function (item) {
+                        return com.encrypted.userSm4?myObj.sm4Decode(item.email):item.email;
+                      }}
+                    ,{field:'mobile', title: '手机号码', width: 120,templet:function (item) {
+                        return com.encrypted.userSm4?myObj.sm4Decode(item.mobile):item.mobile;
+                      }}
+                    ,{field:'stopState', title: '用户状态', width: 100, templet:'<div>{{d.stopState == 1?"离职":d.stopState == 2?"锁定":d.stopState == -1?"未开通":"在职"}}</div>'}
+                    // ,{field:'sex', title: '性别',width:60}
+                    // ,{field:'loginIp', width:'178', title: 'IP',align: 'right'}
+                    // ,{field:'groupName', title: '所属组织', width: 200}
+                    // ,{field:'roleName', title: '所属角色', width: 200}
+                    // ,{field:'regTime',  title: '加入时间',width:120}
+                    , {field: 'crUser', width: 120, title: '创建人'}
+                    , {field: 'createTime', width: 170, title: '创建时间'}
+                    , {field: 'modifyUser', width: 120, title: '操作人'}
+                    , {field: 'modifyTime', width: 170, title: '操作时间'}
+                    ,{field:'',title: '标签管理',width: 120,toolbar: '#labelDemo'}
+                    ,{field:'',title: '权限管理', templet:"#right" ,width: 120,fixed: 'right'}
+                    ,{field:'', title: '操作',fixed: 'right',toolbar: '#barDemo', width: 120,fixed: 'right'}
+                ]],
+              id: "demo"
+            });
+        });
+        page(data.total,data.current,defaultPageSize);
+    }
+  function setOpenData1(data) {
+      var editType = "修改";
+      layui.layer.open({
+          type: 1,
+          title: editType+"互联网用户",
+          area:['650px','750px'],
+          anim: 2,
+          content: '<div id="table_data" class="open_layer_form"></div>',
+      });
+      layui.laytpl($("#tableDataTemplate").html()).render(data, function(html){
+          $("#table_data").html(html)
+          layui.form.val('editForm', data);
+          var headerPic = $('input[name="headUrl"]').val();
+          if(headerPic){
+            $('#demo1').attr('src',headerPic);
+          }
+          //普通图片上传
+          layui.upload.render({
+              elem: '#uploadHead'
+              // ,url: url+'/importHead'
+              ,url: getAjaxUrl(service_prefix.member,url+'/importHead')
+              ,before: function(obj){
+                  //预读本地文件示例，不支持ie8
+                  console.log(obj)
+
+                  obj.preview(function(index, file, result){
+                      $('#demo1').attr('src', result); //图片链接（base64）
+                  });
+              }
+              ,done: function(res){
+                  //如果上传失败
+                  if(res.code > 0){
+                      return layer.msg('上传失败');
+                  }
+                  $("[name=headUrl]").val(res.obj.url)
+              }
+          });
+        getGroupTree(data.groupIds?data.groupIds.split(","):[]);
+      });
+  }
+    //设置弹出层数据（新增，查看，修改）
+    function setOpenData(data) {
+        var editType = "新建";
+        layui.layer.open({
+            type: 1,
+            title: editType+"互联网用户",
+            area:['740px','560px'],
+            anim: 2,
+            content: '<div id="table_data" class="open_layer_form"></div>',
+        });
+        layui.laytpl($("#tableDataTemplate").html()).render(data, function(html){
+            $("#table_data").html(html)
+            layui.form.val('editForm', data);
+            //普通图片上传
+            layui.upload.render({
+                elem: '#uploadHead'
+                // ,url: url+'/importHead'
+                ,url: getAjaxUrl(service_prefix.member,url+'/importHead')
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#demo1').attr('src', result); //图片链接（base64）
+                    });
+                }
+                ,done: function(res){
+                    //如果上传失败
+                    if(res.code > 0){
+                        return layer.msg('上传失败');
+                    }
+                    $("[name=headUrl]").val(res.obj.url)
+                }
+            });
+          getGroupTree(data.groupIds?data.groupIds.split(","):[]);
+        });
+    }
+    layui.form.verify({
+      pass: function(pass){
+        return checkoutPassword(pass);
+      },
+      pwd2: function (value) {
+          var pwd1 = $("input[name=passWord]").val();
+          if (pwd1 != value) {
+              return "两次密码输入不一致，请重新输入"
+          }
+      }
+    });
+
+    //监听操作列工具条
+    layui.table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if(layEvent === 'detail'){ //查看
+            setOpenData(data,0);
+        } else if(layEvent === 'del'){ //删除
+            layer.alert("确定删除:["+data.name+"]",function(){
+                doDeleteByIds([data.id]);
+            })
+        } else if(layEvent === 'edit'){ //编辑
+            data.editType = 1;
+            console.log('edit>>>',data)
+            if(com.encrypted.userSm4){
+              if(data.trueName){
+                data.trueName=myObj.sm4Decode(data.trueName);
+              }
+              data.mobile=myObj.sm4Decode(data.mobile);
+              data.email=myObj.sm4Decode(data.email);
+            }
+            setOpenData1(data,1);
+        }else if(layEvent=='limit'){//权限
+            setItLimit(data.id,data.name);
+        } if(layEvent === 'addclass1'){ //修改
+        usernameid1=data;
+        addclass(data)
+      }else if(layEvent === 'findUser1'){//查看
+        usernameid1=data;
+        findclassuser(data)
+      }
+    });
+
+    layui.form.on('submit(addItLimit)', function(data){
+      var arr=[];
+      $("#menuInfoLimit input:checkbox:checked").each(function(){
+        arr.push({
+          objId:data.field.id,
+          objType:3,
+
+          rightValue:$(this).val().split(";")[1],
+          oprId:$(this).val().split(";")[0],
+          oprIdType:3
+        });
+      })
+        ajax(service_prefix.member,"/limitRelation/setLimit","post",JSON.stringify(arr)).then(function (res) {
+        layer.closeAll();
+      })
+      return false;
+    });
+
+</script>
+<script type="text/html" id="pushcalssTemplate1">
+  <form class="layui-form" lay-filter="pushclassForm">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="layui-form-item">
+          <label class="layui-form-label">标签分类:</label>
+          <div class="layui-input-block">
+            <select name = "parentid" id = "classid" lay-filter = "classid1" >
+            </select>
+          </div>
+        </div>
+        <div >
+          选择要推送的标签
+        </div>
+        <div style="overflow: hidden;">
+          <ul id="treeDemo1w" class="ztree"></ul>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block" style="margin-left: 200px;">
+            <button class="layui-btn" lay-submit lay-filter="changUserLabel" type="button">确认</button>
+            <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</script>
+<script type="text/html" id="pushcalssTemplate122">
+  <form class="layui-form" lay-filter="pushclassForm122">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="layui-form-item">
+          <label class="layui-form-label" style="margin-top: -5px;font-size: 16px;">标签分类:</label>
+          <div class="layui-input-block">
+            <select name = "parentid" id = "classid12" lay-filter = "classid12" >
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="layui-col-md3" style="font-size: 16px;margin-top: 9px;font-family: '微软雅黑';">
+            已关注的标签：
+          </div>
+          <div style="overflow: hidden;height: 205px;" class="layui-col-md9">
+            <!-- <ul id="treeDemo1w" class="ztree"></ul>-->
+            <ul id="showData1" style="font-size: 20px;line-height: 35px;font-family: '微软雅黑'"></ul>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block" style="margin-left: 200px;">
+            <button type="button" class="layui-btn" onclick="layer.closeAll();">确认</button>
+            <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</script>
+<script>
+    function del(){
+        var data = checkChecked('demo');
+        if(data){
+            doDeleteByIds(data);
+        }
+    }
+    //停用
+    function userStop() {
+      var id = checkChecked('demo');
+      if(!id) return false;
+      layer.alert("是否确定停用,",function () {
+        ajax(service_prefix.member,url+'/stopUser',"post",JSON.stringify(id)).then(res=>{
+          if(res.success){
+            doList(1,{});
+            layer.closeAll();
+          }
+        })
+      })
+    }
+    //恢复
+    function userRestore() {
+      var id = checkChecked('demo');
+      if(!id) return false;
+      layer.alert("是否确定恢复",function () {
+        ajax(service_prefix.member,url+'/restoreUser',"post",JSON.stringify(id)).then(res=>{
+          if(res.success){
+            doList(1,{});
+            layer.closeAll();
+          }
+        })
+      })
+    }
+    //根据ids批量删除
+    function doDeleteByIds(data) {
+        layer.alert("是否确定删除,该操作不可撤回",function () {
+            ajax(service_prefix.member,url+"/delByIds","post",JSON.stringify(data)).then(res=>{
+                if(res.success){
+                doList(1,{});
+                layer.closeAll();
+            }
+        }).catch(res=>{
+
+            })
+        })
+    }
+    function add(){
+        setOpenData({});
+    }
+    //条件列表查询
+    function doList(current,entity) {
+        // var sortProps = [];
+        var sortProps = {
+            key: "createTime",
+            value: false
+        };
+        var data={};
+        data.pager = {current:current,size:defaultPageSize};
+        data.pager.sortProps = sortProps;
+        entity.sign = 3;
+        data.entity = entity;
+        ajax(service_prefix.member,url+"/list","post",JSON.stringify(data)).then(res=>{
+          setTableData(res.obj);
+        })
+      }
+
+</script>
+
+<script>
+    var itUserObj={};
+    var groupid;
+    function getItLimit(id){
+        ajax(service_prefix.member,"/permission/allStr","post",JSON.stringify({ownerId:id,ownerType:3})).then(function (data) {
+          getFrontMenuDate(data.obj);
+        })
+    }
+
+    $(function(){
+        ajax(service_prefix.member,"/user/getLoginUser","get").then(res=>{
+          if(res.success && res.obj.group && res.obj.group.length > 0){
+            groupid = res.obj.group[0].groupId;
+          }
+          doList(1,{});
+        })
+        $('#searchButton').click(function() {
+            doList(1,{});
+        })
+        layui.form.render();
+    });
+
+    function  setItLimit(id,name) {
+        layer.open({
+            type: 1
+            , title: '权限管理'
+            , area: ["1300px", "750px"]
+            , shade: 0.3
+            , maxmin: false
+            , content: "<div id='form4'></div>"
+        });
+        layui.laytpl($("#temp1").html()).render({id:id,name:name}, function (html) {
+            $("#form4").html(html);
+            layui.form.render();
+        })
+        $("#user").text(name);
+        getItLimit(id);
+    }
+
+    function exportItUser(){
+      window.open(getAjaxUrl(service_prefix.member,"/user/exportItUser"));
+    }
+
+    function exportUserTpl(){
+      window.open(getAjaxUrl("","/files/base/user_template.xlsx"));
+    }
+    var upindex;
+    layui.upload.render({
+      elem: '#importItUser'
+      ,accept:"file"
+      ,exts:"xls|xlsx"
+      ,acceptMime:"application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ,url: getAjaxUrl(service_prefix.member,'/user/importItUser')
+      ,progress: function(n, elem){
+        var percent = n + '%' //获取进度百分比
+        element.progress('demo', percent); //可配合 layui 进度条元素使用
+        //以下系 layui 2.5.6 新增
+        console.log(elem); //得到当前触发的元素 DOM 对象。可通过该元素定义的属性值匹配到对应的进度条。
+      }
+      ,before: function(){
+        upindex = layer.load();
+      }
+      ,done: function(res){
+        layer.close(upindex);
+        if(res.success){
+          doList(1,{});
+          layer.alert("导入成功");
+        }else{
+          layer.alert("导入失败:"+res.msg);
+        }
+      }
+      ,error: function(){
+        layer.close(upindex);
+      }
+    });
+</script>
+<script type="text/html" id="right">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-primary layui-btn-xs" lay-event="limit">查看</button>
+    <button class="layui-btn layui-btn-primary layui-btn-xs" lay-event="limit">设置</button>
+  </div>
+</script>
+<script id="temp1" type="text/html">
+  <form class="layui-form" lay-filter="limitForm" id="menuInfoLimit">
+    <div class="h100 layui-card-body" id="temp">
+      <p><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;<span id="user">{{d.name}}</span></p>
+      <!-- <table class="layui-hide" id="menuTable"></table> -->
+      <div>
+<!--        <div class="layui-form-item menu_limit_search">-->
+<!--            <div class="layui-inline">-->
+<!--                <label class="layui-form-label">搜索栏目：</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input class="layui-input" type="text" id="key" value="" class="empty" placeholder="请输入关键字"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <ul id="frontMenuDataTree" class="ztree ztreeMenu" style="width:100%;" ></ul>
+    </div>
+    </div>
+    <div class="button-bar">
+      <button class="layui-btn" lay-submit lay-filter="addItLimit">确认</button>
+      <button class="layui-btn" type="button" data-type="close">取消</button>
+    </div>
+    <input type="hidden" name="id" value="{{d.id}}">
+  </form>
+</script>
+<script id="operations" type="text/html">
+  {{#  if(d.operation === "1"){ }}
+  <span class="right"></span>
+  {{#  } else{ }}
+  <span></span>
+  {{#  } }}
+</script>
+<script>
+
+  /*layui.table.on('tool(demo)', function(obj){
+
+    var datass = obj.data; //获得当前行数据
+    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+    var tr = obj.tr; //获得当前行 tr 的DOM对象
+    if(layEvent === 'addclass1'){ //删除
+      addclass(datass)
+      }
+  })*/
+  //获取分类法树
+  function addclass(datass) {
+    //多窗口模式，层叠置顶
+    openindex1 = layer.open({
+      type: 1,
+      title: "推送到标签",
+      area: ['500px','600px'],
+      maxmin: true,
+      content: '<div id="pushclassForm"></div>',
+    });
+    layui.laytpl($("#pushcalssTemplate1").html()).render({edit: true}, function (html) {
+      $("#pushclassForm").html(html)
+    });
+    getParentTree(datass)
+  }
+  //获取父类分类法
+  function getParentTree(datass){
+    var jsondata = {
+      'parentId': 0
+    }
+    ajax(service_prefix.metadata,"/class/all","post",JSON.stringify(jsondata)).then(data=>{
+      if(data.success){
+        var html2 = "";
+        for(var i in data.obj) {
+          var s = data.obj[i];
+          html2 += '<option value="'+s.id+'" data-name="'+s.className+'">' + s.className + '</option>';
+        }
+        $("#classid").html(html2);
+        layui.form.render("select")
+        var val1 = document.getElementById("classid").value;
+        getChildTree(val1,datass.id);
+      }
+    })
+  }
+  form.on('select(classid1)', function (data) {
+    classtreeid1= data.value;
+    getChildTree(data.value,usernameid1.id)
+  });
+  //获得子树
+  function getChildTree(id,datass) {
+    var jsondata = {
+      "parentId": id
+    }
+    ajax(service_prefix.metadata,"/class/tree","post",JSON.stringify(jsondata)).then(data=>{
+      var res = data.obj;
+      classtreeid1= id,
+      getNodeName1(id,datass,res)
+    })
+  }
+  function getNodeName1(dataid,userid,res){
+    var jsondata={
+      "pager":{
+        "current":1,
+        "size":100,
+      },
+      "entity":{
+        "classtreeid": dataid,
+        "userid": userid
+      }
+    }
+    ajax(service_prefix.metadata,"/subscribe/list","post",JSON.stringify(jsondata)).then(data=>{
+     /* var res = data.obj;
+      console.log(res);*/
+      var datas=data.obj.records;
+      showTree(res,datas);
+    })
+  }
+
+  //ztree
+  var settings = {
+    edit: {
+      enable: true,
+      drag: {
+        isCopy: false,
+        isMove: true,
+        prev: true,
+        next: true,
+        inner: false
+      },
+      showRemoveBtn: false,
+      showRenameBtn: true
+    },
+    data: {
+      keep: {
+        leaf: true,
+        parent: true
+      },
+      simpleData: {
+        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+        idKey: "id", //节点数据中保存唯一标识的属性名称
+        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+        rootPId: 0 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+      },
+      key: {
+        name: "className"
+      }
+    },
+    view: {
+      showLine: false,
+      showIcon: true
+    },
+    check: {
+      enable: true,            //true / false 分别表示 显示 / 不显示 复选框或单选框
+      autoCheckTrigger: true,   //true / false 分别表示 触发 / 不触发 事件回调函数
+      chkStyle: "checkbox",     //勾选框类型(checkbox 或 radio）
+      chkboxType: {"Y":"","N":""}
+    },
+    callback: {
+    },
+
+  };
+
+  //渲染树结构
+  function showTree(data,datas) {
+    selectedTreeChildrenl(data,datas);
+    zTreeObj = $.fn.zTree.init($("#treeDemo1w"), settings, data); //初始化树
+     /*zTreeObj.expandAll(true);*///true 节点全部展开、false节点收缩、
+  }
+  function selectedTreeChildrenl(data,Arrayid){
+    if(data){
+      data.forEach(function(res) {
+        if(Arrayid.findIndex(V=>{
+          return V.classid == res.id
+        })!=-1){
+          res.checked = true
+        }
+        if(res.children){
+          selectedTreeChildrenl(res.children,Arrayid);
+        }
+      })
+    }
+  }
+
+</script>
+<script>
+  form.on('select(classid12)', function (data) {
+    getChildTree12e(data.value,usernameid1.id)
+  });
+
+  function getChildTree12e(id,datass) {
+    var jsondata = {
+      "parentId": id
+    }
+    ajax(service_prefix.metadata,"/class/tree","post",JSON.stringify(jsondata)).then(data=>{
+      var res = data.obj;
+      /*getNodeName1(id,datass)*/
+      for (var i in res) {
+        if (res[i].parentId == id) {
+          console.log(res[i])
+          res[i].icon = "common/img/icon/u3383.png";
+        } else {
+          res[i].icon = "common/img/u2628.png";
+        }
+      }
+      getUserMessage1(id,datass)
+      /*getNodeName1(id,datass,res)*/
+      //渲染
+      /*showTree(res);*/
+    })
+  }
+
+
+
+  function findclassuser(datass) {
+    //多窗口模式，层叠置顶
+    openindex1 = layer.open({
+      type: 1,
+      title: "查看关注标签",
+      area: ['534px','381px'],
+      maxmin: true,
+      content: '<div id="pushclassForm122"></div>',
+    });
+    layui.laytpl($("#pushcalssTemplate122").html()).render({edit: true}, function (html) {
+      $("#pushclassForm122").html(html)
+    });
+    getParentTree122(datass)
+  }
+  function getParentTree122(datass){
+    var jsondata = {
+      'parentId': 0
+    }
+    ajax(service_prefix.metadata,"/class/all","post",JSON.stringify(jsondata)).then(data=>{
+      if(data.success){
+        var html2 = "";
+        for(var i in data.obj) {
+          var s = data.obj[i];
+          html2 += '<option value="'+s.id+'" data-name="'+s.className+'">' + s.className + '</option>';
+        }
+        $("#classid12").html(html2);
+        layui.form.render("select");
+        var val1 = document.getElementById("classid12").value;
+        getUserMessage1(val1,datass.id)
+      }
+    })
+  }
+  function getUserMessage1(val1,userid){
+    var jsondata={
+      "pager":{
+        "current":1,
+        "size":100,
+      },
+      "entity":{
+        "classtreeid": val1,
+        "userid": userid
+      }
+    }
+    ajax(service_prefix.metadata,"/subscribe/listing","post",JSON.stringify(jsondata)).then(data=>{
+      var datas=data.obj
+      if(data.success==true){
+        showTreeAll(datas)
+      }else {
+        showTreeAll([])
+      }
+    })
+  }
+
+  function showTreeAll(data) {
+    console.log("选择的数据")
+$("#showData1").html(data.join("、"))
+   /* zTreeObj = $.fn.zTree.init($("#treeDemo1w"), settings, data);*/ //初始化树
+    /*zTreeObj.expandAll(true);*///true 节点全部展开、false节点收缩、
+  }
+
+  layui.form.on("submit(changUserLabel)",function(){
+    var currnode=zTreeObj.getCheckedNodes();
+    var cruser =localStorage.getItem("username")
+    var jsondata= [];
+    currnode.forEach(e=>{
+      jsondata.push({
+                "userid": usernameid1.id,
+                "classtreeid": classtreeid1,
+                "classid": e.id,
+                "cruser": cruser
+              }
+            )
+      }
+    )
+    console.log(jsondata)
+    ajax("", "/metadata/subscribe/add", "post", JSON.stringify(jsondata)).then(function (data){
+
+      if (data.success) {
+        if (data.success) {
+          layer.closeAll();
+          // getDelColumns(1, 10);
+          // getTreeData();
+        } else {
+          layer.alert(data.msg);
+        }
+      }
+    })
+    //}
+
+
+
+
+
+
+    /*   let param=data.field;*/
+  });
+
+</script>

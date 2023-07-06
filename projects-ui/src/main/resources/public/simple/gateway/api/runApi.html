@@ -1,0 +1,138 @@
+<div class="layui-fluid" id="detail">
+    <div class="layui-card h100">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="tool_btn_box">
+                <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="backApi()">返回</button>
+<!--                <button class="layui-btn" onclick="editDetail()">编辑</button>-->
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div id="runApi" style="display: flex">
+                <div style="width: 100%;">
+                    <form class="layui-form" lay-filter="editFormRunApi">
+                        <blockquote class="layui-elem-quote">请求信息</blockquote>
+                        <div class="layui-card-body">
+                            <div id="formApi"></div>
+                        </div>
+
+                        <blockquote class="layui-elem-quote">请求参数</blockquote>
+                        <div class="layui-card-body">
+                            <div id="formParams"></div>
+                        </div>
+
+                        <blockquote class="layui-elem-quote">身份认证</blockquote>
+                        <div class="layui-card-body">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">认证方式:</label>
+                                <div class="layui-input-block">
+                                    <select id="checkType" name="checkType" lay-filter="LAY-select-checkType-runApi">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <!-- <label class="layui-form-label" style="margin: 20px 0;">签名:</label>
+                                <div class="layui-input-block" id="formSignature">
+                                </div>
+                                <label class="layui-form-label">密钥:</label>
+                                <div class="layui-input-block" id="formAppKey">
+                                    
+                                </div> -->
+                            </div>
+                            <div id="formSignature" hidden></div>
+                            <div id="formAppKey" hidden></div>
+                        </div>
+                        <div class="button-bar">
+                            <button class="layui-btn" type="button"  lay-submit lay-filter="LAY-runApi-back-search">发送请求</button>
+                        </div>
+                    </form>
+                    <blockquote class="layui-elem-quote">返回内容</blockquote>
+                    <div style="width:100%;border: 1px solid black;min-height: 100px;">
+    <!--                    <div style="width: 100%;background-color: #dddddd">调试信息</div>-->
+                        <div id = "runApiResult"></div>
+                    </div>
+                </div>
+
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<script type="text/html" id="formTemplateApi">
+    <table class="layui-table">
+        <tbody>
+        <tr>
+            <td class="td_bg" width="15%">Api名称</td>
+            <td width="45%">{{d.name}}</td>
+            <td class="td_bg" width="15%">请求方法</td>
+            <td width="25%">{{d.reqMethod}}</td>
+        </tr>
+        <tr>
+            <td class="td_bg">Url:</td>
+            <td colspan="3">{{d.reqFullUrl}}</td>
+        </tr>
+        </tbody>
+        <input type="hidden" name="name" value="{{d.name}}" autocomplete="off" class="layui-input" readonly>
+        <input type="hidden" name="reqMethod" value="{{d.reqMethod}}" autocomplete="off" class="layui-input" readonly>
+        <input type="hidden" name="reqFullUrl" value="{{d.reqFullUrl}}" autocomplete="off" class="layui-input" readonly>
+    </table>
+
+</script>
+<script type="text/html" id="formTemplateParams">
+    <!-- <div class="layui-form-item">
+        <label class="layui-form-label" style="width:90px;">参数位置</label>
+        <label class="layui-form-label">参数名:</label>
+        <div class="layui-input-block" style="margin-left:230px;">
+
+        </div>
+    </div> -->
+    {{#  layui.each(d, function(index, item){ }}
+    <div class="layui-form-item" title='参考值：{{item.dict.demoValue}}'>
+        <!-- <label class="layui-form-label" style="width:90px;">{{item.custParamPosition}}</label>
+        <label class="layui-form-label" >{{item.custParamName}}:</label> -->
+        <div class="layui-input-block" style="margin-left:0;">
+            <textarea name="apiParam.{{item.custParamName}}" paramDatatype="{{item.custParamDatatype}}"
+            autocomplete="off" class="layui-input" value='{{item.dict.demoValue}}' style="min-height:50px"></textarea>
+            <!-- <input type="text" name="apiParam.{{item.custParamName}}" paramDatatype="{{item.custParamDatatype}}"
+                   autocomplete="off" class="layui-input" value='{{item.dict.demoValue}}'> -->
+        </div>
+    </div>
+    {{#  }); }}
+</script>
+<script type="text/html" id="formTemplateSignature">
+    <!-- <input type="text" value="{{d.signatureKey}}"  placeholder="{{d.signatureKey}}" class="layui-input" style="margin:20px 0"> -->
+    <table class="layui-table">
+        <tbody>
+        <tr>
+            <td class="td_bg" width="30%">signatureKey</td>
+            <td width="70%">{{d.signatureKey}}</td>
+        </tr>
+        <tr>
+
+            <td class="td_bg" width="30%">signatureSecret</td>
+            <td width="70%">{{d.signatureSecret}}</td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+<!-- <script type="text/html" id="formTemplateAppKey">
+    <input type="text" value="{{d.signatureSecret}}"  placeholder="{{d.signatureSecret}}" class="layui-input">
+</script> -->
+
+<script type="text/html" id="formTemplateAppKey">
+    <table class="layui-table">
+        <tbody>
+        <tr>
+            <td class="td_bg" width="30%">appId</td>
+            <td width="70%">{{d.appId}}</td>
+        </tr>
+        <tr>
+            <td class="td_bg" width="30%">appSecret</td>
+            <td width="70%">{{d.appSecret}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+</script>
+<script src="simple/gateway/api/runApi.js"></script>

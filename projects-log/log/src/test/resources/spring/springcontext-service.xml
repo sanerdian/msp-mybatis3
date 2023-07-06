@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <!-- Service包(自动注入) -->
+    <context:component-scan base-package="com.jnetdata" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--
+        prstrSourcesrget-class属性值决定是基于接口的还是基于类的代理被创建。
+        如果prstrSourcesrget-class 属性值被设置为true，那么基于类的代理将起作用（这时需要cglib库）。
+        如果prstrSourcesrget-class属值被设置为false或者这个属性被省略，那么标准的JDK 基于接口的代理
+    -->
+    <aop:config proxy-target-class="true"/>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="delect*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="*" propagation="REQUIRED" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!--
+        execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?)
+        returning type pattern,name pattern, and parameters pattern是必须的.
+        ret-type-pattern:可以为*表示任何返回值,全路径的类名等.
+        name-pattern:指定方法名, *代表所有, set*代表以set开头的所有方法.
+        parameters pattern:指定方法参数(声明的类型),(..)代表所有参数,(*)代表一个参数(*,String)代表第一个参数为任何值,第二个为String类型.
+
+        定义在service包里的任意方法的执行 execution(* com.xyz.service.*.*(..))
+        定义在service包和所有子包里的任意类的任意方法的执行 execution(* com.xyz.service..*.*(..))
+        在多个表达式之间使用 ||,or表示 或，使用 &&,and表示 与，！表示 非。例如：expression="(execution(* com.ccboy.dao..*.find*(..))) or (execution(* com.ccboy.dao..*.query*(..)))"
+    -->
+    <aop:config>
+        <aop:pointcut expression="execution(* com.jnetdata..service.*.*(..))" id="txMethods" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txMethods" />
+    </aop:config>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>

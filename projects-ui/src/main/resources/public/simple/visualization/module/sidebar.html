@@ -1,0 +1,117 @@
+<script type="text/html" id="module_sidebar">
+    <div id="{{ d.widgetId }}" class="draggable-sidebar ui-draggable ui-draggable-handle w_sidebar layui-side"
+         style="top: 0px;bottom: 0;flex-flow: column; height: 100%; position: static">
+        <ul class="layui-nav layui-nav-tree content border_content" style="height:100%;background-color: #20222a;"
+            lay-shrink="all">
+            <div class="sidebar_title">
+                <a href="#">{{ d.title }}</a>
+            </div>
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="module_sidebar_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon manager">
+            <img src="../images/manager.png">
+        </div>
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_sidebar_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings">
+        <form action="" class="layui-form content">
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">标题名称：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input text_content" lay-verify="required"
+                           name="text_content"
+                           placeholder="请输入" value="{{ d.title }}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">字体：</label>
+                <div class="layui-input-block">
+                    <select lay-verify="required" class="font_family_sel">
+                        {{# if(d.fontFamily === "微软雅黑") { }}
+                        <option value="微软雅黑" selected>微软雅黑</option>
+                        {{# } else { }}
+                        <option value="微软雅黑">微软雅黑</option>
+                        {{# }if(d.fontFamily === "黑体") { }}
+                        <option value="黑体" selected>黑体</option>
+                        {{# } else { }}
+                        <option value="黑体">黑体</option>
+                        {{# }if(d.fontFamily === "宋体") { }}
+                        <option value="宋体" selected>宋体</option>
+                        {{# } else { }}
+                        <option value="宋体">宋体</option>
+                        {{# }if(d.fontFamily === "Arial") { }}
+                        <option value="Arial" selected>Arial</option>
+                        {{# } else { }}
+                        <option value="Arial">Arial</option>
+                        {{# }if(d.fontFamily === "Helvetica") { }}
+                        <option value="Helvetica" selected>Helvetica</option>
+                        {{# } else { }}
+                        <option value="Helvetica">Helvetica</option>
+                        {{# } }}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">字号间距：</label>
+                <div class="layui-input-block" style="padding-top: 10px">
+                    <input type="text" class="text_set_input" lay-verify="text_font_size" name="text_font_size"
+                           value="{{ d.fontSize }}">
+                    <span class="text_set_note">字号</span>
+                    <input type="text" class="text_set_input" lay-verify="text_line_height"
+                           name="text_line_height"
+                           value="{{ d.lineHeight }}">
+                    <span class="text_set_note">行间距</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label" style="padding-top: 0">字体排版：</label>
+                <div class="text_icon_style" >
+                    {{# if(d.isUnderline) { }}
+                    <i class="layui-icon layui-icon-fonts-u active"></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-fonts-u"></i>
+                    {{# }if(d.isItalic) { }}
+                    <i class="layui-icon layui-icon-fonts-i active"></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-fonts-i"></i>
+                    {{# }if(d.isBold) { }}
+                    <i class="layui-icon layui-icon-fonts-strong active"></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-fonts-strong"></i>
+                    {{# }if(d.textAlign === "left") { }}
+                    <i class="layui-icon layui-icon-align-left text_style active"></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-align-left text_style"></i>
+                    {{# }if(d.textAlign === "center") { }}
+                    <i class="layui-icon layui-icon-align-center text_style active "></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-align-center text_style"></i>
+                    {{# }if(d.textAlign === "right") { }}
+                    <i class="layui-icon layui-icon-align-right text_style active"></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-align-right text_style"></i>
+                    {{# } }}
+                    <div class="color_picker" style="margin: 0"></div>
+                </div>
+            </div>
+        </form>
+        <div class="layui-input-block w_settings_btn">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+    </div>
+</script>
+
+

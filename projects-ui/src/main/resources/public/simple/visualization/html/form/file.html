@@ -1,0 +1,36 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+</head>
+<body>
+    <!--文件开始-->
+    <div class="widget_box">
+        <div class="widget_border_content">
+            <div class="layui-form-item">
+                <label class="layui-form-label">文件</label>
+                <div class="layui-input-block">
+                    <div class="layui-input-inline">
+                        <input type="text" name="" value="" class="layui-input" id="fileFilePath">
+                    </div>
+                    <button type="button" class="layui-btn" id="fileUpload">上传</button>
+                    <span id="fileUploadName"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--文件结束-->
+    <script src="../../../../thirdparty/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+
+    <script>
+    $(function(){
+        fileUpload('#widgetBox8', 'member', '/user/importHead', 'file', 'txt|doc'); //上传文件
+        // fileUpload('#file', 'member', '/user/importHead', 'images', 'jpg|png|gif'); //上传图片
+    })
+    </script>
+</body>
+</html>

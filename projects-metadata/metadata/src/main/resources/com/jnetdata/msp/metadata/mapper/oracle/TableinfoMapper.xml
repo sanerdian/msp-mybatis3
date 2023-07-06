@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.tableinfo.mapper.TableinfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <!--<resultMap id="BaseResultMap" type="">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="mobilephone" property="mobilephone" />
+        <result column="description" property="description" />
+    </resultMap>-->
+
+    <update id="createTable">
+        create table ${tablename} (
+            ${pk} NUMBER(20) NOT NULL PRIMARY KEY,
+            CRUSER NVARCHAR2(255),
+            CRTIME DATE,
+            CRNUMBER NUMBER(20),
+            DOCCHANNELID NUMBER(20),
+            DOCSTATUS NUMBER(2) default '0',
+            SINGLETEMPKATE NUMBER(20),
+            SITEID NUMBER(20),
+            DOCVALID DATE,
+            DOCPUBTIME DATE,
+            OPERUSER NVARCHAR2(255),
+            OPERTIME DATE,
+            DOCTITLE NVARCHAR2(255),
+            DOCRELTIME DATE,
+            DOCPUBURL NVARCHAR2(255),
+            LINKURL NVARCHAR2(255),
+            CLASSINFOID NUMBER(10),
+            STATUS NUMBER(5) default 0,
+            COMPANYID NUMBER(20),
+            WEBSITEID NUMBER(20),
+            COLUMNID NUMBER(20),
+            MODIFY_BY NUMBER(20),
+            MODIFY_USER VARCHAR(255),
+            SEQENCING NUMBER(10),
+            MODIFY_TIME DATE,
+            FLOW_ID NVARCHAR2(255),
+            FLOW_USER NVARCHAR2(255),
+            QUOTAINFO CLOB,
+            COPYFROMID NUMBER(20)
+        )
+    </update>
+
+    <update id="dropSeq">
+        drop sequence SEQ_${tablename}
+    </update>
+
+    <update id="createSeq">
+        create sequence SEQ_${tablename}
+            minvalue 1 maxvalue 99999999
+            increment by 1
+            start with 1
+    </update>
+
+    <update id="createTri" statementType="STATEMENT">
+        create or replace trigger TRI_${tablename}_${pk}
+        before insert on ${tablename}
+        for each row
+        begin
+        select  SEQ_${tablename}.nextval into :new.${pk} from dual;
+        end;
+    </update>
+
+    <update id="createComment">
+        COMMENT ON TABLE ${tablename} IS '${anothername}'
+    </update>
+
+    <select id="existsTable" resultType="String">
+      SELECT OBJECT_NAME FROM USER_OBJECTS WHERE  OBJECT_NAME =  #{tablename}
+    </select>
+
+    <update id="dropTable">
+      DROP TABLE ${tablename}
+    </update>
+
+    <update id="updateTablename">
+        ALTER TABLE ${oldname} RENAME TO ${tablename}
+    </update>
+
+    <insert id="insertInfo" parameterType="java.util.List">
+        insert into ${tablename} (${fieldnames})
+        values (
+        <foreach collection="list" item="item" index="index" separator=",">
+            <choose>
+                <when test="item == ''">
+                    null
+                </when>
+                <otherwise>
+                    #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        )
+    </insert>
+
+
+
+    <update id="createView">
+        CREATE OR REPLACE VIEW ${ViewTable.viewname}  as select
+        <choose>
+            <when test="list != null and list.size > 0">
+                <foreach collection="list" item="item" index="index" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                *
+            </otherwise>
+        </choose>
+        FROM ${ViewTable.tablename}
+    </update>
+
+    <update id="totop">
+        UPDATE ${tablename} set SEQENCING = (SELECT NVL(MAX(SEQENCING),0)+1 topno FROM ${tablename}) where id = #{dataId}
+    </update>
+
+    <select id="getViewFields" resultType="com.jnetdata.msp.metadata.vo.TableField">
+        select column_name field,data_type type from user_tab_columns where table_name = #{viewname}
+    </select>
+
+    <select id="getPubList" resultType="Map">
+        <if test="size != null and size !='' and from != null and from !='' ">
+        SELECT * FROM
+        (
+            SELECT a.*, ROWNUM RN
+            FROM (
+        </if>
+                select * from ${tablename} where docstatus = 0
+                <if test="channelId != null and channelId !='' and chnlIds == null">
+                    and COLUMNID = #{channelId}
+                </if>
+                <if test="chnlIds != null and chnlIds !='' ">
+                    and COLUMNID in (${chnlIds})
+                </if>
+                <if test="order != null and order !='' ">
+                    order by ${order}
+                </if>
+        <if test="size != null and size !='' and from != null and from !='' ">
+            ) a
+        WHERE ROWNUM &lt;=  #{from + size}
+        ) WHERE RN > #{from}
+        </if>
+    </select>
+
+    <select id="getPubCount" resultType="Integer">
+        select count(1) from ${tablename} where docstatus = 0
+        <if test="channelId != null and channelId !='' and chnlIds == null">
+            and COLUMNID = #{channelId}
+        </if>
+        <if test="chnlIds != null and chnlIds !='' ">
+            and COLUMNID in (${chnlIds})
+        </if>
+    </select>
+</mapper>

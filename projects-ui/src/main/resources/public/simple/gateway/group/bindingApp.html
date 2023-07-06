@@ -1,0 +1,75 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateApp">
+	<div id="appStep1">
+		<form class="layui-form" id="formAppStep1Id" lay-filter="formAppStep1">
+			<div class="layui-card">
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<label class="layui-form-label">授权类型:</label>
+						<div class="layui-input-block">
+							<input type="radio" name="grantTimeType" value="long"  title="长期" lay-filter="LAY-app-step1-time-type">
+							<input type="radio" name="grantTimeType" value="short" title="短期" lay-filter="LAY-app-step1-time-type" checked>
+						</div>
+						<div class="grantTime">
+							<label class="layui-form-label">授权日期:</label>
+							<input type="text" name="grantTimeBegin"  id="grantTimeBegin" class="layui-input" style="width: 140px">
+							<label class="layui-form-mid">-</label>
+							<input type="text" name="grantTimeEnd"  id="grantTimeEnd" class="layui-input" height="layui-input" style="width: 140px">
+						</div>
+					</div>
+
+					<input hidden="hidden" name="id">
+
+					<div class="button-bar">
+						<button class="layui-btn" type="button"  lay-submit lay-filter="LAY-app-stepNext-add">下一步</button>
+						<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="appStep2" style="display: none">
+		<div class="layui-card h100">
+			<!-- 搜索开始 -->
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<form class="layui-form" id="formSearch">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">应用名称</label>
+							<div class="layui-input-block">
+								<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">描述</label>
+							<div class="layui-input-block">
+								<input type="text" name="description" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline top_search_btn">
+							<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-app-back-search">
+								<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 搜索结束 -->
+
+			<div class="layui-card-body">
+				<!-- 列表开始 -->
+				<div>
+					<table id="tableApp" lay-filter="tableApp"></table>
+					<div id="page_tableApp"></div>
+				</div>
+				<!-- 列表结束 -->
+			</div>
+			<div class="button-bar">
+				<span class="layui-btn" id="goBack" onclick="appStepBack()">上一步</span>
+				<button class="layui-btn" type="button" lay-submit lay-filter="LAY-app-back-add">确认</button>
+				<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+			</div>
+		</div>
+	</div>
+</script>
+

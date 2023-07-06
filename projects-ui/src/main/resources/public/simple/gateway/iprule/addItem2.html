@@ -1,0 +1,39 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateItem2">
+	<form class="layui-form" lay-filter="editFormItem2">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">范围</label>
+					<div class="layui-input-block">
+						<select name ="ipRange">
+							<option value="all">所有ip</option>
+							<option value="group">ip段</option>
+							<option value="one" selected>指定ip</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">ip地址</label>
+					<div class="layui-input-block">
+						<input type="text" name="ipAddress" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-block">
+						<input type="text" name="remark" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<input hidden="hidden" name="id">
+				<input hidden="hidden" name="ipRuleId">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item2-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

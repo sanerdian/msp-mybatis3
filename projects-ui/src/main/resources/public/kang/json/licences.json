@@ -1,0 +1,42 @@
+{
+    "status": "200",
+    "msg": "成功",
+    "obj": {
+        "current": 1,
+        "size": 20,
+        "total": 13,
+        "records": [
+            {
+                "id": "1",
+                "name": "francochi",
+                "content": "中科聚网",
+                "operator": "admin",
+                "time": "2019-09-05"
+            },{
+                "id": "2",
+                "name": "dafdfsd",
+                "content": "中科聚网",
+                "operator": "admin",
+                "time": "2019-09-05"
+            },{
+                "id": "3",
+                "name": "efrdszxfe",
+                "content": "中科聚网",
+                "operator": "admin",
+                "time": "2019-09-05"
+            },{
+                "id": "4",
+                "name": "fgrrreee",
+                "content": "中科聚网",
+                "operator": "admin",
+                "time": "2019-09-05"
+            },{
+                "id": "5",
+                "name": "测试2",
+                "content": "中科聚网",
+                "operator": "admin",
+                "time": "2019-09-05"
+            }
+        ]
+    }
+}

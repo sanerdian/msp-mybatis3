@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.tableinfo.mapper.TableinfoMapper">
+    <update id="createTable">
+        create table ${tablename} (
+            ${pk} bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id' PRIMARY KEY,
+            `CRUSER` VARCHAR(255),
+            `CRTIME` DATETIME,
+            `CRNUMBER` BIGINT(20),
+            `DOCCHANNELID` BIGINT(20),
+            `DOCSTATUS` SMALLINT(2) default '0',
+            `SINGLETEMPKATE` BIGINT(20),
+            `SITEID` BIGINT(20),
+            `DOCVALID` DATE,
+            `DOCPUBTIME` DATETIME,
+            `OPERUSER` VARCHAR(255),
+            `OPERTIME` DATETIME,
+            `DOCTITLE` VARCHAR(255),
+            `DOCRELTIME` DATETIME,
+            `DOCPUBURL` VARCHAR(255),
+            `LINKURL` VARCHAR(255),
+            `CLASSINFOID` BIGINT(10),
+            `STATUS` SMALLINT(6) default 0,
+            `COMPANYID` bigint(20),
+            `WEBSITEID` bigint(20),
+            `COLUMNID` bigint(20),
+            `MODIFY_BY` bigint(20),
+            `MODIFY_USER` VARCHAR(255),
+            `SEQENCING` int(10),
+            `MODIFY_TIME` datetime ON UPDATE CURRENT_TIMESTAMP,
+            `FLOW_ID` VARCHAR(255),
+            `FLOW_USER` VARCHAR(255),
+            `QUOTAINFO` LONGTEXT,
+            `COPYFROMID` bigint(20)
+        ) COMMENT=#{anothername} ENGINE=InnoDB DEFAULT CHARSET=utf8
+    </update>
+
+    <select id="existsTable" resultType="String">
+      show tables like #{tablename}
+    </select>
+
+    <update id="dropTable">
+      DROP TABLE ${tablename}
+    </update>
+
+    <update id="updateTablename">
+        ALTER TABLE ${oldname} RENAME ${tablename}
+    </update>
+
+    <insert id="insertInfo" parameterType="java.util.List">
+        insert into ${tablename} (${fieldnames})
+        values (
+        <foreach collection="list" item="item" index="index" separator=",">
+            <choose>
+                <when test="item == ''">
+                    null
+                </when>
+                <otherwise>
+                    #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        )
+    </insert>
+
+    <update id="createView">
+        CREATE OR REPLACE VIEW ${ViewTable.viewname}  as select
+        <choose>
+            <when test="list != null and list.size > 0">
+                <foreach collection="list" item="item" index="index" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                *
+            </otherwise>
+        </choose>
+        FROM ${ViewTable.tablename}
+    </update>
+
+    <update id="totop">
+        UPDATE ${tablename} a,(SELECT IFNULL(MAX(SEQENCING),0)+1 topno FROM ${tablename}) b set a.SEQENCING = b.topno where id = #{dataId}
+    </update>
+
+    <select id="getViewFields" resultType="com.jnetdata.msp.metadata.vo.TableField">
+        show full fields from ${viewname}
+    </select>
+
+    <select id="getDbTables" resultType="com.jnetdata.msp.metadata.tableinfo.model.Tableinfo">
+        select * from(SELECT upper(TABLE_NAME) tablename,table_comment anothername FROM information_schema.TABLES WHERE TABLE_SCHEMA = (select database())  AND TABLE_TYPE = 'BASE TABLE' and TABLE_NAME NOT IN (SELECT tablename from tableinfo)) t where 1=1
+        <if test="name != null and name !='' ">
+            and (tablename like concat('%',Upper(#{name}),'%') or anothername like concat('%',#{name},'%'))
+        </if>
+    </select>
+
+    <select id="getPubList" resultType="Map">
+        select * from ${tablename} where docstatus = 0
+        <if test="channelId != null and channelId !='' and chnlIds == null">
+            and COLUMNID = #{channelId}
+        </if>
+        <if test="chnlIds != null and chnlIds !='' ">
+            and COLUMNID in (${chnlIds})
+        </if>
+        <if test="order != null and order !='' ">
+            order by ${order}
+        </if>
+        <if test="size != null and size !='' ">
+            limit
+            <if test="from != null and from !='' ">
+                #{from},
+            </if>
+            #{size}
+        </if>
+    </select>
+
+    <select id="getPubCount" resultType="Integer">
+        select count(1) from ${tablename} where docstatus = 0
+        <if test="channelId != null and channelId !='' and chnlIds == null">
+            and COLUMNID = #{channelId}
+        </if>
+        <if test="chnlIds != null and chnlIds !='' ">
+            and COLUMNID in (${chnlIds})
+        </if>
+    </select>
+
+    <select id="getAllFromTable" resultType="Map">
+        select * from ${tablename}
+    </select>
+
+    <insert id="insertByListMap">
+        insert into JMETA_COMPUTER (column1,column2,column3)
+        values
+        <foreach collection="list" item="item" separator=",">
+            <foreach collection="item" item="map" index="key" open="(" close=")" separator=",">
+                #{map}
+            </foreach>
+        </foreach>
+    </insert>
+</mapper>

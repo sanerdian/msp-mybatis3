@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.ExcellentMapper">
+
+	<!-- 新闻列表 -->
+	<select id="selectPageXinwen" resultType="com.jnetdata.msp.media.vo.xinwenVo">
+		SELECT t.*,(select count(*) from jmeta_xinwen_read r where r.id=t.id and r.crnumber = #{entity.crnumber}) as readcount,
+		(select count(*) from jmeta_xinwen_comment c where c.docid=t.id) as commentcount
+		FROM jmeta_xinwen020 t where t.status='21'
+
+
+		 <if test="entity.docchannelid !=null and entity.docchannelid!=''">
+			 t.docchannelid=#{entity.docchannelid}
+		 </if>
+
+		 order by t.crtime desc LIMIT #{min},#{max}
+	</select>
+
+	<!-- 新闻数量 -->
+	<select id="selectPageXinwenMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmeta_xinwen020 t where t.status='21'
+
+		<if test="entity.docchannelid !=null and entity.docchannelid!=''">
+			t.docchannelid=#{entity.docchannelid}
+		</if>
+	</select>
+
+
+	<!-- 投票列表 -->
+	<select id="selectPageVote" resultType="com.jnetdata.msp.tlujy.vote.model.Vote">
+		select ID AS id,DOCCHANNELID AS docchannelid,DOCSTATUS AS docstatus,SINGLETEMPKATE AS singletempkate,SITEID AS siteid,DOCVALID AS docvalid,DOCPUBTIME AS docpubtime,OPERUSER AS operuser,OPERTIME AS opertime,DOCTITLE AS doctitle,DOCRELTIME AS docreltime,DOCPUBURL AS docpuburl,LINKURL AS linkurl,CLASSINFOID AS classinfoid,`STATUS` AS `status`,COMPANYID AS companyid,WEBSITEID AS websiteid,COLUMNID AS columnid,MODIFY_USER AS modifyUser,SEQENCING AS seqencing,FLOW_ID AS flowId,FLOW_USER AS flowUser,TITLE AS title,STARTDATE AS startdate,ENDDATE AS enddate,LIMITTYPE AS limittype,LIMITCOUNT AS limitcount,REMARKS AS remarks,PHOTO AS photo,`STATE` AS `state`,CRUSER AS crUser,CRNUMBER AS createBy,CRTIME AS createTime,modify_by AS modifyBy,modify_time AS modifyTime
+		from jmeta_vote v where v.votethemeid=#{entity.votethemeid}
+		order by (select count(*) from jmeta_vote_user u where u.voteid=v.id) desc LIMIT #{min},#{max}
+	</select>
+
+	<!-- 投票数量 -->
+	<select id="selectPageVoteMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmetavote t
+	</select>
+
+
+</mapper>

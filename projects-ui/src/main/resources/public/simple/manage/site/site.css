@@ -1,0 +1,295 @@
+.layui-colla-icon {
+    left: 290px;
+    position: absolute;
+}
+
+.layui-colla-title {
+    background-color: white;
+}
+
+.layui-colla-title img {
+    position: absolute;
+    top: 13px;
+    width: 15px;
+    height: 13px;
+}
+
+.layui-colla-content img {
+    margin-left: 50px;
+    width: 15px;
+    height: 13px;
+}
+
+/*.layui-card select {*/
+/*    background: #009986;*/
+/*    color: #fff;*/
+/*    padding-left: 5px;*/
+/*    position: absolute;*/
+/*}*/
+
+.layui-form [lay-ignore] {
+    margin: 0;
+}
+
+.layui-table-view select[lay-ignore] {
+    top: 5px;
+}
+
+.layui-card select option {
+    background: #fff;
+    color: black
+}
+
+#demo8 .layui-laypage-skip {
+    margin-left: 50px !important;
+}
+
+.web {
+    height: calc(100% - 40px);
+    margin-top: 5px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.web::-webkit-scrollbar {
+    width: 5px;
+}
+.web::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.2);
+}
+.web::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: rgba(0,0,0,0.1);
+}
+
+.web .layui-form{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.web .title span:first-child {
+    display: inline-block;
+    width: 8px;
+    height: 17px;
+    margin: 20px 10px;
+}
+
+.web .title span:last-child {
+    font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.white {
+    background: #ffffff;
+    color: green;
+}
+
+.black {
+    background: #B2B2B2;
+    color: #fff;
+}
+
+.layui-tab-item ul li:nth-child(5n-4) {
+    margin-left: 0;
+}
+
+.layui-tab-item ul li {
+    width: 222px;
+    height: 184px;
+    border: 1px solid rgba(228, 228, 228, 1);
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+    margin-left: calc((100% - 1110px)/4);
+    box-sizing: border-box;
+    margin-right: -4px;
+    box-shadow: none;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.layui-tab-item ul li .siteitem {
+    width: 222px;
+    height: 144px;
+    background: url("../../../common/img/u5307.png") no-repeat center 25px;
+    background-size: 69px 69px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.siteitem .checkDiv {
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+
+.layui-tab-item ul li:last-child button {
+    border: none;
+    background: url("../../../common/img/u5320.png") no-repeat center center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.chanelName {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bolder;
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 40px;
+    width: 222px;
+    background: rgba(240, 240, 240, 1);
+}
+
+.bottom img {
+    margin: 10px;
+}
+
+.all {
+    height: 38px !important;
+}
+
+.input {
+    margin-left: -4px;
+}
+
+#info, .layui-card .layui-table-view {
+    margin-top: 20px;
+}
+
+#info tr td:first-child {
+    text-align: right;
+    background: #f5f5f5;
+}
+
+#info tr td:last-child {
+    background: #ffffff;
+}
+
+#info tr td {
+    border: 1px solid #e7e7e7;
+}
+
+#info tr td input {
+    margin-left: 3px;
+}
+
+.layui-card select:nth-of-type(2) {
+    margin-left: 15px;
+}
+
+.rightList {
+    margin: 15px 0
+}
+
+.rightList span {
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.rightList span:first-of-type {
+    color: #009986;
+    font-size: 24px;
+}
+
+.right {
+    background: url("common/img/u6237.png") no-repeat;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.err {
+    background: url("common/img/u6239.png") no-repeat;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.layui-tab-item {
+    position: relative;
+}
+
+.layui-form select option {
+    color: black;
+}
+
+#input {
+    margin-left: 20px;
+    width: 590px;
+    height: 80px;
+}
+
+#input label {
+    position: relative;
+    margin-right: 40px;
+}
+
+#input label span {
+    display: inline-block;
+    width: 80px;
+    position: absolute;
+    top: 7px;
+    margin-left: 10px;
+}
+
+#input .layui-form-checkbox[lay-skin=primary] {
+    width: 18px;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.layui-form select {
+    height: 38px;
+    background: #ffffff;
+    color: #e6e6e6;
+    width: 345px;
+    border: 1px solid #e6e6e6;
+}
+
+.layui-form-radio {
+    display: block;
+    margin-left: -70px;
+}
+
+.layui-form-item .layui-form-checkbox[lay-skin=primary] {
+    margin: 0 10px;
+    width: 20px;
+}
+
+th .layui-table-cell {
+    text-align: center
+}
+
+#openDiv .layui-input-block{width:345px;}
+*{margin: 0;padding: 0;} 
+.moree{width: 115px;position: absolute;top: 0;left: 435px;z-index:999;}
+#main .moree p{width: 115px;height:38px;text-align: center;color: #fff;line-height: 38px;font-size: 14px;background: #029687;}
+#main .moree i{background: url('../../../common/img/u9622.png')no-repeat;width: 9px;height: 6px;transform: rotate(180deg);diaplay:inline-block;float:right;margin: 15px 15px 0 0;}
+#main .moree ul{border: 1px solid #029687;overflow: hidden;background: #fff;}
+#main .moree ul li{width: 115px;height: 30px;line-height: 30px;float: left;border: none;text-align: center;margin: 0;color:#333;z-index: 1;cursor: pointer;}
+.czul{display: none;}
+.xzfile{position: relative;}
+.xzfile .wenj{display: inline-block;margin: 15px 0;width: 100%;height: 40px;border: 1px solid #ccc;box-sizing: border-box;border-radius: 2px;}
+.liulan{width: 77px;height: 40px;line-height: 38px;color: #fff;text-align: center;background: #999;position: absolute;top: 40px;right:0;border-top-right-radius: 3px;border-bottom-right-radius: 3px;}
+.red{color:red}
+.jzc{padding-left: 3px;}
+.wdxz{z-index: 12;}
+.layui-layer-btn  .layui-layer-btn0,.layui-layer-btn  .layui-layer-btn1{border: 1px solid #029687;    padding: 2px 21px;}
+.layui-layer-btn .layui-layer-btn0{background: #029687;}
+.wdxz .layui-input-block{margin-left: 0;}
+.wdxz .layui-inline{display: block;}
+.code{position: absolute;right: 0;top: 0;}
+.code p{height: 28px;width: 63px;text-align: center;line-height: 28px;background: #999;color: #fff;}

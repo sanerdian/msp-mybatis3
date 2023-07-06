@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictWordsrelationMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictWordsrelation">
+    <!--@mbg.generated-->
+    <!--@Table dict_wordsrelation-->
+    <result column="JMETAWORDRELATIONID" jdbcType="BIGINT" property="jmetawordrelationid" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="cruser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="OPERUSER" jdbcType="VARCHAR" property="operuser" />
+    <result column="OPERTIME" jdbcType="TIMESTAMP" property="opertime" />
+    <result column="WORDNAME" jdbcType="VARCHAR" property="wordname" />
+    <result column="TONGYICI" jdbcType="VARCHAR" property="tongyici" />
+    <result column="HOMOIONYM" jdbcType="VARCHAR" property="homoionym" />
+    <result column="RELATEDWORD" jdbcType="VARCHAR" property="relatedword" />
+    <result column="UPPERWORD" jdbcType="VARCHAR" property="upperword" />
+    <result column="INFERIORWORDS" jdbcType="VARCHAR" property="inferiorwords" />
+    <result column="PINYINWORD" jdbcType="VARCHAR" property="pinyinword" />
+    <result column="ENGLISHWORD" jdbcType="VARCHAR" property="englishword" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="MARK" jdbcType="BIGINT" property="mark" />
+    <result column="SPELL" jdbcType="VARCHAR" property="spell" />
+    <result column="DOCSTATUS" jdbcType="VARCHAR" property="docstatus" />
+    <result column="DOCTITLE" jdbcType="VARCHAR" property="doctitle" />
+    <result column="CXFL" jdbcType="VARCHAR" property="cxfl" />
+    <result column="CTFL" jdbcType="VARCHAR" property="ctfl" />
+    <result column="CATEGORY" jdbcType="VARCHAR" property="category" />
+    <result column="CT_ADJ" jdbcType="VARCHAR" property="ctAdj" />
+    <result column="RULE" jdbcType="VARCHAR" property="rule" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="SHUXING" jdbcType="VARCHAR" property="shuxing" />
+    <result column="TONGYINCI" jdbcType="VARCHAR" property="tongyinci" />
+    <result column="RELPINYIN" jdbcType="VARCHAR" property="relpinyin" />
+    <result column="RELTONGYINCI" jdbcType="VARCHAR" property="reltongyinci" />
+    <result column="SXTONGYINCI" jdbcType="VARCHAR" property="sxtongyinci" />
+    <result column="SXTONGYICI" jdbcType="VARCHAR" property="sxtongyici" />
+    <result column="SXPINYIN" jdbcType="VARCHAR" property="sxpinyin" />
+    <result column="CTFL_SANJI" jdbcType="VARCHAR" property="ctflSanji" />
+    <result column="ZBFENLEI" jdbcType="INTEGER" property="zbfenlei" />
+    <result column="T1" jdbcType="VARCHAR" property="t1" />
+    <result column="T2" jdbcType="VARCHAR" property="t2" />
+    <result column="FLAG" jdbcType="INTEGER" property="flag" />
+    <result column="TINGYONGCI" jdbcType="VARCHAR" property="tingyongci" />
+    <result column="CHANGJINGCI" jdbcType="VARCHAR" property="changjingci" />
+    <result column="ZTTONGYICI" jdbcType="VARCHAR" property="zttongyici" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JMETAWORDRELATIONID, CRUSER, CRTIME, OPERUSER, OPERTIME, WORDNAME, TONGYICI, HOMOIONYM, 
+    RELATEDWORD, UPPERWORD, INFERIORWORDS, PINYINWORD, ENGLISHWORD, `TYPE`, MARK, SPELL, 
+    DOCSTATUS, DOCTITLE, CXFL, CTFL, CATEGORY, CT_ADJ, `RULE`, REMARKS, SHUXING, TONGYINCI, 
+    RELPINYIN, RELTONGYINCI, SXTONGYINCI, SXTONGYICI, SXPINYIN, CTFL_SANJI, ZBFENLEI, 
+    T1, T2, FLAG, TINGYONGCI, CHANGJINGCI, ZTTONGYICI
+  </sql>
+</mapper>

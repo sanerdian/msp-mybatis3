@@ -1,0 +1,11 @@
+.visual_main{width:1200px;margin:0 auto;}
+.visual_menuStatistics ul{background:#3962cc;padding:10px 0;overflow:hidden;}
+.visual_menuStatistics ul li{float:left;width:16.5%;height:24px;line-height:24px;color:#fff;padding:26px 0 0;text-align:center;border-right:1px solid #fff;}
+.visual_menuStatistics ul li.last{border:none;}
+.visual_menuStatistics ul li.ico1{background:url(img/menuStatistics_ico1.png) no-repeat center 0;}
+.visual_menuStatistics ul li.ico2{background:url(img/menuStatistics_ico2.png) no-repeat center 0;}
+.visual_menuStatistics ul li.ico3{background:url(img/menuStatistics_ico3.png) no-repeat center 0;}
+.visual_menuStatistics ul li.ico4{background:url(img/menuStatistics_ico4.png) no-repeat center 0;}
+.visual_menuStatistics ul li.ico5{background:url(img/menuStatistics_ico5.png) no-repeat center 0;}
+.visual_menuStatistics ul li.ico6{background:url(img/menuStatistics_ico6.png) no-repeat center 0;}
+.visual_menuStatistics ul li span{font-size:16px;color:#ffb96a;font-weight:bold;padding:0 5px;}

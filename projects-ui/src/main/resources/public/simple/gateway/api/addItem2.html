@@ -1,0 +1,59 @@
+<!--绑定：限流策略-->
+<script type="text/html"  id="templateItem2">
+	<div id="list">
+		<div class="layui-card h100">
+			<!-- 搜索开始 -->
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<form class="layui-form" id="formSearch">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">限流策略</label>
+							<div class="layui-input-block">
+								<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">时间单位</label>
+							<div class="layui-input-block">
+								<select name="timeUnit">
+									<option value=""></option>
+									<option value="s">秒</option>
+									<option value="m">分钟</option>
+									<option value="h">小时</option>
+									<option value="d">天</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">备注</label>
+							<div class="layui-input-block">
+								<input type="text" name="remark" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline top_search_btn">
+							<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-dialog2-back-search">
+								<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 搜索结束 -->
+
+			<div class="layui-card-body">
+				<!-- 列表开始 -->
+				<div>
+					<table id="tableDialog2" lay-filter="tableDialog2"></table>
+					<div id="page_tableDialog2"></div>
+				</div>
+				<!-- 列表结束 -->
+			</div>
+			<div class="button-bar">
+				<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item2-back-add">确认</button>
+				<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+			</div>
+		</div>
+	</div>
+
+
+</script>

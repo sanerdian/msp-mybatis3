@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictWordMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictWord">
+    <!--@mbg.generated-->
+    <!--@Table dict_word-->
+    <id column="JMETASEARWORDID" jdbcType="BIGINT" property="jmetasearwordid" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="cruser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="OPERUSER" jdbcType="VARCHAR" property="operuser" />
+    <result column="OPERTIME" jdbcType="TIMESTAMP" property="opertime" />
+    <result column="WORDNAME" jdbcType="VARCHAR" property="wordname" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CATEGORY" jdbcType="VARCHAR" property="category" />
+    <result column="SOURCE" jdbcType="VARCHAR" property="source" />
+    <result column="FILTE" jdbcType="INTEGER" property="filte" />
+    <result column="DOCSTATUS" jdbcType="INTEGER" property="docstatus" />
+    <result column="SEARCH_ORDER" jdbcType="VARCHAR" property="searchOrder" />
+    <result column="RECOMMEND" jdbcType="INTEGER" property="recommend" />
+    <result column="STOPWORD" jdbcType="VARCHAR" property="stopword" />
+    <result column="DOCTITLE" jdbcType="VARCHAR" property="doctitle" />
+    <result column="CXFL" jdbcType="VARCHAR" property="cxfl" />
+    <result column="CTFL" jdbcType="VARCHAR" property="ctfl" />
+    <result column="TONGYICI" jdbcType="VARCHAR" property="tongyici" />
+    <result column="ENTONGYICI" jdbcType="VARCHAR" property="entongyici" />
+    <result column="SUOXIE" jdbcType="VARCHAR" property="suoxie" />
+    <result column="PINYIN" jdbcType="VARCHAR" property="pinyin" />
+    <result column="TONGYINCI" jdbcType="VARCHAR" property="tongyinci" />
+    <result column="NEWTONGYINCI" jdbcType="VARCHAR" property="newtongyinci" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JMETASEARWORDID, CRUSER, CRTIME, OPERUSER, OPERTIME, WORDNAME, `STATUS`, CATEGORY, 
+    `SOURCE`, FILTE, DOCSTATUS, SEARCH_ORDER, RECOMMEND, STOPWORD, DOCTITLE, CXFL, CTFL, 
+    TONGYICI, ENTONGYICI, SUOXIE, PINYIN, TONGYINCI, NEWTONGYINCI
+  </sql>
+</mapper>

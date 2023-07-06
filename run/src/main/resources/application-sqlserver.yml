@@ -1,0 +1,182 @@
+app:
+  key: xxx
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  application:
+    name: fastdevplat
+  datasource:
+#    url: jdbc:mysql://47.93.151.74:13306/fastdev?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+#    username: fastdev
+#    password: Jnetdata.mysql.20190316
+#    jdbcDialect: mysql
+#    driverClassName: com.mysql.cj.jdbc.Driver
+
+    url: jdbc:sqlserver://192.168.9.101:1433;databaseName=fastdev2
+    username: sa
+    password: 1qazxsw2
+    jdbcDialect: SQLServerDialect
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+#    url: jdbc:mysql://123.56.73.94:3306/fastdevdemo94?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT%2B8
+#    username: zhengyanshedb
+#    password: zkjw123
+#    jdbcDialect: mysql
+#    driverClassName: com.mysql.cj.jdbc.Driver
+
+#    url: jdbc:dm://localhost:5236/FASTDEV
+#    url: jdbc:dm://123.57.7.118:5236/FASTDEV
+#    username: FASTDEV
+#    password: Q1W2E3R4T5
+#    jdbcDialect: dm
+#    driverClassName: dm.jdbc.driver.DmDriver
+
+
+#    url: jdbc:kingbase8://123.57.7.118:54321/fastdev
+#    username: fastdev
+#    password: zkjw123
+#    jdbcDialect: kingbase
+#    driverClassName: com.kingbase8.Driver
+
+#    url: jdbc:postgresql://123.57.7.118:5432/fastdev
+#    username: fastdev
+#    password: zkjw123
+#    jdbcDialect: postgresql
+#    driverClassName: org.postgresql.Driver
+
+#    url: jdbc:oracle:thin:@39.105.102.10:1521/orcl
+#    username: FASTDEVYZ
+#    password: FASTDEVYZ_123
+#    jdbcDialect: oracle
+#    driverClassName: oracle.jdbc.driver.OracleDriver
+
+    druid:
+      test-on-borrow: true
+      test-while-idle: true
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+#  redis:
+#    #是否是集群(1:是,2:否)
+#    isCluster: 1
+#    #集群host配置
+##    host: 127.0.0.1:6380,127.0.0.1:6381,127.0.0.1:6382,127.0.0.1:6383,127.0.0.1:6384,127.0.0.1:6385
+#    host: 47.93.151.74
+#    port: 16379
+#    password: 20190316.a58fee018b41c6b2668f1f1878e73d23
+#    timeout: 1800000
+#    jedis:
+#      pool:
+#        max-active: 600
+#        max-wait: 1000ms
+#        max-idle: 300
+#        min-idle: 0
+#fdfs:
+#  so-timeout: 1501
+#  connect-timeout: 601
+#  thumb-image:             #缩略图生成参数
+#    width: 150
+#    height: 150
+#  web-server-url: localhost/
+#  tracker-list: 47.93.151.74:10013
+#flowable:
+#  common:
+#    app:
+#      idm-url: http://123.56.73.94:9735/flowable-idm
+#  datasource:
+#    schema: fastdevdemo94
+#  async-executor-activate: false
+
+# 配置slq打印日志
+#mybatis-plus:
+#  mapper-locations: classpath*:com/jnetdata/**/mapper/mysql/*.xml,classpath:/META-INF/modeler-mybatis-mappings/*.xml
+#  configuration-properties:
+#    prefix: ''
+#    blobType: BLOB
+#    boolValue: TRUE
+
+
+flowable:
+  common:
+    app:
+      idm-url: http://localhost:8080/flowable-idm
+  datasource:
+    schema: fastdev
+  async-executor-activate: false
+
+mybatis-plus:
+#  mapper-locations: classpath*:com/jnetdata/**/mapper/mysql/*.xml,classpath:/META-INF/modeler-mybatis-mappings/*.xml
+  mapper-locations: classpath*:com/jnetdata/**/mapper/${spring.datasource.jdbcDialect}/*.xml,classpath:/META-INF/modeler-mybatis-mappings/*.xml
+  configuration-properties:
+    prefix: ''
+    blobType: BLOB
+    boolValue: TRUE
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false
+    jdbc-type-for-null: 'null'
+  global-config:
+    db-column-underline: false
+    banner: false
+
+swagger:
+  print-init: false #非必需,默认false
+  enabled: true #必需
+  docket:
+    base-package: com.jnetdata.msp
+
+jnetdata:
+  shiro:
+    filterChainDefinitions:
+      - /simple/**=user
+  cros:
+    allowedOrigins:
+      - '*'
+thenicesys:
+  message:
+    sms:
+      #助通:1,百度:2
+      type: 1
+      #[发送短信]
+      #用户名
+      loginName: kfpthy
+      #密码
+      passWord: kfpt123456
+      #企业编号
+      corpId: 2063030
+      #短信实例model
+      modelMessage: 您好，您的验证码是{0}, 5分钟内有效。【中科聚网】
+      #请求地址
+      mtUrl: http://api.mix2.zthysms.com/v2/sendSms
+      #获取md5加密url
+      md5Url: http://api.cosms.cn/sms/getMD5str/
+      #编码格式：0-GB、1-URLENCODE、2-UTF8、3-UCS2
+      msgFormat: 2
+      #短信紧急程度     1：即时	2：一般      3：群发
+      mtLevel: 1
+      #企业签名
+      unitName: 【中科聚网】
+      ## 百度
+      accessKeyId: fefwf
+      secretAccessKey: fefef
+      endpoint: http://smsv3.bj.baidubce.com
+      signatureId: sms-signQxkiwz88470
+      templateId: sms-tmpl-awKvRY85349
+      codeName: verificationCode
+    email:
+      host: smtp.163.com
+      protocol: smtp
+      port: 25
+      account: 18813171370@163.com
+      fullAccount: 18813171370@163.com
+      password: nzf207118
+      nickname: 中科聚网
+user-login-lock-times: -1

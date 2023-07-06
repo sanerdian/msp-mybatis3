@@ -1,0 +1,803 @@
+﻿<title>企业组织管理</title>
+
+<style>
+    .addColor {background: rgba(218, 250, 162, 1)}
+    .group_from .layui-form-label{padding: 0px; width: auto;}
+    .group_from .layui-input-block { margin-left: 20px;}
+    .left-list .layui-form-item .layui-form-checkbox[lay-skin=primary] {  margin-top: 5px;}
+    .left-list .layui-form-item .layui-form-radio {
+        margin: 6px -8px 0 0;
+    }
+    .group_from .active{background:rgba(218, 250, 162, 1)}
+    .group_from .layui-form-item{cursor:pointer;margin-bottom: 10px;}
+    .group_from .layui-input-block{margin-left: 0}
+    .left-list .active2{background:rgba(218, 250, 162, 1)}
+    .left-list .layui-btn-container{padding-left:15px;}
+    .layui-tab-item {position: relative;}
+    .layui-form select option{color: black;}
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(1){width: 80px;}
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(2){width: 80px; margin-left: 45px;}
+    .layui-btn-sm i {font-size: 14px !important;}
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 jnet-left left-list">
+        <div class="layui-card h100">
+            <div class="layui-card-header">
+                <div class="layui-col-md3">企业</div>
+                <div class="icon-btn-bar layui-col-md9">
+                    <span>
+                        <button type="button" class="layui-btn layui-btn-sm" data-type="add">
+                            <i class="layui-icon">&#xe608;</i><span class="newView" style="display: none;">新建</span>
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-sm" data-type="edit">
+                            <i class="layui-icon">&#xe642;</i><span class="newView" style="display: none;">修改</span>
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-sm" data-type="del">
+                            <i class="layui-icon">&#xe640;</i><span class="newView" style="display: none;">删除</span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="layui-card-header jnet-search-left">
+                <button type="button" class="layui-btn layui-btn-sm" data-type="add">
+                    <i class="layui-icon">&#xe608;</i><span class="newView" style="display: none;">新建</span>
+                </button>
+                <button type="button" class="layui-btn layui-btn-sm" data-type="edit">
+                    <i class="layui-icon">&#xe642;</i><span class="newView" style="display: none;">修改</span>
+                </button>
+                <button type="button" class="layui-btn layui-btn-sm" data-type="del">
+                    <i class="layui-icon">&#xe640;</i><span class="newView" style="display: none;">删除</span>
+                </button>
+            </div>
+            <div class="layui-card-body jnet-left-body">
+                <form class="group_from" id="businessArea"></form>
+            </div>
+            <div class="jnet-left-page" id="pageCenter"></div>
+<!--            <div id="pageCenter"></div>-->
+        </div>
+    </div>
+    <div class="layui-col-md3 md3-right h100" style="width: 60%">
+            <div class="layui-card h100">
+                <div class="layui-card-header">用户列表</div>
+                <div class="layui-card-body">
+                    <div class="top_btn">
+                        <button class="layui-btn layuiadmin-btn-admin limit-user" data-type="putUser">引入用户</button>
+                        <button class="layui-btn layuiadmin-btn-admin limit-user" data-type="delAll">移除用户</button>
+                    </div>
+                    <table class="layui-table" lay-even="" lay-skin="row" id="userTable">
+                    </table>
+                    <div id="pageRight"></div>
+                </div>
+            </div>
+        </div>
+</div>
+<script type="text/html" id="siteDetail">
+    {{#layui.each(d,function(index,item){}}
+    <colgroup>
+        <col width="50">
+        <col width="150">
+        <col>
+    </colgroup>
+    <tbody>
+    <tr>
+        <td>分类法ID：</td>
+        <td>{{item.id}}</td>
+    </tr>
+    <tr>
+        <td>分类法名称：</td>
+        <td>{{item.className}}</td>
+    </tr>
+    <tr>
+        <td>分类法描述：</td>
+        <td>{{item.classDesc}}</td>
+    </tr>
+    <tr>
+        <td>创建人：</td>
+        <td>{{item.cruser}}</td>
+    </tr>
+    <tr>
+        <td>创建时间：</td>
+        <td>{{item.crtime}}</td>
+    </tr>
+    </tbody>
+    <!--{{#}) }}-->
+</script>
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html"  id="editTemplate">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">组织名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input hidden="hidden" name="id">
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addBtn">确认</button>
+            <button class="layui-btn" type="button" data-type="close">取消</button>
+        </div>
+    </form>
+</script>
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html"  id="businessFormTpl">
+    <form class="layui-form" lay-filter="businessForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">企业名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">法定代表人:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="legalRepresentative" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">注册资本:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="registeredCapital" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">成立日期:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="dateOfEstablishment" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电话:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tel" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="email" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">地址:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="address" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">官网:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="officialWebsite" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">曾用名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="formerName" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">品牌:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="brand" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">产品:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="product" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">英文名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="enName" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">人员规模:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="staffSize" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input hidden="hidden" name="id">
+        <input hidden="hidden" name="groupid">
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="businessSubmitBtn">确认</button>
+            <button class="layui-btn" type="button" data-type="close">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="putUserTpl">
+    <div class='layui-card pull_user_top'>
+        <div class='layui-row'>
+            <div class='layui-col-md3 md3-left'>
+                <div class='layui-card-body'>
+                    <div class="tree_left">
+                        <form id="treeDemo2" class="group_from"></form>
+                    </div>
+                </div>
+            </div>
+            <div class='layui-col-md9 md3-right'>
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <form class='layui-form'>
+                        <div class="layui-form-item">
+                            <!-- <div class="layui-inline">
+                              <label class="layui-form-label">是否在组织：</label>
+                              <div class="layui-input-block" style="width:80px;">
+                                <select name="interest" lay-filter="aihao">
+                                  <option value="2">全部</option>
+                                  <option value="3">是</option>
+                                  <option value="0" selected>否</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="layui-inline">
+                              <label class="layui-form-label">用户名：</label>
+                              <div class="layui-input-block" style="width:100px;">
+                                <select name="interest" lay-filter="aihao">
+                                  <option value="2" selected>全部</option>
+                                  <option value="3">用户名</option>
+                                  <option value="0">真实姓名</option>
+                                </select>
+                              </div>
+                            </div>-->
+                            <div class="layui-inline">
+                                <label class="layui-form-label">用户名</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class='layui-input' name="name">
+                                </div>
+                            </div>
+                            <div class="layui-inline top_search_btn">
+                                <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="pullUserSearch">
+                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class='layui-card-body'>
+                    <div class="layui-tab layui-tab-card">
+                        <ul class="layui-tab-title layui-this">
+                            <li>互联网用户</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <table class="layui-hide" id="test3" lay-filter="test3"></table>
+                                <div id="page5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='layui-card' style='height:400px;'>
+        <div class='layui-card-header' style='border:0'>待入库选项</div>
+        <div class='layui-card-body'>
+            <div style="height: 260px;padding: 0;">
+                <table class="layui-hide" id="test"></table></div>
+            <div class='button-bar'>
+                <button class='layui-btn' id="putUserBtn">确定</button>
+                <button class="layui-btn layui-btn-primary" data-type="close">取消</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/html" id="leftItemTpl">
+    {{#layui.each(d, function(index, item){}}
+    <div class="layui-row jnet-left-item {{index==0?'active':''}}" data_id="{{item.id}}" data_name="{{item.name}}" created_data_time="{{item.createTime}}" created_user="{{item.crUser}}">
+<!--        <div class="layui-col-md1"><input type="radio" name="listid" value="{{item.id}}" lay-skin="primary" {{index==0?'checked':''}}></div>-->
+        <div class="layui-col-md11"><p title="{{item.name}} [{{item.id}}]">{{item.name}} [{{item.id}}]</p></div>
+    </div>
+    {{# }) }}
+</script>
+<script>
+    //button划入划出事件
+  $(".allButton").hover(function () {
+        $(this).children().next().show()
+    }, function () {
+        $(this).children().next().hide()
+    });
+
+    active.delfu = function () {
+        delfuall();
+    }
+    function delfuall(){
+        var ids = [];
+        $("input[name='groupArea']:checked").each(function(){
+            ids.push($(this).val());
+        })
+        if(ids.length<=0){
+            layer.alert("请选择元数据");
+            return false;
+        }
+        layer.open({
+            content: "确认删除该分类法吗？"
+            ,btn: ['确认',"取消"]
+            ,yes: function(index, layero){
+                ajax(service_prefix.metadata,"/class/delByIds","post",JSON.stringify(ids)).then(data=>{
+                    if(data.success){
+                        // getParentTree(1);
+                        getChildTree(modelObj.id);
+                        layer.closeAll();
+                    }else{
+                        layer.alert("删除失败！");
+                    }
+                }).catch(function(res){
+
+                })
+            }
+            ,btn2: function(index, layero){
+                layer.closeAll();
+            }
+        });
+    }
+
+    function del(){
+        /*if(modelObj.parentName == "根分类"){
+            layer.alert("请选择分类法");
+        }else{*/
+            layer.open({
+                content: "确认删除分类法:["+modelObj.className+"]及该分类法下级分类吗"
+                ,btn: ['确认',"取消"]
+                ,yes: function(index, layero){
+                    ajax(service_prefix.metadata,url+"/"+modelObj.id,"delete",{}).then(res=>{
+                        if(res.success){
+                            res.msg = "删除成功";
+                        }
+                        layer.alert(res.msg,function(){
+                            // getParentTree(1);
+                            layer.closeAll();
+                        });
+                    }).catch(function(res){
+
+                    })
+                }
+                ,btn2: function(index, layero){
+                    layer.closeAll();
+                }
+            });
+
+    }
+
+    function getSelectMess(id){
+        var jsondata = {
+            "pager": {
+                "current": 1,
+                "size": 10
+            },"entity": {
+                "id": id
+            }
+        }
+        ajax(service_prefix.metadata,url+"/list","post",JSON.stringify(jsondata)).then(data=> {
+            if(data.success) {
+                var d = [];
+                d.push(data.obj.records[0]);
+                layui.laytpl($("#siteDetail").html()).render(d, function (html) {
+                    $("#info").html(html);
+                    layui.form.render();
+                })
+                document.getElementById("detail").className = "layui-tab-item layui-show";
+            }
+        });
+    }
+</script>
+<script>
+    function getParentTree(pageNo,size){
+        size = size?size:10;
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": -1
+            }
+        }
+        ajax(service_prefix.member,"/groupbusiness/listing","post",JSON.stringify(jsondata)).then(function(data){
+            if(data.success){
+                var html = "";
+                for(var i in data.obj.records) {
+                    var obj = data.obj.records[i];
+                    console.log(obj.createTime)
+                    var createTime = '';
+                    if (obj.createTime == null) {
+                        createTime = ''
+                    } else {
+                        createTime = obj.createTime.substr(0, 10)
+                    }
+                    // console.log(obj.createTime.substr(0, 10))
+                    html += '<div class="layui-form-item" data_id="' + obj.id + '">' +
+                        '              <div class="layui-form-label"></div>' +
+                        '              <div class="layui-input-block">' +
+                        '                <p>' + obj.name + '['+obj.id+']</p>' +
+                        '                <p>创建时间:' + createTime + '</p>' +
+                        '              </div>' +
+                        '            </div>';
+                }
+
+                $("#groupArea").html(html);
+                // var page = {elem:"pageleft",total:data.obj.total,current:data.obj.current,size:size}
+                // loadPage(page,getParentTree);
+            }
+        })
+    }
+
+    function getChildTree(pageNo,size){
+        // var groupId = getGroupId();
+        // if(!groupId) return false;
+        if(!size) size = 10;
+        if(!pageNo) pageNo = 1;
+        var jsondata = {
+            // entity:{groupid:groupId},
+            "pager": {
+                "current": pageNo,
+                "size": -1
+            }
+        }
+        ajax(service_prefix.member,"/business/listing","post",JSON.stringify(jsondata)).then(data=>{
+            lodTpl("leftItemTpl","businessArea",data.obj.records);
+            // var page = {elem:"pageCenter",total:data.obj.total,current:data.obj.current,size:size}
+            // loadPage(page,getChildTree);
+        })
+    }
+
+    function getGroupId() {
+        if($("#groupArea .active").length <= 0){
+            layer.alert("请选择组织!");
+            return false;
+        }
+        return $("#groupArea .active").attr("data_id");
+    }
+
+    function getBusinessId() {
+        if($("#businessArea .active").length <= 0){
+            layer.alert("请选择企业!");
+            return false;
+        }
+        return $("#businessArea .active").attr("data_id");
+    }
+
+    layui.form.on("submit(addBtn)",function(data){
+        var thisUrl = "/groupbusiness";
+        var method = "post";
+        if(data.field.id){
+            msg = "修改成功";
+            thisUrl = thisUrl+"/"+data.field.id;
+            method = "put";
+        };
+        ajax(service_prefix.member,thisUrl,method,JSON.stringify(data.field)).then(res=>{
+            layer.closeAll();
+            // getParentTree(1);
+        });
+        return false;
+    })
+
+    layui.form.on("submit(businessSubmitBtn)",function(data){
+        var thisUrl = "/business";
+        var method = "post";
+        if(data.field.id){
+            thisUrl = thisUrl+"/"+data.field.id;
+            method = "put";
+        };
+        ajax(service_prefix.member,thisUrl,method,JSON.stringify(data.field)).then(res=>{
+            layer.closeAll();
+            // getParentTree(1);
+            // getChildTree(modelObj.id)
+        });
+        return false;
+    })
+    active.putUser = function(){
+        var grpId;
+        layer.open({
+            type: 1,
+            area: ['905px', '820px'],
+            title:'引入用户',
+            maxmin: true,
+            content: '<div id="putUserView"></div>'
+        });
+        layui.laytpl($("#putUserTpl").html()).render({}, function(html){
+            $("#putUserView").html(html);
+        })
+
+        $("#treeDemo2").html($("#businessArea").html());
+        function getGrpUserBusinessIdId() {
+            if($("#treeDemo2 .active").length <= 0){
+                layer.alert("请选择组织!");
+                return false;
+            }
+            return $("#treeDemo2 .active").attr("data_id");
+        }
+
+        layui.table.render({
+            elem: '#test1'
+            ,data:[]
+            ,cols: [[
+                {type:'checkbox'}
+                ,{type:'numbers', title: '序号'}
+                ,{field:'name', title: '用户名'}
+                ,{field:'trueName', title: '真实姓名'}
+                ,{field:'state', title: '当前状态',templet:"#state"}
+            ]]
+        });
+
+        layui.table.render({
+            elem: '#test3'
+            ,data:[]
+            ,cols: [[
+                {type:'checkbox'}
+                ,{type:'numbers', title: '序号'}
+                ,{field:'name', title: '用户名'}
+                ,{field:'trueName', title: '真实姓名'}
+                ,{field:'state', title: '当前状态',templet:"#state"}
+            ]]
+        });
+
+        layui.table.render({
+            elem: '#test'
+            ,data:[]
+            ,limit:5
+            ,cols: [[
+                /*{type:'checkbox'}*/
+                ,{type:'numbers', title: '序号'}
+                ,{field:'name', title: '用户名'}
+                ,{field:'trueName', title: '真实姓名'}
+                ,{field:'state', title: '当前状态'}
+            ]]
+            ,page:true
+        });
+
+        var checkDatas = {};
+    layui.table.on('checkbox(test1)', function(obj){
+      if(obj.type == 'all'){
+        if(obj.checked){
+          var datas = getTableCheck('test1');
+          for(var item of datas){
+            checkDatas[item.id] = item;
+          }
+        }else{
+          var ids = getTableAllDataId('test1');
+          for(var id of ids){
+            delete checkDatas[id];
+          }
+        }
+      }else if(obj.checked){
+        checkDatas[obj.data.id] = obj.data;
+      }else{
+        delete checkDatas[obj.data.id];
+      }
+      showTable3(checkDatas);
+    });
+
+
+        layui.table.on('checkbox(test3)', function(obj){
+      if(obj.type == 'all'){
+        if(obj.checked){
+          var datas = getTableCheck('test3');
+          for(var item of datas){
+            checkDatas[item.id] = item;
+          }
+        }else{
+          var ids = getTableAllDataId('test3');
+          for(var id of ids){
+            delete checkDatas[id];
+          }
+        }
+      }else if(obj.checked){
+        checkDatas[obj.data.id] = obj.data;
+      }else{
+        delete checkDatas[obj.data.id];
+      }
+      showTable3(checkDatas);
+    });
+
+        $("#putUserBtn").on("click",function(){
+            var businessId = getGrpUserBusinessIdId();
+            if(!businessId){
+                layer.alert("请选择企业!");
+                return false;
+            }
+      if(JSON.stringify(checkDatas) == "{}"){
+        layer.alert("请选择用户!");
+        return false;
+      }
+            var userId = [];
+      for(var i in checkDatas){
+        userId.push(checkDatas[i].id);
+      }
+            ajax(service_prefix.member,"/businessuser/addUserOrgan",'get',{userIds:userId.join(","),organId:businessId}).then(res=>{
+                if(res.success){
+                    layer.closeAll();
+                }else{
+                    layer.alert(res.msg);
+                }
+                doList(1);
+            })
+        })
+
+        // doList2(1);
+        doList3(1);
+
+        function showTable3(data){
+            layui.table.reload("test",{data:getCheckedDatas(data)});
+        }
+
+
+        function getCheckedDatas(data){
+            var datas = [];
+            for(var i in data){
+                datas.push(data[i]);
+            }
+            return datas;
+        }
+        //条件列表查询
+        function doList2(current,entity) {
+            entity = entity?entity:{};
+            entity.groupId = '';
+            entity.sign = 0;
+            var jsondata = {
+                "pager": {
+                    "current": current,
+                    "size": 3
+                },
+                "entity": entity
+            }
+
+            ajax(service_prefix.member,"/user/list","post",JSON.stringify(jsondata)).then(res=>{
+                layui.table.reload("test1",{data:res.obj.records});
+                page2(res.obj.total,res.obj.current,3,entity);
+            }).catch(function(res){
+                layer.msg(JSON.stringify(res));
+            })
+        }
+
+        function doList3(current,entity) {
+            entity = entity?entity:{};
+            entity.groupId = '';
+            entity.sign = 3;
+            var jsondata = {
+                "pager": {
+                    "current": current,
+                    "size": 3
+                },
+                "entity": entity
+            }
+            ajax(service_prefix.member,"/user/list","post",JSON.stringify(jsondata)).then(res=>{
+                layui.table.reload("test3",{data:res.obj.records});
+                layui.laypage.render({
+                    elem: 'page5'
+                    ,limit:3
+                    ,curr:res.obj.current
+                    ,count: res.obj.total //数据总数，从服务端得到
+                    ,layout: ['count', 'prev', 'page', 'next']
+                    ,jump: function(obj, first){
+                        if(!first){
+                            doList3(obj.curr,entity);
+                        }
+                    }
+                });
+            }).catch(function(res){
+                layer.msg(JSON.stringify(res));
+            })
+        }
+    }
+
+    //条件列表查询
+    function userList(current,size) {
+        var id = getBusinessId();
+        if(!id) return false;
+        size = size?size:10;
+        var sortProps = [];
+        var data={};
+        data.pager = {current:current,size:size};
+        data.pager.sortProps = sortProps;
+        data.entity = {groupid:id};
+        ajax(service_prefix.member,"/businessuser/getUser","post",JSON.stringify(data)).then(res=>{
+            setTableData(res.obj,size);
+        })
+    }
+
+    //渲染数据到table
+    function setTableData(data,size) {
+        var records = data.records;
+        layui.table.render({
+            elem: '#userTable'
+            , data: records
+            , limit: size
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'name', title: '用户名', width: 140, fixed: 'left'}
+                , {field: 'trueName', title: '真实姓名', width: 90}
+                , {field: 'crUser', width: 90, title: '创建人'}
+                , {field: 'createTime', title: '创建时间'}
+                , {field: 'modifyUser', width: 100, title: '操作人'}
+                , {field: 'modifyTime', title: '操作时间'}
+            ]]
+        });
+        loadPage({elem:"pageRight",curr:data.current,size:size,total:data.total},userList)
+    }
+
+    $(function () {
+        // $(".left-list1").on("click",".layui-form-item",function(){
+        //     $(this).addClass("active").siblings().removeClass("active");
+        //     getChildTree(1);
+        // })
+        $("#businessArea").on("click",".jnet-left-item",function(){
+            $(this).addClass("active").siblings().removeClass("active");
+            userList(1);
+        })
+        $(".group_from").on("click",".layui-form-item",function(){
+            $(this).addClass("active").siblings().removeClass("active");
+        })
+        // getParentTree(1);
+        getChildTree();
+
+    })
+
+    active.addfu = function(){
+        openEditView();
+    }
+
+    function add(){
+        // var groupId = getGroupId();
+        // if(!groupId) return false;
+        // openBusinessForm({groupid:groupId});
+        openBusinessForm();
+    }
+
+    function openEditView(data){
+        layerOpen(data?"修改组织":"新建组织",360,200);
+        lodTpl("editTemplate","openDiv",{});
+        layui.form.val("editForm",data);
+        layui.form.render();
+    }
+
+    function openBusinessForm(data){
+        layerOpen(data&&data.id?"修改企业":"新建企业",360,750);
+        lodTpl("businessFormTpl","openDiv",{});
+        layui.form.val("businessForm",data);
+        layui.form.render();
+    }
+    function delAll(){
+        var data = checkChecked('userTable');
+        var businessId = getBusinessId();
+        if(data && businessId){
+            ajax(service_prefix.member,"/businessuser/removeUser","post",JSON.stringify({groupid:businessId,userids:data})).then(res=>{
+                layer.alert("删除成功", function (index) {
+                    userList(1);
+                    layer.closeAll();
+                })
+            }).catch(function(res){
+                layer.alert(res.msg);
+            })
+        }
+    }
+
+    function edit(){
+        var id = getBusinessId();
+        if(id){
+            ajax(service_prefix.member,"/business/"+id,"get").then(function(res){
+                openBusinessForm(res.obj);
+            })
+        }
+    }
+    active.editfu = function () {
+        var id = getGroupId();
+        if(id){
+            ajax(service_prefix.member,"/groupbusiness/"+id,"get").then(function(res){
+                openEditView(res.obj);
+            })
+        }
+    }
+</script>

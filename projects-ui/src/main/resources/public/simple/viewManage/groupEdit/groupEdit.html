@@ -1,0 +1,399 @@
+<!--组件编辑页-->
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>组件</title>
+<link rel="stylesheet" href="/thirdparty/layui/css/layui.css">
+<link rel="stylesheet" href="/common/css/admin.css">
+<link rel="stylesheet" href="/common/css/style.css">
+<link rel="stylesheet" href="../viewComm/common.css">
+<link rel="stylesheet" href="groupEdit.css">
+
+</head>
+<body>
+<div class="visualMain" id="groupEdit">    
+    <div class="head">
+        <div class="content">
+            <div class="leftHead">
+                <span>可视化组件管理系统</span>
+            </div>
+            <div class="rightHead">          
+                <!-- <button class="layui-btn addModel" type="button">新增</button>-->
+                <!-- <button class="layui-btn editModel" type="button">编辑</button>      -->
+                <button class="layui-btn" type="button" onclick="showAddFirstClassWin()">新增组件类型</button>
+                <button class="layui-btn saveModel" type="button">保存</button>
+                <button class="layui-btn layui-btn-danger deleteModel" type="button">删除</button>
+                <!-- <button class="layui-btn layui-btn2" type="button">查看</button>    -->
+                <!-- <span>查看</span>
+                <span class="addModel">新增</span>
+                <span class="editModel"><i class="layui-icon layui-icon-edit"></i>编辑</span>
+                <span class="saveModel"><i class="layui-icon layui-icon-edit"></i>保存</span>
+                <span class="deleteModel"><i class="layui-icon layui-icon-delete"></i>删除</span> -->
+            </div>
+        </div>
+    </div>
+    <div class="toggleFilter" onclick="toggleFilter(this)">
+    </div>
+    <div class="filter">
+        <form id="groupFrom">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                    <label class="layui-form-label">组件名称：</label>
+                    <div class="layui-input-inline bigWid">
+                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">组件类型：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="moduleType" lay-verify="">
+                              <option value="">请选择</option>
+                              <option value="index">首页组件</option>
+                              <option value="detail">详情页组件</option>
+                              <option value="list">列表页组件</option>
+                            </select> 
+                          </div>
+                    </div>
+                    <label class="layui-form-label">网页类型：</label>
+                    <div class="layui-input-inline">
+                        <select name="netType" lay-verify="">
+                            <option value="">请选择</option>
+                            <option value="PC">PC</option>
+                            <option value="Mobile">移动</option>
+                            <option value="bgScreen">大屏</option>
+                        </select> 
+                    </div>
+                    <label class="layui-form-label">输出文件名：</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="outFileName" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">扩展名：</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="exteName" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">组件类型：</label>
+                    <div class="layui-input-inline">                        
+                        <select name="pid" id="groupFirstList">
+                            
+                        </select>
+                    </div>
+                    <!-- <label class="layui-form-label">屏幕类型：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="screenType" lay-verify="">
+                              <option value="">请选择</option>
+                              <option value="samill">小屏</option>
+                              <option value="middle">中屏</option>
+                              <option value="bigSize">大屏幕</option>
+                            </select> 
+                          </div>
+                    </div> -->
+            </div>
+        </div>
+        <div class="layui-form textareaLine">
+            <div class="layui-form-label">组件描述：</div>
+            <div class="layui-input-block">
+                <textarea name="proDes" lay-verify="" placeholder="请输入" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+    </div>
+    <!-- 主题部分 -->
+    <div class="editBody">
+        <div class="leftSide">
+            <span>可视化组件名称</span>
+            <form class="layui-form">
+                <div class="layui-inline">
+                    <input type="text" id="componentName" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-inline search_btn">
+                  <button class="layui-btn layuiadmin-btn-admin">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                  </button>
+                </div>
+            </form>
+            <div class="layui-side-scroll">
+                <!-- <ul class="layui-nav layui-nav-tree">
+                    <li class="layui-nav-item">
+                        <a class="" onclick="toggleChild(this)">
+                            <span>自定义组件</span>
+                            <span class="layui-nav-more"></span>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <div class="canEdit editBox" draggable="true"></div>
+                            </dd>
+                        </dl>
+                    </li> -->
+                    <!-- <li>
+                        <span>基本元素</span>
+                        <div>
+                            <span>按钮：</span>
+                            <button class="layui-btn layui-btn-primary" draggable="true">按钮</button>
+                            <br>
+                            <span>文本：</span>
+                            <div class="canEdit txt" draggable="true" contenteditable="true" placeholder="输入想要新建的文字，然后拖拽新建"></div>
+                        </div>
+                    </li> -->
+                <!-- </ul> -->
+                <ul id="groupListDom" class="layui-nav layui-nav-tree"></ul>
+                <!-- 新增一级分类 -->
+                <!-- <div class="addNewClass" onclick="showAddFirstClassWin()">新增</div> -->
+            </div>
+        </div>
+        <div class="rightSide">
+            <div class="topTitle">
+                <div class="topTitLeft">
+                    <span>元素可视化</span>
+                </div>
+                <div class="topTitRight">
+                    <ul class="layui-nav">
+                        <li class="layui-nav-item layui-this showCodeView ">
+                            <a>元素代码</a>
+                        </li>
+                        <li class="layui-nav-item showHelpView">
+                            <a>元素帮助</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panelView">
+                <div class="editPanel">
+                    <div class="editDesign">
+                        <!-- <span class="designEditDom"><i class="layui-icon layui-icon-edit"></i></span> -->
+                        <span class="deleteDom"><i class="layui-icon layui-icon-delete"></i></span>
+                    </div>
+                    <div class="groupDomBox" ondragover="dragOverEvent(this, event)"></div>
+                </div>
+                
+                
+                <div class="codePannel">
+                    <!-- 代码预览视图 -->
+                    <div class="codeView layui-show">
+                        <div class="btnBox">
+                            <button class="layui-btn layui-btn-lg" onclick="synchCodeToView()">预览</button>
+                        </div>
+                        <ul class="layui-nav">
+                            <li class="layui-nav-item layui-this">
+                                <a>HTML</a>
+                            </li>
+                            <li class="layui-nav-item">
+                                <a>CSS</a>
+                            </li>
+                            <li class="layui-nav-item">
+                                <a>JS</a>
+                            </li>
+                        </ul>
+                        <div class="layui-form viewChild">
+                            <div class="layui-form-item layui-form-text active">
+                                <div class="layui-input-block">
+                                  <textarea id="htmlCode" placeholder="HTML代码" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="layui-input-block">
+                                  <textarea id="cssCode" placeholder="CSS代码" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="layui-input-block">
+                                  <textarea id="jsCode" placeholder="JS代码" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 元素帮助 -->
+                    <div class="helpView">
+                        <span>元素帮助</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="designEditWin" class="layui-layer layui-layer-dialog">
+    <div class="layui-layer-title">设置</div>
+    <div class="layui-layer-content">
+        <div class="layui-form" id="designEditWinForm">
+        </div>
+    </div>
+    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:closeDesignWin();"></a></span>
+    <div class="layui-layer-btn layui-layer-btn-"><a class="layui-layer-btn0" onclick="setEditStyle();">确定</a></div>
+</div>
+<!--新增一级分类-->
+<div id="addFirstClassWin" class="layui-layer layui-layer-dialog">
+    <div class="layui-layer-title">设置</div>
+    <div class="layui-layer-content">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类名称</label>
+                <div class="layui-input-inline">
+                    <input name="title" type="text" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:closeDesignWin();"></a></span>
+    <div class="layui-layer-btn layui-layer-btn-"><a class="layui-layer-btn0" onclick="addFirstClass();">确定</a></div>
+</div>
+<!--新增组件-->
+<!-- <div id="chooseFirstClassWin" class="layui-layer layui-layer-dialog">
+    <div class="layui-layer-title">请选择分类</div>
+    <div class="layui-layer-content">
+        <div id="firstClassList"></div>
+    </div>
+    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:closeDesignWin();"></a></span>
+    <div class="layui-layer-btn layui-layer-btn-"><a class="layui-layer-btn0" onclick="saveGroupData();">确定</a></div>
+</div> -->
+
+<!-- 组件列表模板 -->
+<!-- <script type="text/html" id="firstClassListModel">
+    <div class="layui-form">
+    {{# layui.each(d,function(k, obj){ }}
+            <div class="layui-input-inline">
+                <input type="radio" name="pid" value="{{obj.id}}" title="{{obj.title}}">
+            </div>
+    {{# }); }}
+    </div>
+</script> -->
+
+<!-- 组件列表模板 -->
+<script type="text/html" id="groupFirstListModel">
+    <option value="0">请选择</option>
+    {{# layui.each(d,function(k, obj){ }}
+        <option value="{{obj.id}}" title="{{obj.title}}">{{obj.title}}</option>
+    {{# }); }}
+</script>
+
+<!-- 弹框模板 -->
+<script type="text/html" id="desiginEditModel">
+    <!-- 布局 -->
+    <form id="setDesiForm">
+    {{# if (d == '1') { }}
+        <div class="layui-form-item">
+            <label class="layui-form-label">显示边框：</label>
+            <div class="layui-input-inline">
+                <input type="checkbox" name="showBorder" lay-skin="switch">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">边框大小：</label>
+            <div class="layui-input-inline">
+                <input name="borderSize" type="number" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">边框颜色：</label>
+            <div class="layui-input-inline">
+                <input name="borderColor" type="color" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">左上角倒角：</label>
+            <div class="layui-input-inline">
+                <input name="borderLeftTop" type="number" class="layui-input">
+            </div>
+            <label class="layui-form-label">右上角倒角：</label>
+            <div class="layui-input-inline">
+                <input name="borderRightTop" type="number" class="layui-input">
+            </div>
+            <label class="layui-form-label">右下角倒角：</label>
+            <div class="layui-input-inline">
+                <input name="borderRightBot" type="number" class="layui-input">
+            </div>
+            <label class="layui-form-label">左下角倒角：</label>
+            <div class="layui-input-inline">
+                <input name="borderLeftBot" type="number" class="layui-input">
+            </div>
+        </div>
+    {{# } }} 
+    <!-- 按钮 -->
+    {{# if (d == '2') { }}
+        <div class="layui-form-item">
+            <label class="layui-form-label">边框颜色：</label>
+            <div class="layui-input-inline">
+                <input name="borderColor" type="color" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">背景颜色：</label>
+            <div class="layui-input-inline">
+                <input name="bgColor" type="color" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文字颜色：</label>
+            <div class="layui-input-inline">
+                <input name="fontColor" type="color" class="layui-input">
+            </div>
+        </div>
+    {{# } }}
+    <!-- 文字       -->
+    {{# if (d == '3') { }}
+        <div class="layui-form-item">
+            <label class="layui-form-label">文字颜色：</label>
+            <div class="layui-input-inline">
+                <input name="fontColor" type="color" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">背景颜色：</label>
+            <div class="layui-input-inline">
+                <input name="bgColor" type="color" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">字体大小：</label>
+            <div class="layui-input-inline">
+                <input name="fontSize" type="number" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">字体行高：</label>
+            <div class="layui-input-inline">
+                <input name="fontHei" type="number" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新建链接：</label>
+            <div class="layui-input-inline">
+                <input name="linkUrl" type="text" class="layui-input">
+            </div>
+        </div>
+    {{# } }}
+    </form>
+</script>
+<!-- 组件列表模板 -->
+<script type="text/html" id="groupListModel">
+    {{# layui.each(d,function(k, obj){ }}
+        <li class="layui-nav-item" dataid="{{obj.id}}">
+            <a onclick="toggleChild(this);">
+                <span>{{obj.title}}</span>
+                <span class="layui-nav-more"></span>
+            </a>
+            <dl class="layui-nav-child">
+                {{# layui.each(obj.children,function(key, objs){ }}
+                    <dd>
+                        <a>
+                            <span onclick="getGroupInfoById('{{objs.id}}', this)" dataid="{{objs.id}}">{{ objs.title }}</span>
+                            <span class="dragleIcon" draggable="true" ondragend="getHtmlAndDropDown('{{objs.id}}')"></span>
+                        </a>
+                    </dd>
+                {{# }) }}
+            </dl>
+        </li>
+    {{# }); }}
+</script>
+
+<script src="/thirdparty/jquery/jquery-1.12.4.min.js"></script>
+<script src="/thirdparty/layui/layui.all.js"></script>
+<script src="/thirdparty/html2canvas/html2canvas.min.js"></script>
+<script src="/common/js/config.js"></script>
+<script src="/common/js/common.js"></script>
+<script type="text/javascript" src="../viewComm/getViewService.js"></script>
+<script type="text/javascript" src="../groupEdit/groupEdit.js"></script>
+</body>
+</html>
+

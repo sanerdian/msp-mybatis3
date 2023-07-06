@@ -1,0 +1,100 @@
+
+<div class="modal" ng-controller="CreateNewProcessModelCtrl">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header"><h2>{{'PROCESS.POPUP.CREATE-TITLE' | translate}}</h2></div>
+			<div class="modal-body">
+				<p>{{'PROCESS.POPUP.CREATE-DESCRIPTION' | translate}}</p>
+				<div ng-if="model.errorMessage && model.errorMessage.length > 0" class="alert error" style="font-size: 14px; margin-top:20px">
+					<div class="popup-error" style="font-size: 14px">
+						<span class="glyphicon glyphicon-remove-circle"></span>
+						<span>{{model.errorMessage}}</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="newProcessName">{{'PROCESS.NAME' | translate}}</label>
+					<input ng-disabled="model.loading" type="text" class="form-control"
+						   id="newProcessName" ng-model="model.process.name" auto-focus editor-input-check>
+				</div>
+				<div class="form-group">
+					<label for="newProcessKey">{{'PROCESS.KEY' | translate}}</label>
+					<input ng-disabled="model.loading" type="text" class="form-control"
+						   id="newProcessKey" ng-model="model.process.key" editor-input-check>
+				</div>
+
+				<div class="form-group">
+					<label for="newProcessSort">{{'PROCESS.SORT' | translate}}</label>
+					<input ng-disabled="model.loading" type="text" class="form-control"
+						   id="newProcessSort" ng-model="model.process.sort"  auto-focus editor-input-check>
+				</div>
+				<div class="form-group">
+					<label for="newProcessProcessIcon">{{'PROCESS.PROCESS-ICON' | translate}}</label>
+					<input ng-disabled="model.loading" type="file" class="form-control"
+						   id="newProcessProcessIcon" ng-model="model.process.processIcon"  auto-focus editor-input-check>
+					<!-- <select ng-disabled="model.loading" class="form-control" id="newProcessProcessIcon" ng-model="model.process.processIcon" ng-options="c.value as c.name for c in iconOptions"  auto-focus editor-input-check>
+                    </select> -->
+				</div>
+				<div class="form-group">
+					<label for="newProcessProcessIconColor">{{'PROCESS.PROCESS-ICON-COLOR' | translate}}</label>
+					<form action="#">
+						<input ng-disabled="model.loading" type="color" class="form-control"
+							   id="newProcessProcessIconColor" ng-model="model.process.processIconColor"  auto-focus editor-input-check>
+					</form>
+				</div>
+				<div class="form-group">
+					<label for="newProcessProcessType">{{'PROCESS.PROCESS-TYPE' | translate}}</label>
+					<select ng-disabled="model.loading" type="text" class="form-control" ng-options="c.value as c.name for c in processTypeOptions"
+							id="newProcessProcessType" ng-model="model.process.processType"  auto-focus editor-input-check>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="newProcessDelegationSettings">{{'PROCESS.DELEGATION-SETTINGS' | translate}}</label>
+					<select ng-disabled="model.loading" type="text" class="form-control" ng-options="c.value as c.name for c in delegationSettingsOptions"
+							id="newProcessDelegationSettings" ng-model="model.process.delegationSettings"  auto-focus editor-input-check>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="newProcessFormClassification">{{'PROCESS.FORM-CLASSIFICATION' | translate}}</label>
+					<select ng-disabled="model.loading" type="text" class="form-control" ng-options="c.value as c.name for c in formClassOptions"
+							id="newProcessFormClassification" ng-model="model.process.formClassification"  auto-focus editor-input-check>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="newProcessProcessAttachment">{{'PROCESS.PROCESS-ATTACHMENT' | translate}}</label>
+					<select ng-disabled="model.loading" type="text" class="form-control" ng-options="c.value as c.name for c in formAttachmentOptions"
+							id="newProcessProcessAttachment" ng-model="model.process.ProcessAttachment"  auto-focus editor-input-check>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="newProcessProcessForm">{{'PROCESS.PROCESS-FORM' | translate}}</label>
+					<input ng-disabled="model.loading" type="text" class="form-control"
+						   id="newProcessProcessForm" ng-model="model.process.processForm"  auto-focus editor-input-check>
+				</div>
+				<div class="form-group">
+					<label for="newProcessProcessClassification">{{'PROCESS.PROCESS-CLASSIFICATION' | translate}}</label>
+					<select  ng-disabled="model.loading" type="text" class="form-control" ng-options="c.value as c.name for c in processClassOptions"
+							 id="newProcessProcessClassification" ng-model="model.process.ProcessClassification"  auto-focus editor-input-check>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="newProcessDescription">{{'PROCESS.DESCRIPTION' | translate}}</label>
+					<textarea ng-disabled="model.loading" class="form-control" id="newProcessDescription" rows="5" ng-model="model.process.description"></textarea>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<div class="pull-right">
+					<button type="button" class="btn btn-sm btn-default" ng-click="cancel()" ng-disabled="model.loading">
+						{{'GENERAL.ACTION.CANCEL' | translate}}
+					</button>
+					<button type="button" class="btn btn-sm btn-default" ng-click="ok()" ng-disabled="model.loading || !model.process.name || model.process.name.length == 0 || !model.process.key || model.process.key.length == 0">
+						{{'PROCESS.ACTION.CREATE-CONFIRM' | translate}}
+					</button>
+				</div>
+				<div class="loading pull-right" ng-show="model.loading">
+					<div class="l1"></div><div class="l2"></div><div class="l2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

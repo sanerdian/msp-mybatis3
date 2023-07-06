@@ -1,0 +1,19 @@
+<title>流程设计器</title>
+<style>
+    #stream iframe{
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+<div class="layui-card h100" id='stream'>
+    <iframe id="iframe" src="/dist/index.html#/flowable/definition/model">
+    </iframe>
+</div>
+<script>
+    let data = JSON.parse(localStorage.getItem("processData"))
+    if (data.id) {
+        document.getElementById("iframe").src = '/dist/index.html#/flowable/definition/model?deployId='+data.id
+    }
+    
+</script>

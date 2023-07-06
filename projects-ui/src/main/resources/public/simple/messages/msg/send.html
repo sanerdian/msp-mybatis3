@@ -1,0 +1,1193 @@
+﻿<title>已发消息</title>
+
+<style>
+    .layui-form-select{z-index:9999;}
+    .layui-form-item .layui-form-checkbox[lay-skin=primary]{margin:0;}
+    .layui-form-label {padding: 10px 0;}
+    .addNews .send_table_div {height: 245px !important;}
+    /* #nav span, .right span {
+        display: none;
+    }
+
+    #nav a {
+        display: inline-block;
+        width: 40px;
+        height: 56px;
+        text-align: center;
+        border: 1px solid #f5f5f5;
+    }
+
+    #nav a:nth-of-type(3) {
+        display: inline-block;
+        width: 170px;
+        height: 52px;
+        text-align: left;
+        padding-left: 20px;
+        border-top: 2px solid #000;
+        font-weight: bold;
+    }
+
+    .right {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .layui-breadcrumb a {
+        color: #000 !important;
+    }
+
+    .layui-table-header, .layui-table-view, .layui-table-box {
+        overflow: visible;
+    }
+
+    .layui-table-link:hover {
+        color: #009688 !important;
+    }
+
+    .layui-card-header p {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .layui-form-item .layui-input-block {
+        display: inline-block;
+        margin-left: -5px;
+    }
+
+    #select .layui-form-select {
+        width: 327px;
+    }
+
+    label span {
+        color: red;
+        margin-right: 5px;
+    }
+
+    .layui-transfer-header {
+        position: relative;
+    }
+
+    .layui-transfer-box:first-of-type {
+        width: 410px !important;
+    }
+
+    .layui-transfer-box:last-of-type {
+        width: 360px !important;
+    }
+
+    .layui-transfer-header {
+        background: #009688;
+        line-height: 38px;
+    }
+
+    .layui-transfer-header .layui-form-checkbox[lay-skin=primary] span {
+        margin-left: 30px;
+        display: inline-block;
+        height: 38px;
+        line-height: 36px;
+        color: #fff !important;
+    }
+
+    .layui-form-checkbox[lay-skin=primary] span {
+        margin-left: 30px;
+        display: inline-block;
+        height: 38px;
+        line-height: 36px;
+    }
+
+    .layui-form-checkbox[lay-skin=primary] span:first-of-type {
+        margin-left: 0px;
+    }
+
+    .layui-transfer-box .layui-form-checkbox i {
+        top: 10px;
+    }
+
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(1) {
+        width: 80px;
+    }
+
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(2) {
+        width: 80px;
+        margin-left: 45px;
+    }
+
+    th .layui-table-cell {
+        text-align: center
+    }
+
+    .send_table_div {
+        width: 270px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .layui-form-select dl {
+        z-index: 1000
+    }
+
+    .layui-layer-btn {
+        text-align: center;
+    }
+
+    .layui-layer-btn .layui-layer-btn0 {
+        background-color: #009688;
+    }
+
+    .layui-layer-btn a {
+        background-color: #009688;
+        color: #fff;
+    }
+
+    .layui-layer-molv .layui-layer-btn .layui-layer-btn1 {
+        background: #009688;
+    } */
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>发送消息<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid" id="index">
+    <div class="layui-card h100">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+          <div class="top_btn">
+            <button class="layui-btn" data-type="add">新建消息</button>
+            <button class="layui-btn" onclick="delSendNews()">删除</button>
+            <button class="layui-btn" onclick="doexport()">导出</button>
+          </div>
+          <form class="layui-form">
+              <div class="layui-form-item">
+                  <div class="layui-inline">
+                      <label class="layui-form-label">标题</label>
+                      <div class="layui-input-block">
+                          <input type="text" name="title" autocomplete="off" class="layui-input">
+                      </div>
+                  </div>
+                  <div class="layui-inline">
+                      <label class="layui-form-label">消息类型</label>
+                      <div class="layui-input-block">
+                          <!-- <input type="text" name="name" autocomplete="off" class="layui-input"> -->
+                        <select class="layui-input" lay-verify="required" id="msgSort" name="configId">
+                            <option value selected disabled hidden>请选择</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="layui-inline top_search_btn">
+                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                      <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                  </div>
+              </div>
+          </form>
+        </div>
+        <div class="layui-card-body">
+            <!-- <div class="search-bar">
+                <button class="layui-btn" data-type="add">新建消息</button>
+                <button class="layui-btn" onclick="delSendNews()">删除</button>
+                <button class="layui-btn" onclick="doexport()">导出</button>
+                <form class="layui-form right-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="width: 75px;">
+                            <select name="" id="">
+                                <option value="" selected>全部</option>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <input id="newsContent" type="text" name="title" placeholder="内容" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline">
+                            <button onclick="doList(1)" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </div>
+                </form>
+            </div> -->
+            <div class="table-area">
+                <table id="test" lay-filter="test"></table>
+            </div>
+            <div id="page"></div>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid" id="detail" style="display:none">
+    <div class="layui-card">
+        <div class="layui-card-header" style="height: 70px;line-height: 15px;padding-top: 10px;">
+            <table>
+                <tbody>
+                <tr style="color: #333333">
+                    <!--<td>标题：</td>-->
+                    <td id="newstitle" style="height: 45px;font-size: 20px"></td>
+                </tr>
+                <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="returnBack()">返回上一级</button>
+                </tbody>
+
+
+            </table>
+            <table>
+                <tbody>
+                <tr style="color: #999;font-size:14px;">
+                    <!--<td>发送时间：</td>-->
+                    <td id="sendTime"></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="sign"></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-card-body">            
+            <div id="newscontext"></div>
+            <div id="addressTpls" style="margin:20px 0 0;padding-left: 50px;"></div>    
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="titleTplSend">
+    <a href="javascript:void(0);" class="layui-table-link" style="color:#000" onclick='javascript:void(0);'>{{d.title}}</a>
+</script>
+<script type="text/html" id="addressTpl">
+    <a onclick='javascript:void(0);' style="color: #0F6AB4;">
+        <u>查看详情</u>
+    </a>
+</script>
+
+<script type="text/html" id="sendMsgTpl">
+    <form class='layui-form addNews' id="addNews">
+        <div class="layui-form-item" style='margin-top:10px;margin-bottom:10px;display: inline-block;width: 518px'>
+            <label class="layui-form-label" style="padding:5px 0"><span class="sign_required">*</span>消息标题</label>
+            <div class="layui-input-block" style='width: 400px'>
+                <input type="text" name="title" required autocomplete="off" lay-verify="required" placeholder="请输入" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" style='margin-top:10px;display: inline-block;'>
+            <label class="layui-form-label" style="padding:5px 0"><span class="sign_required">*</span>消息源</label>
+            <div class="layui-input-block" id='select' style="z-index:99999999;">
+                <select class="layui-input" lay-verify="required" id="msgConfig" name="configId">
+                </select>
+            </div>
+        </div>
+<!--        <div class="layui-form-item" style='margin-top:10px;margin-bottom:10px;display: inline-block;width: 518px'>-->
+<!--            <label class="layui-form-label" style="padding:5px 0">邮件接收人</label>-->
+<!--            <div class="layui-input-block" style='width: 400px'>-->
+<!--                <input type="text" name="receiveMail" required autocomplete="off" lay-verify="required" placeholder="请输入" class="layui-input">-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="padding:5px 0"><span class="sign_required">*</span>消息内容</label>
+            <div class="layui-input-block">
+                <textarea id="msgContent" name="content" required placeholder="请输入描述" style="height:150px;"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="padding:5px 0"><span class="sign_required">*</span>url跳转地址</label>
+            <div class="layui-input-block" style="width: 600px">
+                <input type="text" id="jumpUrl" name="jumpUrl" required placeholder="请输入url地址" lay-verify="required" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="padding:5px 0"><span class="sign_required">*</span>发送范围</label>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="margin:0 10px 0 0;align:center;padding:5px 0">全部用户</label>
+                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+            </div>
+            <div class="layui-inline">
+                <input type="checkbox" value="1" data-title="选择组织" lay-filter="choiceBox" class="choiceBox" disabled lay-skin="primary"><span>选择组织</span>
+            </div>
+            <div class="layui-inline">
+                <input type="checkbox" value="2" data-title="选择角色" lay-filter="choiceBox" class="choiceBox" disabled lay-skin="primary"><span>选择角色</span>
+            </div>
+            <div class="layui-inline">
+                <input type="checkbox" value="3" data-title="选择用户" lay-filter="choiceBox" class="choiceBox" disabled lay-skin="primary"><span>选择用户</span>
+                </div>
+                
+            <!--<div class="layui-input-block">
+                <input id="person" readonly="readonly" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style='width:250px;display:inline-block;border:none;border-right:1px solid #D2D2D2;'>
+                <button type="button" class="layui-btn layui-btn-primary" style='display:inline-block;width:76px!important;border:none;background:rgba(245, 247, 250, 1);margin-left:-3px' data-type='selectPerson'>选择...</button>
+            </div>-->
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="padding:5px 0"></label>
+            <div class="send_range_box">
+                <div class="send_table_div">
+                    <table id="sendToGroupTable" lay-filter="sendToGroupTable"></table>
+                </div>
+                <div class="send_table_div">
+                    <table id="sendToRoleTable" lay-filter="sendToRoleTable"></table>
+                </div>
+                <div class="send_table_div">
+                    <table id="sendToUserTable" lay-filter="sendToUserTable"></table>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="roleids" name="roleids">
+        <input type="hidden" id="grpids" name="grpids">
+        <div class='button-bar'>
+            <button class='layui-btn' lay-submit lay-filter="addSends" onclick="setbell()">确定</button>
+            <button class="layui-btn" type="button" data-type="close">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="selectUserTpl">
+    <div class="layui-card-body">
+        <form class='layui-form'>
+            <div class='layui-form-item'>
+                <div class='layui-inline'>
+                    <select name="companyId" id="company">
+                        <option value="" selected>请选择机构</option>
+                    </select>
+                </div>
+                <div class='layui-inline'>
+                    <input type="text" name="name" placeholder="请输入" class="layui-input">
+                </div>
+                <div class="layui-inline top_search_btn">
+                <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchPeople">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                </button>
+                </div>
+            </div>
+        </form>
+        <div>
+            已选中用户列表
+        </div>
+        <div id="test1"></div>
+    <!--  <div class='button-bar'>
+          <button class='layui-btn' onclick="getSelectUser()">确定</button>
+
+          <button class='layui-btn' onclick="">取消</button>
+      </div>-->
+    </div>
+</script>
+<script type="text/html" id="selectGrpTpl">
+    <div class="layui-card-body">
+        <form  class='layui-form'>
+            <div class='layui-form-item'>
+                <div class='layui-inline'>
+                    <select name="companyId" id="company">
+                        <option value="" selected>请选择机构</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="name" placeholder="请输入" class="layui-input">
+                </div>
+                <div class="layui-inline top_search_btn">
+                    <!-- <button type="button" class="layui-btn layui-btn-primary" onclick="searchPeople()">搜索</button> -->
+                  <button class="layui-btn layuiadmin-btn-admin"  lay-submit lay-filter="searchPeople">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                  </button>
+                </div>
+            </div>
+        </form>
+        <div>
+            已选中组织列表
+        </div>
+        <div id="test2"></div>
+        <!--<div class='button-bar'>
+            <button class='layui-btn' onclick="getSelectGrp()">确定</button>
+            <button class='layui-btn' onclick="layer.close(layer.index)">取消</button>
+        </div>-->
+    </div>
+</script>
+<script type="text/html" id="selectRoleTpl">
+    <div class="layui-card-body">
+        <form class='layui-form'>
+            <div class='layui-form-item'>
+                <div class='layui-inline'>
+                    <select name="companyId" id="company">
+                        <option value="" selected>请选择机构</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="name" placeholder="请输入" class="layui-input">
+                </div>
+                <div class="layui-inline top_search_btn">
+                    <button class="layui-btn layuiadmin-btn-admin"  lay-submit lay-filter="searchPeople">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div>
+            已选中角色列表
+        </div>
+        <div id="test3"></div>
+    <!--<div class='button-bar'>
+        <button class='layui-btn' onclick="getSelectRole()">确定</button>
+        <button class='layui-btn' onclick="layer.close(layer.index)">取消</button>
+    </div>-->
+    </div>
+</script>
+<script>
+    function closeNew() {
+        layer.close(layer.index);
+    }
+</script>
+<script>
+    layui.form.on("submit(searchData)",function(data){
+        doList(1,data.field);
+        return false;
+    })
+    function refreshList() {
+        doList(1);
+    }
+    function setbell(){
+        var demo=$('.site-doc-icon .layui-anim')
+        var othis = demo, anim = othis.data('anim');
+        //停止循环
+        if(othis.hasClass('layui-anim-loop')){
+            return othis.removeClass(anim);
+        }
+        othis.removeClass(anim);
+        setTimeout(function(){
+            othis.addClass(anim);
+        });
+        //恢复渐隐
+        if(anim === 'layui-anim-fadeout'){
+            setTimeout(function(){
+                othis.removeClass(anim);
+            }, 1300);
+        }
+    }
+
+    var selectPsersonIndex;
+
+    var selectGroupIndex;
+
+    var selcetRoleIndex;
+
+    var addIndex;
+
+    var selectAddressIndex;
+
+    var defaultPageSize = 15;
+    var sendUsers = [];
+    var sendRoles = [];
+    var sendGrps = [];
+
+    layui.form.on("submit(addSends)", function (data) {
+        var obj = data.field;
+        console.log(obj);
+        if(!obj.content){
+            layer.msg('请填写消息内容')
+            return false;
+        }
+        if (obj.open == "on") {
+            obj.sendRange = "全部用户";
+        } else {
+            obj.sendRange = "部分用户";
+
+            var i;
+            var listuser = new Array();
+            var listrole = new Array();
+            var listgrp = new Array();
+
+            for (i = 0; i < sendUsers.length; i++) {
+                listuser.push(sendUsers[i].id);
+            }
+            for (i = 0; i < sendRoles.length; i++) {
+                listrole.push(sendRoles[i].id);
+            }
+            for (i = 0; i < sendGrps.length; i++) {
+                listgrp.push(sendGrps[i].id);
+            }
+            if (listuser == null && listgrp == null && listrole == null) {
+                return;
+            }
+
+            obj.userids = listuser.toString();
+            obj.roleids = listrole.toString();
+            obj.grpids = listgrp.toString();
+
+        }
+        if (obj.userids == "" && obj.roleids == "" && obj.grpids == "" && $('input[name="open"]:checked').val() != "on") {
+
+            layer.alert("接收人不能为空");
+            return false;
+        }
+        jsondata = JSON.stringify(obj);
+        var index1 = layer.load(5, {time: 30 * 1000});
+
+
+        ajax(service_prefix.message,"/msg/addSends","post",jsondata).then(function (data){
+
+            if(data.success){
+                layer.closeAll();
+                doList(1);
+                setbell();
+            }else{
+                layer.alert(data.msg);
+            }
+
+        })
+
+        return false;
+    })
+
+    function getMsgConfig() {
+        var jsondata = {
+            "pager": {
+                "current": 1,
+                "size": defaultPageSize
+            }
+            , "entity": {
+                "mark": 9,
+                "name": $('#nameId').val()
+            }
+        }
+
+        ajax(service_prefix.message,"/config/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                var records = data.obj.records;
+                var msgConfig;
+                for (var i in records) {
+                    msgConfig += '<option value="' + records[i].id + '">' + records[i].name + ' </option>'
+                }
+                $("#msgConfig,#msgSort").append(msgConfig);
+                layui.form.render();
+            }
+        })
+    }
+
+
+    function getSelectUser(selectVal) {
+        layui.use('transfer', function () {
+            var transfer = layui.transfer;
+            var selData = transfer.getData('demo1');
+            console.log(selData);
+
+            var datas = [];
+            for (var i = 0; i < selData.length; i++) {
+                datas.push(selData[i].data);
+            }
+            var selectDiv;
+            if(selectVal == 1){
+                sendGrps = datas;
+                selectDiv = 'sendToGroupTable';
+
+            }else if(selectVal == 2){
+                sendRoles = datas;
+                selectDiv = 'sendToRoleTable';
+
+            }else if(selectVal == 3){
+                sendUsers = datas;
+                selectDiv = 'sendToUserTable';
+
+            }
+            layui.table.reload(selectDiv, {
+                data: datas
+            });
+            layer.close(selectPsersonIndex);
+        })
+
+
+    }
+
+    // function getSelectGrp() {
+    //     layui.use('transfer', function () {
+    //         var transfer = layui.transfer;
+    //         var selData = transfer.getData('demo2');
+    //         var datas = [];
+    //         for (var i = 0; i < selData.length; i++) {
+    //             datas.push(selData[i].data);
+    //         }
+    //         sendGrps = datas;
+    //         layui.table.reload("sendToGroupTable", {
+    //             data: datas
+    //         });
+    //         layer.close(selectGroupIndex);
+    //     })
+
+
+    // }
+
+    // function getSelectRole() {
+    //     layui.use('transfer', function () {
+    //         var transfer = layui.transfer;
+    //         var selData = transfer.getData('demo3');
+    //         var datas = [];
+    //         for (var i = 0; i < selData.length; i++) {
+    //             datas.push(selData[i].data);
+    //         }
+    //         sendRoles = datas;
+    //         layui.table.reload("sendToRoleTable", {
+    //             data: datas
+    //         });
+    //         layer.close(selcetRoleIndex);
+    //     })
+
+
+    // }
+
+    //导出消息
+    function doexport() {
+        window.location.href = service_prefix.message + "/msg/downloadExcel";
+    }
+
+    function doList(pageNo,entity) {
+        entity = entity?entity:{};
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": defaultPageSize,
+                "sortProps": {
+                    key: "sendTime",
+                    value: false
+                }
+            },
+            "entity": entity
+        }
+        ajax(service_prefix.message,"/msg/sendList", "post", JSON.stringify(jsondata)).then(data => {
+            layui.use(['table', 'laypage'], function () {
+                var table = layui.table,
+                    laypage = layui.laypage;
+                table.render({
+                    elem: "#test",
+                    data: data.obj.records,
+                    limit: defaultPageSize,
+                    cols: [[
+                        {type: 'checkbox',fixed: 'left'}
+                        ,{type:'numbers',title: '序号', width: 60,align: "right",fixed: 'left'}
+                        , {field: 'title', event: 'showDetailList', title: '消息标题', align: 'left',fixed: 'left'}
+                        , {field: 'msgSign', width: 110, title: '消息类型', align: 'left'}
+                       /* , {field: 'sendRange', width: 110, title: '发送范围', align: 'left'}*/
+                        , {field: 'sendTime', width: 180, title: '发送时间', align: 'left'}
+                        , {field: 'crUser', title: '创建人', width: 100}
+                        , {field: 'createTime', title: '创建时间', width: 180}
+                        , {field: 'modifyUser', title: '操作人', width: 100}
+                        , {field: 'modifyTime', title: '操作时间', width: 180}
+                        , {field: '', title: '收件人列表', event: 'showDetailList', templet: '#addressTpl', align: 'center',width:200}
+                    ]]
+                });
+                page(data.obj.total,data.obj.current,defaultPageSize);
+            })
+        })
+    }
+
+    function goSend(data) {
+        document.getElementById('index').style.display = 'none';
+        document.getElementById('detail').style.display = 'block';
+        showSendObj(data);
+    }
+
+    layui.table.on('tool(test)', function (obj) {
+        if (obj.event = "showDetailList") {
+            var data = obj.data;
+            getUserList(1,data.chiledStrIds);
+            goSend(data);
+        }
+    })
+
+    function getUserList(curr,ids){
+        var params = {};
+        var pager = {
+            current:curr,
+            size:15
+        }
+        params.pager = pager;
+        var entity = {ids:ids};
+        params.entity = entity;
+        ajax(service_prefix.member,"/user/list","post",JSON.stringify(params)).then(function(res){
+            layui.table.render({
+                elem: "#addressTpls",
+                data: res.obj.records,
+                cols: [[
+                    {type: 'numbers', title: '序号', align: "right"}
+                    , {field: 'name', title: '收件人', align: 'left'}
+                    , {field: 'trueName', title: '真实姓名', align: 'left'}
+                    , {field: 'status', templet: "#state", title: '用户状态', align: 'left'}
+                    , {field: 'roleName', title: '所属角色', align: 'left'}
+                    , {field: 'groupName', title: '所属组织', align: 'left'}
+                    , {field: 'companyName', title: '所属机构', align: 'left'}
+                ]]
+                ,entity: {
+                    isDispaly: 0
+                }
+            });
+        })
+    }
+
+
+    //根据id查询数据
+    function getSendObj(id) {
+        return new Promise((resovle, reject) => {
+            ajax(service_prefix.message,"/msg" + "/" + id, "get", {}).then(res => {
+                resovle(res);
+            }).catch(res => {
+                reject(res);
+            })
+        })
+    }
+
+    function showSendObj(obj) {
+        $("#newstitle").text(obj.title);
+        $("#sendTime").text(obj.sendTime);
+        $("#sign").text(obj.msgSign);
+        $("#newscontext").html(obj.content);
+        $('#detail').show();
+    }
+
+    function returnBack() {
+        document.getElementById('index').style.display = 'block';
+        document.getElementById('detail').style.display = 'none';
+    }
+
+    function add() {
+        sendUsers = [];
+        sendRoles = [];
+        sendGrps = [];
+        addIndex = layerOpen('新建消息', 1200, 700);
+        lodTpl("sendMsgTpl", "openDiv", {});
+
+        UE.delEditor('msgContent');
+        UE.getEditor('msgContent', {
+            //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
+            toolbars: [[ 'Source', 'Undo', 'Redo', 'Bold', 'test']],
+            //是否自动长高,默认true
+            autoHeightEnabled: false,
+            //focus时自动清空初始化时的内容
+            autoClearinitialContent: true,
+            //关闭字数统计
+            wordCount: false,
+            //关闭elementPath
+            elementPathEnabled: false,
+            //初始化编辑器宽度,默认1000
+            initialFrameWidth: 1080,
+            //默认的编辑区域高度
+            initialFrameHeight: 100
+            //更多其他参数，请参考ueditor.config.js中的配置项
+        })
+        layui.table.render({
+            elem: "#sendToGroupTable",
+            data: [],
+            cols: [[
+                {type: 'numbers', title: '序号',width: 50, align:'center'}
+                , {field: 'name', title: '组织名', align: "left"}
+                , {field: 'companyName', title: '所属机构', align: 'left'}
+            ]]
+            , limit: 5
+            , page: {
+                layout: ['prev', 'page', 'next']
+            }
+        });
+        layui.table.render({
+            elem: "#sendToRoleTable",
+            data: [],
+            cols: [[
+                {type: 'numbers', title: '序号',width: 50}
+                , {field: 'name', title: '角色名', align: "left"}
+                , {field: 'companyName', title: '所属机构', align: 'left'}
+            ]]
+            , limit: 5
+            , page: {
+                layout: ['prev', 'page', 'next']
+            }
+        });
+        layui.table.render({
+            elem: "#sendToUserTable",
+            data: [],
+            cols: [[
+                {type: 'numbers', title: '序号',width: 50}
+                , {field: 'name', title: '用户名', align: "left"}
+                , {field: 'companyName', title: '所属机构', align: 'left'}
+            ]]
+            , limit: 5
+            , page: {
+                layout: ['prev', 'page', 'next']
+            }
+        });
+        /* layui.table.render({
+             elem:"#sendToRoleTable",
+             data:[],
+             cols: [[
+                 {type: 'numbers', title:'序号'}
+                 ,{field:'name', title: '角色名', align:"left"}
+                 ,{field:'companyName', title:'所属机构',align:'left'}
+             ]]
+             ,limit:5
+             ,page:{
+                 layout: ['prev', 'page', 'next'] //自定义分页布局
+             }
+         });
+         layui.table.render({
+             elem:"#sendToUserTable",
+             data:[],
+             cols: [[
+                 {type: 'numbers', title:'序号'}
+                 ,{field:'name', title: '用户名', align:"left"}
+                 ,{field:'groupName', title:'所属机构',align:'left'}
+             ]]
+             ,limit:5
+             ,page:{
+                 layout: ['prev', 'page', 'next'] //自定义分页布局
+             }
+         });*/
+        layui.form.render();
+        getMsgConfig();
+    }
+
+    //删除
+    function delSendNews() {
+        var ids = checkChecked("test");
+        if(!ids){
+            return;
+        }
+        layer.alert("是否确定删除,该操作不可撤回", function () {
+            ajax(service_prefix.message,"/msg/unrealdelByIds?ids="+ids.join(),"get").then(function (data){
+                if(data.success){
+                    layer.closeAll();
+                    doList(1);
+                }
+            })
+        })
+    }
+
+
+    layui.form.on('switch(switchTest)', function (data) {
+        $(".choiceBox").prop("disabled", this.checked);
+        layui.form.render();
+    });
+
+    layui.form.on('checkbox(choiceBox)', function (data) {
+        if (this.checked) {
+            var selectVal = Number($(this).val());
+            var selectValTxt =$(this).attr('data-title');
+            console.log(selectVal,selectValTxt);
+            selectPerson(selectVal,selectValTxt);
+            layui.form.on("submit(searchPeople)",function(data){
+                data.field.sign = selectVal == 3 ? 3 : "";
+                searchPeople(selectVal,data.field);
+                return false;
+            })
+        }else{
+            
+        }
+    });
+
+    layui.form.render();
+
+    //选择框搜索
+    function searchPeople(selectVal,data) {
+        console.log(data);
+        var jsondata = {
+            "entity": data,
+            pager: {
+                current: 1,
+                size: 1000
+            }
+        };
+        var url;
+        var fileds;
+        if(selectVal == 1){
+            url = '/group';
+            fileds = ['<div><span>组织</span><p>所属机构</p></div>', '<div><span>组织</span><p>所属机构</p></div>'];
+
+        }else if(selectVal == 2){
+            url = '/role';
+            fileds = ['<div><span>角色</span><p>所属机构</p></div>', '<div><span>角色</span><p>所属机构</p></div>'];
+
+        }else if(selectVal == 3){
+            url = '/user';
+            fileds = ['<div><span>用户</span><p>所属机构</p></div>', '<div><span>用户</span><p>所属机构</p></div>'];
+        }
+        ajax(service_prefix.member,url+'/list',"post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.laytpl($("#selectUserTpl").html()).render({}, function (html) {
+                    $("#fieldForm1").html(html);
+                    ajax(service_prefix.member,"/company/list", "post", JSON.stringify({pager: {current: 1, size: defaultPageSize}})).then(res => {
+                        var records = res.obj.records;
+                        var companys;
+                        for (var i in records) {
+                            companys += '<option value="' + records[i].id + '">' + records[i].name + '</option>'
+                        }
+                        $("#company").append(companys);
+                        layui.form.render();
+                    });
+                    layui.form.render();
+                    layui.use('transfer', function () {
+                        var transfer = layui.transfer;
+                        //渲染
+                        var result = [];
+                        for (var i = 0; i < data.obj.records.length; i++) {
+                            result.push({
+                                "value": data.obj.records[i].id,
+                                // "title": "<div><span>" + data.obj.records[i].name + "</span><span>" + data.obj.records[i].trueName + "</span><span>" + data.obj.records[i].groupName + "</span></div>",
+                                "title": "<div><span>" + data.obj.records[i].name + "</span><p>" + data.obj.records[i].companyName + "</p></div>",
+                                "disabled": "",
+                                "checked": "",
+                                data: data.obj.records[i]
+                            })
+                        }
+                        transfer.render({
+                            elem: '#test1'  //绑定元素
+                            // ,title: ['<div><span>用户</span><span>真实姓名</span><span>所属机构</span></div>', '<div><span>用户</span><span>真实姓名</span><span>所属机构</span></div>']
+                            ,title: fileds
+                            ,data: result
+                            ,id: "demo1"
+                            ,width: "45%"
+                            ,height: 300
+                        });
+                    });
+                })
+            }
+        })
+    }
+
+    function selectPerson(selectVal,selectValTxt) {
+        selectPsersonIndex = layer.open({
+            type: 1,
+            area: ['950px', '521px'],
+            title: selectValTxt,
+            maxmin: true,
+            content: '<div id="fieldForm1"></div>',
+            btn: ['确定', '取消'],
+            /*skin:'layui-layer-molv',*/
+            yes: function () {
+                getSelectUser(selectVal);
+            },
+            btn2: function () {
+                layer.close(layer.index);
+            }
+        });
+        searchPeople(selectVal,selectVal == 3 ? {sign: 3} : {});
+        // var jsondata = {
+        //     "entity": data,
+        //     pager: {
+        //         current: 1,
+        //         size: 1000
+        //     }
+        // };
+        // var url;
+        // var fileds;
+        // if(selectVal == 1){
+        //     url = '/group';
+        //     fileds = ['<div><span>组织</span><p>所属机构</p></div>', '<div><span>组织</span><p>所属机构</p></div>'];
+
+        // }else if(selectVal == 2){
+        //     url = '/role';
+        //     fileds = ['<div><span>角色</span><p>所属机构</p></div>', '<div><span>角色</span><p>所属机构</p></div>'];
+
+        // }else if(selectVal == 3){
+        //     url = '/user';
+        //     fileds = ['<div><span>用户</span><p>所属机构</p></div>', '<div><span>用户</span><p>所属机构</p></div>'];
+        // }
+
+        // //查询数据
+        // ajax(service_prefix.member,url+'/list',"post",JSON.stringify(jsondata)).then(function (data){
+        //     if(data.success){
+        //         layui.laytpl($("#selectUserTpl").html()).render(index, function (html) {
+        //             $("#fieldForm1").html(html);
+        //             ajax(service_prefix.member,"/company/list", "post", JSON.stringify({pager: {current: 1, size: defaultPageSize}})).then(res => {
+        //                 var records = res.obj.records;
+        //             var company;
+        //             for (var i in records) {
+        //                 company += '<option value="' + records[i].id + '">' + records[i].name + '</option>'
+        //             }
+        //             $("#company").append(company);
+        //             layui.form.render();
+        //         });
+        //             layui.use('transfer', function () {
+        //                 var transfer = layui.transfer;
+        //                 //渲染
+        //                 var result = [];
+        //                 /*console.log(data);*/
+
+        //                 for (var i = 0; i < data.obj.records.length; i++) {
+        //                     data.obj.records[i].addressType = "2";
+        //                     result.push({
+        //                         "value": data.obj.records[i].id,
+        //                         "addressType": data.obj.records[i].addressType,
+        //                         "title": '<div><span>' + data.obj.records[i].name + '</span><p>' + data.obj.records[i].groupName + '</p></div>',
+        //                         "disabled": "",
+        //                         "checked": "",
+        //                         data: data.obj.records[i]
+        //                     })
+        //                 }
+        //                 /*console.log(result);*/
+        //                 transfer.render({
+        //                     elem: '#test1'  //绑定元素
+        //                     // ,title: ['<div><span>用户</span><span>真实姓名</span><span>所属机构</span></div>', '<div><span>用户</span><span>真实姓名</span><span>所属机构</span></div>']
+        //                     ,title: fileds
+        //                     ,data: result
+        //                     ,id: "demo1"
+        //                     ,width: 420
+        //                     ,height: 300
+        //                 });
+
+        //             });
+        //         })
+        //     }
+        // })
+
+    }
+
+    // function selectGroup() {
+    //     selectGroupIndex = layer.open({
+    //             type: 1,
+    //             area: ['950px', '521px'],
+    //             title: '选择组织',
+    //             maxmin: true,
+    //             content: '<div id="fieldForm2"></div>',
+    //             btn: ['确定', '取消'],
+    //             yes: function () {
+    //                 getSelectGrp();
+    //             },
+    //             btn2: function () {
+    //                 layer.close(layer.index);
+    //             }
+
+    //         }
+    //     )
+    //     var jsondata = {
+    //         "entity": {
+    //             "name": ""
+    //         },
+    //         "pager": {
+    //             "currNum": 0,
+    //             "current": 1,
+    //             "size": 1000
+    //         }
+
+    //     };
+
+    //     //查询数据
+    //     ajax(service_prefix.member,"/group/list","post",JSON.stringify(jsondata)).then(function (data){
+    //         if(data.success){
+    //             console.log(data);
+    //             layui.laytpl($("#selectGrpTpl").html()).render(index, function (html) {
+    //                 $("#fieldForm2").html(html);
+    //                 ajax(service_prefix.member,"/company/list", "post", JSON.stringify({pager: {current: 1, size: defaultPageSize}})).then(res => {
+    //                     var records = res.obj.records;
+    //                 var companys;
+    //                 for (var i in records) {
+    //                     companys += '<option value="' + records[i].id + '">' + records[i].name + '</option>'
+    //                 }
+    //                 $("#company").append(companys);
+
+    //                 layui.form.render();
+    //             });
+    //                 layui.use('transfer', function () {
+    //                     var transfer = layui.transfer;
+    //                     //渲染
+    //                     var result = [];
+
+    //                     for (var i = 0; i < data.obj.records.length; i++) {
+    //                         result.push({
+    //                             "value": data.obj.records[i].id,
+    //                             "addressType": 2,
+    //                             "title": "<div><span>" + data.obj.records[i].name + "</span><p>" + data.obj.records[i].companyName + "</p></div>",
+    //                             "disabled": "",
+    //                             "checked": "",
+    //                             data: data.obj.records[i]
+    //                         })
+    //                     }
+    //                     transfer.render({
+    //                         elem: '#test2'  //绑定元素
+    //                         ,title: ['<div><span>组织</span><p>所属机构</p></div>', '<div><span>组织</span><p>所属机构</p></div>']
+    //                         ,data: result
+    //                         ,id: "demo2"
+    //                         ,width: 420
+    //                         ,height: 300
+    //                     });
+
+    //                 });
+    //             })
+    //         }
+    //     })
+    // }
+
+    // function selectRole() {
+    //     selcetRoleIndex = layer.open({
+    //             type: 1,
+    //             area: ['950px', '521px'],
+    //             title: '选择角色',
+    //             maxmin: true,
+    //             content: '<div id="fieldForm3"></div>',
+    //             btn: ['确定', '取消'],
+    //             yes: function () {
+    //                 getSelectRole();
+    //             },
+    //             btn2: function () {
+    //                 layer.close(layer.index);
+    //             }
+    //         }
+    //     )
+    //     var jsondata = {
+    //         "entity": {
+    //             "name": ""
+    //         },
+    //         "pager": {
+    //             "currNum": 0,
+    //             "current": 1,
+    //             "size": 1000
+    //         }
+
+    //     };
+
+    //     //查询数据
+    //     ajax(service_prefix.member,"/role/list","post",JSON.stringify(jsondata)).then(function (data){
+    //         if(data.success){
+    //             console.log(data);
+    //             layui.laytpl($("#selectRoleTpl").html()).render(index, function (html) {
+    //                 $("#fieldForm3").html(html);
+    //                 ajax(service_prefix.member,"/company/list", "post", JSON.stringify({pager: {current: 1, size: defaultPageSize}})).then(res => {
+    //                     var records = res.obj.records;
+    //                 var companys1;
+    //                 for (var i in records) {
+    //                     companys1 += '<option value="' + records[i].id + '">' + records[i].name + '</option>'
+    //                 }
+    //                 $("#company").append(companys1);
+
+    //                 layui.form.render();
+    //             });
+    //                 layui.use('transfer', function () {
+    //                     var transfer = layui.transfer;
+    //                     //渲染
+    //                     var result = [];
+
+    //                     for (var i = 0; i < data.obj.records.length; i++) {
+    //                         result.push({
+    //                             "value": data.obj.records[i].id,/*"addressType":0,*/
+    //                             "title": "<div><span>" + data.obj.records[i].name + "</span><p>" + data.obj.records[i].companyName + "</p></div>",
+    //                             "disabled": "",
+    //                             "checked": "",
+    //                             data: data.obj.records[i]
+    //                         })
+    //                     }
+    //                     transfer.render({
+    //                         elem: '#test3'  //绑定元素
+    //                         ,title: ['<div><span>角色</span><p>所属机构</p></div>', '<div><span>角色</span><p>所属机构</p></div>']
+    //                         ,data: result
+    //                         ,id: "demo3"
+    //                         ,width: 420
+    //                         ,height: 300
+    //                     });
+
+    //                 });
+    //             })
+    //         }
+    //     })
+    // }
+
+
+    $(function () {
+        doList(1);
+        getMsgConfig();
+    })
+
+</script>
+<script type="text/html" id="state">
+    {{#  if(d.status=== 0){ }}
+    <div>已开通</div>
+    {{#  } else { }}
+    <div>未开通</div>
+    {{#  } }}>
+</script>

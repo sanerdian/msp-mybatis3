@@ -1,0 +1,255 @@
+﻿
+<style>
+    .title{border-bottom: 1px solid #ccc;padding-bottom: 10px;margin-bottom: 15px;}
+    th .laytable-cell-1-options{text-align: center;}
+    th .laytable-cell-1-value{text-align: center;}
+    tr td{word-wrap: break-word;
+        word-break: normal;}
+    .layui-table-cell input{
+        width: 100%;
+        height:100%;
+        border: none;
+    }
+    .db-info{margin:20px 0 0;}
+    .layui-card{height: 100%;}
+     /* div{height: 100%;overflow: auto;} */
+
+
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" style="height: 100%;">
+            <div class="system_msg_left" style="height: 100%;">
+                <div class="application-info" style="height: 50%;">
+                    <div class="title">应用信息
+                        <button class="layui-btn layui-btn-sm limit-restart" style="float:right;height: 25px;line-height: 25px;margin-left: 10px;" onclick="restart()">重启</button>
+                        <button class="layui-btn layui-btn-sm" style="float:right;height: 25px;line-height: 25px;" data-method="editInfo">修改</button>
+                    </div>
+                    <table id="test" style="overflow: auto;"></table>
+                </div>
+                <div class="db-info">
+                    <div class="title">数据库信息</div>
+                    <table id="test1"></table>
+                </div>
+            </div>
+            <div class="system_msg_right">
+                <div class="sys-info">
+                    <div class="title">系统信息</div>
+                    <table id="test2"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var id="1171988080056377346"
+    var appLicationInfo ={};
+    $(function () {
+        getSystemInfo();
+        getApplicationInfo();
+
+    })
+    layui.use('layer', function(){ //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+        //触发事件
+        var active = {
+            editInfo: function(){
+                var that = this;
+                //多窗口模式，层叠置顶
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '修改'
+                    ,area: ['620px', '550px']
+                    ,shade: 0.3
+                    ,maxmin: true
+                    ,content: '<div id="fieldForm"></div>'
+                    ,btn2: function(){
+                        layer.closeAll();
+                    }
+                });
+                layui.laytpl($("#fieldTemplate").html()).render({},function (html) {
+                    $("#fieldForm").html(html)
+                })
+                layui.form.render();
+                layui.form.val("menuForm",appLicationInfo)
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+
+    });
+    function getApplicationInfo() {
+        ajax(service_prefix.manage,"/systemmsg/"+id,"get",{}).then(function(res){
+            if(res.success){
+            appLicationInfo = res.obj;
+            layui.use('table', function(){
+                var table = layui.table;
+                table.render({
+                    elem: '#test'
+                    ,data:[
+                        {options:"应用名称",value:res.obj.name},
+                        {options:"应用版本",value:res.obj.version},
+                        {options:"使用对象",value:res.obj.appUsers},
+                        {options:"基于框架",value:res.obj.appFrame},
+                        {options:"手册查看",value:res.obj.manual},
+                        {options:"特色描述",value:res.obj.description},
+                        {options:"版权信息",value:res.obj.copyRight},
+                        {options:"前台地址",value:res.obj.frontUrl}
+                    ]
+                    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    ,cols: [[
+                        {field:'options', width:146, title: '项'}
+                        ,{field:'value', width:395, title: '值'}
+                    ]]
+                });
+            })
+        }
+    })
+    }
+    function getSystemInfo() {
+        ajax(service_prefix.config,"/systemMsg","get").then(function (data){
+            if(data.success){
+//                console.log(data.obj.system,data.obj.data);
+                layui.use('table', function(){
+                    var table = layui.table;
+
+
+                    table.render({
+                        elem: '#test1'
+                        ,data:[
+                            {options:"数据库类型",value:data.obj.data.type},
+                            {options:"数据库版本",value:data.obj.data.version},
+                            {options:"数据库驱动版本",value:data.obj.data.drive},
+                            {options:"数据库地址",value:data.obj.data.address},
+                            {options:"用户名",value:data.obj.data.userName}
+                        ]
+                        ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        ,cols: [[
+                            {field:'options', width:146, title: '项'}
+                            ,{field:'value', width:395, title: '值'}
+                        ]]
+                    });
+                    table.render({
+                        elem: '#test2'
+                        ,data:[
+                            {options:"计算机名",value:data.obj.system.compaterName},
+                            {options:"用户名",value:data.obj.system.username},
+                            {options:"系统默认语言",value:data.obj.system.language},
+                            {options:"系统默认字符编码",value:data.obj.system.code},
+                            {options:"Docker",value:"fastdev"},
+                            {options:"Java安装目录",value:data.obj.system.javaEnvironment},
+                            {options:"WebServer运行目录",value:data.obj.system.webAddress},
+                            {options:"Java的运行环境版本",value:data.obj.system.javaEnvironment},
+                            {options:"操作系统的名称",value:data.obj.system.systemName},
+                            {options:"操作系统的构架",value:data.obj.system.framework},
+                            {options:"操作系统的版本",value:data.obj.system.systemVersion},
+                            {options:"CPU核心数",value:data.obj.system.cpuNum},
+                            {options:"Ip",value:data.obj.system.ip},
+                            {options:"Mac",value:data.obj.system.mac},
+                            {options:"虚拟机内存总量",value:data.obj.system.memorySum},
+                            {options:"虚拟机空闲内存量",value:data.obj.system.memoryFree},
+                            {options:'虚拟机使用最大内存量',value:data.obj.system.memoryUse}
+
+                        ],
+                        limit:20
+                        ,cols: [[
+                            {field:'options', width:170, title: '项'}
+                            ,{field:'value', width:371, title: '值'}
+                        ]]
+                    });
+                });
+            }
+        })
+    }
+    function restart(){
+        layer.msg("重启中...,请稍侯");
+        ajaxGet("/manage/restartServer");
+    }
+</script>
+<script type="text/html" id="fieldTemplate">
+    <form class="layui-form" lay-filter="menuForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">应用名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name"   autocomplete="off" class="layui-input" placeholder="请输入" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">应用版本:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="version" required lay-verify="required" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">使用对象:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="appUsers" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">基于框架:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="appFrame" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手册查看:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="manual" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">特色描述:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="description" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">版权信息:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="copyRight" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">前台地址:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="frontUrl" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="type" value="" id="menuTy">
+        <input hidden="hidden" name="id" value="">
+        <input hidden="hidden" name="parentId" value="">
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="saveInfo">确认</button>
+            <button class="layui-btn" type="button" data-type="close">取消</button>
+        </div>
+    </form>
+</script>
+<script>
+    layui.form.on("submit(saveInfo)",function(data){
+        var id = data.field.id;
+        ajax(service_prefix.manage,'/systemmsg/'+id,"put",JSON.stringify(data.field)).then(function(res){
+            if(res.success){
+            layer.closeAll();
+            getApplicationInfo();
+        }
+    })
+        return false;
+    })
+    $(function(){
+        if(isPermitted('manage:server:restart')){
+            $(".limit-restart").show();
+        }else{
+            $(".limit-restart").hide();
+        }
+    })
+</script>

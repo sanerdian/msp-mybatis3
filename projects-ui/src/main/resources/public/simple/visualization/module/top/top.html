@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+<link rel="stylesheet" href="top.css">
+<!--顶部开始-->
+<div class="widget_box">
+    <div class="visual_top_box widget_border_content">
+        <div class="visual_top">
+            <h1 class="visual_logo"><a href="#"><img src="../top/img/logo.png" /></a></h1>
+            <div class="visual_top_right">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="width:100px;">
+                            <select lay-filter="">
+                                <option value="1">全部</option>
+                                <option value="2">国家动态</option>
+                                <option value="3">机床企业</option>
+                                <option value="4">机床产品</option>
+                                <option value="5">行业专家</option>
+                                <option value="6">行业组织</option>
+                                <option value="7">文献情报</option>
+                                <option value="8">研究报告</option>
+                                <option value="9">知识图谱</option>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <input type="text" name="name" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">                      
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit="" lay-filter="">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>                        
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--设置按钮开始-->
+    <div class="widget_menu">
+        <div class="widget_icon widget_set"></div>
+        <div class="widget_icon widget_delete"></div>
+    </div>
+    <!--设置按钮结束-->
+    <!--设置弹出框开始-->
+    <script type="text/html" class="widget_set_tpl">
+        <div class="visual_module_set">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">文字样式</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">背景颜色</label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                        <div id="{{ d.widgetId }}ColorPicker"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">上传logo</label>
+                                <div class="layui-input-block">
+                                    <button type="button" class="layui-btn" id="{{ d.widgetId }}Upload"><i class="layui-icon"></i>上传图片</button>
+                                </div>
+                            </div>
+                            <!--点击确定按钮时，获取表单设置的样式数据-->
+                            <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!--设置弹出框结束-->
+</div>
+<!--顶部结束-->

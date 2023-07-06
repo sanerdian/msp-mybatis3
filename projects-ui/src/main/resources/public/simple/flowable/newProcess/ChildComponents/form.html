@@ -1,0 +1,40 @@
+<style>
+    .layui-form-label{  
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+<div>
+    <div class="layui-col-md10" style="height: 100vh;">
+        
+    </div>
+    <div class="layui-col-md2" style="height: 100vh;">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">
+                  相关附件 
+                  <button type="button" class="layui-btn layui-btn-xs" id="upload1">
+                    <i class="layui-icon">&#xe67c;</i>上传
+                  </button>
+                </label>
+              <div class="layui-input-block">
+                <textarea  class="layui-textarea"></textarea>
+              </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">
+                    审批意见
+                    <button type="button" class="layui-btn layui-btn-xs" id="upload2">
+                        <i class="layui-icon">&#xe67c;</i>上传
+                    </button>
+                </label>
+                <div class="layui-input-block">
+                  <textarea  class="layui-textarea"></textarea>
+                </div>
+              </div>
+          </form>
+    </div>
+</div>
+<script>
+    layui.form.render()
+</script>

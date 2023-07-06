@@ -1,0 +1,191 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <link rel="stylesheet" href="headerMenuVertical.css">
+    <script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+</head>
+<body>
+<!--左侧菜单开始-->
+<div class="widget_box">
+    <div class="visual_menu widget_border_content">
+        <div id="widgetHeaderMenuView">
+            <ul class="layui-nav layui-nav-tree">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">一级栏目</a>
+                    <ul class="layui-nav-child">
+                        <li><a href="javascript:;">二级栏目1</a>
+                            <ul class="layui-nav-child">
+                                <li class="layui-nav-item"><a href="#">三级栏目1</a></li>
+                                <li class="layui-nav-item"><a href="#">三级栏目2</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:;">二级栏目2</a></li>
+                        <li><a href="javascript:;">二级栏目3</a></li>
+                    </ul>
+                </li>
+                <li class="layui-nav-item"><a href="javascript:;">一级栏目2</a></li>
+                <li class="layui-nav-item"><a href="javascript:;">一级栏目3</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--左侧菜单结束-->
+</body>
+<script>
+    /*
+    * 获取元数据栏目的站点一级栏目
+    */
+    function getMetadataColumn(){
+        var params = {
+            "entity": {
+                "stop": 0,//栏目启用
+                "status": 0,
+                "parentId": 0,            
+                "siteId":"1549310008678813698"
+            },
+            "pager": {
+                "current": 1,
+                "size": 20,
+                "sortProps": [
+                    {"key": "parentId", "value": true},
+                    {"key": "chnlOrder", "value": true}
+                ]
+            }
+        };
+        
+        ajax(service_prefix.manage,"/programa/list", "post", JSON.stringify(params)).then(function(data){
+            if(data.success){
+                var html = '';
+                // var dataArr = data.obj.records;
+                // for(var i = 0; i < dataArr.length; i++){
+                //     html += '<li><a href="' + dataArr[i].listUrl + '">' + dataArr[i].name + '</a></li>';
+                // }
+                var nodes = data.obj;
+                var newNodesArr = [];
+                for(var i = 0; i < nodes.length; i++){
+                    var newNodesObj = nodes;
+                    if(checkedId){
+                        if(newNodesObj[i].id == checkedId){ //选中栏目id返显
+                            newNodesObj[i].checked = true;                
+                        }
+                    }
+                newNodesArr.push(newNodesObj[i]);
+                }
+                $('#widgetHeaderMenuView').html(html);
+            }else{
+                console.log(data.msg);
+            }
+        });
+    }
+    
+    /*
+    * 获取中台菜单的一级栏目
+    */
+    function getMenuColumn(){
+        var organId = '1549309528875601922';
+        // var id = "1607200587903057922";
+        var id = "1658759321741357057";
+        ajax(service_prefix.member,"/menu/tree?type=2", "get", {}).then(function(data){
+            if(data.success){
+                var html = '';         
+                var nodes = data.obj;
+                var newNodesArr = [];
+                var newNodesAllArr = [];
+                var newNodesChildrenArr = [];
+                var newNodesChildrenObj = {};
+                for(var o of nodes){
+                    if(o.parentId == 0 && o.id == organId){
+                        newNodesArr.push(o); //机构列表
+                    }else{
+                        newNodesChildrenArr.push(o);
+                    }
+                }
+                // console.log('newNodesArr',newNodesArr)
+                // console.log('newNodesChildrenArr',newNodesChildrenArr)
+                for(var i = 0; i < newNodesArr.length; i++){
+                    var newNodesChildrenListArr = [];
+                    for(var j = 0; j < newNodesChildrenArr.length; j++){
+                        if(newNodesArr[i].id == newNodesChildrenArr[j].companyId){
+                            newNodesChildrenObj = {
+                                "parentId": newNodesChildrenArr[j].parentId,
+                                "id": newNodesChildrenArr[j].id,
+                                "isSite": newNodesChildrenArr[j].isSite,
+                                "name": newNodesChildrenArr[j].name,
+                                "children": newNodesChildrenArr[j].children
+                            }
+                            newNodesChildrenListArr.push(newNodesChildrenObj);
+                        }
+                    }    
+                    var newNodesObj = {
+                        "parentId": newNodesArr[i].parentId,
+                        "id": newNodesArr[i].id,
+                        "isSite": newNodesArr[i].isSite,
+                        "name": newNodesArr[i].name,
+                        "children": newNodesChildrenListArr
+                    };
+                    newNodesAllArr.push(newNodesObj);
+
+                    
+                }
+                // console.log('newNodesAllArr',newNodesAllArr);
+                var html = getMenuHtml(id, newNodesAllArr);
+                // console.log('html2',html)
+                $('#widgetHeaderMenuView').html(html);
+                
+                var layFilter = $('#widgetHeaderMenuView').attr('lay-filter');
+                element.render('nav', layFilter);
+            }else{
+                console.log(data.msg);
+            }
+        });
+    }
+    
+    //菜单栏目html
+    function getMenuHtml(id, dataArr){
+        dataArr = dataArr[0].children;
+        // console.log('dataArr',dataArr)
+        var html = '<ul class="layui-nav layui-nav-tree">';
+        for(var i = 0; i < dataArr.length; i++){
+            // console.log('id',dataArr[i].id,dataArr[i].children)
+            if(dataArr[i].id == id){ //选中栏目的子栏目
+                for(var j = 0; j < dataArr[i].children.length; j++){
+                    // html += '<li><a href="javascript:;">' + dataArr[i].children[j].name + '</a>';
+                    html += '<li class="layui-nav-item">' +
+                        '<a href="javascript:;">' + dataArr[i].children[j].name + '</a>';
+                    /*二级子栏目 开始*/
+                    if(dataArr[i].children[j].children){
+                        html += '<ul class="layui-nav-child">';
+                        for(var k = 0; k < dataArr[i].children[j].children.length; k++){
+                            html += '<li>' +
+                                '<a href="javascript:;">' + dataArr[i].children[j].children[k].name + '</a>';
+                            html += '<ul class="layui-nav-child">';                            
+                            /*三级子栏目 开始*/
+                            if(dataArr[i].children[j].children[k].children){
+                                console.log('a,',dataArr[i].children[j].children[k].children)
+                                for(var m = 0; m < dataArr[i].children[j].children[k].children.length; m++){
+                                    html += '<li><a href="' + dataArr[i].children[j].children[k].children[m].url + '">' + dataArr[i].children[j].children[k].children[m].name + '</a></li>';                                    
+                                }
+                            }
+                            /*三级子栏目 结束*/                            
+                            html += '</ul>';
+                            html += '</li>';
+                        }
+                        html += '</ul>';
+                    }
+                    /*二级子栏目 结束*/
+                    html +='</li>';
+                }
+            }
+        }
+        return html;
+    }
+    
+    getMetadataColumn();
+    // getMenuColumn();
+</script>
+</html>

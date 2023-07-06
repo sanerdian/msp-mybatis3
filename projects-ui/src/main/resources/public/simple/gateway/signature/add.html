@@ -1,0 +1,53 @@
+<!--用户权限标记-->
+<input hidden="hidden" name="sign" value="3">
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateData">
+	<form class="layui-form" lay-filter="formEditData">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">签名:</label>
+					<div class="layui-input-block">
+						<input type="text" name="signatureKey" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">密钥:</label>
+					<div class="layui-input-block">
+						<input type="text" name="signatureSecret" id="signatureSecret" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">密钥验证:</label>
+					<div class="layui-input-block">
+						<input type="text" name="signatureSecret2" lay-verify="required|checkPass" placeholder="两次输入的密钥必须一致" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注:</label>
+					<div class="layui-input-block">
+						<input type="text" name="remark" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<input hidden="hidden" name="id">
+				<!-- <input hidden="hidden" name="sign" id="sign" value="3"> -->
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-data-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

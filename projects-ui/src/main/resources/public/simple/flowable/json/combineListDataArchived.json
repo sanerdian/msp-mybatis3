@@ -1,0 +1,49 @@
+{
+  "msg": "成功",
+  "obj": {
+    "current": 1,
+    "pages": 1,
+    "records": [
+      {
+        "rowNum": 1,
+        "id": "1",
+        "type": "办公流程",
+        "name": "请假流程",
+        "version": "1.0",
+        "startUser": "张三",
+        "startTime": "2020-03-01 14:00",
+        "forWhat": "3月2日，请事假一天",
+        "theResult": "同意",
+        "endTime": "2020-04-07 13:30"
+      },{
+        "rowNum": 2,
+        "id": "2",
+        "type": "办公流程",
+        "name": "补打卡",
+        "version": "1.3",
+        "startUser": "李四",
+        "startTime": "2020-03-09 14:00",
+        "forWhat": "3月9日，因网络原因，上班打卡失败！申请补打卡",
+        "theResult": "驳回！未提供到岗证明",
+        "endTime": "2020-04-07 13:35"
+      },{
+        "rowNum": 3,
+        "id": "3",
+        "type": "办公流程",
+        "name": "报销流程",
+        "version": "1.2",
+        "startUser": "张三",
+        "startTime": "2020-03-01 14:30",
+        "forWhat": "2月份出差10日，报销差旅费3500元",
+        "theResult": "同意。已将报销金额￥3500.00打入张三的员工卡",
+        "endTime": "2020-04-06 13:30"
+      }
+    ],
+    "size": 15,
+    "sortProps": [],
+    "total": 3
+  },
+  "status": "200",
+  "success": true,
+  "timestamp": "1586222953784"
+}

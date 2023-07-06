@@ -1,0 +1,257 @@
+<script type="text/html" id="module_button">
+    <div id="{{ d.widgetId }}" class="draggable-button ui-draggable ui-draggable-handle w_button"
+         style="position: absolute">
+        <button class="content border_content layui-btn">
+            {{ d.content }}
+        </button>
+        <span style="display: none;">{{d.id}}</span>
+    </div>
+</script>
+
+<script type="text/html" id="module_button_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon link">
+            <img src="../images/link.png"/>
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_button_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings">
+        <div class="layui-tab" style="margin: 0;padding: 0">
+            <ul class="layui-tab-title">
+                <li class="layui-this">文字样式</li>
+                <li>关联字段</li>
+            </ul>
+
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form action="" class="layui-form content">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">按钮类型：</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="style" lay-filter="{{ d.widgetId }}_style"
+                                       title="文字按钮" value="0" checked>
+                                <input type="radio" name="style" lay-filter="{{ d.widgetId }}_style"
+                                       title="icon按钮" value="1">
+                                <input type="radio" name="style" lay-filter="{{ d.widgetId }}_style"
+                                       title="文字+icon按钮" value="2">
+                            </div>
+                        </div>
+                        <div class="layui-form-item text_content_set">
+                            <label for="" class="layui-form-label">文字内容：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input text_content" lay-verify="required"
+                                       name="text_content"
+                                       placeholder="请输入" value="{{ d.content }}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item icon_add_set" style="display: none">
+                            <label for="" class="layui-form-label">icon：</label>
+                            <div class="layui-input-block" style="width: 60px; height: 60px;background: #f2f2f2;display:table-cell;vertical-align: middle;text-align: center">
+                                <img src="../images/add_icon.png">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">位置尺寸：</label>
+                            <div class="layui-input-block" style="padding-top: 10px">
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                       name="text_left"
+                                       value="{{ d.left }}">
+                                <span class="text_set_note">X</span>
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                       name="text_top"
+                                       value="{{ d.top }}">
+                                <span class="text_set_note">Y</span>
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                       name="text_width"
+                                       value="{{ d.width }}">
+                                <span class="text_set_note">W</span>
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                       name="text_height"
+                                       value="{{ d.height }}">
+                                <span class="text_set_note">H</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">图片圆角：</label>
+                            <div class="layui-input-block" style="padding-top: 10px">
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                       name="text_radius"
+                                       value="{{ d.radius }}">
+                                <span style="margin-left: 15px">填充：</span>
+                                <div class="color_picker color_picker_padding" style="margin: 0"></div>
+                                <span style="margin-left: 15px">描边：</span>
+                                <div class="color_picker color_picker_border" style="margin: 0"></div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">字体：</label>
+                            <div class="layui-input-block">
+                                <select lay-verify="required" class="font_family_sel">
+                                    {{# if(d.fontFamily === "微软雅黑") { }}
+                                    <option value="微软雅黑" selected>微软雅黑</option>
+                                    {{# } else { }}
+                                    <option value="微软雅黑">微软雅黑</option>
+                                    {{# }if(d.fontFamily === "黑体") { }}
+                                    <option value="黑体" selected>黑体</option>
+                                    {{# } else { }}
+                                    <option value="黑体">黑体</option>
+                                    {{# }if(d.fontFamily === "宋体") { }}
+                                    <option value="宋体" selected>宋体</option>
+                                    {{# } else { }}
+                                    <option value="宋体">宋体</option>
+                                    {{# }if(d.fontFamily === "Arial") { }}
+                                    <option value="Arial" selected>Arial</option>
+                                    {{# } else { }}
+                                    <option value="Arial">Arial</option>
+                                    {{# }if(d.fontFamily === "Helvetica") { }}
+                                    <option value="Helvetica" selected>Helvetica</option>
+                                    {{# } else { }}
+                                    <option value="Helvetica">Helvetica</option>
+                                    {{# } }}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">字体排版：</label>
+                            <div class="text_icon_style" style="padding-top: 10px">
+                                {{# if(d.isUnderline) { }}
+                                <i class="layui-icon layui-icon-fonts-u active"></i>
+                                {{# } else { }}
+                                <i class="layui-icon layui-icon-fonts-u"></i>
+                                {{# }if(d.isItalic) { }}
+                                <i class="layui-icon layui-icon-fonts-i active"></i>
+                                {{# } else { }}
+                                <i class="layui-icon layui-icon-fonts-i"></i>
+                                {{# }if(d.isBold) { }}
+                                <i class="layui-icon layui-icon-fonts-strong active"></i>
+                                {{# } else { }}
+                                <i class="layui-icon layui-icon-fonts-strong"></i>
+                                {{# }if(d.textAlign === "left") { }}
+                                <i class="layui-icon layui-icon-align-left text_style active"></i>
+                                {{# } else { }}
+                                <i class="layui-icon layui-icon-align-left text_style"></i>
+                                {{# }if(d.textAlign === "center") { }}
+                                <i class="layui-icon layui-icon-align-center text_style active "></i>
+                                {{# } else { }}
+                                <i class="layui-icon layui-icon-align-center text_style"></i>
+                                {{# }if(d.textAlign === "right") { }}
+                                <i class="layui-icon layui-icon-align-right text_style active"></i>
+                                {{# } else { }}
+                                <i class="layui-icon layui-icon-align-right text_style"></i>
+                                {{# } }}
+                                <div class="color_picker color_picker_text" style="margin: 0"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">
+                    <form action="" class="layui-form content">
+                        <div>
+                            <label for="" class="layui-form-label">元数据表：</label>
+                            <div class="layui-input-block" style="width: 380px">
+                                <select lay-verify="required" class="data_set_sel">
+                                    <option>无</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">关联字段：</label>
+                            <div class="layui-input-block"
+                                 style="width: 380px;height: 216px;border: #dbdbdb 1px solid;">
+                                <i style="color: #AAAAAA; font-size: 14px;position: absolute;top: 50%;left: 150px">请选择元数据表</i>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="layui-input-block w_settings_btn" style="margin: 20px">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+        <div style="position:absolute;top: 12px; right: 20px;font-weight: bold;cursor: pointer">
+            <i class="layui-icon layui-icon-close"></i>
+        </div>
+    </div>
+    <div id="{{ d.widgetId }}_link" class="w_settings_link">
+        <form action="" class="layui-form content">
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">链接类型：</label>
+                <div class="layui-input-block">
+                    {{# if(d.jumpType == 0) { }}
+                    <input type="radio" name="link" lay-filter="{{ d.widgetId }}_link_filter" title="站内链接"
+                           value="inside"
+                           checked>
+                    {{# }else { }}
+                    <input type="radio" name="link" lay-filter="{{ d.widgetId }}_link_filter" title="站内链接"
+                           value="inside">
+                    {{# }if(d.jumpType == 1) { }}
+                    <input type="radio" name="link" lay-filter="{{ d.widgetId }}_link_filter" title="站外链接"
+                           value="outside"
+                           checked>
+                    {{# }else { }}
+                    <input type="radio" name="link" lay-filter="{{ d.widgetId }}_link_filter" title="站外链接"
+                           value="outside">
+                    {{# } }}
+                </div>
+            </div>
+            {{# if(d.jumpType == 0) { }}
+            <div class="layui-form-item link_page">
+                {{# }else { }}
+                <div class="layui-form-item link_page" style="display: none">
+                    {{# } }}
+                    <label class="layui-form-label">链接页面：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-unselect layui-form-select downpanel" style="width: 382px">
+                            <div class="layui-select-title">
+                                {{# if(d.jumpType == 0 && d.jumpName.length > 0) { }}
+                                <span class="layui-input layui-unselect">{{ d.jumpName }}</span>
+                                {{# }else { }}
+                                <span class="layui-input layui-unselect">请选择</span>
+                                {{# } }}
+                                <input type="hidden" name="selectID" value="0">
+                                <i class="layui-edge"></i>
+                            </div>
+                            <dl class="layui-anim">
+                                <dd>
+                                    <ul class="classtree" style="width: 360px"></ul>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                {{# if(d.jumpType == 1) { }}
+                <div class="layui-form-item link_address">
+                    {{# }else { }}
+                    <div class="layui-form-item link_address" style="display: none">
+                        {{# } }}
+                        <label for="" class="layui-form-label">链接地址：</label>
+                        <div class="layui-input-block">
+                            {{# if(d.jumpType == 1 && d.jumpAddress.length > 0) { }}
+                            <input type="text" class="layui-input address_text" lay-verify="address" name="address"
+                                   placeholder="请输入" value="{{ d.jumpAddress }}">
+                            {{# }else { }}
+                            <input type="text" class="layui-input address_text" lay-verify="address" name="address"
+                                   placeholder="请输入">
+                            {{# } }}
+                        </div>
+                    </div>
+                    <div class="layui-form-item submit_item">
+                        <div class="layui-input-block w_settings_btn">
+                            <button class="layui-btn set_ok">确定</button>
+                            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+                        </div>
+                    </div>
+        </form>
+    </div>
+</script>
+
+

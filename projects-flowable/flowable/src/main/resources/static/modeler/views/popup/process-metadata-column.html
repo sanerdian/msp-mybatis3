@@ -1,0 +1,87 @@
+
+<script src="/thirdparty/jquery/jquery-2.2.2.min.js"></script>
+<script src="/thirdparty/tree/js/jquery.ztree.all.min.js"></script>
+<link rel="stylesheet" href="/thirdparty/tree/css/metroStyle/metroStyle.css">
+<div class="modal" ng-controller="ProcessMetadataColumnModelCtrl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h2>选择元数据库表</h2></div>
+            <div class="modal-body">
+                <ul id="processTree" class="ztree" style="height: 100%;">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="cancel()" ng-disabled="model.loading">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default" ng-click="ok()" ng-disabled="model.loading || !model.process.name || model.process.name.length == 0 || !model.process.key || model.process.key.length == 0">
+                        确认
+                    </button>
+                </div>
+                <div class="loading pull-right" ng-show="model.loading">
+                    <div class="l1"></div><div class="l2"></div><div class="l2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let nodes = [
+        {name: "中科聚网信息技术有限公司",icon:'/common/img/u2615.png'
+            ,children: [
+                {name: "内容管理站点",icon:'/common/img/u2615.png'
+                    ,children: [
+                        {name: "首页",icon:'/common/img/u2615.png'},
+                        {name: "产品与服务",icon:'/common/img/u2615.png'
+                            ,children: [
+                                {name: "融媒体业务",icon:'/common/img/u2615.png'},
+                                {name: "微服务门户",icon:'/common/img/u2615.png'},
+                                {name: "大数据业务",icon:'/common/img/u2615.png'},
+                                {name: "区块链商城",icon:'/common/img/u2615.png'},
+                                {name: "OA协同办公",icon:'/common/img/u2615.png'}
+                            ]},
+                        {name: "方案与案例",icon:'/common/img/u2615.png'
+                            ,children: [
+                                {name: "党政机关",icon:'/common/img/u2615.png'},
+                                {name: "事业单位",icon:'/common/img/u2615.png'},
+                                {name: "企业团体",icon:'/common/img/u2615.png'}
+                            ]}
+                    ]
+                },
+                {name: "新闻动态",icon:'/common/img/u2615.png'
+                    ,children: [
+                        {name: "相关法规",icon:'/common/img/u2615.png'},
+                        {name: "法规解读",icon:'/common/img/u2615.png'},
+                        {name: "新闻动态",icon:'/common/img/u2615.png'}
+                    ]
+                },
+            ]}
+    ];
+    let settingss = {
+        data: {
+            simpleData: {
+                enable: true,  //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id",  //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId",    //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: -1,  //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            }
+        },
+        view: {
+            showLine: false,
+            showIcon: true
+        },
+        check:{
+            enable:true
+        },
+        callback: {
+            // onClick: zTreeOnClick
+        }
+    };
+
+
+    $(function () {
+        $.fn.zTree.init($("#processTree"), settingss, nodes).expandAll(true);
+    })
+</script>

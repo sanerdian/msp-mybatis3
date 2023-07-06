@@ -1,0 +1,110 @@
+﻿<title>文号日志</title>
+<style>
+    #nav span,.right span{display: none;}
+    #nav a{display: inline-block;width: 40px;height: 56px;text-align: center;border: 1px solid #f5f5f5;}
+    #nav a:nth-of-type(3){display: inline-block;width: 220px;height: 52px; text-align: left;padding-left: 20px;border-top: 2px solid #000;font-weight: bold;}
+    .right{display: inline-block;position: absolute;top: 0;right: 0;}
+    .layui-breadcrumb a{color: #000!important;}
+    .icon{background: url(common/img/icon_wenhaorizhi.png) no-repeat; display: inline-block;width:22px;height: 22px;position: absolute;top:14px;}
+</style>
+    <div class="layui-fluid">
+        <div class="layui-card" style="height: 900px;">
+            <div class="layui-card-header" style="border-bottom: 2px solid #379ff7;height: 50px;line-height: 50px;">
+                <span class="icon"></span>
+                <span style="margin-left: 30px;">文号日志</span>
+                <form class="layui-form" style="position: absolute;right:20px;top:5px;">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择文号：</label>
+                        <div class="layui-input-block" style="width: 200px">
+                            <select name="" id="">
+                                <option value="0" selected>全部</option>
+                                <option value="1">（石）文罚字</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body">
+                <table class="layui-hide" id="test"></table>
+            </div>
+        </div>
+    </div>
+    <script>
+            //Demo
+            layui.use('layer', function(){ //独立版的layer无需执行这一句
+  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+  
+  //触发事件
+  var active = {
+    delete:function(){
+      var that = this;
+        layer.open({
+        type: 1 //此处以iframe举例
+        ,title: '提示'
+        ,area: ['350px', '160px']
+        ,shade: 0.3
+        ,maxmin: false
+        ,id:"_add"
+        ,content: "<div id='form9'></div>"
+      });
+      layui.laytpl($("#tips1").html()).render({}, function(html){
+          $("#form9").html(html);
+          layui.form.render();
+        })
+    }
+  };
+  
+  $(document).on('click','.layui-btn',function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+  });
+  
+});
+            layui.use('form', function(){
+              var form = layui.form;
+              
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+              });
+            });
+            layui.use('table', function(){
+  var table = layui.table;
+  
+  table.render({
+    elem: '#test'
+    ,data:[
+        {number:"（石）文罚字",fileWord:"（石）文罚字",year:2019,value:3,belong:"办公室发文(2019-07-09 14:56:14)",creator:'系统管理员',time:"2019-07-09 14:56"}
+        ,{number:"（石）文罚字",fileWord:"测试字",year:2019,value:2,belong:"办公室发文(2019-07-09 14:564:46)",creator:'系统管理员',time:"2019-07-09 14:55"}
+    ]
+    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+    ,cols: [[
+      {field:'number', width:120, title: '所属文号'}
+      ,{field:'fileWord', width:200, title: '文件字'}
+      ,{field:'year', width:165, title: '文件年'}
+      ,{field:'value', width:200, title: '当前文号值'}
+      ,{field:'belong', title: '所属流程', width: 350,templet:"#belong"} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+      ,{field:'creator', title: '创建人', width:178}
+      ,{field:'time', title: '创建时间', width:200}
+      ,{field:'operation', title: '操作',width:145,templet:"#operation"}
+    ]]
+  });
+});
+            </script>
+            <script type="text/html" id='operation'>
+                <button class="layui-btn  layui-btn-sm" data-method='delete'>删除</button>
+            </script>
+            <script type="text/html" id="belong">
+                <a href="#" style='color:#126dba'>{{d.belong}}</a>
+            </script>
+            <script type="text/html" id='tips1'>
+                <div style='text-align:center;line-height:50px;'>删除将无法恢复，是否确认删除？</div>
+                <div class='layui-btn-container' style='position:absolute;bottom:2px;right:20px;'>
+                    <button class='layui-btn layui-btn-primary layui-btn-sm' onclick='layer.closeAll();'>取消</button>
+                    <button class='layui-btn  layui-btn-sm'>确定</button>
+                  </div>
+            </script>
+<script>
+    layui.form.render();
+</script>

@@ -1,0 +1,4 @@
+.visual_left_menu h4{height:40px;line-height:40px;background:#f7f7f7;border:1px solid #ddd;padding:0 20px;margin:-1px 0 0;}
+.visual_left_menu ul{border:1px solid #ddd;border-top:none;padding:5px 0;overflow:hidden;}
+.visual_left_menu ul li{line-height:30px;padding:0 20px;}
+.visual_left_menu ul li.cur a{color:#f00;}

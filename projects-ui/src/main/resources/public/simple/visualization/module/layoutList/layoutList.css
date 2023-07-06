@@ -1,0 +1,6 @@
+.visual_main{width:1200px;margin:0 auto;}
+.visual_row{margin:0 0 15px;min-height:30px;clear:both;}
+.canEdit{border:1px solid #ccc;}
+.visual_left {float:left;width:202px;}
+.visual_left .visual_row{min-height:80px;}
+.visual_right {float:right;width:982px;min-height:30px;}

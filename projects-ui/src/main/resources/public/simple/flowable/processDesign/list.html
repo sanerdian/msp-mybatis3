@@ -1,0 +1,75 @@
+<style>
+    .ztree li span.button.ico_close, .ztree li span.button.ico_open, .ztree li span.button.ico_docu {margin: 0;}
+    .add-table{
+        width: 100%;
+        height: 100%;
+    }
+    .add-table td:nth-child(2n+1) {
+        background: #F4F4F4;
+        text-align: center;
+        line-height: 40px;
+    }
+    .add-table .layui-input-block {
+        margin-left: 0;
+    }
+    .add-table .layui-form-item {
+        margin: 5px;
+    }
+    .add-table .layui-input {
+        height: 30px;
+    }
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 md2-left" style="height: 100%;">
+        <div class="layui-card" style="height: 100%;">
+            <div class="layui-card-header"><h3>流程分类</h3></div>
+            <div class="layui-card-header">
+                <form class="layui-form" id="formSearch">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="margin: 0px;">
+                            <div class="layui-input-inline" style="display: flex;width: 100% ;">
+                                <input type="text" name="wordname" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                                <button type="button" class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-back-search" style="margin-left: 20px;">
+                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body" style="height:100%">
+                <div class="tree_left" style="height: 80%;">
+                    <ul id="processTree" class="ztree" style="height: 100%;box-sizing: border-box;padding: 0;">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md9 md2-right">
+        <div class="layui-card" id="list" style="height: 100%;">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <h3>流程类表</h3>
+                <div class="top_btn">
+                    <button class="layui-btn layuiadmin-btn-admin" data-type="addDict" data-layer-html="add.html" onclick="newProcess()">新建流程</button>
+                </div>
+            </div>
+            <div class="layui-card-body" style="height: 90%;">
+                <div class="table-area" style="height: 90%;">
+                    <table id="processTable" lay-filter="deploy_proc"></table>
+                </div>
+                <div id="page"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 表格操作按钮 -->
+<script type="text/html" id="operateTemplate">
+    <!-- <button class="layui-btn layui-btn-xs" lay-event="detailSet">详细设置</button> -->
+    <button class="layui-btn layui-btn-xs" lay-event="setTool">流程设计器</button>
+    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</button>
+</script>
+
+<script src="simple/flowable/processDesign/list.js"></script>

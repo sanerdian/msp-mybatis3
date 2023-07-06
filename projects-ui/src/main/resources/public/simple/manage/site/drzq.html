@@ -1,0 +1,26 @@
+<div class="xzfile">
+    <button type="button" class="layui-btn" id="drJar">导入jar包</button>
+    <button type="button" class="layui-btn" id="drExcel" style="margin-left: 20px">导入excel数据</button>
+    <br>
+    <br>
+    先上传jar包，服务重启后，再上传excel数据。
+</div>
+<script>
+    layui.upload.render({
+        elem: '#drJar'
+        , url: com.jnetdata.url_prefix + 'metasite/importJar'
+        , accept: 'file' //普通文件
+        , multiple: true
+        , done: function (res) {
+            layer.msg("导入jar包成功")
+        }
+    });
+    layui.upload.render({
+        elem: '#drExcel'
+        , url: com.jnetdata.url_prefix + 'metasite/import'
+        , accept: 'file' //普通文件
+        , done: function (res) {
+            layer.msg("导入站群成功")
+        }
+    });
+</script>

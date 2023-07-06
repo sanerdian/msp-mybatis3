@@ -1,0 +1,602 @@
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>网站用户</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="thirdparty/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../public/style/admin.css" media="all">
+  <script type="text/javascript" src="thirdparty/jquery/jquery-2.2.2.min.js"></script>
+  <script type="text/javascript" src="thirdparty/layui/layui.all.js"></script>
+</head>
+<body>
+<style>
+  #table_data input{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    margin: 10px 0;
+  }
+  #table_data{
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+</style>
+<title>网站用户</title>
+  
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>用户</cite></a>
+    <a><cite>网站用户</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-userfront-formlist">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">用户名</label>
+          <div class="layui-input-block">
+            <input id="tempName" type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">手机号</label>
+          <div class="layui-input-block">
+            <input id="tempPhone" type="text" name="phone" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <!--<div class="layui-inline">-->
+          <!--<label class="layui-form-label">邮箱</label>-->
+          <!--<div class="layui-input-block">-->
+            <!--<input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="layui-inline">-->
+          <!--<label class="layui-form-label">性别</label>-->
+          <!--<div class="layui-input-block">-->
+            <!--<select name="sex">-->
+              <!--<option value="0">不限</option>-->
+              <!--<option value="1">男</option>-->
+              <!--<option value="2">女</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div class="layui-inline">
+          <button  class="layui-btn layuiadmin-btn-useradmin" id="searchButton">
+            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+      <table id="demo" lay-filter="demo">
+        <thead>
+        <tr>
+          <th lay-data="{type:'checkbox',field:'id'}">ID</th></i>
+          <th lay-data="{field:'name', width:200}">用户名</th>
+          <th lay-data="{field:'password', width:200}">密码</th>
+          <th lay-data="{field:'phone', width:200}">手机号</th>
+          <th lay-data="{field:'createBy',sort: true,width:200}">创建人</th>
+          <th lay-data="{field:'createTime',sort: true,width:200}">创建时间</th>
+          <th lay-data="{field:'modifyBy',width:200}">修改人</th>
+          <th lay-data="{field:'modifyTime',width:200}">修改时间</th>
+          <th lay-data="{fixed: 'right', width:170, align:'center', toolbar: '#barDemo'}"></th>
+        </tr>
+        </thead>
+      </table>
+      <div id="page"></div>
+      <script type="text/html" id="imgTpl">
+        <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
+      </script>
+    </div>
+  </div>
+</div>
+<!--表头工具模板-->
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">新建</button>
+    <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+    <button class="layui-btn layui-btn-sm" lay-event="import">批量导入</button>
+  </div>
+</script>
+
+<!--操作列模板-->
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<!--弹出层模板（删除）-->
+<script type="text/html"  id="delTableTemplate">
+  <br><p>&emsp;&emsp;是否删除数据</p>
+  <input hidden="hidden" value="{{d.ids}}">
+  </script>
+
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html"  id="tableDataTemplate">
+  <div class="layui-row layui-col-space30">
+    <div class="layui-col-md6">
+      <div class="grid-demo grid-demo-bg1">
+        {{# if(d.disable == 0){ }}
+        <span>用户名：</span> <input class="name" type="text" value="{{d.name}}" disabled="disabled">
+        {{#}else if(d.disable == 1){ }}
+        <span>用户名：</span> <input class="name" type="text" value="{{d.name}}">
+        {{# }else{ }}
+        <span>用户名：</span> <input class="name" type="text">
+        {{# } }}
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="grid-demo">
+        {{# if(d.disable == 0){ }}
+        <span>密码：</span> <input class="password" type="text" value="{{d.password}}" disabled="disabled">
+        {{#}else if(d.disable == 1){ }}
+        <span>密码：</span> <input class="password" type="text" value="{{d.password}}">
+        {{# }else{ }}
+        <span>密码：</span> <input class="password" type="text">
+        {{# } }}
+      </div>
+    </div>
+  </div>
+
+  <div class="layui-row layui-col-space30">
+    <div class="layui-col-md6">
+      <div class="grid-demo grid-demo-bg1">
+        {{# if(d.disable == 0){ }}
+        <span>手机号：</span> <input class="phone" type="text" value="{{d.phone}}" disabled="disabled">
+        {{#}else if(d.disable == 1){ }}
+        <span>手机号：</span> <input class="phone" type="text" value="{{d.phone}}">
+        {{# }else{ }}
+        <span>手机号：</span> <input class="phone" type="text">
+        {{# } }}
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="grid-demo">
+        {{# if(d.disable == 0){ }}
+        <span>创建人：</span> <input class="createBy" type="text" value="{{d.createBy}}" disabled="disabled">
+        {{# } }}
+      </div>
+    </div>
+  </div>
+
+  <div class="layui-row layui-col-space30">
+    <div class="layui-col-md6">
+      <div class="grid-demo grid-demo-bg1">
+        {{# if(d.disable == 0){ }}
+        <span>创建时间：</span> <input class="createTime" type="text" value="{{d.createTime}}" disabled="disabled">
+        {{# } }}
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="grid-demo">
+        {{# if(d.disable == 0){ }}
+        <span>修改人：</span> <input class="modifyBy" type="text" value="{{d.modifyBy}}" disabled="disabled">
+        {{# } }}
+      </div>
+    </div>
+  </div>
+
+  <div class="layui-row layui-col-space30">
+    <div class="layui-col-md6">
+      <div class="grid-demo grid-demo-bg1">
+        {{# if(d.disable == 0){ }}
+        <span>修改时间：</span> <input class="modifyTime" type="text" value="{{d.modifyTime}}" disabled="disabled">
+        {{# } }}
+      </div>
+    </div>
+    <div class="layui-col-md6">
+      <div class="grid-demo">
+      </div>
+    </div>
+  </div>
+        <input hidden="hidden" class="disable" value="{{d.disable}}">
+        <input hidden="hidden" class="id" value="{{d.id}}">
+      </div>
+</script>
+
+<script type="text/html" id="uploadTemplate">
+  <div class="layui-upload-drag" id="test10">
+    <i class="layui-icon"></i>
+    <p>点击上传，或将文件拖拽到此处</p>
+  </div>
+</script>
+
+
+<script th:inline="none" type='module'>
+
+    import  base from "../../../public/js/common/base.js";
+    import conslog from "../../../public/js/common/conslog.js";
+
+
+    var cons = new conslog();
+    var url = "/course/user";
+    var baseOrder = [];
+    var tempSize = 10;
+    
+    $(function(){
+        TempdoList(1,tempSize,"id",true);
+
+        $('#searchButton').click(function() {
+            TempdoList(1,tempSize,"id",true);
+        })
+
+    });
+
+  //新增数据方法
+    function doAdd(data){
+        let tempBase = new base(url,JSON.stringify(data),"");
+        tempBase.add().then(res=>{
+            $("#tempMsg").text(res.msg);
+        }).catch(res=>{
+
+        })
+    }
+    //更新方法
+    function doUpdate(data){
+    let tempBase = new base(url,JSON.stringify(data),1);
+    tempBase.updata().then(res=>{
+        $("#tempMsg").text(res.msg);
+    }).catch(res=>{
+
+    })
+    }
+    //根据id查询数据
+    function doView() {
+        let tempBase = new base(url,"","1");
+        tempBase.view().then(res=>{
+            var temp = [];
+            temp.push(res.obj);
+            setTableData(temp);
+            cons.consoleLog(temp);
+        }).catch(res=>{
+
+        })
+        
+    }
+    //删除
+    function doDelete() {
+        let tempBase = new base(url,user,1);
+        tempBase.delete().then(res=>{
+           cons.consoleLog(res)
+        }).catch(res=>{
+
+        })
+    }
+    //根据ids批量删除
+    function doDeleteByIds(data) {
+        let tempBase = new base(url,data,1);
+        tempBase.deleteByIds().then(res=>{
+            cons.consoleLog(res)
+            $("#tempDel").text(res.msg);
+        }).catch(res=>{
+
+        })
+    }
+    //条件列表查询
+    function doList(current,size,cloum,sort) {
+        var data = getSearchCondition();
+        var sortProps = [];
+        if(baseOrder.length>0){
+            sortProps = baseOrder;
+        }else{
+            sortProps.push({key:cloum,value:sort});
+        }
+        data.pager = {current:current,size:size};
+        data.pager.sortProps = sortProps;
+        let tempBase = new base(url,JSON.stringify(data),"");
+        tempBase.list().then(res=>{
+            cons.consoleLog(res);
+//            if(current==1){
+//                page(res.obj.total);
+//            }
+            setTableData(res.obj.records);
+        }).catch(res=>{
+
+        })
+    }
+
+    //条件列表查询
+    function TempdoList(current,size,cloum,sort) {
+        var data = getSearchCondition();
+        var sortProps = [];
+        if(baseOrder.length>0){
+            sortProps = baseOrder;
+        }else{
+            sortProps.push({key:cloum,value:sort});
+        }
+        data.pager = {current:current,size:size};
+        data.pager.sortProps = sortProps;
+        let tempBase = new base(url,JSON.stringify(data),"");
+        tempBase.list().then(res=>{
+            cons.consoleLog(res);
+            page(res.obj.total);
+            setTableData(res.obj.records);
+        }).catch(res=>{
+
+        })
+    }
+    //查询列表数据
+//    function getAll(current,cloum,sort) {
+//
+//        tempBase.getAll().then(res=>{
+//
+//            cons.consoleLog(res);
+//            setTableData(res.obj.records);
+//
+//        }).catch(res=>{
+//
+//        })
+//    }
+
+    //渲染数据到table
+    function setTableData(data) {
+        var temp1 = "id";
+        var temp2 ="asc";
+        if(baseOrder.length>0){
+            temp1 = baseOrder[0].key;
+        if(baseOrder[0].value==true){
+            temp2 = "asc";
+        }else{
+            temp2 = "desc"
+        }
+        }
+            layui.table.init('demo', {
+                height: 550 //设置高度
+                ,limit: tempSize //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+                //支持所有基础参数
+                ,data:data
+                ,skin: 'line' //表格风格
+                ,even: true
+//                ,limits: [5, 7, 10]
+                ,autoSort:false
+                ,toolbar: '#toolbarDemo'
+                ,initSort: {
+                    field: temp1 //排序字段，对应 cols 设定的各字段名
+                    ,type: temp2 //排序方式  asc: 升序、desc: 降序、null: 默认排序
+                }
+            });
+    }
+
+    //监听排序事件
+    layui.table.on('sort(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        console.log(obj.field); //当前排序的字段名
+        console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+        console.log(this); //当前排序的 th 对象
+        var tempList = [];
+        var order = {};
+        var sort;
+        if(obj.type=="asc"){
+            sort=true;
+        }else{
+            sort = false;
+        }
+        order.key = obj.field;
+        order.value = sort;
+        tempList.push(order);
+        baseOrder=tempList;
+        doList(1,tempSize,"id",true);
+    });
+
+
+    //监听操作列工具条
+    layui.table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if(layEvent === 'detail'){ //查看
+            setOpenData(data,0);
+        } else if(layEvent === 'del'){ //删除
+            doTopDelete(obj.data,1)
+        } else if(layEvent === 'edit'){ //编辑
+            setOpenData(data,1);
+        }
+    });
+    //头部工具
+    layui.table.on('toolbar(demo)', function(obj){
+        var checkStatus = layui.table.checkStatus(obj.config.id);
+        switch(obj.event){
+            case 'add':
+                setOpenData({},2);
+                break;
+            case 'delete':
+                doTopDelete(checkStatus.data,2);
+                break;
+            case 'import':
+                uploadData()
+                break;
+        }
+    });
+
+    //获取删除操作的数据
+    function doTopDelete(data1,type) {
+        var data = {};
+        var ids = "";
+        if(type==2){
+          /* <![CDATA[ */
+            for(var i=0;i<data1.length;i++){
+                ids = ids + data1[i].id + ","
+            }
+          /* ]]> */
+            data.ids = ids.substring(0,ids.length-1);
+        }else{
+            data.ids = data1.id;
+        }
+        setDeleData(data);
+    }
+
+
+
+
+
+//设置弹出层数据（新增，查看，修改）
+    function setOpenData(data,type) {
+        data.disable = type;
+        layui.layer.open({
+            type: 1,
+            title:"数据<span style='color: red;float:right' id='tempMsg'>",
+            area:['500px','500px'],
+            closeBtn: 0, //关闭按钮（0：不显示，1：显示）
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            btn: ['确定','取消'],
+            content: '<div id="table_data"></div>',
+            yes: function(index, layero){
+                if(type!=0){
+                getOpenData();
+                }else{
+                    layui.layer.close(index);
+                }
+            },
+            btn2:function (index,layero) {
+                if(type!=0){
+                location.reload();
+                }
+            },
+            end:function () {
+                if(type!=0){
+                location.reload();
+                }
+            }
+
+        });
+        layui.laytpl($("#tableDataTemplate").html()).render(data, function(html){
+            $("#table_data").html(html)
+        });
+    }
+
+    //弹出层渲染（删除）
+    function setDeleData(data) {
+        layui.layer.open({
+            type: 1,
+            title:"删除数据 <span style='color: red;float:right' id='tempDel'>",
+            area:['400px','200px'],
+            closeBtn: 0, //关闭按钮（0：不显示，1：显示）
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            btn: ['确定','取消'],
+            content: '<div id="table_del"></div>',
+            yes: function(index, layero){
+                doDeleteByIds(data);
+            },
+            btn2:function (index,layero) {
+                location.reload();
+            },
+            end:function () {
+                location.reload();
+            }
+
+        });
+        layui.laytpl($("#delTableTemplate").html()).render(data, function(html){
+            $("#table_del").html(html)
+        });
+    }
+
+    //批量导入
+    function uploadData() {
+
+
+        layui.layer.open({
+
+            type: 1
+            ,offset: "auto" //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+            ,id: 'layer_importData' //防止重复弹出
+            ,title:"批量导入 <span style='color: red;float:right' id='tempUpload'>"
+            ,content: '<div id="upLoadData"></div>'
+            ,maxWidth:800
+            ,btn: ['下载模板']
+            ,btnAlign: 'c' //按钮居中
+            ,shade: 0 //不显示遮罩
+            ,yes: function(index, layero){
+              alert(1111)
+            },
+
+        });
+        layui.laytpl($("#uploadTemplate").html()).render({}, function(html){
+            $("#upLoadData").html(html)
+        });
+        bindUpload();
+
+    }
+    //绑定upload事件
+    function bindUpload() {
+        //批量导入（下载模板）
+        layui.upload.render({
+            elem: '#test10'
+            ,accept:"file"
+            ,url: url+'/uploadExcel'
+
+            ,done: function(res){
+                console.log(res)
+            }
+        });
+    }
+
+
+
+
+    //渲染分页
+    function page(total) {
+        layui.laypage.render({
+            elem: 'page'
+            ,count: total //数据总数，从服务端得到
+            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            ,jump: function(obj, first){
+                //obj包含了当前分页的所有参数，比如：
+                cons.consoleLog(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                cons.consoleLog(obj.limit); //得到每页显示的条数
+                tempSize = obj.limit;
+                //首次不执行
+                if(!first){
+                    //do something
+                    doList(obj.curr,obj.limit,"id",true);
+                }
+            }
+        });
+    }
+    //弹出层按钮触发
+    function getOpenData() {
+        var disable = $(".disable").val();
+        if(disable==0){
+            return false;
+        }
+        var data = {};
+        data.name = $(".name").val();
+        data.password = $(".password").val();
+        data.phone = $(".phone").val();
+//        data.createBy = $(".createBy").val();
+//        data.createTime = $(".createTime").val();
+//        data.modifyBy = $(".modifyBy").val();
+//        data.modifyTime = $(".modifyTime").val();
+
+      if(disable==1){
+          data.id = $(".id").val();
+          doUpdate(data);
+        }else{
+          doAdd(data);
+      }
+    }
+    //顶部搜索功能的实现获取数据
+     function getSearchCondition() {
+        var data = {};
+        var entity = {}
+        entity.name = $("#tempName").val();
+        entity.phone = $("#tempPhone").val();
+        data.entity = entity;
+        return data;
+    }
+</script >
+</body>
+</html>

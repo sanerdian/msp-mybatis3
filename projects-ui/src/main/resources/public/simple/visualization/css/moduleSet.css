@@ -1,0 +1,45 @@
+.visual_module_set .layui-tab{position:relative;height:450px;overflow-y:hidden;padding:0;margin:0;}
+.visual_module_set .layui-tab-content{padding:0 20px 0 0;}
+.visual_module_set .layui-tab-title{position:absolute;left:0;top:0;right:0;z-index:3;background:#f1f1f1;}
+.visual_module_set .layui-tab-title .layui-this{background:#fff;}
+.visual_module_set .layui-tab-item{padding:55px 0 0;}
+.visual_module_set form .layui-form-item {margin:0 0 10px;}
+/* .visual_module_set form .layui-input-inline{width:250px;} */
+.visual_module_set form .layui-input-inline .layui-input{display:inline-block;width:50%;margin:0 10px 0 0;}
+.visual_module_set form .layui-input-inline span.text{line-height:40px;}
+.visual_module_set form .visual_check .layui-form-checkbox[lay-skin="primary"]{float:left;width:300px;height:30px!important;line-height:30px!important;}
+.visual_module_set form .visual_check{height:310px;overflow-y:auto;}
+.visual_module_set form .visual_check li.cur{background:#f5f5f5;}
+.visual_module_set form .visual_check .visual_num{margin:0 15px 0 0;}
+.visual_module_set form .layui-form-label{width:90px;}
+.visual_module_set form .layui-input-block{margin:0 0 0 120px;}
+.visual_module_set form .visual_field_name{line-height:38px;}
+
+.widget_box{position:relative;}
+.widget_box .widget_active{border:1px solid #1a90ff;}
+.widget_box .widget_menu{display:none;position:absolute;z-index:9999;height:40px;background:#eeeff3;border-radius:2px;text-align:center;line-height:40px;padding:0 10px;}
+.widget_box .widget_menu .widget_icon{width:40px;height:40px;cursor:pointer;float:left;}
+.widget_box .widget_menu .widget_set{background:url(../img/set.png) no-repeat center;}
+.widget_box .widget_menu .widget_link{background:url(../img/link.png) no-repeat center;}
+.widget_box .widget_menu .widget_delete{background:url(../img/delete.png) no-repeat center;}
+
+.visual_module_set .visual_submit_hide{display:none;}
+.layui-layer-molv .layui-layer-btn .layui-layer-btn1{background: #fff !important;color:#009f95;}
+.layui-layer-setwin .layui-layer-close2{z-index:3;}
+.layer_box .delete_tip{padding:40px 20px 0;text-align:center;}
+.ztree{overflow-y:auto;height:360px;padding:10px 10px 0;}
+
+
+.visual_module_set .layui-form-select dl{max-height:180px;}
+.visual_module_set form .visual_check ul li{margin:0 0 5px;clear:both;}
+.visual_module_set form .visual_check .visual_up{float:right;width:10px;height:20px;background:url(../img/ico_up.png) no-repeat center;padding:10px 5px;cursor:pointer;}
+.visual_module_set form .visual_check .visual_down{float:right;width:10px;height:20px;background:url(../img/ico_down.png) no-repeat center;padding:10px 5px;cursor:pointer;}
+.visual_module_set form .visual_select{display:inline-block;width:125px;margin:0 10px 0 0;}
+/* .visual_module_set form .visual_select .layui-form-select .layui-input{height:30px;margin:5px 0 0;}
+.visual_module_set form .visual_select .layui-form-select dl{top:30px;}
+.visual_module_set form .visual_select .layui-form-select dl dd{height:30px;line-height:30px;} */
+
+.visual_module_set form .visual_input{display:inline-block;width:125px;margin:0 10px 0 0;}
+.visual_module_set form .visual_check_button .layui-input{display:inline-block;width:125px;margin:0 5px 0 0;}
+.visual_module_set form .visual_button_event{height:280px;overflow-y:auto;}
+.visual_module_set form .visual_button_event_add{display:none;}

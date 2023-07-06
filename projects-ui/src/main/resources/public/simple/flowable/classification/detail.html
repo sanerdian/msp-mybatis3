@@ -1,0 +1,65 @@
+<!--弹出层模板 编辑-->
+<style>
+    .tableDetail {
+        width: 90%;
+        margin: 20px auto 0px;
+    }
+
+    .tableTR {
+        width: 100%;
+        height: 38px;
+        /* border: 1px solid #c2c2c4; */
+    }
+
+    .tableTD1 {
+        width: 180px;
+        /* border-right: 1px solid #c2c2c4; */
+    }
+
+    .tableTD2 {
+        width: 443px;
+    }
+</style>
+
+<script type="text/html" id="detailTemplate">
+    <table class="layui-table tableDetail" lay-even lay-skin="">
+        <tbody>
+            <tr class="tableTR">
+                <td class="tableTD1">场景词：</td>
+                <td class="tableTD2">{{d.changjingci}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">词条状态：</td>
+                <td class="tableTD2">
+                {{# if(d.status==-1){ }}
+                未生效
+                {{# }else if(d.status==0){ }}
+                已生效
+                {{# }else if(d.status==1){ }}
+                停用
+                {{# } }}
+                </td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">来源：</td>
+                <td class="tableTD2">{{d.source}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">创建人：</td>
+                <td class="tableTD2">{{d.cruser}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">创建时间：</td>
+                <td class="tableTD2">{{d.crtime}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">修改人：</td>
+                <td class="tableTD2">{{d.modifyUser}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">修改时间：</td>
+                <td class="tableTD2">{{d.modifyTime}}</td>
+            </tr>
+        </tbody>
+    </table>
+</script>

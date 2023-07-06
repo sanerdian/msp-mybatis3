@@ -1,0 +1,33 @@
+{
+    "msg":"成功",
+    "obj":{
+        "records":[      
+            {
+                "label": "一行两列",
+                "tag": "grid",
+                "code": "<div class=\"layui-row\"><div class=\"layui-col-md6\"><div class=\"grid\"></div></div><div class=\"layui-col-md6\"><div class=\"grid\"></div></div></div>"
+            },
+            {
+                "label": "用户名",
+                "tag": "input",
+                "code": "<label class=\"layui-form-label\">用户</label><div class=\"layui-input-block\"><input type=\"text\" name=\"username\" placeholder=\"请输入\" autocomplete=\"off\" class=\"layui-input\"></div>"
+            },
+            {
+                "label": "密码",
+                "tag": "password",
+                "code": "<label class=\"layui-form-label\">密码</label><div class=\"layui-input-block\"><input type=\"password\" name=\"password\" placeholder=\"请输入\" autocomplete=\"off\" class=\"layui-input\"></div>"
+            },
+            {
+                "label": "单选",
+                "tag": "radio",
+                "code": "<label class=\"layui-form-label\">性别</label><div class=\"layui-input-block\"><input type=\"radio\" name=\"sex\" title=\"男\"><input type=\"radio\" name=\"sex\" title=\"女\" checked></div>"
+            },
+            {
+                "label": "复选",
+                "tag": "checkbox",
+                "code": "<label class=\"layui-form-label\">复选</label><div class=\"layui-input-block\"><input type=\"checkbox\" name=\"sex\" title=\"复选1\"><input type=\"checkbox\" name=\"sex\" title=\"复选值2\" checked></div>"
+            }
+    
+        ]
+    }
+}

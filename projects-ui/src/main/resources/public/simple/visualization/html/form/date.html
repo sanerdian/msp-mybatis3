@@ -1,0 +1,35 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+</head>
+<body>
+    <!--日期开始-->
+    <div class="widget_box">
+        <div class="widget_border_content">
+            <div class="layui-form-item">
+                <label class="layui-form-label">日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" class="layui-input" placeholder="请选择" id="date">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--日期结束-->
+    <script src="../../../../thirdparty/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+
+    <script>
+    $(function(){
+        setDate('#date', 'date'); //日期选择器 年月日
+        // setDate('#date', 'year'); //年选择器
+        // setDate('#date', 'month'); //年月选择器
+        // setDate('#date', 'time'); //时间选择器 时分秒
+        // setDate('#date', 'datetime'); //时间选择器 年月日时分秒
+    })
+    </script>
+</body>
+</html>

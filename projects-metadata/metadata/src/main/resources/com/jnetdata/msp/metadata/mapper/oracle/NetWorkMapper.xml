@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.tnetwork.mapper.NetWorkMapper">
+    <select id="selectOrganization" resultType="com.jnetdata.msp.metadata.tnetwork.model.NetWorkModel">
+        SELECT * FROM t_network WHERE ((conditionn = '小于' AND age > #{ageForBirthday}) OR (conditionn = '大于等于' AND #{ageForBirthday}>=AGE)
+        OR (conditionn = '大于' AND #{ageForBirthday}>=AGE)  OR   (conditionn = '小于等于' AND  AGE >=#{ageForBirthday})
+        OR (conditionn = '等于' AND  AGE =#{ageForBirthday}) OR (conditionn = '介于区间' AND    #{ageForBirthday}>=AGE AND AGEONE >=#{ageForBirthday})OR (conditionn is null )
+        )and organizationid= #{s} and tablename= #{tablename} and (education =#{educationbackground} or (education is null) )
+        and(politicsstatus=#{politicsstatus} or (politicsstatus is null)) and ( (#{name} like '%'||namee||'%') or (namee is null))
+</select>
+
+</mapper>

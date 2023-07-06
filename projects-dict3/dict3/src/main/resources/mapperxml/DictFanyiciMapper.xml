@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictFanyiciMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictFanyici">
+    <!--@mbg.generated-->
+    <!--@Table dict_fanyici-->
+    <result column="JMETAFANYICIID" jdbcType="BIGINT" property="jmetafanyiciid" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="cruser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="CRNUMBER" jdbcType="BIGINT" property="crnumber" />
+    <result column="DOCCHANNELID" jdbcType="BIGINT" property="docchannelid" />
+    <result column="DOCSTATUS" jdbcType="INTEGER" property="docstatus" />
+    <result column="SINGLETEMPKATE" jdbcType="BIGINT" property="singletempkate" />
+    <result column="SITEID" jdbcType="BIGINT" property="siteid" />
+    <result column="DOCVALID" jdbcType="TIMESTAMP" property="docvalid" />
+    <result column="DOCPUBTIME" jdbcType="TIMESTAMP" property="docpubtime" />
+    <result column="OPERUSER" jdbcType="VARCHAR" property="operuser" />
+    <result column="OPERTIME" jdbcType="TIMESTAMP" property="opertime" />
+    <result column="DOCTITLE" jdbcType="VARCHAR" property="doctitle" />
+    <result column="DOCRELTIME" jdbcType="TIMESTAMP" property="docreltime" />
+    <result column="FANYICI" jdbcType="VARCHAR" property="fanyici" />
+    <result column="XINGRONGCI" jdbcType="VARCHAR" property="xingrongci" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JMETAFANYICIID, CRUSER, CRTIME, CRNUMBER, DOCCHANNELID, DOCSTATUS, SINGLETEMPKATE, 
+    SITEID, DOCVALID, DOCPUBTIME, OPERUSER, OPERTIME, DOCTITLE, DOCRELTIME, FANYICI, 
+    XINGRONGCI, `STATUS`
+  </sql>
+</mapper>

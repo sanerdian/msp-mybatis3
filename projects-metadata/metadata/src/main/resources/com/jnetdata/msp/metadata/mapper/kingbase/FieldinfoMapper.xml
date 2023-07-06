@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.fieldinfo.mapper.FieldinfoMapper">
+
+    <select id="getTableField" resultType="String">
+      SELECT DISTINCT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE TABLE_NAME = #{tablename}
+    </select>
+
+    <update id="createField">
+        ALTER TABLE ${tablename} ADD ${fieldname}  ${dbTypeStr}
+        <if test="dbtype!=5 and dbtype!=4 ">
+            (${dblength})
+        </if>
+        <if test="defaultvalue!=null and defaultvalue!=''">
+            default ${defaultvalue}
+        </if>
+
+    </update>
+
+    <update id="createComment">
+        COMMENT ON COLUMN ${tablename}.${fieldname} IS '${anothername}'
+    </update>
+
+    <update id="updateField">
+        ALTER TABLE ${tablename} MODIFY ${fieldname}  ${dbTypeStr}
+        <if test="dbtype!=5 and dbtype!=4 ">
+            (${dblength})
+        </if>
+        <if test="defaultvalue!=null and defaultvalue!=''">
+            default ${defaultvalue}
+        </if>
+    </update>
+
+    <update id="updateFieldName">
+        ALTER TABLE ${tablename} RENAME COLUMN ${oldname} TO ${fieldname}
+    </update>
+
+    <update id="deleteField">
+      ALTER TABLE ${tablename} drop column ${fieldname}
+    </update>
+    <select id="selectEr" resultType="string">
+            select  B.TABLE_NAME  as tablename
+  from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B
+ WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND A.CONSTRAINT_NAME IN(
+	 SELECT A.CONSTRAINT_NAME   FROM DBA_CONSTRAINTS A WHERE  CONSTRAINT_TYPE='R' AND table_name = #{tablename}
+	 UNION ALL
+	 SELECT A.CONSTRAINT_NAME   from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND B.TABLE_NAME = #{tablename}
+	 )
+    </select>
+    <select id="selectErMap" resultType="map">
+  SELECT GA.tname,GB.tnamee
+FROM(
+	 select  B.TABLE_NAME ||'_' ||COLUMN_NAME as tname,B.CONSTRAINT_NAME tablename
+  from DBA_CONS_COLUMNS B
+ WHERE B.CONSTRAINT_NAME IN(
+	 SELECT A.CONSTRAINT_NAME   FROM DBA_CONSTRAINTS A WHERE  CONSTRAINT_TYPE='R' AND table_name = #{tablename}
+	 UNION ALL
+	 SELECT A.CONSTRAINT_NAME   from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND B.TABLE_NAME = #{tablename}
+	 )) GA JOIN(
+	  select  B.TABLE_NAME ||'_' ||COLUMN_NAME as tnamee,A.CONSTRAINT_NAME tablename
+  from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B
+ WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND A.CONSTRAINT_NAME IN(
+	 SELECT A.CONSTRAINT_NAME   FROM DBA_CONSTRAINTS A WHERE  CONSTRAINT_TYPE='R' AND table_name = #{tablename}
+	 UNION ALL
+	 SELECT A.CONSTRAINT_NAME   from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND B.TABLE_NAME =#{tablename}
+	 )
+	 ) GB
+	 on GB.tablename=GA.tablename
+    </select>
+    <select id="excleEr" resultType="string">
+ SELECT   Upper (GA.tname)||'   '||'PK'||'    ' || Upper(GB.tnamee) foreiqukey
+FROM(
+	 select  B.TABLE_NAME ||'.' ||COLUMN_NAME as tname,B.CONSTRAINT_NAME tablename
+  from DBA_CONS_COLUMNS B
+ WHERE B.CONSTRAINT_NAME IN(
+	 SELECT A.CONSTRAINT_NAME   FROM DBA_CONSTRAINTS A WHERE CONSTRAINT_TYPE='R' AND table_name = #{tablename}
+	 UNION ALL
+	 SELECT A.CONSTRAINT_NAME   from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND B.TABLE_NAME = #{tablename}
+	 )) GA JOIN(
+
+	  select  B.TABLE_NAME ||'.' ||COLUMN_NAME as tnamee,A.CONSTRAINT_NAME tablename
+  from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B
+ WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND A.CONSTRAINT_NAME IN(
+	 SELECT A.CONSTRAINT_NAME   FROM DBA_CONSTRAINTS A WHERE CONSTRAINT_TYPE='R' AND table_name = #{tablename}
+	 UNION ALL
+	 SELECT A.CONSTRAINT_NAME   from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND B.TABLE_NAME = #{tablename}
+	 )
+	 ) GB
+	 on GB.tablename=GA.tablename
+    </select>
+    <select id="selectErPhone" resultType="String">
+ 		 select  B.TABLE_NAME name
+  from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B
+  WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND A.CONSTRAINT_NAME IN(
+	 SELECT A.CONSTRAINT_NAME   FROM DBA_CONSTRAINTS A WHERE CONSTRAINT_TYPE='R' AND table_name = #{tablename}
+	 )
+	  UNION ALL
+		select  A.TABLE_NAME name
+  from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B
+ WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND A.CONSTRAINT_NAME IN(
+	 SELECT A.CONSTRAINT_NAME   from DBA_CONSTRAINTS A, DBA_CONS_COLUMNS B WHERE A.R_CONSTRAINT_NAME = B.CONSTRAINT_NAME
+   AND B.TABLE_NAME = #{tablename}
+	 )
+    </select>
+    <select id="getMajorKey" resultType="string">
+        select b.column_name majorKey
+  from dba_constraints a, dba_cons_columns b
+ where a.constraint_name = b.constraint_name
+   and a.constraint_type = 'P'
+   and a.table_name in (#{tablename})
+    </select>
+
+
+</mapper>

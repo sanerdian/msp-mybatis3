@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.fieldinfo.mapper.FieldinfoMapper">
+
+    <select id="getTableField" resultType="String">
+        SELECT a.attname
+        FROM pg_class as c,pg_attribute as a
+        where c.relname = #{tablename} and a.attrelid = c.oid and a.attnum>0
+    </select>
+
+    <update id="createField">
+        ALTER TABLE ${tablename} ADD ${fieldname}  ${dbTypeStr}
+        <if test="dbtype!=5 and dbtype!=4 and dbTypeStr != 'INT4' and dbTypeStr != 'FLOAT4'">
+            (${dblength})
+        </if>
+        <if test="defaultvalue!=null and defaultvalue!=''">
+            default ${defaultvalue}
+        </if>
+    </update>
+
+    <update id="createComment">
+        COMMENT ON COLUMN ${tablename}.${fieldname} IS '${anothername}'
+    </update>
+
+    <update id="updateField">
+        ALTER TABLE ${tablename} alter  COLUMN  ${fieldname}  type ${dbTypeStr}
+        <if test="dbtype!=5 and dbtype!=4  and dbTypeStr != 'INT4' and dbTypeStr != 'FLOAT4'">
+            (${dblength})
+        </if>
+    </update>
+
+    <update id="updateFieldName">
+        ALTER TABLE ${tablename} RENAME COLUMN ${oldname} TO ${fieldname}
+    </update>
+
+    <update id="deleteField">
+      ALTER TABLE ${tablename} drop column ${fieldname}
+    </update>
+
+
+</mapper>

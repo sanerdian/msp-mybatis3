@@ -1,0 +1,124 @@
+<!--保存：api参数-->
+<script type="text/html"  id="templateItem1">
+	<form class="layui-form" lay-filter="editFormItem1">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">参数名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否必须:</label>
+					<div class="layui-input-block">
+						<select name="isRequired">
+							<option value="false">非必填</option>
+							<option value="true">必填项</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">参数类别:</label>
+					<div class="layui-input-block">
+						<select name="paramType" lay-filter="LAY-item1-select-apiParamType">
+							<option value="normal" selected>普通</option>
+							<option value="fix">固定</option>
+							<!--
+							<option value="request">request</option>
+							-->
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item apiParamIn">
+					<label class="layui-form-label">入参名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="custParamName" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span><!--伪必填，只有是普通参数时，才需要该参数 -->
+					</div>
+				</div>
+				<div class="layui-form-item apiParamIn">
+					<label class="layui-form-label">入参位置:</label>
+					<div class="layui-input-block">
+						<select name="custParamPosition">
+							<option value="head">请求头</option>
+							<option value="path">请求路径</option>
+							<option value="query" selected>请求参数</option>
+							<option value="body">请求体</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item apiParamIn">
+					<label class="layui-form-label">入参数据类型:</label>
+					<div class="layui-input-block">
+						<select name="custParamDatatype">
+							<option value="string">字符串</option>
+							<option value="integer">数字</option>
+							<option value="object">对象</option>
+						</select>
+						<span class="bitianspan">必填</span><!--伪必填，只有是普通参数时，才需要该参数 -->
+					</div>
+				</div>
+				<div class="layui-form-item apiParamIn">
+					<label class="layui-form-label">入参参考值:</label>
+					<div class="layui-input-block">
+						<input type="text" name="custParamValueDemo" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">出参名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="servParamName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">出参位置:</label>
+					<div class="layui-input-block">
+						<select name="servParamPosition">
+							<option value="path">请求路径</option>
+							<option value="query" selected>请求参数</option>
+							<option value="body">请求体</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">出参默认值:</label>
+					<div class="layui-input-block">
+						<input type="text" name="servParamValueDefault"  placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">出参数据类型:</label>
+					<div class="layui-input-block">
+						<select name="servParamDatatype">
+							<option value="string">字符串</option>
+							<option value="integer">数字</option>
+							<option value="object">对象</option>
+							<option value="objectParam">对象属性</option>
+							<option value="leafField">叶子级参数</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+				</div>
+				<input hidden="hidden" name="id">
+				<input hidden="hidden" name="apiId">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item1-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>
+
+<script>
+  form.on('submit(LAY-data-back-next)', function(data){
+	alert(2);
+    layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+</script>

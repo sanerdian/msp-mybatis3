@@ -1,0 +1,95 @@
+<title>表单管理</title>
+<link rel="stylesheet" href="simple/viewManage/css/style.css">
+<div class="layui-fluid">
+	<div class="layui-card h100">
+		<!-- 搜索开始 -->		
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="top_btn">
+                <button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">新建表单</button>
+                <button class="layui-btn layui-btn-primary" data-type="">修改表单</button>
+                <button class="layui-btn layui-btn-primary" data-type="">删除表单</button>
+			</div>
+            <div class="search">
+                <form class="layui-form" id="formSearch">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <input type="text" name="" placeholder="请输入表单名称" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline top_search_btn">
+                            <button class="layui-btn layuiadmin-btn-admin" >
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+		</div>
+		<!-- 搜索结束 -->		
+		<div class="layui-card-body">
+			<!-- 列表开始 -->
+			<div class="table-area">
+				<table id="tableData" lay-filter="tableData"></table>
+			</div>
+			<div id="page"></div>
+			<!-- 列表结束 -->
+		</div>
+
+	</div>
+</div>
+
+<div id="editOpenDiv"></div>
+
+<!--操作列-->
+<script type="text/html" id="operateTool">
+	<button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+    <a href="javascript:go2Menu('/simple/visualization/form/formDesign/index.html','表单设计器')">表单设计器</a>
+</script>
+
+<script src="common/js/list.js"></script>
+<script>
+    //点击按钮
+    function btnClick(width,height){	
+        $('.layui-btn').click(function(){
+            var type = $(this).attr('data-type'); 
+            var typetxt = $(this).text();
+            var	curName = $.trim($('.layui-side .layui-this').text());
+            var tit = typetxt+curName;
+            if(type == 'add'){			
+                setLayer('addDiv',tit,width,height);
+                //表单提交
+                formSubmitAdd(serviceId,url);			
+                var data = {};	
+                laytpl($('#addTemplate').html()).render(data, function(html){
+                    $('#addDiv').html(html);
+                    setRender();
+                });
+            }else if(type == 'del'){
+                del();
+            }
+        });
+    }
+
+    //服务id
+    var serviceId = service_prefix.member;
+
+    //接口地址
+    var url = '/user';
+
+    //列表数据
+    var columns = [
+        {type: 'checkbox', fixed: 'left'}
+        , {type: 'numbers', title: '序号', fixed: 'left'}
+        ,{field: 'name',  title: '表单名称', fixed: 'left'}
+        , {field: 'createTime',  title: '创建人'}
+        , {field:'createTime', title: '创建时间'}
+        , {field: 'modifyUser', title: '修改人'}
+        , {field: 'modifyTime', title: '修改时间'}
+        ,{field:'', title: '操作',toolbar: '#operateTool'}
+    ];
+    setListData(1,15,serviceId,url,{});
+    getSearch(serviceId,url);
+    btnClick('550px','350px');
+    setOpenLayer();
+</script>

@@ -1,0 +1,61 @@
+<div class="layui-fluid" id="list">
+	<div class="layui-card h100">					
+		<!-- 搜索开始 -->
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<form class="layui-form" id="formSearch">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">ip规则</label>
+						<div class="layui-input-block">
+							<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">规则类型</label>
+						<div class="layui-input-block">
+							<select name="type">
+								<option value=""></option>
+								<option value="allow">允许</option>
+								<option value="prevent">阻止</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline top_search_btn">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-data-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+			<div class="top_btn">
+				<button class="layui-btn layuiadmin-btn-admin" data-type="exportExcel" data-layer-html="exportExcel.html" data-layer-path="simple/gateway/export/">Excel导出</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html" >新建</button>
+				<button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del">删除</button>
+			</div>
+		</div>
+		<!-- 搜索结束 -->							
+		
+		<div class="layui-card-body">
+			<!-- 列表开始 -->
+			<div class="table-area">
+				<table id="tableData" lay-filter="tableData"></table>
+			</div>
+			<div id="pageData"></div>
+			<!-- 列表结束 -->
+		</div>
+
+	</div>
+</div>
+
+<script src="simple/gateway/iprule/list.js"></script>
+<script src="simple/gateway/export/exportExcel.js"></script>
+<!-- 详情页 -->
+<div id="DetailDiv"></div>
+
+<!--操作 模板-->
+<script type="text/html" id="operateTemplate">
+	<a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+

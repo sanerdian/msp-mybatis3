@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.fieldinfo.mapper.FieldinfoMapper">
+
+    <select id="getTableField" resultType="String">
+      select DISTINCT COLUMN_NAME from information_schema.COLUMNS where table_name = #{tablename} AND TABLE_SCHEMA = (select database())
+    </select>
+
+    <update id="createField">
+      ALTER TABLE ${tablename} ADD ( ${fieldname}  ${dbTypeStr}
+      <if test="dbTypeStr!='LONGTEXT' and dbTypeStr !='DATE'">
+            (${dblength})
+      </if>
+       <if test="defaultvalue!=null and defaultvalue!=''">
+           default #{defaultvalue}
+       </if>
+       <if test="anothername!=null and anothername!=''">
+           COMMENT #{anothername}
+       </if>
+       )
+    </update>
+
+    <update id="updateField">
+      ALTER TABLE ${tablename} MODIFY ${fieldname}  ${dbTypeStr}
+        <if test="dbTypeStr!='LONGTEXT' and dbTypeStr !='DATE'">
+            (${dblength})
+        </if>
+        <if test="defaultvalue!=null and defaultvalue!=''">
+            default #{defaultvalue}
+        </if>
+        <if test="anothername!=null and anothername!=''">
+            COMMENT #{anothername}
+        </if>
+    </update>
+
+    <update id="updateFieldName">
+      ALTER TABLE ${tablename} CHANGE ${oldname} ${fieldname} ${dbTypeStr}
+        <if test="dbTypeStr!='LONGTEXT' and dbTypeStr !='DATE'">
+        (${dblength})
+        </if>
+    </update>
+
+    <update id="deleteField">
+      ALTER TABLE ${tablename} drop ${fieldname}
+    </update>
+    <select id="selectEr" resultType="string">
+        SELECT
+   REFERENCED_TABLE_NAME as tablename
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE
+      REFERENCED_TABLE_SCHEMA = 'fastdev'
+	and REFERENCED_TABLE_NAME is not NULL
+  and TABLE_NAME = #{tablename}
+	union
+		SELECT
+   TABLE_NAME   as tablename
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+	where  REFERENCED_TABLE_SCHEMA = 'fastdev'
+	AND REFERENCED_TABLE_NAME=#{tablename}
+    </select>
+    <select id="selectErMap" resultType="map">
+      SELECT
+   CONCAT(TABLE_NAME,"_",COLUMN_NAME) tname,CONCAT(REFERENCED_TABLE_NAME,"_", REFERENCED_COLUMN_NAME) tnamee
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE
+      REFERENCED_TABLE_SCHEMA = 'fastdev'
+	and REFERENCED_TABLE_NAME is not NULL
+  and TABLE_NAME = #{tablename}
+	union
+		SELECT
+   CONCAT(TABLE_NAME,"_",COLUMN_NAME),CONCAT(REFERENCED_TABLE_NAME,"_", REFERENCED_COLUMN_NAME)
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+	where  REFERENCED_TABLE_SCHEMA = 'fastdev'
+	AND REFERENCED_TABLE_NAME=#{tablename}
+    </select>
+
+
+    <select id="excleEr" resultType="string">
+        	SELECT
+  CONCAT(UPPER(TABLE_NAME),".",COLUMN_NAME,"  pk  ",UPPER(REFERENCED_TABLE_NAME),".", REFERENCED_COLUMN_NAME) foreiqukey
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE
+      REFERENCED_TABLE_SCHEMA = 'fastdev'
+	and REFERENCED_TABLE_NAME is not NULL
+  and TABLE_NAME = #{tablename}
+	union
+		SELECT
+   CONCAT(UPPER(TABLE_NAME),".",COLUMN_NAME,"  pk  ",UPPER(REFERENCED_TABLE_NAME),".", REFERENCED_COLUMN_NAME) TM
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+	where  REFERENCED_TABLE_SCHEMA = 'fastdev'
+	AND REFERENCED_TABLE_NAME=#{tablename}
+    </select>
+    <select id="selectErPhone" resultType="String">
+ 		SELECT
+  COLUMN_NAME name
+FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+	where
+	REFERENCED_TABLE_SCHEMA = 'fastdev' and
+	TABLE_NAME=#{tablename}
+	UNION ALL
+	select DISTINCT(REFERENCED_COLUMN_NAME) name
+	FROM
+  INFORMATION_SCHEMA.KEY_COLUMN_USAGE name
+WHERE
+  REFERENCED_TABLE_SCHEMA = 'fastdev'
+  AND REFERENCED_TABLE_NAME = #{tablename}
+    </select>
+
+    <select id="getMajorKey" resultType="string">
+        SELECT `COLUMN_NAME` majorKey
+    FROM `information_schema`.`COLUMNS`
+     WHERE (`TABLE_SCHEMA` = 'fastdev')
+    AND (`TABLE_NAME` = #{tablename})
+    AND (`COLUMN_KEY` = 'PRI');
+    </select>
+
+</mapper>

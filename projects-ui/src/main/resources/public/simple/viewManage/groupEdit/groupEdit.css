@@ -1,0 +1,165 @@
+.panelView {
+  font-size: 0;
+  border-top: 1px solid #fff;
+}
+.topTitle > .topTitRight {
+  text-align: left;
+}
+.topTitLeft span {
+  margin-left: 30px;
+}
+.panelView > div {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  vertical-align: top;
+  font-size: 14px;
+}
+.panelView > div.active {
+  display: block;
+}
+.panelView > div.codePannel {
+  background: #fff;
+}
+.panelView .layui-nav .layui-this:after {
+  display: none;
+}
+.editPanel .editBtn {
+  border: 1px solid #C9C9C9;
+  background-color: #fff;
+  color: #555;
+  height: 38px;
+  line-height: 38px;
+  padding: 0 18px;
+  cursor: pointer;
+}
+.editPanel .canEdied,
+.editPanel .editBox.canEdied {
+  border: 1px solid blue;
+}
+.editPanel .editBox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed #aaa;
+}
+.editPanel {
+  position: relative;
+}
+.groupDomBox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+}
+.editPanel .canEdit {
+  box-sizing: border-box;
+}
+.editPanel .absPos {
+  position: absolute;
+}
+.editPanel .editBox .layoutSize {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  cursor: nw-resize;
+}
+.leftSide .txt {
+  border: 1px solid #ddd;
+  line-height: 30px;
+}
+.panelView .editDesign {
+  display: none;
+  position: absolute;
+  font-size: 0;
+  z-index: 6;
+}
+.panelView .editDesign .layui-icon {
+  color: #fff;
+  font-size: 24px;
+}
+.editDesign > span {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1px;
+  background: blue;
+}
+#designEditWin,
+#addFirstClassWin,
+#chooseFirstClassWin {
+  position: fixed;
+  display: none;
+  left: 50%;
+  width: 400px;
+  margin-left: -200px;
+}
+.codePannel > div {
+  display: none;
+}
+.codeView .layui-input-block {
+  margin-left: 0;
+}
+.codeView textarea {
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+}
+.viewChild > div {
+  display: none;
+}
+.viewChild > div.active {
+  display: block;
+}
+.codeView{position:relative;}
+.codeView .btnBox {position:absolute;top:8px;right:15px;z-index:3;}
+#groupListDom .dragleIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -10px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  background-image:url(../img/dragIcon.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+#groupListDom span {
+  cursor: pointer;
+}
+.codeView a,
+.topTitle a {
+  cursor: pointer;
+}
+#rightMenu {
+  position: fixed;
+  background: #fff;
+  width: 150px;
+  padding: 10px;
+  border-radius: 4px;
+  z-index: 110;
+  box-shadow: 0 0 10px #8c8383;
+}
+#rightMenu > span {
+  display: block;
+  line-height: 30px;
+  cursor: pointer;
+}
+#rightMenuMask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+#groupFirstList input{color:#999;}

@@ -1,0 +1,67 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <link rel="stylesheet" href="textList.css">
+    <script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+</head>
+<body>
+<!--文字列表开始-->
+<div class="widget_box">
+    <div class="visual_text_list widget_border_content"> 
+        <div class="visual_title">
+            <div class="more"><a href="#">更多 ></a></div>
+            <h3><a href="#">最新研报</a></h3>
+        </div>
+        <div class="visual_text_list_view visual_con"  id="widgetTextListView">
+        </div>
+        <!-- 分页开始 -->
+        <div id="page"></div>
+        <!-- 分页结束 -->
+    </div>
+</div>
+<!--文字列表模板渲染开始-->
+<script type="text/html" id="widgetTextListTpl">
+    <ul>
+        {{#  layui.each(d, function(index, item){ }} 
+        <li><h4><a href="#">{{ item.name }}</a></h4></li>
+        {{#  }); }}
+    </ul>
+</script>
+<!--文字列表模板渲染结束-->
+<!--文字列表结束-->
+<script>    
+    //服务id
+    var serviceId = "member";
+
+    //接口地址
+    var url = '/user';
+
+    /*
+    * 获取文字列表
+    */
+    function getTextList(serviceId, url, curr, limit, entity){
+        var params = {
+            "entity": entity,
+            "pager": {
+                current: curr,
+                size: limit
+            }
+        };
+        ajax(serviceId, url + "/listing", "post", JSON.stringify(params)).then(function(data){
+            if(data.success){
+                getData(data.obj.records, '#widgetTextListTpl', '#widgetTextListView');
+                page(data.obj.total, curr, limit, getTextList, 'page', entity);
+            }else{
+                console.log(data.msg);
+            }
+        });
+    }
+    getTextList(serviceId, url, 1, 10, {});
+</script>
+</body>
+</html>

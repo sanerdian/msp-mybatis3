@@ -1,0 +1,61 @@
+<!--保存：api参数-->
+<script type="text/html"  id="templateItem8">
+	<form class="layui-form" lay-filter="editFormItem8">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">字段名:</label>
+					<div class="layui-input-block">
+						<input type="text" name="field" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">字段的中文名:</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">align:</label>
+					<div class="layui-input-block">
+						<select name="align">
+							<option value="left">left</option>
+							<option value="right">right</option>
+							<option value="center">center</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">字段宽度:</label>
+					<div class="layui-input-block">
+						<input type="text" name="width" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">排序号:</label>
+					<div class="layui-input-block">
+						<input type="text" name="seqencing" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				
+				<input hidden="hidden" name="id">
+				<input hidden="hidden" name="apiId">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item8-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>
+
+<!-- <script>
+  form.on('submit(LAY-data-back-next)', function(data){
+	alert(2);
+    layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+</script> -->

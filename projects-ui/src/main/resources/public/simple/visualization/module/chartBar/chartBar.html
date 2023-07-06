@@ -1,0 +1,187 @@
+<link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+<link rel="stylesheet" href="chartBar.css">
+<!--柱状图开始-->
+<div class="widget_box">
+    <div class="widget_border_content">
+        <div class="visual_chart visual_chart_bar">
+        </div>
+        <div class="visual_chart_table">
+            <table class="layui-table">
+                <tr>
+                    <th>方式</th>
+                    <th>新增线索</th>
+                    <th>已转化线索</th>
+                    <th>线索转化率</th>
+                </tr>
+                <tr>
+                    <td>名片</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>0.0%</td>
+                </tr>
+                <tr>
+                    <td>展会</td>
+                    <td>12</td>
+                    <td>5</td>
+                    <td>41.67%</td>
+                </tr>
+                <tr>
+                    <td>外部介绍</td>
+                    <td>37</td>
+                    <td>21</td>
+                    <td>56.76%</td>
+                </tr>
+                <tr>
+                    <td>官网</td>
+                    <td>8</td>
+                    <td>1</td>
+                    <td>12.5%</td>
+                </tr>
+                <tr>
+                    <td>内部自拓</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>0.0%</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--设置按钮开始-->
+    <div class="widget_menu">
+        <div class="widget_icon widget_set"></div>
+        <div class="widget_icon widget_delete"></div>
+    </div>
+    <!--设置按钮结束-->
+    <!--设置弹出框开始-->
+    <script type="text/html" class="widget_set_tpl">
+        <div class="visual_module_set">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">文字样式</li>
+                    <li>关联字段</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">字体</label>
+                                <div class="layui-input-block">                        
+                                    <select name="fontFamily">
+                                        <option value="">请选择</option>
+                                        <option value="微软雅黑">微软雅黑</option>
+                                        <option value="黑体">黑体</option>
+                                        <option value="宋体">宋体</option>
+                                        <option value="Arial">Arial</option>
+                                        <option value="Helvetica">Helvetica</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">字体颜色</label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                        <div id="{{ d.widgetId }}ColorPicker"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">字号</label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">图表类型</label>
+                                <div class="layui-input-block">  
+                                    <select name="viewType">
+                                        <option value="">请选择</option>
+                                        <option value="bar">柱状图</option>
+                                        <option value="line">折线图</option>
+                                        <option value="">饼状</option>
+                                        <option value="">漏斗图</option>
+                                    </select>
+                                    <select name="viewType">
+                                        <option value="">请选择</option>
+                                        <option value="stack">堆叠型</option>
+                                        <option value="area">面积型</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">表格设置</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="showTable" value="1" title="显示" checked>
+                                    <input type="radio" name="showTable" value="0" title="不显示">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">图表设置</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="showChar" value="1" title="显示" checked>
+                                    <input type="radio" name="showChar" value="0" title="不显示">
+                                </div>
+                            </div>
+                            <!-- <div class="layui-form-item">
+                                <label class="layui-form-label">图表X轴单位</label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="unitXchart" placeholder="请输入" class="layui-input">
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">图表Y轴单位</label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="unitYchart" placeholder="请输入" value="个" class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">总数设置</label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="3"><span class="text">条</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--点击确定按钮时，获取表单设置的样式数据-->
+                            <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">元数据表</label>
+                                <div class="layui-input-block">                     
+                                    <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">关联字段</label>
+                                <div class="layui-input-block visual_check">
+                                    <ul id="{{ d.widgetId }}Fields">
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--点击确定按钮时，获取表单设置的元数据数据-->
+                            <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!--设置弹出框结束-->
+</div>
+<!--柱状图结束-->
+<script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+<script src="../../../../thirdparty/layui/layui.all.js"></script>
+<script src="../../../../thirdparty/echarts/echarts.min.js"></script>
+<script src="../../../../common/js/config.js"></script>
+<script src="../../js/commonVisual.js"></script>
+<script src="chartBar.js"></script>

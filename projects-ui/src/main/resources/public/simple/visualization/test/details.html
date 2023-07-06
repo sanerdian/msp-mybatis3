@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>详情页面</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../../../common/js/common.js"></script>
+    <script src="../js/common.js"></script>
+    <!-- <script src="details.js"> </script> -->
+    <style>
+        #detailPage{
+            height: 200px;
+            position: relative;
+            margin: 30px 0 0 30px
+        }
+        #detailPage span{
+            margin-right: 10px;
+            color: #999999;
+        }
+        #detailPage img{
+            width:100px;
+            height:100px
+        }
+        .text_main{
+            display: inline-block;
+            position: absolute;
+            top: 40px;
+        }
+        .text_mainTop{
+            position: absolute;
+            top: 80px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div id="detailPage">
+
+    </div>
+</div>
+   <script>
+     //服务id service_prefix.dict
+     var serviceId = "/member";
+     //接口地址
+     var url = '/user';
+     var defaultPageSize = 15;
+     var curr = 1;
+     var data ;
+     var entity={
+            "sign":3
+        }
+     function setListData(serviceId,url,curr,defaultPageSize,entity){
+	        var jsonData = {
+		        "pager": {
+		          "current": curr,
+		          "size": defaultPageSize,
+                "sortProps":{
+                    key:'createTime',
+                    value:false
+                }
+		        },
+		         "entity":entity,
+	          };
+	        ajax(serviceId,url+'/list','post',JSON.stringify(jsonData)).then(function (data){
+		        if(data.success){	
+                 getData(data.obj.records[0],'#userDetail','#detailPage')
+		     }else{
+			     console.log(data.msg);
+		     }
+	   })
+    }
+    setListData(serviceId,url, curr, defaultPageSize,entity);
+   </script>
+   <script type="text/html" id="userDetail">
+    <img src="../upload/images/person.png" alt="">
+     <div class="text_main">
+        <h1>{{d.name}}</h1>
+     </div>
+     <div class="text_mainTop">
+        <span>电话号码：{{d.mobile}}</span>
+        <span>邮箱：{{d.email}}</span>
+    </div>
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.flowable.mapper.FlowFocusMapper">
+
+    <select id="listPage" resultType="com.jnetdata.msp.flowable.vo.WorkVo">
+        select t1.metadata_title as workName,
+            t2.proc_defi_id as procDefiId,
+            t2.proc_defi_key as procDefiKey,
+            t1.creator_id as startUserId,
+            t1.create_time as startTime,
+            t1.audit_status as auditStatus,
+            t1.proc_inst_id as procInstId
+        from j_flow_metadata t1, j_flow_focus t2
+        where t1.proc_inst_id = t2.proc_inst_id
+        <if test="vo.loginUserId != null and vo.loginUserId != ''">
+            and t2.user_id = #{vo.loginUserId}
+        </if>
+        <if test="vo.workName != null and vo.workName != ''">
+            and t1.metadata_title like concat('%', #{vo.workName}, '%')
+        </if>
+        <if test="vo.serialNumber != null">
+            and t1.serial_number = #{vo.serialNumber}
+        </if>
+        <if test="vo.procDefiKey != null and vo.procDefiKey != ''">
+            and t2.proc_defi_key = #{vo.procDefiKey}
+        </if>
+        <if test="vo.auditStatus != null">
+            and t1.audit_status = #{vo.auditStatus}
+        </if>
+        order by t1.serial_number desc
+    </select>
+
+</mapper>

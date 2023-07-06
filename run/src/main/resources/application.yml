@@ -1,0 +1,267 @@
+app:
+  key: xxx
+server:
+  port: 8080
+  servlet:
+    context-path: /
+base:
+  param:
+    appId: wx4c6b53b015c12aa7
+    appSecret: 2d17eb4a9052efaa8c90765007830ab9
+#可以把 POST 请求转为 DELETE 或 POST 请求
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    hiddenmethod:
+      filter:
+        enabled: true
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  application:
+    name: fastdevplat
+  #elasticsearch 配置
+  elasticsearch:
+#    hostname: 36.134.130.83
+#    hostname: 123.60.212.151
+#    port: 9201
+    hostname: localhost
+    port: 9200
+    scheme: http
+  datasource:
+    # 王树彬 开发
+#    url: jdbc:mysql://36.138.169.165:33062/fastdev_base?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://36.138.169.165:33062/fastdev?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+    username: fastdev
+    password: Jnetdata.mysql.20190316
+    jdbcDialect: mysql
+    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:oracle:thin:@localhost:1521/orcl
+#    username: FASTDEV
+#    password: FASTDEV
+#    jdbcDialect: oracle
+#    driverClassName: oracle.jdbc.driver.OracleDriver
+
+    #徐宁 站点分发
+#    url: jdbc:mysql://36.133.48.130:3306/fastdev3?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    password: zkjw@123
+#    jdbcDialect: mysql
+#    driverClassName: com.mysql.cj.jdbc.Driver
+
+#    url: jdbc:mysql://36.138.169.165:3306/fastdev_test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+#    username: oneweb
+#    password: root@ZKJW427**
+#    jdbcDialect: mysql
+#    driverClassName: com.mysql.cj.jdbc.Driver
+
+    #静态发布 鹏翮
+#    url: jdbc:mysql://36.133.48.130:3306/fastdev1?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+#    username: root
+#    password: zkjw@123
+#    jdbcDialect: mysql
+#    driverClassName: com.mysql.cj.jdbc.Driver
+
+#    url: jdbc:kingbase8://123.60.212.151:54321/xhs_zsk
+#    username: xhs_api
+#    password: 123456
+#    jdbcDialect: kingbase
+#    driverClassName: com.kingbase8.Driver
+
+#    url: jdbc:dm://localhost:5236
+#    url: jdbc:dm://120.46.141.181:5236
+#    username: FASTDEV
+#    password: FASTDEV123
+#    jdbcDialect: dm
+#    driverClassName: dm.jdbc.driver.DmDriver
+
+#    url: jdbc:mysql://123.56.73.94:3306/fastdevdemo94?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT%2B8
+#    username: zhengyanshedb
+#    password: zkjw123
+#    jdbcDialect: mysql
+#    driverClassName: com.mysql.cj.jdbc.Driver
+
+#    url: jdbc:dm://localhost:5236/FASTDEV
+#    url: jdbc:dm://123.57.7.118:5236/FASTDEV
+#    username: FASTDEV
+#    password: Q1W2E3R4T5
+#    jdbcDialect: dm
+#    driverClassName: dm.jdbc.driver.DmDriver
+
+
+#    url: jdbc:kingbase8://123.57.7.118:54321/fastdev
+#    username: fastdev
+#    password: zkjw123
+#    jdbcDialect: kingbase
+#    driverClassName: com.kingbase8.Driver
+
+#    url: jdbc:postgresql://123.57.7.118:5432/fastdev
+#    username: fastdev
+#    password: zkjw123
+#    jdbcDialect: postgresql
+#    driverClassName: org.postgresql.Driver
+
+#    url: jdbc:oracle:thin:@39.105.102.10:1521/orcl
+#    username: FASTDEVYZ
+#    password: FASTDEVYZ_123
+#    jdbcDialect: oracle
+#    driverClassName: oracle.jdbc.driver.OracleDriver
+
+ #   url: jdbc:oracle:thin:@43.142.59.143:1521/helowin
+ #   username: FASTDEV
+ #   password: FASTDEV
+ #   jdbcDialect: oracle
+ #   driverClassName: oracle.jdbc.driver.OracleDriver
+
+
+    druid:
+      test-on-borrow: true
+      test-while-idle: true
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+#  redis:
+#    #是否是集群(1:是,2:否)
+#    isCluster: 1
+#    #集群host配置
+##    host: 127.0.0.1:6380,127.0.0.1:6381,127.0.0.1:6382,127.0.0.1:6383,127.0.0.1:6384,127.0.0.1:6385
+#    host: 47.93.151.74
+#    port: 16379
+#    password: 20190316.a58fee018b41c6b2668f1f1878e73d23
+#    timeout: 1800000
+#    jedis:
+#      pool:
+#        max-active: 600
+#        max-wait: 1000ms
+#        max-idle: 300
+#        min-idle: 0
+#fdfs:
+#  so-timeout: 1501
+#  connect-timeout: 601
+#  thumb-image:             #缩略图生成参数
+#    width: 150
+#    height: 150
+#  web-server-url: localhost/
+#  tracker-list: 47.93.151.74:10013
+#flowable:
+#  common:
+#    app:
+#      idm-url: http://123.56.73.94:9735/flowable-idm
+#  datasource:
+#    schema: fastdevdemo94
+#  async-executor-activate: false
+
+# 配置slq打印日志
+#mybatis-plus:
+#  mapper-locations: classpath*:com/jnetdata/**/mapper/mysql/*.xml,classpath:/META-INF/modeler-mybatis-mappings/*.xml
+#  configuration-properties:
+#    prefix: ''
+#    blobType: BLOB
+#    boolValue: TRUE
+
+pagehelper:
+  helper-dialect: oracle
+
+flowable:
+  common:
+    app:
+      idm-url: http://localhost:8080/flowable-idm
+  datasource:
+    schema: fastdev
+  async-executor-activate: false
+  database-schema-update: false
+
+mybatis-plus:
+#  mapper-locations: classpath*:com/jnetdata/**/mapper/mysql/*.xml,classpath:/META-INF/modeler-mybatis-mappings/*.xml
+  mapper-locations: classpath*:com/jnetdata/**/mapper/${spring.datasource.jdbcDialect}/*.xml,classpath:/META-INF/modeler-mybatis-mappings/*.xml
+  configuration-properties:
+    prefix: ''
+    blobType: BLOB
+    boolValue: TRUE
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false
+    jdbc-type-for-null: 'null'
+    database-id: oracle
+  global-config:
+    db-column-underline: false
+    #字段策略 0:"忽略判断",1:"非 NULL 判断",2:"非空判断"
+    field-strategy: 0
+    banner: false
+
+swagger:
+  print-init: false #非必需,默认false
+  enabled: true #必需 false为禁用swagger
+  docket:
+    base-package: com.jnetdata.msp
+# 微信开发配置
+wx:
+  # 微信小程序开发
+  miniapp:
+    appid: wx4f1361ec81a09afc
+    secret: e71a8612eb22f1e6f10eb808ae7eadb3
+    # 配置消息推送需要
+    token: zhongkejuwang2023
+    aesKey: N6IaIumnkFl1ZTwOJJJJGeJKfL62tXF3MDWFAsl3IVV
+    msgDataFormat: json
+jnetdata:
+  shiro:
+    filterChainDefinitions:
+      - /simple/**=user
+  cros:
+    allowedOrigins:
+      - '*'
+#      - 'http://localhost'
+#      - 'http://msp.local.com'
+thenicesys:
+  message:
+    sms:
+      #助通:1,百度:2
+      type: 1
+      #[发送短信]
+      #用户名
+      loginName: kfpthy
+      #密码
+      passWord: kfpt123456
+      #企业编号
+      corpId: 2063030
+      #短信实例model
+      modelMessage: 您好，您的验证码是{0}, 5分钟内有效。【中科聚网】
+      #请求地址
+      mtUrl: http://api.mix2.zthysms.com/v2/sendSms
+      #获取md5加密url
+      md5Url: http://api.cosms.cn/sms/getMD5str/
+      #编码格式：0-GB、1-URLENCODE、2-UTF8、3-UCS2
+      msgFormat: 2
+      #短信紧急程度     1：即时	2：一般      3：群发
+      mtLevel: 1
+      #企业签名
+      unitName: 【中科聚网】
+      ## 百度
+      accessKeyId: fefwf
+      secretAccessKey: fefef
+      endpoint: http://smsv3.bj.baidubce.com
+      signatureId: sms-signQxkiwz88470
+      templateId: sms-tmpl-awKvRY85349
+      codeName: verificationCode
+    email:
+      host: smtp.163.com
+      protocol: smtp
+      port: 465
+      # port: 25
+      ssl: true
+      account: 18813171370@163.com
+      fullAccount: 18813171370@163.com
+      password: nzf207118
+      nickname: 中科聚网
+user-login-lock-times: -1
+
+#logging:
+#  level:
+#    root: INFO
+#  file:
+#    name: E:\\logs\\core.log

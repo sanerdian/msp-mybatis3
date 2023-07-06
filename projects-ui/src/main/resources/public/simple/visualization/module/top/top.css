@@ -1,0 +1,8 @@
+.visual_top_box{width:100%;height:70px;background:#197be0;}
+.visual_top{width:1200px;height:70px;background:url(img/top.png) no-repeat;margin:0 auto;}
+.visual_logo{float:left;width:200px;height:70px;cursor:pointer;}
+.visual_logo a{display:block;}
+.visual_top_right{float:right;}
+.visual_top_right .layui-form{margin:15px 0 0;}
+.visual_top_right .layui-form .layui-form-item .layui-inline{margin:0;}
+.visual_top_right .layui-form .layui-form-item .layui-btn{background:#3c96f4;}

@@ -1,0 +1,30 @@
+.layui-text .jc_top {
+    width: 100%;
+    min-height: 60px;
+    border: 1px solid #ccc;
+}
+.jc_topMain {
+    width: 80%;
+    min-height: 60px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+}
+.top_logo
+, .top_index
+, .top_user {
+    float: left;
+    min-width: 20%;
+    min-height: 60px;
+    border: 1px solid #ccc;
+    border-width: 0 1px;
+}
+.top_index {
+    margin-left: 240px;
+}
+.top_user {
+    margin-left: 10px;
+}
+.jc_topMenu {
+    min-height: 80px;
+    margin-top: 10px;
+}

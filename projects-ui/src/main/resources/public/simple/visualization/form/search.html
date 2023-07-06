@@ -1,0 +1,33 @@
+<!--弹出层模板 新增-->
+<script type="text/html" id="addTemplate">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">表单名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="" lay-verify="required" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>key：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" lay-verify="required" name="" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述：</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input hidden="hidden" name="id">
+        <input type="hidden" name="status" value="1"/>
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addCompany">确定</button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>

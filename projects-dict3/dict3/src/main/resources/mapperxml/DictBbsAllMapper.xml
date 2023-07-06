@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictBbsAllMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictBbsAll">
+    <!--@mbg.generated-->
+    <!--@Table dict_bbs_all-->
+    <id column="jmetabbsid" jdbcType="BIGINT" property="jmetabbsid" />
+    <result column="cruser" jdbcType="VARCHAR" property="cruser" />
+    <result column="crtime" jdbcType="DATE" property="crtime" />
+    <result column="crint" jdbcType="INTEGER" property="crint" />
+    <result column="docchannelid" jdbcType="INTEGER" property="docchannelid" />
+    <result column="docstatus" jdbcType="INTEGER" property="docstatus" />
+    <result column="singletempkate" jdbcType="INTEGER" property="singletempkate" />
+    <result column="siteid" jdbcType="INTEGER" property="siteid" />
+    <result column="docvalid" jdbcType="DATE" property="docvalid" />
+    <result column="docpubtime" jdbcType="DATE" property="docpubtime" />
+    <result column="operuser" jdbcType="VARCHAR" property="operuser" />
+    <result column="opertime" jdbcType="DATE" property="opertime" />
+    <result column="doctitle" jdbcType="VARCHAR" property="doctitle" />
+    <result column="docreltime" jdbcType="DATE" property="docreltime" />
+    <result column="bbs_id" jdbcType="INTEGER" property="bbsId" />
+    <result column="bbs_bt" jdbcType="VARCHAR" property="bbsBt" />
+    <result column="bbs_qa" jdbcType="VARCHAR" property="bbsQa" />
+    <result column="bbs_jing" jdbcType="VARCHAR" property="bbsJing" />
+    <result column="bbs_nr" jdbcType="LONGVARCHAR" property="bbsNr" />
+    <result column="bbs_sf" jdbcType="VARCHAR" property="bbsSf" />
+    <result column="bbs_ds" jdbcType="VARCHAR" property="bbsDs" />
+    <result column="bbs_ftsj" jdbcType="DATE" property="bbsFtsj" />
+    <result column="bbs_hfs" jdbcType="VARCHAR" property="bbsHfs" />
+    <result column="bbs_djs" jdbcType="VARCHAR" property="bbsDjs" />
+    <result column="bbs_yhid" jdbcType="VARCHAR" property="bbsYhid" />
+    <result column="bbs_zcrq" jdbcType="VARCHAR" property="bbsZcrq" />
+    <result column="bbs_tablename" jdbcType="VARCHAR" property="bbsTablename" />
+    <result column="bbs_cx" jdbcType="VARCHAR" property="bbsCx" />
+    <result column="bbs_cxfl" jdbcType="VARCHAR" property="bbsCxfl" />
+    <result column="keyword333" jdbcType="VARCHAR" property="keyword333" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="adjectelation111" jdbcType="VARCHAR" property="adjectelation111" />
+    <result column="t1" jdbcType="VARCHAR" property="t1" />
+    <result column="t2" jdbcType="VARCHAR" property="t2" />
+    <result column="t3" jdbcType="VARCHAR" property="t3" />
+    <result column="t4" jdbcType="VARCHAR" property="t4" />
+    <result column="prices" jdbcType="VARCHAR" property="prices" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="satisfied" jdbcType="INTEGER" property="satisfied" />
+    <result column="neutral" jdbcType="INTEGER" property="neutral" />
+    <result column="unsatisfy" jdbcType="INTEGER" property="unsatisfy" />
+    <result column="ct_adj" jdbcType="VARCHAR" property="ctAdj" />
+    <result column="cutpartime" jdbcType="DATE" property="cutpartime" />
+    <result column="cutsentime" jdbcType="DATE" property="cutsentime" />
+    <result column="adjectelation" jdbcType="VARCHAR" property="adjectelation" />
+    <result column="keywordtime" jdbcType="DATE" property="keywordtime" />
+    <result column="adj_starts" jdbcType="INTEGER" property="adjStarts" />
+    <result column="cut_status" jdbcType="INTEGER" property="cutStatus" />
+    <result column="ct_stopword" jdbcType="VARCHAR" property="ctStopword" />
+    <result column="bbs_shsj" jdbcType="DATE" property="bbsShsj" />
+    <result column="keytongyici" jdbcType="VARCHAR" property="keytongyici" />
+    <result column="keyrelation" jdbcType="VARCHAR" property="keyrelation" />
+    <result column="key_min" jdbcType="INTEGER" property="keyMin" />
+    <result column="key_max" jdbcType="INTEGER" property="keyMax" />
+    <result column="keynum" jdbcType="INTEGER" property="keynum" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="form_nr" jdbcType="LONGVARCHAR" property="formNr" />
+    <result column="classify" jdbcType="VARCHAR" property="classify" />
+    <result column="nrlen" jdbcType="INTEGER" property="nrlen" />
+    <result column="keyword_ct" jdbcType="VARCHAR" property="keywordCt" />
+    <result column="keyword_cx" jdbcType="VARCHAR" property="keywordCx" />
+    <result column="iskoubei" jdbcType="INTEGER" property="iskoubei" />
+    <result column="car_id" jdbcType="INTEGER" property="carId" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="DOMICILE" jdbcType="VARCHAR" property="domicile" />
+    <result column="YEARSOLD" jdbcType="INTEGER" property="yearsold" />
+    <result column="CHEKU" jdbcType="VARCHAR" property="cheku" />
+    <result column="BBS_ERROR" jdbcType="VARCHAR" property="bbsError" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    jmetabbsid, cruser, crtime, crint, docchannelid, docstatus, singletempkate, siteid, 
+    docvalid, docpubtime, operuser, opertime, doctitle, docreltime, bbs_id, bbs_bt, bbs_qa, 
+    bbs_jing, bbs_nr, bbs_sf, bbs_ds, bbs_ftsj, bbs_hfs, bbs_djs, bbs_yhid, bbs_zcrq, 
+    bbs_tablename, bbs_cx, bbs_cxfl, keyword333, keyword, adjectelation111, t1, t2, t3, 
+    t4, prices, brand, satisfied, neutral, unsatisfy, ct_adj, cutpartime, cutsentime, 
+    adjectelation, keywordtime, adj_starts, cut_status, ct_stopword, bbs_shsj, keytongyici, 
+    keyrelation, key_min, key_max, keynum, `source`, form_nr, classify, nrlen, keyword_ct, 
+    keyword_cx, iskoubei, car_id, GENDER, DOMICILE, YEARSOLD, CHEKU, BBS_ERROR
+  </sql>
+</mapper>

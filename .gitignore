@@ -1,0 +1,25 @@
+*.class
+*.jar
+*.log
+**/classes/
+# IntelliJ project files
+.idea
+*.iml
+strSources/
+out/
+**/target/
+
+# gradle
+.gradle
+build
+
+# Eclipse project files
+**/bin/
+.project
+.settings
+**/unitils-local.properties
+**/logs/
+**/idea/
+**/.idea/
+
+

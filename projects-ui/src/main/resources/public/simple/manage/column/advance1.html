@@ -1,0 +1,665 @@
+<style>
+    .list_borderr{
+        border-style: solid;
+        border-width: 1px;
+        margin-top: 10px;
+        margin-left: 10px
+    }
+    #AddNewReference .ztree li a span {
+        font-size: 15px;
+    }
+
+</style>
+<div class="layui-card" style="padding-left: 15px">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="padding-right: 20px">是否置顶</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="1" title="置顶" checked="checked">
+            <input type="radio" name="sex" value="0" title="不置顶">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="padding-left: 11px">是否定时发布</label>
+        <div class="layui-input-block" >
+            <input type="radio" name="redr" value="1" title="是" checked="checked">
+            <input type="radio" name="redr" value="0" title="否">
+        </div>
+    </div>
+</div>
+<div class="layui-form" style="padding-left: 11px">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">请选择时间</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="test14" placeholder="H点m分s秒">
+            </div>
+        </div>
+        <!-- <div class="layui-inline">
+             <label class="layui-form-label">请选择范围</label>
+             <div class="layui-input-inline">
+                 <input type="text" class="layui-input" id="test15" placeholder=" ~ ">
+             </div>
+         </div>-->
+    </div>
+</div>
+<div class="layui-card" style="padding-left: 15px">
+    <div class="layui-row" style="padding-left: 15px" >
+        相关元数据
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" onclick="addMetadata1()" >添加元数据</button>
+    </div>
+    <div class="layui-card-body">
+        <div class="table-area">
+            <table id="test24" lay-submit lay-filter="test24"></table>
+        </div>
+        <div id="pageobj1"></div>
+    </div>
+    <div class="layui-row" style="padding-left: 15px" >
+        推送到的栏目
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" data-type="addpush1">添加推送</button>
+    </div>
+    <!--<div class="layui-card-body">
+        <div class="table-area">
+            <table id="testpush1" lay-filter="testpush2"></table>
+        </div>
+        <div id="page1"></div>
+    </div>-->
+    <div class="layui-row" style="padding-left: 15px" >
+        引用到的栏目
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" data-type="addReference1">添加引用</button>
+    </div>
+    <div class="layui-card-body">
+        <div class="table-area">
+            <table id="testeee" lay-filter="testeee"></table>
+        </div>
+        <div id="page133"></div>
+    </div>
+    <div class="layui-row" style="padding-left: 15px ;padding-top: 10px">
+        推送到的分类法
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" data-type="addclass1">添加推送</button>
+    </div>
+
+    <div class="layui-card-body">
+        <div class="table-area">
+            <table id="testpush1" lay-filter="testpush2"></table>
+        </div>
+        <div id="pagepush"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        doListtPort1(1);
+    })
+
+    function doListtPort1(current) {
+        var jsondata = {
+            "pager": {
+                "current": 1,
+                "size": pageSize,
+            },
+            "entity": {}
+        }
+        ajax("", "/addreference/pushg/listing", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                layui.use(['table', 'laypage'], function () {
+                    var table = layui.table;
+                    /*,laypage=layui.laypage;*/
+                    table.render({
+                        elem: '#test24'
+                        //elem:'#subscribeTabel'
+                        , data: data.obj.records
+                        , cols: [[
+                            {type: 'checkbox', fixed: 'left'},
+                            {type: 'numbers', title: '序号', fixed: 'left'}
+                            , {field: 'xwid', title: 'id', fixed: 'left'}
+                            ,{field:'name', width: 170, title: '元数据栏目'}
+                            , {field: 'crtime', width: 330, title: '创建时间'}
+                            , {field: 'cruser', width: 320, title: '创建人'}
+                            ,{field:'', width: 230,title: '操作',toolbar: '#barDemoo1'}
+                        ]],
+                        id: "test24"
+                        , limit: 10
+                    })
+                    laypage.render({
+                        elem: 'pageobj1'
+                        , count: data.obj.total
+                        , curr: data.obj.current
+                        , limit: pageSize
+                        , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                doListtPort1(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+    /*删除操作*/
+    layui.table.on('tool(test24)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if(layEvent === 'delll'){
+            layer.alert("确定删除:["+data.name+"]",function(){
+                doDeleteByIdss1([data.id]);
+            })
+        }
+    });
+    function doDeleteByIdss1(id) {
+        layer.alert("是否确定删除,该操作不可撤回",function () {
+            ajax("","/addreference/pushg/dele/"+id,"get",{}).then(res=>{
+                if(res.success){
+                    doListt1(1);
+                    layer.closeAll();
+                }
+            }).catch(res=>{
+                layer.closeAll()
+            })
+        })
+    }
+</script>
+<script type="text/html" id="barDemoo1">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delll">删除</a>
+</script>
+<script type="text/html" id="barDemoeReference">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delsann">删除</a>
+</script>
+<script>
+    active.addpush1=function () {
+        console.log("////////////....................///////")
+        addpushClassName();
+    }
+    active.addReference1 = function () {
+        /*var datas = getTableCheckDataidd13("metadataTable");*/
+            showColumnTreeReference(copyMetadata, "元数据引用", "checkbox");
+
+    }
+
+    function showColumnTreeReference(fn, title, checkType, checks, noChecks, checked) {
+        columnTreeIndex = layer.open({
+            title: title
+            , area: ['540px', '700px']
+            , content: '<div id="AddNewReference" ></div>'
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                // console.log(openZTreeObj.getSelectedNodes()[0].id)
+                /*var nodes = getCheckNodesIdss(openZTreeObj);
+                var ids = nodes.ids;
+                console.log("...............ids")
+                console.log(ids)
+                if (!ids || ids.length <= 0) {
+                    layer.alert("请选择栏目");
+                    return null;
+                }
+                if(fn){
+                    fn(ids, datas, nodes.names);
+                    layer.close(columnTreeIndex);
+                }*/
+
+                addReference2()
+                /*layer.closeAll();*/
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+        })
+        layui.laytpl($("#pushcalssTemplate2").html()).render({edit: true}, function (html) {
+            $("#AddNewReference").html(html)
+        });
+        layui.form.render();
+        getColumnTreeDataSystem(1).then(function (res) {
+            function ajaxTreeDataFilter1(treeId, parentNode, responseData) {
+                if (responseData) {
+                    for(var o of responseData){
+                        var flag = false;
+                        for(var k in checks){
+                            if (o[k] != checks[k]){
+                                flag = true;
+                            }
+                        }
+                        for(var k in noChecks){
+                            if (o[k] == noChecks[k]){
+                                flag = true;
+                            }
+                        }
+                        o.nocheck = flag;
+
+                        /*if(checked.indexOf(o.id) >= 0) o.checked = true;*/
+                    }
+                }
+                responseData.forEach(e=>{
+                    switch (e.isSite) {
+                        case 0 :  e.icon = "common/img/u5548.png"; break;
+                        case 1 :  e.icon = "common/img/u5554.png"; break;
+                        case 2 :  e.icon = "common/img/u2615.png"; break;
+                    }
+                })
+                return responseData;
+            }
+            var flag = getColumnTreeAsync();
+            var settingss = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    }
+                },
+                async: {
+                    enable: flag,
+                    autoParam: ["id"],
+                    type: "get",
+                    url: getAjaxUrl('',"/manage/programa/asyncTree"),
+                    dataFilter: ajaxTreeDataFilter1,
+                    xhrFields: {withCredentials: true}
+                },
+                view: {
+                    showLine: false,
+                    showIcon: true
+                },
+                check: {                    //表示tree的节点在点击时的相关设置
+                    enable: false,           //是否显示radio/checkbox
+                    autoCheckTrigger: false,
+                    chkStyle: checkType,      //值为checkbox或者radio表示
+                    // radioType:"all",
+                    chkboxType: {"Y": "", "N": ""},  //表示父子节点的联动效果，不联动
+                    nocheckInherit: false
+                },
+                /*  callback: {
+                      onClick:ztreetime1l
+                  }*/
+            }
+            openZTreeObj = $.fn.zTree.init($("#ydTree"), settingss, res);
+            if (!flag) {
+                openZTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+            }else{
+                var pnodes = openZTreeObj.getNodesByFilter(function (node) {
+                    return node.isSite == 0
+                });
+                pnodes.forEach(function (res) {
+                    openZTreeObj.expandNode(res, true);
+                })
+            }
+        })
+    }
+
+
+
+   /* 查看列表*/
+    $(function () {
+        getUserLoginReference1(1);
+    })
+
+    function getUserLoginReference1(pageNo1) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo1,
+                "size": pageSize,
+                /* "sortProps":{
+                 key:"loginTime",
+                 value:false
+             }*/
+            },
+            "entity": {
+                /*"bmname":document.getElementById("bmname"),*/
+                /*"address":document.getElementById("address").value,
+            "loginTime":startTime,
+            "endTime":endTime,
+            "logoutTime":startTime1,
+            "endTime1":endTime1*/
+            }
+        }
+        ajax("", "/trtable/push/listing", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                layui.use(['table', 'laypage'], function () {
+                    var table = layui.table;
+                    /*,laypage=layui.laypage;*/
+                    table.render({
+                        elem: '#testeee'
+                        //elem:'#subscribeTabel'
+                        , data: data.obj.records
+                        , cols: [[
+                            /* {type: 'checkbox', fixed: 'left'},*/
+                            {type: 'numbers', title: '序号', fixed: 'left'}
+                            , {field: 'xwid', title: 'id', fixed: 'left'}
+                            , {field: 'name', width: 400, title: '推送名'}
+                            , {field: 'lanmname', title: '被推送名'}
+                            , {field: 'cruser', title: '创建人'}
+                            , {field: 'crtime', title: '时间'}
+                            ,{field:'', title: '操作',toolbar: '#barDemoeReference'}
+                            /*, {field: 'createTime', title: '创建时间'}
+                        , {field: 'modifyUser', title: '操作人'}
+                        , {field: 'modifyTime', title: '操作时间'}*/
+                        ]],
+                        id: "testeee"
+                        , limit: 10
+                    });
+                    laypage.render({
+                        elem: 'page133'
+                        , count: data.obj.total
+                        , curr: data.obj.current
+                        , limit: pageSize
+                        , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                getUserLoginReference1(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+
+    /*删除操作*/
+    layui.table.on('tool(testeee)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if(layEvent === 'delsann'){ //删除
+            layer.alert("确定删除:["+data.name+"]",function(){
+                doDeleteByIdsReference(data.id);
+            })}
+    });
+    function doDeleteByIdsReference(id) {
+        layer.alert("是否确定删除,该操作不可撤回",function () {
+            ajax("","/trtable/push/dele/"+id,"get",{}).then(res=>{
+                if(res.success){
+                    /*doList(1,{});*/
+                    layer.closeAll();
+                }
+            }).catch(res=>{
+                layer.closeAll();
+            })
+        })
+    }
+</script>
+<script>
+    $(function () {
+        getUserLoginpush(1);
+    })
+
+    function getUserLoginpush(pageNo1) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo1,
+                "size": pageSize,
+            },
+            "entity": {
+            }
+        }
+        ajax("", "/addpushcotegory/push/listing", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                layui.use(['table', 'laypage'], function () {
+                    var table = layui.table;
+                    /*,laypage=layui.laypage;*/
+                    table.render({
+                        elem: '#testpush1'
+                        //elem:'#subscribeTabel'
+                        , data: data.obj.records
+                        , cols: [[
+                            /* {type: 'checkbox', fixed: 'left'},*/
+                            {type: 'numbers', title: '序号', fixed: 'left'}
+                            , {field: 'pushname', width: 400, title: '标签分类'}
+                            , {field: 'classname', title: '标签名称'}
+                            , {field: 'cruser', width: 400,title: '创建人'}
+                            , {field: 'crtime', width: 400,title: '时间'}
+                            ,{field:'', title: '操作',toolbar: '#barDemopush'}
+                            /*, {field: 'createTime', title: '创建时间'}
+                        , {field: 'modifyUser', title: '操作人'}
+                        , {field: 'modifyTime', title: '操作时间'}*/
+                        ]],
+                        id: "testpush1"
+                        , limit: 10
+                    });
+                    laypage.render({
+                        elem: 'pagepush'
+                        , count: data.obj.total
+                        , curr: data.obj.current
+                        , limit: pageSize
+                        , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                getUserLoginpush(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+
+   /* layui.form.on("submit(addpushclass2)",function(){
+        addclasspushf();
+    });*/
+    layui.table.on('tool(testpush2)', function(obj){//注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        console.log(".....................test[s")
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if(layEvent === 'delpush'){ //删除
+            layer.alert("确定删除:["+data.classname+"]",function(){
+                doDeleteByIdspush(data.id);
+            })}
+    });
+    function doDeleteByIdspush(id) {
+        layer.alert("是否确定删除,该操作不可撤回",function () {
+            ajax("","/addpushcotegory/push/dele/"+id,"get",{}).then(res=>{
+                if(res.success){
+                    /*doList(1,{});*/
+                    layer.closeAll();
+                }
+            }).catch(res=>{
+                layer.closeAll();
+            })
+        })
+    }
+</script>
+<script type="text/html" id="barDemopush">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delpush">删除</a>
+</script>
+<script type="text/html" id="pushcalssTemplate1">
+    <form class="layui-form" lay-filter="pushclassForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标签分类:</label>
+                    <div class="layui-input-block">
+                        <select name = "parentid" id = "classid" lay-filter = "classid1" >
+                        </select>
+                    </div>
+                </div>
+                <div >
+                    选择要推送的标签
+                </div>
+                <div style="overflow: hidden;">
+                    <ul id="treeDemo1w" class="ztree"></ul>
+                </div>
+                <!--<div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 200px;">
+                        <button type="button" class="layui-btn" lay-submit lay-filter="addpushclass2">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+                        </button>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="pushcalssTemplate2">
+    <form class="layui-form" lay-filter="AddNewReference">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <ul id="ydTree" class="ztree" style="width: 473px;height: 445px;"></ul>
+                </div>
+                <!-- <input type="radio" name="sex" value="1" title="置顶" checked="checked" class="layui-col-md6">
+                 <input type="radio" name="sex" value="0" title="不置顶" class="layui-col-md6">-->
+                <div>
+                    <input type="radio" name="referenceType" value="1" title="链接型引用（仅仅产生一个链接，文档表现形式保持完全一致）" checked="checked">
+                </div>
+                <div>
+                    <input type="radio" name="referenceType" value="2" title="镜像型引用（在目标栏目产生文档的镜像）">
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+<script>
+    $('input[name="sex"]:checked').val()
+    if($('input[name="redr"]').attr("checked",true)){
+        $("#test14").attr("disable",true)
+    }
+    //自定义格式
+    laydate.render({
+        elem: '#test14'
+        ,type: 'time'
+        ,format: 'H点m分s秒'
+    });
+
+    layui.form.render();
+    active.addclass1 = function(){
+        addclass()
+    }
+    //获取分类法树
+    function addclass() {
+        //多窗口模式，层叠置顶
+        openindex1 = layer.open({
+            type: 1,
+            title: "推送到标签",
+            area: ['500px', '600px'],
+            maxmin: true,
+            content: '<div id="pushclassForm"></div>',
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var nodes=zTreeObj.getSelectedNodes()[0];
+                var ids = nodes.id;
+                var compid=nodes.parentid;
+                if (!ids || ids.length <= 0) {
+                    layer.alert("请选择栏目");
+                }else {
+                    addclasspushf();
+                }
+            }
+        });
+        layui.laytpl($("#pushcalssTemplate1").html()).render({edit: true}, function (html) {
+            $("#pushclassForm").html(html)
+        });
+        getParentTreeadd()
+    }
+
+    //获取父类分类法
+    function getParentTreeadd(){
+        var jsondata = {
+            'parentId': 0
+        }
+        ajax(service_prefix.metadata,"/class/all","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                var html2 = "";
+                for(var i in data.obj) {
+                    var s = data.obj[i];
+                    html2 += '<option value="'+s.id+'" data-name="'+s.className+'">' + s.className + '</option>';
+                }
+                $("#classid").html(html2);
+                layui.form.render("select")
+                var val1 = document.getElementById("classid").value;
+                getChildTreeadd(val1);
+
+            }
+        })
+    }
+    form.on('select(classid1)', function (data) {
+        getChildTreeadd(data.value)
+    });
+    //获得子树
+    function getChildTreeadd(id) {
+        var jsondata = {
+            "parentId": id
+        }
+        ajax(service_prefix.metadata,"/class/tree","post",JSON.stringify(jsondata)).then(data=>{
+            var res = data.obj;
+            for (var i in res) {
+                if (res[i].parentId == id) {
+                    res[i].icon = "common/img/icon/u3383.png";
+                } else {
+                    res[i].icon = "common/img/u2628.png";
+                }
+
+            }
+            showTree(res);
+        })
+    }
+
+    /* function addPushCategory() {
+
+     }*/
+</script>
+<script>
+    var zTreeObj;
+    var zTreeObjj1
+    //ztree
+    var settings = {
+        edit: {
+            enable: true,
+            drag: {
+                isCopy: false,
+                isMove: true,
+                prev: true,
+                next: true,
+                inner: false
+            },
+            showRemoveBtn: false,
+            showRenameBtn: false
+        },
+        data: {
+            keep: {
+                leaf: true,
+                parent: true
+            },
+            simpleData: {
+                enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id", //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: 0 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            },
+            key: {
+                name: "className"
+            }
+        },
+        view: {
+            showLine: false,
+            showIcon: true
+        },
+       /* check: {
+            enable: true,            //true / false 分别表示 显示 / 不显示 复选框或单选框
+            autoCheckTrigger: true,   //true / false 分别表示 触发 / 不触发 事件回调函数
+            chkStyle: "checkbox",     //勾选框类型(checkbox 或 radio）
+            chkboxType: {"Y":"","N":""}
+        },*/
+        callback: {
+        },
+
+    };
+    //渲染树结构
+    function showTree(data) {
+        zTreeObj = $.fn.zTree.init($("#treeDemo1w"), settings, data); //初始化树
+        // zTreeObj.expandAll(false);    //true 节点全部展开、false节点收缩、
+    }
+
+    $(function(){
+        layui.form.render();
+    })
+</script>

@@ -1,0 +1,70 @@
+<!--弹出层模板 编辑-->
+<script type="text/html" id="examTemplate">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="editForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label">主题词：</label>
+                <div class="layui-input-block">
+                    <select  class="layui-input" name="wordname" id="wordnameKey" onkeydown="option" onclick="getList" disabled="true">
+                        {{#  layui.each(d.obj, function(index, item){ }}
+                        <option value="{{item.wordname}}" disabled="true">{{ item.wordname }}</option>
+                        {{#  }); }}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="sign_required">*</span>属性词：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="shuxingci" id="shuxingci" lay-verify="required" disabled="true"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">属相相关词：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="sx_relationword" disabled="true">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">属性同义词：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="tongyici" disabled="true">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">属性拼音</label>
+                <div class="layui-input-block">
+                    <input type="text" name="pinyin" autocomplete="off" class="layui-input"
+                           id="shuxingpinyin" disabled="true">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn " onclick="getpinyin()" id="huoqupinyin" type="button" disabled="true">
+                    获取拼音
+                </button>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">属性同音词：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="tongyinci" disabled="true">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">词条状态：</label>
+                <div class="layui-input-block">
+                    <select name="status">
+                        <option value="未生效" selected>未生效</option>
+                        <option value="已生效">已生效</option>
+                        <option value="停用">停用</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-bar">
+                <button class="layui-btn" lay-submit lay-filter="submitBtnEdit">确定</button>
+                <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+            </div>
+        </form>
+    </div>
+</script>
+<script src="/simple/dictionary/taskManager/Convert_Pinyin.js"></script>

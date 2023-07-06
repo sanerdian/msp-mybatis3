@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.ExpertMapper">
+
+	<sql id="Commentselect">
+		ID AS id,DOCCHANNELID AS docchannelid,DOCSTATUS AS docstatus,SINGLETEMPKATE AS singletempkate,SITEID AS siteid,DOCVALID AS docvalid,DOCPUBTIME AS docpubtime,OPERUSER AS operuser,OPERTIME AS opertime,DOCTITLE AS doctitle,DOCRELTIME AS docreltime,DOCPUBURL AS docpuburl,LINKURL AS linkurl,CLASSINFOID AS classinfoid,`STATUS` AS `status`,COMPANYID AS companyid,WEBSITEID AS websiteid,COLUMNID AS columnid,MODIFY_USER AS modifyUser,SEQENCING AS seqencing,FLOW_ID AS flowId,FLOW_USER AS flowUser,DOCID AS docid,USERCOMMENT AS usercomment,COMMENTSTATUS AS commentstatus,STATUSDATE AS statusdate,CRUSER AS crUser,CRNUMBER AS createBy,CRTIME AS createTime,modify_by AS modifyBy,modify_time AS modifyTime
+	</sql>
+
+	<sql id="Evaluateselect">
+		ID AS id,DOCCHANNELID AS docchannelid,DOCSTATUS AS docstatus,SINGLETEMPKATE AS singletempkate,SITEID AS siteid,DOCVALID AS docvalid,DOCPUBTIME AS docpubtime,OPERUSER AS operuser,OPERTIME AS opertime,DOCTITLE AS doctitle,DOCRELTIME AS docreltime,DOCPUBURL AS docpuburl,LINKURL AS linkurl,CLASSINFOID AS classinfoid,`STATUS` AS `status`,COMPANYID AS companyid,WEBSITEID AS websiteid,COLUMNID AS columnid,MODIFY_USER AS modifyUser,SEQENCING AS seqencing,FLOW_ID AS flowId,FLOW_USER AS flowUser,EVALUATEOBJECT AS evaluateobject,IDVALUE AS idvalue,EVALUATETYPE AS evaluatetype,CRUSER AS crUser,CRNUMBER AS createBy,CRTIME AS createTime,modify_by AS modifyBy,modify_time AS modifyTime
+	</sql>
+
+	<sql id="CommentWhere">
+		<where>
+			1=1
+			<if test="entity.docid != null and entity.docid != ''">
+				and t.docid = #{entity.docid}
+			</if>
+
+			<if test="entity.usercomment != null and entity.usercomment != ''">
+				and t.usercomment like CONCAT(CONCAT('%',#{entity.usercomment}),'%')
+			</if>
+
+			<if test="entity.crUser != null and entity.crUser != ''">
+				and t.crUser like CONCAT(CONCAT('%',#{entity.crUser}),'%')
+			</if>
+
+			<if test="entity.organize != null and entity.organize != ''">
+				and (select count(*) from GROUPINFO i left join GRP_USER g on i.groupid=g.groupid where g.userid=t.crnumber and i.groupname like CONCAT(CONCAT('%',#{entity.organize}),'%'))>0
+			</if>
+
+			<if test="entity.createTime != null">
+				and t.CRTIME BETWEEN #{entity.createTime } AND #{entity.createTime2 }
+			</if>
+
+		</where>
+	</sql>
+
+	<sql id="EvaluateWhere">
+		<where>
+			1=1
+			<if test="entity.docid != null and entity.docid != ''">
+				and t.idvalue = #{entity.docid}
+			</if>
+
+			<if test="entity.crUser != null and entity.crUser != ''">
+				and t.crUser like CONCAT(CONCAT('%',#{entity.crUser}),'%')
+			</if>
+
+			<if test="entity.organize != null and entity.organize != ''">
+				and (select count(*) from GROUPINFO i left join GRP_USER g on i.groupid=g.groupid where g.userid=t.crnumber and i.groupname like CONCAT(CONCAT('%',#{entity.organize}),'%'))>0
+			</if>
+
+			<if test="entity.createTime != null">
+				and t.CRTIME BETWEEN #{entity.createTime } AND #{entity.createTime2 }
+			</if>
+
+		</where>
+	</sql>
+
+
+	<!-- 评论列表 -->
+	<select id="selectPageComment" resultType="com.jnetdata.msp.tlujy.xinwen_comment.model.XinwenComment">
+		SELECT <include refid="Commentselect"/> FROM jmeta_xinwen_comment t <include refid="CommentWhere"/> order by t.crtime desc LIMIT #{min},#{max}
+	</select>
+
+	<!-- 评论列表最大数 -->
+	<select id="selectPageCommentMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmeta_xinwen_comment t
+		<include refid="CommentWhere"></include>
+	</select>
+
+	<!-- 点赞列表 -->
+	<select id="selectPageEvaluate" resultType="com.jnetdata.msp.tlujy.xinwen_evaluate.model.XinwenEvaluate">
+		SELECT <include refid="Evaluateselect"/> FROM jmeta_xinwen_evaluate t <include refid="EvaluateWhere"/> order by t.crtime desc LIMIT #{min},#{max}
+	</select>
+
+	<!-- 点赞最大数 -->
+	<select id="selectPageEvaluateMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmeta_xinwen_evaluate t
+		<include refid="EvaluateWhere"></include>
+	</select>
+
+</mapper>

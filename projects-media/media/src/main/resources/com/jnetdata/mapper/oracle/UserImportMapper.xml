@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.UserImportMapper">
+
+    <!-- 根据externalid查询铁路数据 -->
+    <select id="getInfobyExternalid" resultType="com.jnetdata.msp.media.vo.Lz_WorkerVo">
+        select * from LZ_WORKER_DC_73 t where t.externalid=#{externalid}
+    </select>
+
+    <select id="listCollectXinwen" resultType="com.jnetdata.msp.media.vo.xinwenPtVo">
+        select x.*,(select count(*) from jmeta_xinwen_comment t where t.docid=x.id)as commentcount
+        from jmeta_xinwen020 x inner join jmeta_collect c on c.docid=x.id and x.status='21' and x.docstatus='0'
+       where x.id is not null and c.state='1' and c.crnumber=#{userid} order by c.crtime desc
+    </select>
+
+    <select id="listCommentXinwen" resultType="com.jnetdata.msp.media.vo.xinwenPtVo">
+        select c.usercomment as commnettitle,c.id,c.crnumber as crnumber,c.crUser as crUser,c.crtime as crtime,c.id,x.*,x.title,x.logotu,x.id as xinwenid from jmeta_xinwen_comment c
+        left join jmeta_xinwen020 x on c.docid=x.id and x.status='21' and x.docstatus='0'
+        where x.id is not null and c.crnumber=#{userid} order by c.crtime desc
+    </select>
+
+    <select id="getCommentXinwen" resultType="com.jnetdata.msp.media.vo.xinwenPtVo">
+        select c.usercomment as commnettitle,c.crnumber as crnumber,c.crUser as crUser,c.crtime as crtime,x.*,x.id as xinwenid from jmeta_xinwen_comment c
+        left join jmeta_xinwen020 x on c.docid=x.id where c.id=#{id}
+    </select>
+
+    <select id="listEvaluateXinwen" resultType="com.jnetdata.msp.media.vo.xinwenPtVo">
+        select x.*,(select count(*) from jmeta_xinwen_comment t where t.docid=x.id)as commentcount
+        from jmeta_xinwen020 x inner join jmeta_xinwen_evaluate c on c.idvalue=x.id and c.evaluateobject='1' and x.status='21' and x.docstatus='0'
+        where x.id is not null and c.crnumber=#{userid} order by c.crtime desc
+    </select>
+
+    <select id="CommentXinwenCount" resultType="java.lang.Integer">
+        select count(1) from jmeta_xinwen_comment c
+        inner join jmeta_xinwen020 x on c.docid=x.id and x.status='21' and x.docstatus='0'
+        where x.id is not null and c.crnumber=#{userid}
+    </select>
+
+    <select id="EvaluateXinwenCount" resultType="java.lang.Integer">
+        select count(1) from jmeta_xinwen_evaluate c
+        inner join jmeta_xinwen020 x on c.idvalue=x.id and x.status='21' and x.docstatus='0'
+        where x.id is not null and c.evaluateobject='1' and c.crnumber=#{userid}
+    </select>
+
+    <select id="CollectXinwenCount" resultType="java.lang.Integer">
+        select count(1) from jmeta_collect c
+        inner join jmeta_xinwen020 x on c.docid=x.id and x.status='21' and x.docstatus='0'
+        where x.id is not null and c.state='1' and c.crnumber=#{userid}
+    </select>
+
+
+
+</mapper>
+

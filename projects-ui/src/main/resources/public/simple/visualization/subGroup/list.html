@@ -1,0 +1,250 @@
+<!--组件管理界面-->
+<link rel="stylesheet" href="simple/visualization/css/common.css">
+<link rel="stylesheet" href="simple/visualization/css/subGroup.css">
+<div class="layui-fluid">
+    <div id="subGroupIndex">
+        <div class="subGroupHead">
+            <div class="sghLeft" id="terminal">
+                <ul class="layui-nav layui-bg-white">
+                    <li class="layui-nav-item layui-this" data-type="PC端">
+                        <a>PC端</a>
+                    </li>
+                    <li class="layui-nav-item" data-type="H5移动端">
+                        <a>H5移动端</a>
+                    </li>
+                    <li class="layui-nav-item" data-type="APP端">
+                        <a>APP端</a>
+                    </li>
+                    <li class="layui-nav-item" data-type="小程序端">
+                        <a>小程序端</a>
+                    </li>
+                    <li class="layui-nav-item" data-type="大屏端">
+                        <a>大屏端</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sghRight">
+                <!-- <button type="button" class="layui-btn reverse-btn">导出组件</button>
+                <button type="button" class="layui-btn reverse-btn">导入组件</button> -->
+                <button class="layui-btn buildModule"> 新建组件</button>
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <input type="text" placeholder="请输入组件名称" class="layui-input" name="title" autocomplete="off">
+                        <button class="layui-btn" lay-submit lay-filter="searchGroup"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="subGroupFilter">
+            <div class="btnRow">
+                <div class="btnRowLeft">
+                    <button type="button" class="layui-btn layui-btn-primary">开发框架 ></button>
+                </div>
+                <div class="btnRowRight">
+                    <div class="type" id="frameType">
+                        <button type="button" class="layui-btn" data-type="layui">layui</button>
+                        <button type="button" class="layui-btn layui-btn-primary" data-type="vue">vue</button>
+                        <button type="button" class="layui-btn layui-btn-primary" data-type="uni-app">uni-app</button>
+                    </div>
+                </div>
+            </div>
+            <div class="btnRow">
+                <div class="btnRowLeft">
+                    <button type="button" class="layui-btn layui-btn-primary">组件类型 ></button>
+                </div>
+                <div class="btnRowRight">
+                    <div class="type vmType" id="groupTypeView"></div>
+                    <div class="addition_btn" id="groupTypeAddBtn"><span class="addition">+</span></div>
+                </div>
+            </div>
+            <div class="btnRow">
+                <div class="btnRowLeft">
+                    <button type="button" class="layui-btn layui-btn-primary">类型分类 ></button>
+                </div>
+                <div class="btnRowRight ">
+                    <div class="type vcType" id="groupSubTypeView"></div>
+                    <div class="addition_btn" id="groupSubTypeAddBtn"><span class="addition">+</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="subGroupBody">
+            <div id="groupListView"></div>
+            <!--分页-->
+            <div class="page" id="page"></div>
+        </div>
+    </div>
+</div>
+
+<!--组件一级分类-->
+<script type="text/html" id="groupTypeTemplate">
+    {{# layui.each(d, function(index, item){ }}
+    <button type="button" class="layui-btn layui-btn-primary" data-id="{{ item.id }}">{{ item.title }}</button>
+    {{# }); }}
+</script>
+
+<!--组件二级分类-->
+<script type="text/html" id="groupSubTypeTemplate">
+    {{# layui.each(d, function(index, item){ }}
+    <button type="button" class="layui-btn layui-btn-primary" data-id="{{ item.id }}">{{ item.title }}</button>
+    {{# }); }}
+</script>
+
+<!--组件分类的列表数据-->
+<script type="text/html" id="groupListTemplate">
+    <div class="groupBox">
+    {{# layui.each(d, function(index, item){ }}
+        <div class="groupItem">
+            <div class="pic">
+                <div class="imgBox">
+                    <img src="{{item.img}}"/>
+                </div>
+                <div class="hoverBack">
+                    <div class="btnBox btnBottom">
+                        <a class="layui-btn layui-btn-radius  btnBlueright" href="/simple/visualization/subGroup/groupEdit.html#id={{item.id}}" target="_blank">编辑</a>
+                        <button class="layui-btn layui-btn-radius btnOrangeright" onclick="delmoudle('{{item.id}}' ,'{{item.title}}')">删除</button>
+                    </div>
+                    <div class="opacityBack"></div>
+                </div>
+            </div>
+            {{# if (item.title) { }}
+                <div class="txtBox">{{ item.title}}</div>
+            {{# } }}
+        </div>
+    {{# }); }}
+    {{# if (d.length == 0) { }}
+        <span style="display: block;text-align: center;line-height: 200px;font-size: 14px;">未找到数据</span>
+    {{# } }}
+    </div>
+</script>
+
+<!-- 点击新建组件后的弹框 -->
+<script type="text/html" id="buildModule">
+    <form class="layui-form set_from">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>组件名称:</label>
+          <div class="layui-input-block">
+            <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>输出文件名:</label>
+            <div class="layui-input-block">
+              <input type="text" name="outFileName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>网页类型:</label>
+            <div class="layui-input-block">
+              <select name="netType" lay-verify="required" >
+                <option value="PC端">PC端</option>
+                <option value="H5移动端">H5移动端</option>
+                <option value="APP端">APP端</option>
+                <option value="小程序端">小程序端</option>
+                <option value="大屏端">大屏端</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>开发框架:</label>
+            <div class="layui-input-block">
+              <select name="frame" lay-verify="required" >
+                <option value="layui">layui</option>
+                <option value="vue">vue</option>
+                <option value="uni-app">uni-app</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>组件类型:</label>
+            <div class="layui-input-block">
+                <select name="vmType" class="visualMoudeltype" lay-filter="visualMoudeltype" lay-verify="required">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>类型分类:</label>
+          <div class="layui-input-block">
+            <select name="vcType"  class="visualClasstype" lay-filter="visualClasstype" lay-verify="required">
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>扩展名:</label>
+            <div class="layui-input-block">
+              <input type="text" name="exteName"  placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required" > 
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">组件描述:</label>
+            <div class="layui-input-block">
+              <textarea name="proDes" placeholder="请输入描述" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block btn_center" >
+              <button class="layui-btn" lay-submit lay-filter="groupBtnAdd">确认</button>
+              <button type="reset" class="layui-btn layui-btn-primary reverse-btn">取消</button>
+            </div>
+        </div>
+      </form>
+</script>
+
+<!-- 添加组件类型，点击加号后的弹框 -->
+<script type="text/html" id="groupTypeLayerTemplate">
+    <form class="layui-form" action="" lay-filter="groupTypeForm">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="specialWord"> * </span>组件类型:</label>
+                <div class="layui-input-block">
+                  <input type="text" name="newMoudelname" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片:</label>
+                <div class="layui-input-block" >
+                    <div class="imgFilebox">
+                        <label>
+                            <img class="uploadImg" src="simple/visualization/img/uploadImg.png" />
+                            <input type="file" onchange="changeFile(this,'groupTypeLayerView')" style="display:none;">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn submit_hide" lay-submit lay-filter="groupTypeFormSubmit">提交</button>
+            </div>
+
+        </div>
+      </form>
+</script>
+
+<!-- 添加类型分类，点击加号后的弹框 -->
+<script type="text/html" id="groupSubTypeLayerTemplate">
+    <form class="layui-form" action="" lay-filter="groupSubTypeForm">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="specialWord"> * </span>类型分类:</label>
+                <div class="layui-input-block">
+                  <input type="text" name="newMoudelname" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片:</label>
+                <div class="layui-input-block" >
+                    <div class=" imgFilebox">
+                        <label>
+                            <img class="uploadImg" src="simple/visualization/img/uploadImg.png" />
+                            <input type="file" onchange="changeFile(this,'groupSubTypeLayerView')" style="display:none;">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn submit_hide" lay-submit lay-filter="groupSubTypeFormSubmit">提交</button>
+            </div>
+        </div>
+      </form>
+</script>
+<script src="simple/visualization/js/commonVisual.js"></script>
+<script src="simple/visualization/js/getViewService.js"></script>
+<script src="simple/visualization/js/subGroup.js"></script>

@@ -1,0 +1,141 @@
+package ${package.ServiceImpl};
+
+import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.jnetdata.msp.core.util.MapUtil;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+import com.jnetdata.msp.core.service.EsCommonService;
+import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.index.query.AbstractQueryBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.thenicesys.data.api.Pager;
+import org.thenicesys.web.vo.PageVo1;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * <p>
+ * testt 服务实现类
+ * </p>
+ *
+ * @author zyj
+ * @since 2021-03-12
+ */
+@Service
+public class ${table.serviceImplName} implements ${table.serviceName}{
+
+    @Autowired
+    EsCommonService esCommonService;
+
+    @Override
+    public Pager<${entity}> list(PageVo1 pager, ${entity} entity) {
+        BoolQueryBuilder boolQueryBuilder= QueryBuilders.boolQuery();
+
+#foreach($field in ${table.fields})
+#if("$!field.type" == "date")
+        if(StringUtils.isNotEmpty(entity.get${field.capitalName}())) boolQueryBuilder.must(QueryBuilders.rangeQuery("${field.name}").gt(entity.get${field.capitalName}()));
+        if(StringUtils.isNotEmpty(entity.get${field.capitalName}Bt2())) boolQueryBuilder.must(QueryBuilders.rangeQuery("${field.name}").lt(entity.get${field.capitalName}Bt2()));
+#else
+        setQueryBuilder(boolQueryBuilder, "${field.name}", entity.get${field.capitalName}(),"${field.type}");
+#end
+#end
+        setCommonkeyQueryBuilder(boolQueryBuilder, entity.getSearchFields(), entity.getCommonKey(), entity.getSearchType());
+        return esCommonService.search(${table.dbSourceId}L,"${lowerCaseEntityName}",boolQueryBuilder,pager,${entity}.class, entity.getSearchFields()!=null?Arrays.asList(entity.getSearchFields()):null);
+    }
+
+    public void setCommonkeyQueryBuilder(BoolQueryBuilder boolQueryBuilder, String[] searchFields,String value,Integer searchType){
+        if(StringUtils.isNotEmpty(value)){
+            String[] s = value.trim().split(" ");
+            for (String s1 : s) {
+                if(StringUtils.isEmpty(s1) || s1.equals(" ")){
+                    continue;
+                }
+                BoolQueryBuilder bool = QueryBuilders.boolQuery();
+                boolean flag = true;
+                if(searchFields!=null){
+                    for (String searchField : searchFields) {
+                        AbstractQueryBuilder abstractQueryBuilder;
+                        if(searchType == 0 ){
+                            abstractQueryBuilder = QueryBuilders.matchPhraseQuery(searchField, s1);
+                        }else {
+                            abstractQueryBuilder = QueryBuilders.matchQuery(searchField, s1);
+                        }
+                        if(flag) abstractQueryBuilder.boost(3f);
+                        else abstractQueryBuilder.boost(0.1f);
+                        flag = false;
+                        bool.should(abstractQueryBuilder);
+                    }
+                }else {
+                    QueryBuilders.queryStringQuery(value);
+                }
+                boolQueryBuilder.must(bool);
+            }
+        }
+    }
+
+    public void setQueryBuilder(BoolQueryBuilder boolQueryBuilder, String fieldName,String value,String type){
+        if(StringUtils.isEmpty(value)) return;
+        if(type.equals("text")){
+            boolQueryBuilder.must(QueryBuilders.matchQuery(fieldName, value));
+        }else if(type.equals("keyword")){
+            BoolQueryBuilder bool = QueryBuilders.boolQuery();
+            String[] s = value.trim().split(" ");
+            for (String s1 : s) {
+                bool.should(QueryBuilders.wildcardQuery(fieldName, "*"+s1+"*"));
+            }
+            boolQueryBuilder.must(bool);
+        }else{
+            BoolQueryBuilder bool = QueryBuilders.boolQuery();
+            String[] s = value.trim().split(" ");
+            for (String s1 : s) {
+                bool.should(QueryBuilders.termQuery(fieldName, s1));
+            }
+            boolQueryBuilder.must(bool);
+        }
+
+    }
+
+    public void setNotTagsQueryBuilder(BoolQueryBuilder boolQueryBuilder, String fieldName, List<String> value){
+        if(value == null || value.isEmpty()) return;
+        BoolQueryBuilder bool = QueryBuilders.boolQuery();
+        for (String s : value) {
+            bool.should(QueryBuilders.matchPhraseQuery(fieldName,s));
+        }
+        boolQueryBuilder.mustNot(bool);
+    }
+
+    @Override
+    public String insert(${entity} entity) {
+        esCommonService.addData(${table.dbSourceId}L,"${lowerCaseEntityName}", entity.getEsMap());
+        return entity.getId();
+    }
+
+    @Override
+    public boolean delete(String id) {
+        return esCommonService.delData(${table.dbSourceId}L,"${lowerCaseEntityName}" , id);
+    }
+
+    @Override
+    public ${entity} getById(String id) {
+        Map<String, Object> map = esCommonService.getById(${table.dbSourceId}L,"${lowerCaseEntityName}", id);
+        return map==null?null:new ${entity}(map);
+    }
+
+    @Override
+    public void updateById(String id,${entity} entity) {
+        esCommonService.updateData(${table.dbSourceId}L,"${lowerCaseEntityName}",id,entity.getEsMap());
+    }
+
+    @Override
+    public boolean deleteBatch(String[] ids) {
+        for (String id : ids) {
+            esCommonService.delData(${table.dbSourceId}L,"${lowerCaseEntityName}",id);
+        }
+        return true;
+    }
+}

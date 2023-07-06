@@ -1,0 +1,251 @@
+<title>我的收藏</title>
+<style>
+    .kinds li {
+        display: inline-block;
+        margin-left: 50px;
+        cursor: pointer;
+    }
+
+    .kinds {
+        margin: 25px 15px;
+    }
+
+    .active {
+        height: 30px;
+        width: 70px;
+        background: blue;
+        color: #FFFFFF;
+        text-align: center;
+        line-height: 30px;
+        display: inline-block;
+        border-radius: 5px;
+    }
+
+    #list {
+        width: 1300px;
+        height: 600px;
+        margin-left: 30px;
+    }
+
+    #list li {
+        width: 230px;
+        height: 180px;
+        /*background: url(./img/transparent.gif) no-repeat;*/
+        background-size: 100% 100%;
+        float: left;
+        margin-right: 25px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    #list li .img {
+        width: 230px;
+        height: 150px;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space12">
+        <div class="layui-col-md3" style="width: 312px;">
+            <div class="layui-card" style="height: 800px; ">
+                <div class="layui-card-body">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9" style="position: relative;width: 1350px;">
+            <div class="layui-card">
+                <div class="layui-card-body" style="height: 785px">
+                    <div id="kinds"></div>
+                    <ul id="list"></ul>
+                    <div id="test1" style="margin-left: 350px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    getTree()
+    var text = "";
+
+    function getTree() {
+        ajax(service_prefix.manage, "/programa/getTreeData", "post", {}).then(res => {
+            var settingss = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    },
+                    key: {
+                        name: "name" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+                    }
+                },
+                view: {
+                    showLine: false,
+                    showIcon: true
+                },
+                callback: {
+                    onClick: zTreeOnClick
+                }
+            };
+            var nodes = res.obj
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, nodes); //初始化树
+            zTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+        })
+    }
+
+    function zTreeOnClick() {
+        alert(text)
+    }
+    var obj = [{
+            type: "全部"
+        },
+        {
+            type: "文档"
+        },
+        {
+            type: "图片"
+        },
+        {
+            type: "视频"
+        },
+        {
+            type: "音频"
+        }
+
+    ]
+    layui.laytpl($("#kind").html()).render(obj, function (html) {
+        $("#kinds").html(html);
+        layui.form.render();
+    })
+
+    $(".kinds li").each(function () {
+        console.log(this)
+        text = $(this).children().text()
+        if (text === "全部") {
+            $(this).addClass("active");
+        }
+        var others = $(this).siblings();
+        $(this).click(function () {
+            switch (text) {
+                case "全部":
+                    getAll();
+                    break;
+                case "图片":
+                    getAll(0);
+                    break;
+                case "视频":
+                    getAll(1);
+                    break;
+                case "音频":
+                    getAll(3);
+                    break;
+                case "文档":
+                    getAll(2);
+                    break;
+            }
+            if (!$(this).hasClass("active")) {
+
+                $(this).addClass("active");
+                others.removeClass('active')
+            } else {
+                $(this).removeClass('active')
+            }
+        })
+    })
+</script>
+<script type="text/html" id="kind">
+    <ul class="kinds" style="height: 40px">
+        <span>类型：</span>
+        {{# layui.each(d, function(index, item){ }}
+        <li>
+            <span>{{item.type}}</span>
+        </li>
+        {{#  }); }}
+    </ul>
+</script>
+<script type="text/html" id="lists">
+    {{# layui.each(d, function(index, item){ }}
+    <li>
+        <div class="img">
+            <img src="{{item.url}}" alt="" onclick="preview('{{item.id}}',event)" style="width: 100%;height: 100%">
+
+            <div class="layui-btn-container" style="position: absolute;right:0px;top:0px;" id="collect">
+                <button class="layui-btn layui-btn-sm" style="background: rgba(0,0,0,0.7);border-radius: 2px;">
+
+                    <img src="../../../../web_front/common/img/u582_mouseOver.png" alt=""
+                        onclick="cancelCollect('{{item.id}}',event)" style="    width: 25px;
+    height: 25px;"></button>
+                <button class="layui-btn layui-btn-sm" style="background: rgba(0,0,0,0.7);border-radius: 2px"
+                    onclick="downLoadPic('{{item.id}}',event)">下载</button>
+            </div>
+        </div>
+        <div class="text" style="margin-top:10px;height: 20px;width: 240px;">
+            <span style="text-align: center">{{item.name}}.{{item.form}}</span>
+        </div>
+    </li>
+    {{#  }); }}
+    {{# if(d.length === 0){ }}
+    无数据
+    {{# } }}
+</script>
+<script>
+    var url = "/picture/";
+    var curr = 1,
+        size = 10,
+        collection = 1;
+    $(function () {
+        getAll();
+    }())
+
+    function getAll(sign) {
+        var data = {
+            "pager": {
+                "current": curr,
+                "size": size
+            },
+            "picture": {
+                "collection": collection,
+                "sign": sign
+            }
+        }
+        ajax(service_prefix.resources, url + "list", 'post', JSON.stringify(data)).then(function (res) {
+            if (res.success) {
+                console.log(res)
+                layui.laytpl($("#lists").html()).render(res.obj.records, function (html) {
+                    $("#list").html(html);
+                    layui.form.render();
+                })
+                layui.use('laypage', function () {
+                    var laypage = layui.laypage;
+                    laypage.render({
+                        elem: 'test1',
+                        count: res.obj.total,
+                        curr: res.obj.current,
+                        limit: res.obj.size,
+                        layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                        jump: function (obj, first) {
+                            if (!first) {
+                                curr = obj.curr
+                                size = obj.limit
+                                var obj1 = {};
+                                obj1.sign = 0
+                                getImgList(obj1)
+                            }
+                        }
+                    });
+                })
+            }
+        })
+    }
+
+    function cancelCollect(id, event) {
+        event.stopPropagation();
+        ajax(service_prefix.resources, url + "/changeCollect?id=" + id, 'post').then(function (res) {
+            if (res.success) {
+                getAll()
+            }
+        })
+    }
+</script>

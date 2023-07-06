@@ -1,0 +1,184 @@
+<script type="text/html" id="module_tag">
+    <div id="{{ d.widgetId }}" class="draggable-tag ui-draggable ui-draggable-handle w_tag widget_container"
+         style="position: absolute">
+         <div style="display: none;">{{d.id}}</div>
+        <div class="content">
+            {{# if(d.style === 0){ }}
+            {{# layui.each(d.containers, function(index,item){ }}
+            <button id="button_tag_{{ d.widgetId }}_{{ item.id }}" class="layui-btn tag_btn">{{ item.title }}</button>
+            {{# }); }}
+            {{# } }}
+
+            {{# layui.each(d.containers, function(index,item){ }}
+            {{# if(index === 0){ }}
+            <!--标签必备id，class必备container_content和border_content-->
+            <div id="container_tag_{{ d.widgetId }}_{{ item.id }}" class="container_content border_content"
+                 style="position: absolute"></div>
+            {{# }else{ }}
+            <div id="container_tag_{{ d.widgetId  }}_{{ item.id }}" class="container_content border_content"
+                 style="display: none;position: absolute"></div>
+            {{# } }}
+            {{# }); }}
+
+            <div class="container_tag_holder" style="width: 802px;height: 602px"></div>
+
+            {{# if(d.style === 1){ }}
+            {{# layui.each(d.containers, function(index,item){ }}
+            <button id="button_tag_{{ d.widgetId  }}_{{ item.id }}" class="layui-btn tag_btn">{{ item.title }}</button>
+            {{# }); }}
+            {{# } }}
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_tag_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu w_container_menu">
+        <div class="menu_icon set">
+            <img lay-event="set" src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_tag_set">
+    <form id="{{ d.widgetId }}_tag_add_page_content" action="" class="layui-form content" style="display: none">
+        <div class="layui-form-item" style="margin: 20px">
+            <label for="" class="layui-form-label">标签页名称：</label>
+            <div class="layui-input-block" style="width: 398px">
+                <input type="text" class="layui-input text_content" lay-verify="required"
+                       name="text_content"
+                       placeholder="请输入">
+            </div>
+        </div>
+        <div class="layui-form-item submit_item">
+            <div class="layui-input-block w_settings_btn">
+                <button class="layui-btn new_tab_set_ok">确定</button>
+                <button class="layui-btn layui-btn-primary new_tab_set_cancel">取消</button>
+            </div>
+        </div>
+    </form>
+    <form id="{{ d.widgetId }}_tag_update_page_content" action="" class="layui-form content" style="display: none">
+        <div class="layui-form-item" style="margin: 20px">
+            <label for="" class="layui-form-label">标签页名称：</label>
+            <div class="layui-input-block" style="width: 398px">
+                <input type="text" class="layui-input text_content" lay-verify="required"
+                       name="text_content"
+                       placeholder="请输入">
+            </div>
+        </div>
+        <div class="layui-form-item submit_item">
+            <div class="layui-input-block w_settings_btn">
+                <button class="layui-btn new_tab_set_ok">确定</button>
+                <button class="layui-btn layui-btn-primary new_tab_set_cancel">取消</button>
+            </div>
+        </div>
+    </form>
+    <div id="{{ d.widgetId }}_settings" class="w_settings w_tag_settings">
+        <form action="" class="layui-form content">
+            <label for="" class="layui-form-label" style="padding: 16px 15px">模板样式：</label>
+            <div class="layui-input-block">
+                <div class="tag_style">
+                    <div class="tag_style_img">
+                        <div style="float: left;width: 16px;height: 7px;background: #6796db;margin: 6px 1px 0 0;"></div>
+                        <div style="float: left;width: 16px;height: 7px;background: #e3e2e8;margin: 6px 1px 0 0;"></div>
+                        <div style="float: left;width: 16px;height: 7px;background: #e3e2e8;margin: 6px 1px 0 0;"></div>
+                        <div style="position: absolute;top:16px;width: 51px;height: 3px;background: #e3e2e8;margin: 4px 1px 0 0;"></div>
+                        <div style="position: absolute;top:26px;width: 51px;height: 3px;background: #e3e2e8;margin: 4px 1px 0 0;"></div>
+                        <div style="position: absolute;top:37px;width: 26px;height: 3px;background: #e3e2e8;margin: 4px 1px 0 0;"></div>
+                    </div>
+                    <div class="tag_style_flag">
+                        <img class="tag_style_active_icon1">
+                        <img class="tag_style_active_icon2">
+                    </div>
+                </div>
+                <div class="tag_style">
+                    <div class="tag_style_img" style="left:80px;">
+                        <div style="position: absolute;top:2px;width: 51px;height: 3px;background: #e3e2e8;margin: 4px 1px 0 0;"></div>
+                        <div style="position: absolute;top:12px;width: 51px;height: 3px;background: #e3e2e8;margin: 4px 1px 0 0;"></div>
+                        <div style="position: absolute;top:23px;width: 26px;height: 3px;background: #e3e2e8;margin: 4px 1px 0 0;"></div>
+                        <div style="position: absolute;top:32px;left: 5px;width: 16px;height: 7px;background: #6796db;margin: 6px 1px 0 0;"></div>
+                        <div style="position: absolute;top:32px;left: 22px;width: 16px;height: 7px;background: #e3e2e8;margin: 6px 1px 0 0;"></div>
+                        <div style="position: absolute;top:32px;left: 39px;width: 16px;height: 7px;background: #e3e2e8;margin: 6px 1px 0 0;"></div>
+                    </div>
+                    <div class="tag_style_flag" style="left:124px;">
+                        <img class="tag_style_active_icon1">
+                        <img class="tag_style_active_icon2">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <label for="" class="layui-form-label" style="clear: left">位置尺寸：</label>
+            <div class="layui-input-block" style="padding-top: 10px">
+                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                       name="text_left"
+                       value="{{ d.left }}">
+                <span class="text_set_note">X</span>
+                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                       name="text_top"
+                       value="{{ d.top }}">
+                <span class="text_set_note">Y</span>
+                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                       name="text_width"
+                       value="{{ d.width }}">
+                <span class="text_set_note">W</span>
+                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                       name="text_height"
+                       value="{{ d.height }}">
+                <span class="text_set_note">H</span>
+            </div>
+            <label for="" class="layui-form-label">背景填充：</label>
+            <div class="layui-input-block">
+                <div class="color_picker"></div>
+                <div style="position: absolute;top:10px;left: 80px">
+                    <span>描边:</span>
+                </div>
+                <div class="border_img">
+                    <img src="../images/border_icon.png">
+                </div>
+            </div>
+            <label for="" class="layui-form-label" style="clear: left">滚动设置：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="scroll" lay-filter="{{ d.widgetId }}_scroll" title="从不滚动" value="0" checked>
+                <input type="radio" name="scroll" lay-filter="{{ d.widgetId }}_scroll" title="按需滚动" value="1">
+            </div>
+            <div style="clear:left; position: relative; line-height: 38px">
+                <div>
+                    <div class="i_tab_info_settings"><span>标签项：</span></div>
+                    <div class="i_tab_add_page"><span>添加标签页</span></div>
+                </div>
+                <table id="{{ d.widgetId }}_settings_table" lay-filter="filter_{{ d.widgetId }}_settings_table"></table>
+            </div>
+        </form>
+        <div class="layui-input-block w_settings_btn">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+        <div id="editor_page_add" class="editor_page_set" style="display: none"></div>
+    </div>
+</script>
+
+<script type="text/html" id="i_tab_settings_right_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="update" class="i_tab i_tab_edit">
+        </span>
+        <span>
+            <img lay-event="delete" class="i_tab i_tab_delete">
+        </span>
+    </div>
+</script>
+
+<script type="text/html" id="i_tab_settings_order_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="up" class="i_tab i_tab_arrow rotate1">
+        </span>
+        <span>
+            <img lay-event="down" class="i_tab i_tab_arrow rotate3">
+        </span>
+    </div>
+</script>
+
+

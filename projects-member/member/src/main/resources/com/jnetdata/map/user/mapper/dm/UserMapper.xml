@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.member.user.mapper.UserMapper">
+    <select id="userPage" resultType="com.jnetdata.msp.member.user.model.User">
+        SELECT t.*,
+        wm_concat(d.ROLEID ) roleIds,
+        wm_concat(e.ROLENAME ) roleName
+        <if test="user.roleId != null and user.roleId !='' ">
+            ,(SELECT ROLEUSERID FROM role_user WHERE ROLEID = #{user.roleId} AND USERID = t.id)
+        </if>
+        <if test="user.groupId != null and user.groupId !='' ">
+            ,(SELECT GRPUSERID FROM grp_user WHERE GROUPID = #{user.groupId} AND USERID = t.id) grpUserId
+            ,(SELECT ISLEADER  FROM grp_user WHERE GROUPID = #{user.groupId} AND USERID = t.id) isLeader
+        </if>
+        FROM (
+
+        select a.*,
+        wm_concat(c.GROUPNAME ) groupName,
+        wm_concat(b.GROUPID ) groupIds
+        FROM (
+        SELECT USERID as id,USERNAME as name,TRUENAME as trueName,EMAIL as email,REGTIME as regTime,MOBILE as mobile,SEX as sex,headUrl as headUrl,sign,
+        CRUSER as crUser,LEADERID as leaderId from userinfo
+        where status >= 0
+        <if test="user.name!=null and user.name!=''">
+            and USERNAME like concat('%',#{user.name},'%')
+        </if>
+        <if test="user.trueName!=null and user.trueName!=''">
+            and TRUENAME like concat('%',#{user.trueName},'%')
+        </if>
+        <if test="user.email!=null and user.email!=''">
+            and EMAIL like concat('%',#{user.email},'%')
+        </if>
+        <if test="user.leaderId!=null and user.leaderId!=''">
+            and LEADERID = #{user.leaderId}
+        </if>
+        <if test="user.sex!=null and user.sex!=''">
+            and sex = #{user.sex}
+        </if>
+        <if test="user.sign!=null">
+            and sign = #{user.sign}
+        </if>
+        <if test="user.ids != null">
+            AND userid in
+            <foreach collection="user.ids" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="user.createBy!=null">
+            AND (CRNUMBER = #{user.createBy} OR USERID = #{user.createBy} or USERID in (select USERID from grp_user where groupid in (select groupid from grp_user where userid = #{user.createBy} and isleader = 1)) or sign != 0)
+        </if>
+        ORDER BY CRTIME DESC
+        ) a
+        LEFT JOIN grp_user b ON a.id = b.USERID
+        LEFT JOIN groupinfo c ON b.GROUPID = c.GROUPID GROUP BY a.id,a.name,a.truename,a.email,a.regtime,a.mobile,a.sex,a.headurl,a.sign,a.crUser,a.leaderid
+
+        ) t
+        <if test="user.ids != null">
+            AND userid in
+            <foreach collection="user.ids" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        LEFT JOIN role_user d ON t.id = d.USERID
+        LEFT JOIN roleinfo e ON d.ROLEID = e.ROLEID
+        GROUP BY t.id,t.name,t.truename,t.email,t.regtime,t.mobile,t.sex,t.headurl,t.sign,t.crUser,t.leaderid,t.groupname,groupids
+        having 1=1
+        <if test="user.roleId != null and user.roleId !='' ">
+            and roleIds like concat('%',#{user.roleId},'%')
+        </if>
+        <if test="user.groupId != null and user.groupId !='' ">
+            and groupIds like concat('%',#{user.groupId},'%')
+        </if>
+    </select>
+</mapper>

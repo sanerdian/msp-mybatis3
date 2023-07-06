@@ -1,0 +1,1676 @@
+<style>
+	.k_header {
+		display: flex;
+		justify-content: space-between;
+		height: 50px;
+		width: 100%;
+		margin: 10px;
+	}
+
+	.header_left {
+		display: flex;
+		height: 50px;
+		line-height: 50px;
+		width: 85%;
+		background-color: #f2f2f2;
+		border-left: 5px solid #009688;
+		padding-left: 20px;
+	}
+
+	.header_left p {
+		margin-right: 20px;
+	}
+
+	
+	.k_content .k_content_item h4 {
+		height: 40px;
+		line-height: 44px;
+		font-size: 12px;
+		color: #009688;
+		border-bottom: 1px solid #e5e5e5;
+
+	}
+
+	.k_content .k_content_item p {
+		padding-top: 8px;
+	}
+
+	.k_content .k_content_item h4 span {
+		border-bottom: 2px solid #009688;
+		padding-bottom: 10px;
+	}
+
+	.evaluate {
+		background-color: #009688;
+		color: #fff;
+		display: inline;
+		padding: 5px;
+	}
+
+	.postContent-top {
+		height: 50px;
+		line-height: 50px;
+		width: 95%;
+		border-left: 5px solid #009688;
+		background-color: #f2f2f2;
+	}
+
+	.layui-tab-item {
+		padding: 15px;
+		/* height: 200px; */
+	}
+
+	.item2 h4 {
+		height: 40px;
+		line-height: 44px;
+		font-size: 12px;
+		color: #009688;
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+	.item2 h4 span {
+		border-bottom: 2px solid #009688;
+		padding-bottom: 10px;
+	}
+
+	.posiContent-main {
+		display: flex;
+		margin-top: 15px;
+	}
+
+	.posiContent-item {
+		width: 30%;
+		/* height: 500px; */
+		background-color: #e6f5f3;
+		border-radius: 5px;
+		padding: 15px;
+		margin-right: 15px;
+	}
+
+	.posiContent-item .posiContent-title {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.posiContent-main .layui-btn {
+		background: none !important;
+		border-radius: 5px;
+		border: 1px solid #009688;
+		color: #009688;
+		height: 30px;
+		line-height: 30px;
+	}
+
+	.posiContent-title {
+		height: 40px;
+		line-height: 40px;
+	}
+
+	.posiContent-title h5 {
+		line-height: 30px;
+		height: 30px;
+	}
+
+	.posiContent-content h5 {
+		height: 40px;
+		line-height: 40px;
+	}
+
+	.layui-layout-admin .layui-body .layadmin-tabsbody-item{
+		overflow-y: auto;
+	}
+</style>
+<script type="text/javascript">
+	layui.use('form', function(){
+		var form = layui.form;
+		form.render();
+	});
+</script>
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+		<a><i class="layui-icon layui-icon-prev"></i></a>
+		<a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+		<a>句义分析详情<i class="layui-icon layui-icon-close" style="margin-left: 120px"></i></a>
+		<div class="right">
+			<a><i class="layui-icon layui-icon-next"></i></a>
+			<a><i class="layui-icon layui-icon-down"></i></a>
+		</div>
+	</div>
+</div>
+<div class="layui-fluid" id='fluid1'>
+	<div class="layui-card">
+		<div class="k_header"  style="margin-top: 15px;">
+			<div class="header_left">
+				<p>车型：奥迪RS 4</p>
+				<p>发帖时间：2019-11-20 08：20</p>
+				<p>审核时间：2019-11-20 08：20</p>
+				<p>贴主：8493148</p>
+				<p>地域：82981070</p>
+				<p>原网址：<a href="">网址详情</a></p>
+			</div>
+			<div class="header_right" style="margin-top: 5px;margin-right: 30px;">
+				<button class="layui-btn layuiadmin-btn-admin limit-user" data-type="putUser">车型指标编辑</button>
+			</div>
+		</div>
+		<div class="k_content" style="display: flex;flex-direction: column;margin-bottom: 15px;">
+			<div class="k_content_item">
+				<h4 class="content_item_title"><span>车型指标分类</span></h4>
+				<p class="content_item_text"></p>
+			</div>
+			<div class="k_content_item">
+				<h4 class="content_item_title"><span>主题词</span></h4>
+				<p class="content_item_text">运动型多用途车;钥匙;比亚迪;售后服务;顶配;车型;性价比;国产车</p>
+			</div>
+			<div class="k_content_item">
+				<h4 class="content_item_title"><span>形容词</span></h4>
+				<p class="content_item_text">喜欢;精致;很好;热情;很高;</p>
+			</div>
+			<div class="k_content_item">
+				<h4 class="content_item_title"><span>主题词停用词</span></h4>
+				<p class="content_item_text">喜欢;精致;很好;热情;很高;</p>
+			</div>
+		</div>
+		<div class="evaluate">
+			<span>满意:5 中立:0 不满意:0</span>
+		</div>
+		<!-- 选项卡 -->
+		<div class="layui-tab layui-tab-card" style="margin-top: 20px;">
+			<ul class="layui-tab-title">
+				<li class="layui-this">帖子内容</li>
+				<li>断句分析</li>
+				<li>断句操作记录</li>
+				<li>断句流程</li>
+				<li onclick="setJuyifenxiListData(serviceId,url_pauseSentenceOther)">断句建议</li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<p>
+						前8年我们家都是小轿车，买SUV一直是我要买的。据说女人都很喜欢SUV.刚好家里的小轿车也有些小毛病了。看车老公一直在网上看了一年多，中间看过不少车。比亚迪，雪佛兰。最后还是选择了捷途，个人觉得捷途的服务还是很好，第一次去的是廊坊的一个4S店去就能试车，有些其他车是不可以试车的。第二次试车的时候，老公特意让我去开了一圈。因为我家的车我开的多。第二次去试车的时候，是通州一个店，去的当天就订车。可能当时给的优惠，折扣也很多。买回来的时候老公那是爱不释手，每天很是照顾它。这是第一天买回来时候，去加油站加油。
+					</p>
+					<br>
+					<p>关于新车的介绍，一个女同志实在写不出什么。但是这次的发布会，让我见证了奥迪RS
+						4的成长和创新。就连钥匙都比以前精致了。在国产车中，这款车的性价比还是很高的。不光我觉得好看。看看捷途车主作为捷途的粉丝，我们和其他粉丝还被捷途邀请一起去爬古北水镇的司马台长城，逛古镇。真的很感谢捷途的大力回馈。也很感恩遇见，感恩捷途让捷途的车主们聚在一起。一次美好的旅行。
+					</p>
+					<br>
+					<p>我爱我车，我爱旅行，奥迪RS 4一直在路上。</p>
+				</div>
+				<div class="layui-tab-item">
+					<p class="postContent-top">1【买SUV一直是我要买的。】</p>
+					<h4><span>第一段数据操作</span><img src="" alt=""></h4>
+					<div class="posiContent-main">
+						<div class="posiContent-item posiMainLeft">
+							<div class="posiContent-title">
+								<h5>断句标签块1-1</h5>
+								<div class="btn" style="display: flex;">
+									<button type="button" class="edit-btn layui-btn layui-btn-fluid">编辑</button>
+									<button type="button" class="layui-btn layui-btn-fluid">删除</button>
+								</div>
+							</div>
+							<div class="posiContent osiContent-content">
+								<h5>车体指标分类：</h5>
+								<h5>车型指标分类：</h5>
+								<h5>主题词：（共1个）</h5>
+								<h5 style="color: #009688;">运动型多用途车</h5>
+								<h5>车体主题词：（共0个）</h5>
+								<h5>车型主题词：（共0个）</h5>
+								<h5>主题词属性词：</h5>
+								<h5>主题词相关词：（共0个）</h5>
+								<h5>场景词：</h5>
+								<h5>形容词：</h5>
+								<h5>反义词：</h5>
+								<h5>主题词停用词：</h5>
+								<h5>满意度分类：</h5>
+								<span style="color: #009688;">满意：0 &nbsp;&nbsp; 中意：0&nbsp;&nbsp;不满意&nbsp;&nbsp;</span>
+							</div>
+							<div class="edit-form" style="display:none;width: 600px">
+								<form class="layui-form" lay-filter="addForm">
+									<div class="posiContent-item posiMainRight">
+										<div class="posiContent-title" style="margin-left: auto">
+											<div class="btn" style="display: flex;">
+												<button type="button" class="finish-btn layui-btn layui-btn-fluid" lay-submit lay-filter="submitBtnAddFinish">完成</button>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item" style="visibility: hidden">
+										<label class="layui-form-label"><span class="sign_required">*</span>句义分析id：</label>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="juyifenxiId" id="juyifenxiId">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>车体指标分类：</label>
+										<span class="bodyworkIndexAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="bodyworkIndexType">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>车型指标分类：</label>
+										<span class="vehicleIndexTypeAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="vehicleIndexType">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+										<span class="ztcAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="QuatityOfSubjectWord" id="QuatityOfSubjectWord">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>车体主题词：</label>
+										<span class="ztcAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="bodyworkSubjectWord">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>车型主题词：</label>
+										<span class="ztcAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="vehicleSubjectWord">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>主题词属性词：</label>
+										<span class="subjectWordAttributiveWordAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="subjectWordAttributiveWord">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>场景词：</label>
+										<span class="sceneWordAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="sceneWord">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>形容词：</label>
+										<span class="adjectivAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="adjective">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>反义词：</label>
+										<span class="antonymAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="antonym">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>主题词停用词：</label>
+										<span class="subjectWordStopWordAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="subjectWordStopWord">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label"><span class="sign_required">*</span>属性级别：</label>
+										<span class="satisfactionAdd"><i class="layui-icon">&#xe61f;</i>添加</span>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input" name="satisfaction">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="posiContent-item posiMainCenter">
+							<div class="posiContent-title">
+								<h5>断句标签块1-2</h5>
+								<div class="btn" style="display: flex;">
+									<button type="button" class="edit-btn layui-btn layui-btn-fluid">编辑</button>
+									<button type="button" class="layui-btn layui-btn-fluid">删除</button>
+								</div>
+							</div>
+							<div class="posiContent-content">
+								<h5>车体指标分类：</h5>
+								<h5>车型指标分类：</h5>
+								<h5>主题词：（共1个）</h5>
+								<h5 style="color: #009688;">运动型多用途车</h5>
+								<h5>车体主题词：（共0个）</h5>
+								<h5>车型主题词：（共0个）</h5>
+								<h5>主题词属性词：</h5>
+								<h5>主题词相关词：（共0个）</h5>
+								<h5>场景词：</h5>
+								<h5>形容词：</h5>
+								<h5>反义词：</h5>
+								<h5>主题词停用词：</h5>
+								<h5>满意度分类：</h5>
+								<span style="color: #009688;">满意：0 &nbsp;&nbsp; 中意：0&nbsp;&nbsp;不满意&nbsp;&nbsp;</span>
+							</div>
+						</div>
+						<div class="posiContent-item posiMainRight">
+							<div class="posiContent-title">
+								<h5>断句标签块1-3</h5>
+								<div class="btn" style="display: flex;">
+									<button type="button" class="edit-btn layui-btn layui-btn-fluid">编辑</button>
+									<button type="button" class="layui-btn layui-btn-fluid">删除</button>
+								</div>
+							</div>
+							<div class="posiContent-content">
+								<h5>车体指标分类：</h5>
+								<h5>车型指标分类：</h5>
+								<h5>主题词：（共1个）</h5>
+								<h5 style="color: #009688;">运动型多用途车</h5>
+								<h5>车体主题词：（共0个）</h5>
+								<h5>车型主题词：（共0个）</h5>
+								<h5>主题词属性词：</h5>
+								<h5>主题词相关词：（共0个）</h5>
+								<h5>场景词：</h5>
+								<h5>形容词：</h5>
+								<h5>反义词：</h5>
+								<h5>主题词停用词：</h5>
+								<h5>满意度分类：</h5>
+								<span style="color: #009688;">满意：0 &nbsp;&nbsp; 中意：0&nbsp;&nbsp;不满意&nbsp;&nbsp;</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-tab-item">
+					<div class="layui-card h100">
+						<div class="layui-card-body">
+							<!-- 列表开始 -->
+							<div class="table-area" style="width:2550px;height:1000px">
+								<div class="table-area">
+									<table id="tableData" lay-filter="tableData" border="1" class="layui-table">
+										<thead>
+										<tr>
+											<th width=300px>编号</th>
+											<th width=300px>内容</th>
+											<th width=500px>操作内容</th>
+											<th width=300px>断句时间</th>
+											<th width=300px>操作方式</th>
+											<th width=300px>操作用户</th>
+										</tr>
+										</thead>
+									</table>
+								</div>
+								<div id="page"></div>
+							</div>
+							<!-- 列表结束 -->
+						</div>
+					</div>
+				</div>
+				<div class="layui-tab-item">
+					<div class="layui-textarea" style="width: 50%;float:left">
+						<p>1、对贴子断段，对段落进行标点符号补充（把空格都换成逗号）《句式》； </p>
+						<br>
+						<p> 2、对段识别主题词、主题词同义词、英文同义词、缩写词，属性词，属性词拼音，属性词同音词，属性词同义词，相关词，相关词同义词，相关词同音词，停用词，场景词； </p>
+						<br>
+						<p> 3、针对超过三个字的词再抽一遍； </p>
+						<br>
+						<p> 4、对段断句分句：据主题词、主题词同义词、英文同义词、缩写词，属性词，属性词拼音，属性词同音词，属性词同义词，相关词，相关词同义词，相关词同音词断句；断句规则以标点符号为界限；断句方式从段尾句向段首进行逐句分句；通过主题词，属性词，场景词匹配进行车型、车体分类标引；标引规则为主题词去相关词表查询，查询后返回四级规则； </p>
+						<br>
+						<p> 5、分句和句挂指标的几种情况：</p>
+						<p> （1）在挂载指标时用（（主题词+属性词）+场景词）来确定相应挂载指标；</p>
+						<p> （2）在属性词为空时（主题词+场景词）选定挂载指标；</p>
+						<p> （3）在场景词为空时（主题词+属性词）选定挂载指标；</p>
+						<p> （4）性词场景词全为空时选取（主题词+空属性+空主题词，默认指标）挂载指标；</p>
+						<p> （5）另外，选取（主题词）第一条挂载指标（或者不挂指标）。</p>
+						<br>
+						<p> 6、对句进行识别形容词（断句了就抽形容词，展示的时候再合句）；</p>
+						<br>
+						<p> 7、指标加形容词出满意度(（1>.一句话中有多个形容词是时计算满意度；2>. 只计算有主题词的那句话，合并过来的不参与计算；）</p>
+						<br>
+						<p> 8、对形容词进行满意度标引；标引规则为形容词去词库查询形容词类型，查询后返回状态；</p>
+						<br>
+						<p> 对形容词进行满意度标引；标引规则为形容词去词库查询形容词类型，查询后返回状态；</p>
+						<br>
+						<p> 10、帖子形容词、主题词、停用词合并；满意度帖子中句合并计算。</p>
+						<br>
+					</div>
+					<div style="width:50%;float:left">
+						<img src="common/img/pause_sentence_flow.png" alt="pause_sentence_flow"/>
+					</div>
+				</div>
+				<div class="layui-tab-item">
+					<form class="layui-form" lay-filter="juyifenxiForm">
+						<div class="layui-inline">
+							<img src="simple/dictionary/juyifenxi/portrait.png" style="margin-left: 0px;margin-right: -7px;width: 40px;height: 100%;">
+						</div>
+						<div class="layui-inline">
+                        <textarea class="layui-textarea" style="height:240px;float:left;color: #9c9c9c;" placeholder="请输入建议" name="pausesSentenceAdvice">
+                        </textarea>
+						</div>
+						<div class="button-bar">
+							<button class="layui-btn" lay-submit lay-filter="submitBtnAddJuyifenxi" style="margin-left: 500px;">发表</button>
+						</div>
+						<div class="layui-form-item" style="border-bottom: 1px solid #009688;padding-bottom: 10px;">
+							断句建议
+						</div>
+					</form>
+				</div>
+				<div class="listDataJuyifenxi_list">
+				</div>
+				<div class="listDataJuyifenxi_templ">
+					<div class="listDataJuyifenxi_line">
+						<div class="layui-inline" >
+							<img src="simple/dictionary/juyifenxi/portrait.png" style="margin-left: 0px;margin-right: -7px;width: 40px;height: 100%;">
+						</div>
+						<div class="layui-inline" style="margin-left:15px;margin-top: -5px;">admin001</div>
+						<p style="margin-left:49px;margin-top: -5px;">2020-07-20</p>
+
+
+						<div style="margin-left: 50px;margin-right: 100px;margin-top: 10px;min-height:30px;float:left" class="pausesSentenceAdvice">在很多Jeep车型上你都能看到与这个类似的徽章，Jeep在自己的车系内部建立了一套越野评级系统，能够获得Trail
+							Rated徽标代表了在该车拥有最强越野能力表现，其他车系比如大切诺基、自由光、自由侠只有Trail hawk高性能版车型才拥有Trail Rated徽标，他们也代表越野能力能达到同级别车型的领先水平。
+							Trail Rated的评价标准主要考核五大项目，包括：牵引力、循迹性、通过性、机动性和涉水能力
+						</div>
+						<span class="bodyworkIndexAdd" style="margin-bottom: 5px;height: 32px;font-size: 16px;color: #7a848d;"><i class="layui-icon"></i></span>
+						<div class="layui-inline">
+							<img src="simple/dictionary/juyifenxi/reply.png" style="width: 30px;height: 100%">
+						</div>
+						<div class="layui-inline">
+							<p>回复</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+<!--弹出层模板1-->
+<!--弹出层模板主题词-->
+<script type="text/html" id="addTemplate1">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<div style="width: 500px;height: 1000px;">
+				<div>
+					<div class="layui-inline">
+						<!-- 主题词 -->
+						<div class="layui-form-item">
+							<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+								<span style="line-height: 10px">主题词</span>
+							</div>
+						</div>
+						<!-- 添加主题词按钮 -->
+						<div class="layui-form-item">
+							<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+								添加主题词+：
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- 搜索 -->
+				<div class="layui-form-item">
+					<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+					<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+						<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+							<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+						</button>
+					</div>
+				</div>
+
+				<div class="layui-textarea" style="width: 500px;height: 400px">
+					<div style="height:350px;overflow-y:auto">
+						<table class="layui-table">
+							<colgroup>
+								<col width="50%">
+								<col width="50%">
+							</colgroup>
+							<tbody id="zhuticiHtml">
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit onclick="copyDataToForm()">确定</button>  <!-- lay-filter="copyDataToForm" -->
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+				</div>
+
+				<div>
+					<input type="hidden" name="checkedzhutici" id="checkedzhutici" value="">
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1主题词属性词-->
+<script type="text/html" id="addTemplate1sxc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1场景词-->
+<script type="text/html" id="addTemplate1cjc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1形容词-->
+<script type="text/html" id="addTemplate1xrc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1反义词-->
+<script type="text/html" id="addTemplate1fyc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1主题词停用词-->
+<script type="text/html" id="addTemplate1ztctyc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+
+							<!--       layui.use(['layer', 'form'], function () {
+                                   //此处省略一万字
+                                   //.........................
+                                   var form=layui.form;
+                                   $("select[name='type']").find("option[value='"+data.type+"']").attr('selected','selected');
+                                   form.render();//没有写这个，操作后没有效果
+                                   });-->
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1属性级别-->
+<script type="text/html" id="addTemplate1sxjb">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1车体指标分类-->
+<script type="text/html" id="addTemplate1ctzbfl">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板1车型指标分类-->
+<script type="text/html" id="addTemplate1cxzbfl">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:850px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div style="width: 500px;height: 1000px;">
+					<div>
+						<div class="layui-inline">
+							<div class="layui-form-item">
+								<div class="posiContent-item" style="background-color: #009688;width:400px;height: 8px;color: #FFFFFF;border-radius:0px;" text-align="center">
+									<span style="line-height: 10px">主题词</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<button class="layui-btn " onclick="addZhutici()" type="button" style="!important;position: absolute;top: 0px;left: 380px;">
+									添加主题词+：
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						 <input type="text" name="search" autocomplete="off" class="layui-input" style="float: left">
+						<div class="layui-btn-group" float="left" style="background: transparent;position: relative;">
+							<button type="button" class="layui-btn layui-btn-sm" style="float: left;position: relative; background: transparent;position: relative;top: 0; right: 0px;">
+								<i class="layui-icon layui-icon-search" style="color: #009688;background-color: transparent;font-size: 30px !important;position: absolute;top: 6px;right: 30px;"></i>
+							</button>
+						</div>
+					</div>
+					<div class="layui-textarea" style="width: 500px;height: 400px">
+						<div>
+							<label> <input type="checkbox" name="" title="天气" lay-skin="primary">天气</label>
+							<input type="checkbox" name="topic" title="今日话题" lay-skin="primary">
+							<p><input type="checkbox" name="topic2" value="今日话题" lay-skin="primary"/>今日话题 </p>
+							<p><input type="checkbox" name="topic3" value="天气"/>天气 </p>
+							<p><input type="checkbox" name="subjectword" value="主题词1"/>主题词1 </p>
+							<input type="checkbox" name="box1">
+							<span style="font-size:12px">今日话题</span>
+						</div>
+					</div>
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+						<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer1()">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+
+<!--弹出层模板2 新增-->
+<!--弹出层模板2 新增主题词-->
+<script type="text/html" id="addTemplate2">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<div class="layui-input-inline">
+							<!--	<input type="text" class="layui-input" name="entongyici">-->
+							<select name="source" lay-filter="type">
+								<!--<option value="" selected>手工录入</option>-->
+								<option value="手工录入" selected>手工录入</option>
+								<option value="检索日志">检索日志</option>
+								<option value="外部数据">外部数据</option>
+								<!--                            <option value="ckm分析">ckm分析</option>-->
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</script>
+
+<!--弹出层模板2 新增主题词属性词-->
+<!--弹出层模板 新增-->
+<script type="text/html" id="addTemplate2sxc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:350px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</script>
+
+<!--弹出层模板2 新增场景词-->
+<script type="text/html" id="addTemplate2cjc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</script>
+
+
+<!--弹出层模板2 新增形容词-->
+<script type="text/html" id="addTemplate2xrc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</script>
+
+<!--弹出层模板2 新增反义词-->
+<script type="text/html" id="addTemplate2fyc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</script>
+
+
+<!--弹出层模板2 新增主题词停用词-->
+<script type="text/html" id="addTemplate2ztctyc">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</script>
+
+<!--弹出层模板2 新增属性级别-->
+<script type="text/html" id="addTemplate2sxjb">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板2 新增车体指标分类-->
+<script type="text/html" id="addTemplate2ctzbfl">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
+<!--弹出层模板2 新增车型指标分类-->
+<script type="text/html" id="addTemplate2cxzbfl">
+	<div class="layui-card-body">
+		<div style=" width:100%; height:500px;">
+			<form class="layui-form" lay-filter="addForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyici" id="tongyici">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">主题词拼音</label>
+					<div class="layui-input-block">
+						<input type="text" name="pinyin" autocomplete="off" class="layui-input"
+							   id="pinyin">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+						获取拼音
+					</button>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">主题同音词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="tongyinci">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文同义词：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="entongyici">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">英文缩写：</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" name="suoxie">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数据来源：</label>
+					<div class="layui-input-block">
+						<select name="source">
+							<!--<option value="" selected>手工录入</option>-->
+							<option value="手工录入" selected>手工录入</option>
+							<option value="检索日志">检索日志</option>
+							<option value="外部数据">外部数据</option>
+							<!--                            <option value="ckm分析">ckm分析</option>-->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">词条状态：</label>
+					<div class="layui-input-block">
+						<select name="status">
+							<!-- <option value="" selected>未生效</option>-->
+							<option value="未生效" selected>未生效</option>
+							<option value="已生效">已生效</option>
+							<option value="停用">停用</option>
+						</select>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" lay-submit lay-filter="">确定</button>
+					<button class="layui-btn layui-btn-primary" type="button" onclick="closeSelfLayer2()">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>

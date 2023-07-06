@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<head> 
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>首页设置</title>
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <link rel="stylesheet" href="../../../../thirdparty/tree/css/metroStyle/metroStyle.css">
+    <!-- <link rel="stylesheet" href="../../../../thirdparty/swiper/swiper.min.css"> -->
+    <!-- <link rel="stylesheet" href="../../../../common/css/admin.css"> -->
+    <!-- <link rel="stylesheet" href="../../../../common/css/style.css"> -->
+    <!-- <link rel="stylesheet" href="../../css/common.css"> -->
+    <link rel="stylesheet" href="../../css/productEdit.css">
+    <link rel="stylesheet" href="../../css/moduleSet.css">
+    <script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+
+    <!-- <script src="../../../../common/js/tree/js/jquery.ztree.all.js"></script> -->
+    <script src="../../../../thirdparty/tree/js/jquery.ztree.core.js"></script>
+    <script src="../../../../thirdparty/tree/js/jquery.ztree.excheck.js"></script>
+
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+    <script src="../../js/getViewService.js"></script>
+    <script src="../../js/productEdit.js"></script>
+</head>
+<body>
+    <link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/419/layoutIndex.css"><div class="module_box"><div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/376/top.css"><div class="module_box"><!--顶部开始-->
+        <div id="widgetBox9" class="widget_box" data-module-type="">
+            <div class="visual_top_box widget_border_content">
+                <div class="visual_top">
+                    <h1 class="visual_logo"><a href="#"><img src="http://36.138.169.165:8081/files/visual/img/376/logo.png"></a></h1>
+                    <div class="visual_top_right">
+                        <form class="layui-form">
+                            <div class="layui-form-item">
+                                <div class="layui-inline" style="width:100px;">
+                                    <select lay-filter="">
+                                        <option value="1">全部</option>
+                                        <option value="2">国家动态</option>
+                                        <option value="3">机床企业</option>
+                                        <option value="4">机床产品</option>
+                                        <option value="5">行业专家</option>
+                                        <option value="6">行业组织</option>
+                                        <option value="7">文献情报</option>
+                                        <option value="8">研究报告</option>
+                                        <option value="9">知识图谱</option>
+                                    </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择" value="全部" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="1" class="layui-this">全部</dd><dd lay-value="2" class="">国家动态</dd><dd lay-value="3" class="">机床企业</dd><dd lay-value="4" class="">机床产品</dd><dd lay-value="5" class="">行业专家</dd><dd lay-value="6" class="">行业组织</dd><dd lay-value="7" class="">文献情报</dd><dd lay-value="8" class="">研究报告</dd><dd lay-value="9" class="">知识图谱</dd></dl></div>
+                                </div>
+                                <div class="layui-inline">
+                                    <input type="text" name="name" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">                      
+                                </div>
+                                <div class="layui-inline">
+                                    <button class="layui-btn" lay-submit="" lay-filter="">
+                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                    </button>                        
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">背景颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">上传logo</label>
+                                        <div class="layui-input-block">
+                                            <button type="button" class="layui-btn" id="{{ d.widgetId }}Upload"><i class="layui-icon"></i>上传图片</button>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--顶部结束--></div></div>
+        <div class="visual_main">
+            <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/423/headerMenu.css"><div class="module_box"><!--头部菜单开始-->
+        <div id="widgetBox10" class="widget_box" data-module-type="menu">
+            <div class="visual_menu widget_border_content" id="widgetHeaderMenu">
+                <ul id="widgetHeaderMenuView">
+                    <li class="ico1"><a href="#">首页</a></li>
+                    <li class="ico2"><a href="#">行业动态</a></li>
+                    <li class="ico3"><a href="#">机床企业</a></li>
+                    <li class="ico4"><a href="#">机床产品</a></li>
+                    <li class="ico5"><a href="#">行业专家</a></li>
+                    <li class="ico6"><a href="#">行业组织</a></li>
+                    <li class="ico7"><a href="#">文献情报</a></li>
+                    <li class="ico8"><a href="#">研究报告</a></li>
+                    <li class="ico9"><a href="#">知识图谱</a></li>
+                </ul>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联站点</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                      
+                                            <select name="fontFamily">
+                                                <option value="">请选择</option>
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>                            
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <ul id="{{ d.widgetId }}Tree" class="ztree">
+                                    </ul>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+            <!--菜单模板渲染开始-->
+            <script type="text/html" id="widgetHeaderMenuTpl">
+                {{#  layui.each(d, function(index, item){ }} 
+                {{#  if(index < 9){ }}
+                <li class="ico{{ index + 1 }}"><a href="{{ item.listUrl }}">{{ item.name }}</a></li>
+                {{#  } }} 
+                {{#  }); }}
+            </script>
+            <!--菜单模板渲染结束-->
+        </div>
+        <!--头部菜单结束--></div></div>
+            <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/410/menuStatistics.css"><div class="module_box"><div id="widgetBox11" class="widget_box" data-module-type="menu">
+            <div class="widget_border_content">
+                <div class="visual_menuStatistics">    
+                    <ul>
+                        <li class="ico1">机床企业<span>291</span>条</li>
+                        <li class="ico2">机床产品<span>30</span>条</li>
+                        <li class="ico3">行业专家<span>598</span>条</li>
+                        <li class="ico4">行业组织<span>1274</span>条</li>
+                        <li class="ico5">文献情报<span>198</span>条</li>
+                        <li class="last ico6">研究报告<span>1358</span>条</li>
+                    </ul>
+                </div>
+            </div>
+        </div></div></div>
+            <div class="visual_row">
+                <div class="visual_left_a canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/414/swiper.min.css"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/414/carouselPic.css"><div class="module_box"><!--单个图片轮播开始-->
+        <div id="widgetBox2" class="widget_box widgetBox2_style" data-module-type="carousel" data-module-id="1625337120602357762" style="width:415px;height: 220px;">
+            <div class="visual_swiper_pic widget_border_content widget_inactive">
+                <div class="swiper-container swiper-container-horizontal">
+                    <div class="swiper-wrapper" style="transform: translate3d(-415px, 0px, 0px); transition-duration: 0ms;"><div class="swiper-slide swiper-slide-duplicate swiper-slide-prev" data-swiper-slide-index="4" style="width: 415px;">
+                            <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/414/01.png"></a>
+                            <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                            <div class="visual_bg"></div>            
+                        </div>
+                        <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="0" style="width: 415px;">
+                            <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/414/01.png"></a>
+                            <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                            <div class="visual_bg"></div>            
+                        </div>
+                        <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="1" style="width: 415px;">
+                            <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/414/01.png"></a>
+                            <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                            <div class="visual_bg"></div>            
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="2" style="width: 415px;">
+                            <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/414/01.png"></a>
+                            <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                            <div class="visual_bg"></div>            
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="3" style="width: 415px;">
+                            <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/414/01.png"></a>
+                            <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                            <div class="visual_bg"></div>            
+                        </div>
+                        <div class="swiper-slide swiper-slide-duplicate-prev" data-swiper-slide-index="4" style="width: 415px;">
+                            <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/414/01.png"></a>
+                            <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                            <div class="visual_bg"></div>            
+                        </div>
+                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="0" style="width: 415px;">
+                            <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/414/01.png"></a>
+                            <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                            <div class="visual_bg"></div>            
+                        </div></div>
+                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu" style="display: none;">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联字段</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                        
+                                            <select name="fontFamily" lay-filter="">
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">分页设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="radio" name="pageSetup" value="1" title="显示" checked>
+                                                <input type="radio" name="pageSetup" value="0" title="不显示">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="10"><span class="text">条/页</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">元数据表</label>
+                                        <div class="layui-input-block">                     
+                                            <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">关联字段</label>
+                                        <div class="layui-input-block visual_check">
+                                            <ul id="{{ d.widgetId }}Fields">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--单个图片轮播结束--></div><script src="http://36.138.169.165:8081/files/visual/js/414/swiper.min.js"></script><script src="http://36.138.169.165:8081/files/visual/js/414/carouselPic.js"></script></div>
+                <div class="visual_left_b canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/886/textList.css"><div class="module_box"><!--文字列表开始-->
+        <div id="widgetBox3" class="widget_box widgetBox3_style" data-module-type="textlist" data-module-id="1625376780133240833">
+            <div class="visual_text_list widget_border_content widget_inactive"> 
+                <div class="visual_title">
+                    <div class="more"><a href="#">更多 &gt;</a></div>
+                    <h3><a href="#">最新研报</a></h3>
+                </div>
+                <div class="visual_con">
+                    <div class="visual_text_list_view">
+                        <ul>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu" style="display: none;">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联字段</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                      
+                                            <select name="fontFamily">
+                                                <option value="">请选择</option>
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">分页设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="radio" name="pageSetup" value="0" title="不显示" checked>
+                                                <input type="radio" name="pageSetup" value="1" title="显示">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="10"><span class="text">条/页</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">栏目名设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input class="channelNameHide" type="radio" name="channelNameSetup" value="0" title="不显示" checked>
+                                                <input class="channelNameShow" type="radio" name="channelNameSetup" value="1" title="显示">
+                                            </div>
+                                            <ul id="{{ d.widgetId }}Tree" class="ztree"></ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">元数据表</label>
+                                        <div class="layui-input-block">                     
+                                            <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">关联字段</label>
+                                        <div class="layui-input-block visual_check">
+                                            <ul id="{{ d.widgetId }}Fields">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--文字列表结束--></div></div>
+                <div class="visual_left_c canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/886/textList.css"><div class="module_box"><!--文字列表开始-->
+        <div id="widgetBox4" class="widget_box" data-module-type="textlist">
+            <div class="visual_text_list widget_border_content"> 
+                <div class="visual_title">
+                    <div class="more"><a href="#">更多 &gt;</a></div>
+                    <h3><a href="#">最新研报</a></h3>
+                </div>
+                <div class="visual_con">
+                    <div class="visual_text_list_view">
+                        <ul>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                            <li><h4><a href="#">公司简评报告：业绩符合预期</a></h4></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联字段</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                      
+                                            <select name="fontFamily">
+                                                <option value="">请选择</option>
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">分页设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="radio" name="pageSetup" value="0" title="不显示" checked>
+                                                <input type="radio" name="pageSetup" value="1" title="显示">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="10"><span class="text">条/页</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">栏目名设置</label>
+                                        <div class="layui-input-block">
+                                            <input type="radio" name="channelNameSetup" value="0" title="不显示" checked>
+                                            <input type="radio" name="channelNameSetup" value="1" title="显示">
+                                            <ul id="{{ d.widgetId }}Tree" class="ztree"></ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">元数据表</label>
+                                        <div class="layui-input-block">                     
+                                            <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">关联字段</label>
+                                        <div class="layui-input-block visual_check">
+                                            <ul id="{{ d.widgetId }}Fields">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--文字列表结束--></div></div>
+            </div>
+            <div class="visual_row">
+                <div class="visual_left_a canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/887/textLabelList.css"><div class="module_box"><!--文字标签列表开始-->
+        <div id="widgetBox5" class="widget_box" data-module-type="textlist">
+            <div class="visual_text_label_list widget_border_content"> 
+                <div class="visual_title">
+                    <div class="more"><a href="#">更多 &gt;</a></div>
+                    <h3><a href="#">企业</a></h3>
+                </div>
+                <div class="visual_con">
+                    <div class="visual_text_list_view">
+                        <ul>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联字段</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                      
+                                            <select name="fontFamily">
+                                                <option value="">请选择</option>
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">分页设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="radio" name="pageSetup" value="1" title="显示" checked>
+                                                <input type="radio" name="pageSetup" value="0" title="不显示">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="10"><span class="text">条/页</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">元数据表</label>
+                                        <div class="layui-input-block">                     
+                                            <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">关联字段</label>
+                                        <div class="layui-input-block visual_check">
+                                            <ul id="{{ d.widgetId }}Fields">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--文字标签列表结束--></div></div>
+                <div class="visual_left_b canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/887/textLabelList.css"><div class="module_box"><!--文字标签列表开始-->
+        <div id="widgetBox6" class="widget_box" data-module-type="textlist">
+            <div class="visual_text_label_list widget_border_content"> 
+                <div class="visual_title">
+                    <div class="more"><a href="#">更多 &gt;</a></div>
+                    <h3><a href="#">企业</a></h3>
+                </div>
+                <div class="visual_con">
+                    <div class="visual_text_list_view">
+                        <ul>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联字段</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                      
+                                            <select name="fontFamily">
+                                                <option value="">请选择</option>
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">分页设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="radio" name="pageSetup" value="1" title="显示" checked>
+                                                <input type="radio" name="pageSetup" value="0" title="不显示">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="10"><span class="text">条/页</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">元数据表</label>
+                                        <div class="layui-input-block">                     
+                                            <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">关联字段</label>
+                                        <div class="layui-input-block visual_check">
+                                            <ul id="{{ d.widgetId }}Fields">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--文字标签列表结束--></div></div>
+                <div class="visual_left_c canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/887/textLabelList.css"><div class="module_box"><!--文字标签列表开始-->
+        <div id="widgetBox7" class="widget_box" data-module-type="textlist">
+            <div class="visual_text_label_list widget_border_content"> 
+                <div class="visual_title">
+                    <div class="more"><a href="#">更多 &gt;</a></div>
+                    <h3><a href="#">企业</a></h3>
+                </div>
+                <div class="visual_con">
+                    <div class="visual_text_list_view">
+                        <ul>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                            <li>
+                                <h4><a href="#">我院举办黄文熙讲座学术报告会</a></h4>
+                                <span>企业标签：上市公司</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联字段</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                      
+                                            <select name="fontFamily">
+                                                <option value="">请选择</option>
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">分页设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="radio" name="pageSetup" value="1" title="显示" checked>
+                                                <input type="radio" name="pageSetup" value="0" title="不显示">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="10"><span class="text">条/页</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">元数据表</label>
+                                        <div class="layui-input-block">                     
+                                            <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">关联字段</label>
+                                        <div class="layui-input-block visual_check">
+                                            <ul id="{{ d.widgetId }}Fields">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--文字标签列表结束--></div></div>
+            </div>
+            <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/418/swiper.min.css"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/418/carouselPicMore.css"><div class="module_box"><!--多张图片轮播开始-->
+        <div id="widgetBox8" class="widget_box widgetBox8_style" data-module-type="carousel" data-module-id="1625419563854426113">
+            <div class="visual_swiper_pic_more widget_border_content widget_inactive">
+                <div class="visual_title">
+                    <div class="more"><a href="#">更多 &gt;</a></div>
+                    <h3><a href="#">企业</a></h3>
+                </div>
+                <div class="visual_swiper_container">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container swiper-container-horizontal">
+                        <div class="swiper-wrapper" style="transform: translate3d(-1539px, 0px, 0px); transition-duration: 0ms;"><div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="1" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="2" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="3" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="4" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="5" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="6" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate swiper-slide-prev" data-swiper-slide-index="7" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="0" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="1" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide" data-swiper-slide-index="2" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide" data-swiper-slide-index="3" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide" data-swiper-slide-index="4" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide" data-swiper-slide-index="5" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide" data-swiper-slide-index="6" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                            <div class="swiper-slide swiper-slide-duplicate-prev" data-swiper-slide-index="7" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div>
+                        <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="0" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="1" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="2" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="3" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="4" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="5" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="6" style="width: 131.571px; margin-right: 20px;">
+                                <a href="#"><img src="http://36.138.169.165:8081/files/visual/img/418/02.png"></a>
+                                <h3><a href="#">孙序泉</a></h3>
+                                <p>级别：杰出青年</p>
+                            </div></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+            <!--设置按钮开始-->
+            <div class="widget_menu" style="display: none;">
+                <div class="widget_icon widget_set"></div>
+                <div class="widget_icon widget_delete"></div>
+            </div>
+            <!--设置按钮结束-->
+            <!--设置弹出框开始-->
+            <script type="text/html" class="widget_set_tpl">
+                <div class="visual_module_set">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">文字样式</li>
+                            <li>关联字段</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体</label>
+                                        <div class="layui-input-block">                        
+                                            <select name="fontFamily" lay-filter="">
+                                                <option value="微软雅黑">微软雅黑</option>
+                                                <option value="黑体">黑体</option>
+                                                <option value="宋体">宋体</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字体颜色</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                <div id="{{ d.widgetId }}ColorPicker"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">字号</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">分页设置</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-inline">
+                                                <input type="radio" name="pageSetup" value="1" title="显示" checked>
+                                                <input type="radio" name="pageSetup" value="0" title="不显示">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="pageSize" autocomplete="off" placeholder="请输入" class="layui-input" value="10"><span class="text">条/页</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的样式数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">元数据表</label>
+                                        <div class="layui-input-block">                     
+                                            <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">关联字段</label>
+                                        <div class="layui-input-block visual_check">
+                                            <ul id="{{ d.widgetId }}Fields">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                    <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <!--设置弹出框结束-->
+        </div>
+        <!--多张图片轮播结束--></div><script src="http://36.138.169.165:8081/files/visual/js/418/swiper.min.js"></script><script src="http://36.138.169.165:8081/files/visual/js/418/carouselPicMore.js"></script></div>
+        
+        <div class="visual_row canEdit"></div><script src="/simple/visualization/js/moduleSet.js"></script></div></div>
+</body>
+</html>

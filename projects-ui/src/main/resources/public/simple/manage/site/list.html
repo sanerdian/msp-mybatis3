@@ -1,0 +1,1764 @@
+﻿<link rel="stylesheet" href="simple/manage/site/site.css" media="all">
+<script src="simple/manage/site/site.js"></script>
+<style>
+    .bgcolore{background: #e6ebf4;}
+    .isdisplay {
+        display: none;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-col-md3 md2-left">
+        <div class="layui-card h100">
+            <div class="layui-card-header">
+                <div>站点管理</div>
+            </div>
+            <div id="siteTree" class="ztree">
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md9 md2-right h100 companyView">
+        <div class="layui-card h100">
+            <div class="layui-tab layui-tab-card h100" lay-filter="demo">
+                <div class="layui-tab-content jnet-tab-content">
+                    <div id="main" class="layui-card layui-tab-item layui-show" style="position: relative">
+                        <div class="layui-card-header companyName"></div>
+                        <div class="layui-card-body">
+                            <div class="search-bar">
+                                <button class="layui-btn layui-btn-primary layui-btn-sm" id="add" type="button" onclick="add1()">新建站点</button>
+                                <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="editByIds()">修改站点</button>
+                                <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="recycle()">删除站点</button>
+                                <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="publishIndex()">发布站点首页</button>
+<!--                                <button class="layui-btn layui-btn-primary layui-btn-sm" id="lead">导入站点</button>-->
+<!--                                <button class="layui-btn layui-btn-primary layui-btn-sm" id="lead1">导入站群</button>-->
+<!--                                <button class="layui-btn layui-btn-primary layui-btn-sm" id="exportd">导出站点</button>-->
+                                <button class="layui-btn layui-btn-sm" id="btnmore">
+                                    更多
+                                    <i class="layui-icon layui-icon-triangle-d layui-font-12"></i>
+                                </button>
+                                <form>
+                                    <div class="layui-inline jnet-search-right">
+                                        <input type="text" id="val" placeholder="请输入站点名称" class="layui-input">
+                                    </div>
+                                    <button type="button" onclick="search()"  class="layui-btn layui-btn-sm layui-inline"><img src="common/img/u11881.svg"></button>
+                                </form>
+                            </div>
+                            <div class="web" id="ComAndSite">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item layui-card" id="font">
+                        <div class="layui-card-header companyName"></div>
+                        <div class="layui-card-body">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="reset()">还原站点</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm">删除站点</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="clearAllSites()" type="button">清空回收站</button>
+                            <div class="rightbox" style="display: inline-block;width: 300px;height: 38px; overflow: hidden;position: absolute;right: 10px;">
+                                <select name="city" lay-verify="required" class="all">
+                                    <option value="" disabled selected hidden>全部</option>
+                                </select>
+                                <form class="layui-form" action="#" style="display: inline-block;margin-left: 65px">
+                                    <div class="layui-form-item" style="display: inline-block">
+                                        <div class="layui-input-block input">
+                                            <input id="delSiteName" type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </form>
+                                <button type="button" onclick="getDelSite(1,10)" class="layui-btn" style="margin-left:-5px"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
+                            <table class="layui-hide" id="test3" lay-filter="test"></table>
+                            <div id="demo8"></div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="layui-tab-title jnet-tab-title">
+                    <li class="layui-this" id="first">站点管理</li>
+                    <li onclick="getDelSite(1,10)">站点回收站</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-col-md9 md2-right h100 siteView">
+        <div class="layui-card h100">
+            <div class="layui-tab layui-tab-card h100" lay-filter="demo">
+                <div class="layui-tab-content jnet-tab-content">
+                    <div id="detail" class="layui-tab-item layui-card">
+                        <div class="layui-card-header">
+                            <div class="layui-col-md5">基本信息</div>
+                        </div>
+                        <div class="layui-card-body">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="editSiteinfo()">修改站点信息</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="doexport()">导出站群信息</button>
+<!--                            <i class='layui-icon' onclick='showExportHelp(this)' style='vertical-align: middle;margin-left: 5px;'>&#xe60b;</i>-->
+                            <table class="layui-table" lay-even="" lay-skin="row" id="info"></table>
+                        </div>
+                    </div>
+                    <!--<div class="layui-tab-item">
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" style="margin-left: 20px;">新建工作流</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm">导入工作流</button>
+                        <select name="city" lay-verify="required" style="width: 116px;height: 38px;margin-left: 5px" class="more">
+                            <option value="" disabled selected hidden>更多</option>
+                            <option value="">新建站点</option>
+                            <option value="">修改这个站点</option>
+                            <option value="">删除站点</option>
+                            <option value="">批量删除</option>
+                        </select>
+                        <div class="rightbox" style="display: inline-block;width: 300px;height: 38px; overflow: hidden;position: absolute;right: 10px;">
+                            <select name="city" lay-verify="required" class="all">
+                                <option value="" disabled selected hidden>全部</option>
+                            </select>
+                            <form class="layui-form" action="" style="display: inline-block;margin-left: 65px">
+                                <div class="layui-form-item" style="display: inline-block">
+                                    <div class="layui-input-block input">
+                                        <input type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                            <button class="layui-btn" style="margin-left:-5px"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                        <table class="layui-hide" id="test1"></table>
+                        <div id="demo6"></div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="importUser()">引入用户</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm">引入角色</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm">编辑</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                        <div class="rightList">
+                            <span>站点操作权限</span>
+                        </div>
+                        <table class="layui-hide" id="test2"></table>
+                        <div id="demo7"></div>
+                    </div>-->
+                    <div class="layui-tab-item">
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="addSiteDistribute()">新建分发点</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="enableDistribute()">启用分发</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="cancelDistribute()">禁用分发</button>
+                        <table class="layui-hide" id="siteDistributeList" lay-filter="siteDistributeBar"></table>
+                        <div id="demo10"></div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div style="padding-bottom: 10px; display: inline-block; margin-left: 20px;">
+                            <button class="layui-btn layui-btn-primary layui-btn-sm" id="import" onclick="reset2()">还原
+                            </button>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm" id="export"
+                                    onclick="clearAllSites2()">清空回收站
+                            </button>
+                        </div>
+                        <div class="rightbox layui-inline" style="width: 315px;height: 38px; overflow: hidden;position: absolute;right: 10px;">
+                            <form class="layui-form right-form" action="#" style="float: right;">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline" style="width: 75px;">
+                                        <select name="city" lay-verify="required" class="all">
+                                            <option value="" disabled selected hidden>全部</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-inline" style="display: inline-block">
+                                        <input type="text" id="ColumnName" name="title" required
+                                               lay-verify="required"
+                                               placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn layui-inline" type="button" style="margin-left:-5px" onclick="getDelColumns(1,10)"><i class="layui-icon">&#xe615;</i></button>
+                                </div>
+                            </form>
+                        </div>
+                        <table class="layui-hide" id="test6" lay-filter="test6"></table>
+                        <div id="demo5"></div>
+                    </div>
+                </div>
+                <ul class="layui-tab-title jnet-tab-title">
+                    <li lay-id="baseInfo" onclick="getSiteById()" id="infos">基本信息</li>
+                    <!--                        <li>工作流管理</li>-->
+                    <!--                        <li>权限管理</li>-->
+                    <li>站点分发</li>
+                    <li onclick="getDelColumns(1,10)">栏目回收站</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--基本信息-->
+<script type="text/html" id="siteDetail">
+    <colgroup>
+        <col width="50">
+        <col width="150">
+        <col>
+    </colgroup>
+    <tbody>
+    <tr>
+        <td>唯一标识：</td>
+        <td>{{d.code}}</td>
+    </tr>
+    <tr>
+        <td>显示名称：</td>
+        <td>{{d.name}}</td>
+    </tr>
+    <tr>
+        <td>站点目录名：</td>
+        <td>{{d.dataPath}}</td>
+    </tr>
+    <tr>
+        <td>站点http</td>
+        <td>{{d.webUrl}}</td>
+    </tr>
+    <tr>
+        <td>首页模板</td>
+        <td>{{d.homeTemplateId}}</td>
+    </tr>
+    <tr>
+        <td>首页地址</td>
+        <td><a href="{{d.dataPath}}" target="_blank">{{d.dataPath}}</a></td>
+    </tr>
+    <tr>
+        <td>站点备注：</td>
+        <td>{{d.siteDesc}}</td>
+    </tr>
+    <tr style="height: 92px;">
+        <td>LOGO图片：</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>SEO关键字：</td>
+        <td>{{d.seoKeyWord}}</td>
+    </tr>
+    <tr>
+        <td>SEO描述：</td>
+        <td>{{d.seoInfo}}</td>
+    </tr>
+    <tr>
+        <td>友情链接：</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>存放位置：</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>前一位置：</td>
+        <td>最前面</td>
+    </tr>
+    </tbody>
+</script>
+<!--页面数据-->
+<script type="text/html" id="compSiteTempl">
+    <form class="layui-form">
+        <ul class="sites">
+            {{#layui.each(d.sites,function(index,item){}}
+            {{#if(item.isSite == 1){}}
+            <li>
+                <div class="siteitem" action="">
+                    <div class="checkDiv">
+                        <input type="checkbox" name="ids"  data-code="{{item.code}}" data-tpl="{{item.homeTemplateId}}"  lay-skin="primary" id="check" value="{{item.id}}">
+                    </div>
+                    <div class="chanelName">{{item.name}}</div>
+                </div>
+                <div class="bottom">
+                    <img onclick="editSiteinfo('{{item.id}}')" src="common/img/u5722.png" alt="" srcset="" style="margin-left:65px">
+                    <img onclick="getSiteById('{{item.id}}');showTab('infos');" src="common/img/u5725.png" alt="" srcset="">
+                    <img onclick="delSite('{{item.id}}',1)" src="common/img/u5729.png" alt="" srcset="">
+                </div>
+                {{#  if(item.sitestatus == 1){ }}
+                <div class="code">
+                    <p>停用</p>
+                </div>
+                {{# }  }}
+            </li>
+            {{#}}}
+            {{#}) }}
+            <li>
+                <button onclick="add1()" type="button" class="layui-btn"></button>
+            </li>
+        </ul>
+    </form>
+</script>
+<script type="text/html" id="tempContent">
+    <div>
+        {{# layui.each(d,function(index,item){ }}
+        <div>
+            <input type="radio" name="siteid" value="{{item.id}}">
+            <label>{{item.tempname}}</label>
+        </div>
+        {{#}) }}
+        <div class="layui-input-block" style="margin-left: 135px;">
+            <button type="button" class="layui-btn" onclick="selectHomeTem(item.temptype)">确定</button>
+            <button type="button" class="layui-btn layui-btn-primary" onclick="layer.close();">取消</button>
+        </div>
+    </div>
+</script>
+
+<!--操作列模板-->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="reset">还原站点</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除站点</a>
+</script>
+
+<script type="text/html" id="barDemo2">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="reset2">还原站点</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete2">删除站点</a>
+</script>
+
+<script>
+    var str = ''
+    var siteIndex;
+    var selectIndex;
+    var siteObj = {};
+    var siteMsgId;
+
+    function stopSite(){
+        if($("#ComAndSite input:checked").length<1){
+            layer.msg('请选择一个站点');
+            return false
+        }
+        if($("#ComAndSite input:checked").length>1){
+            layer.msg('一次最多停用一个站点');
+            return false
+        }
+        var siteId=$("#ComAndSite .checkDiv input:checked").val();
+        var dataCode=$("#ComAndSite .checkDiv input:checked").attr('data-code');
+        var data={
+            "sitestatus":'1',
+            "code":dataCode
+        }
+        ajax(service_prefix.manage, "/site/"+siteId , "put",JSON.stringify(data)).then(function (data) {
+            if (data.success) {
+                layer.msg(data.msg)
+                getThisSiteTree()
+            }
+        })
+    }
+
+    function resetSite(){
+        if($("#ComAndSite input:checked").length<1){
+            layer.msg('请选择一个站点');
+            return false
+        }
+        if($("#ComAndSite input:checked").length>1){
+            layer.msg('一次最多停用一个站点');
+            return false
+        }
+        var siteId=$("#ComAndSite .checkDiv input:checked").val();
+        var dataCode=$("#ComAndSite .checkDiv input:checked").attr('data-code');
+        var data={
+            "sitestatus":'0',
+            "code":dataCode
+        }
+        ajax(service_prefix.manage, "/site/"+siteId , "put",JSON.stringify(data)).then(function (data) {
+            if (data.success) {
+                layer.msg(data.msg)
+                getThisSiteTree()
+            }
+        })
+    }
+
+
+    function copySite(){
+        if($("#ComAndSite input:checked").length<1){
+            layer.msg('请选择一个站点');
+            return false
+        }
+        if($("#ComAndSite input:checked").length>1){
+            layer.msg('一次最多复制一个站点');
+            return false
+        }
+
+        var siteId=$("#ComAndSite .checkDiv input:checked").val();
+        ajax(service_prefix.manage, "/site/copySite/"+siteId , "put").then(function (data) {
+            if (data.success) {
+                layer.msg(data.msg)
+                getThisSiteTree()
+            }
+        })
+    }
+
+    function moveSite(){
+        if($("#ComAndSite input:checked").length<1){
+            layer.msg('请选择一个站点');
+            return false
+        }
+        if($("#ComAndSite input:checked").length>1){
+            layer.msg('一次最多移动一个站点');
+            return false
+        }
+        layer.open({
+            title: '移动站点'
+            ,area: ['355px', '500px']
+            ,content: '<div class="ydTree"></div>'
+            ,btn: ['确定', '取消']
+            ,yes: function(index, layero){
+                var siteId=$("#ComAndSite .checkDiv input:checked").val();
+                var  zuZi=$(".bgcolore").attr("data_cid")
+                var dataCode=$("#ComAndSite .checkDiv input:checked").attr('data-code');
+                var data={
+                    "code":dataCode,
+                    "companyId":zuZi
+                }
+                ajax(service_prefix.manage, "/site/"+siteId , "put",JSON.stringify(data)).then(function (data) {
+                    if (data.success) {
+                        layer.msg(data.msg)
+                        getThisSiteTree()
+
+
+                    }
+                })
+                layer.close(index);
+            }
+            ,btn2: function(index, layero){
+                layer.close(index);
+            }
+
+            ,cancel: function(index, layero){
+                layer.close(index);
+            }
+        })
+        ajax(service_prefix.manage, "/site/getSiteTree", "get").then(function (data) {
+            if (data.success) {
+                //站点树
+                layui.laytpl($("#ydTemplate").html()).render(data.obj, function (html) {
+                    $(".ydTree").html(html);
+                    layui.use(['element', 'layer'], function () {
+                        var element = layui.element;
+                        element.render('collapse');
+                    });
+
+                });
+            } else {
+                console.log(data.msg);
+            }
+        })
+    }
+
+    function clearAllSites() {
+        if (siteObj.length === 0) return;
+        layer.alert("确认清空回收站吗？", function () {
+            clearSites()
+        })
+    }
+
+    function clearAllSites2() {
+        if (chnlObj.length === 0) return;
+
+        layer.alert("确认清空回收站吗？", function () {
+            clearSites2();
+        })
+    }
+
+    function clearSites() {
+        ajax(service_prefix.manage, '/site/del', 'post').then(res => {
+            if (res.success) {
+            layer.closeAll();
+            getDelSite(1, 10);
+        }
+    })
+    }
+
+    function clearSites2() {
+        ajax(service_prefix.manage, '/programa/delPrograma', 'post').then(res => {
+            if (res.success) {
+            layer.closeAll();
+            getDelColumns(1, 10)
+        }
+    })
+    }
+
+    function importUser() {
+        layer.open({
+            type: 1,
+            area: ['905px', '820px'],
+            title: '引入用户',
+            maxmin: true,
+            content: '<div id="putUserView"></div>'
+        });
+    }
+
+    function recycle() {
+        var data = document.getElementsByName("ids")
+        var ids = "";
+        var count = 0;
+        for (var i in data) {
+            if (data[i].checked) {
+                if (count !== 0) {
+                    ids += ",";
+                }
+                ids += data[i].value;
+                count++;
+
+            }
+
+        }
+        if (ids === "") {
+            layer.alert("请选择要回收的数据")
+            return false;
+        } else {
+            delSite(ids, 1);
+        }
+    }
+
+    function search() {
+        var keyword = $("#val").val();
+        var Json = {
+            entity: {
+                name: keyword,
+                companyId:siteId(),
+                status:0
+            },
+            pager: {current: 1, size: -1}
+        }
+
+        ajax(service_prefix.manage, "/site/list", "post", JSON.stringify(Json)).then(res => {
+            if (res.success) {
+                var data = {name: "", sites: res.obj.records};
+                searchPage(data)
+            }
+        })
+    }
+
+    layui.form.on("submit(addSite)", function (data) {
+        var id = data.field.id;
+        if (id === "" || id === null) {
+            var type = "post";
+            var url = "/site";
+            var msg = "新建成功";
+        } else {
+            type = "put";
+            url = "/site/" + id;
+            msg = "修改成功";
+        }
+        data.field.moduleName = $("#select_module").find("option:selected").text();
+        ajax(service_prefix.manage, url, type, JSON.stringify(data.field)).then(res => {
+            if (res.success) {
+
+            var orderDatas = [];
+            var i = 0;
+            if(sdata){
+                for(var d of sdata){
+                    if(-1 == data.field.siteOrder) {
+                        orderDatas.push({id:id?id:res.obj.id,siteOrder:0})
+                        i++;
+                    }
+                    if(id && id == d.id) continue;
+                    orderDatas.push({id:d.id,siteOrder:i});
+                    i++;
+                    if(d.siteOrder == data.field.siteOrder) {
+                        orderDatas.push({id:id?id:res.obj.id,siteOrder:i})
+                        i++;
+                    }
+                }
+                ajax(service_prefix.manage,"/site/updateBatchById","post",JSON.stringify(orderDatas)).then(function(){
+                    layer.closeAll();
+                    getThisSiteTree();
+                })
+            }else{
+                layer.closeAll();
+                getThisSiteTree();
+            }
+        } else {
+            layer.alert(res.msg)
+        }
+    })
+        return false;
+    })
+
+    function operate(val) {
+        alert(1);
+
+    }
+
+    //获取扩展字段
+    function getExtField(pageNo, size) {
+        var jsondata = {
+            "pager": {"current": pageNo, "size": size},
+            "entity": {"status": 1, "fieldname": document.getElementById("fieldId").value}
+        }
+        ajax(service_prefix.manage, "/manage/extendField/list", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                if (data.success && data.obj.records.length > 0) {
+                    layui.use(['laypage', 'table'], function () {
+                        var table = layui.table
+                            , laypage = layui.laypage;
+                        table.render({
+                            elem: '#test'
+                            , data: data.obj.records
+                            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            , cols: [[
+                                {type: 'checkbox', width: 90, fixed: "left"}
+                                , {field: 'id', width: 100, title: '序号', align: "center"}
+                                , {field: 'fieldname', width: 150, title: '显示名称', align: "left"}
+                                , {field: 'tablename', width: 150, title: '所属对象', align: "left"}
+                                , {field: 'fieldname', width: 150, title: '字段名称', align: "left"}
+                                , {field: 'crUser', title: '字段类型', width: 150, align: "left"}
+                                , {field: 'createBy', width: 80, title: '创建者', align: "left"}
+                                , {field: 'createTime', width: 150, title: '创建时间', align: "left"}
+                                // , {field: '', width: 170, title: '操作', toolbar: '#barDemo'}
+                            ]]
+                        });
+                        table.on('row(LAY-app-content-tags)', function (obj) {
+                            var data = obj.data;
+                            //标注选中样式
+                            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                        });
+                        laypage.render({
+                            elem: 'demo5'
+                            , count: data.obj.total
+                            , curr: data.obj.current
+                            , limit: data.obj.size
+                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                            , jump: function (obj, first) {
+                                if (!first) {
+                                    pageNo = obj.curr
+                                    size = obj.limit
+                                    getExtField(pageNo, size)
+                                }
+
+                            }
+                        });
+                    });
+                }
+            }
+        })
+    }
+
+    //删除扩展字段
+    function delExtField(id) {
+        ajax(service_prefix.manage, "/manage/extendField/" + id, "delete", JSON.stringify(data)).then(function (data) {
+            if (data.success) {
+                layer.alert(data.msg)
+                getExtField(1, 10)
+            }
+        })
+    }
+
+    //选择模板
+    function select(type) {
+        var jsondata;
+        if (type === '首页') {
+            jsondata = {
+                "pager": {
+                    current: 1,
+                    size: 10
+                },
+                "entity": {
+                    "temptype": 1
+                }
+            }
+        } else {
+            jsondata = {
+                "pager": {
+                    current: 1,
+                    size: 10
+                },
+                "entity": {
+                    "temptype": 2
+                }
+            }
+        }
+        ajax(service_prefix.manage, "/template/list", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                selectIndex = layer.open({
+                    type: 1,
+                    title: '选择' + type + '模板',
+                    area: ['800px', '600px'],
+                    maxmin: false,
+                    content: '<div id="templateDiv"></div>'
+                })
+                layui.laytpl($("#tempContent").html()).render(data.obj.records, function (html) {
+                    $("#templateDiv").html(html)
+                })
+            }
+        })
+    }
+
+    function selectHomeTem(tempType) {
+        var temId = $('input:radio:checked').val();
+        if (tempType === 1) {
+            $("#homeTemplateId").attr('value', temId)
+        } else {
+            $("#detailTemplateId").attr('value', temId)
+        }
+        layer.close(selectIndex);
+    }
+
+    //下拉框选中事件
+    function getChange() {
+        var obj = document.getElementById("changeId");
+        var value = obj.options[obj.selectedIndex].value;
+        if (value === '新建站点') {
+            add({});
+        }
+        if (value === '批量删除') {
+            delByIds();
+        }
+        obj.value = "更多";
+    }
+
+    //批量删除
+    function delByIds() {
+        var data = document.getElementsByName("ids")
+        var ids = "";
+        var count = 0;
+        for (var i in data) {
+            if (data[i].checked) {
+                if (count !== 0) {
+                    ids += ",";
+                }
+                ids += data[i].value;
+                count++;
+            }
+        }
+        if (ids === "") {
+            layer.alert("请选择要删除的数据")
+            return false;
+        }
+        if (confirm("是否确定删除")) {
+            var dataIds = {
+                "ids": ids
+            }
+            ajax(service_prefix.manage, "/site/delByIds" + dataIds, "get").then(function (data) {
+                if (data.success) {
+                    getThisSiteTree();
+                    layer.closeAll();
+                    getDelSite(1, 10);
+                }
+            })
+        }
+    }
+
+    //修改站点
+    function editByIds() {
+        var data = document.getElementsByName("ids")
+        var ids = "";
+        var count = 0;
+        for (var i in data) {
+            if (data[i].checked) {
+                if (count !== 0) {
+                    ids += ",";
+                }
+                ids += data[i].value;
+                count++;
+            }
+        }
+        if (ids === "") {
+            layer.alert("请选择要修改的数据")
+            return false;
+        }
+        var siteId=$("#ComAndSite .checkDiv input:checked").val();
+        editSiteinfo(siteId)
+    }
+
+
+    function getModuleHtml(fn){
+        ajax('',"/metadata/moduleinfo/list","post",JSON.stringify({pager:{current:1,size:-1}})).then(function(res){
+            var html='<option value="">无</option>';
+            for(var o of res.obj.records){
+                html += '<option value="{id}">{modulename}</option>'.format(o);
+            }
+            $("#select_module").html(html);
+            fn();
+        })
+    }
+
+    var sdata;
+    function editSiteinfo(id) {
+        if(!id) id = siteId();
+        ajax(service_prefix.manage, "/site/" + id, "get").then(function (data) {
+            if (data.success) {
+                layerOpenHtml("修改站点",800,610,"simple/manage/site/siteForm.html",function(){
+                    ajax(service_prefix.member, "/company/list", "post", JSON.stringify({pager: {current: 1, size: -1}})).then(res => {
+                        var records = res.obj.records;
+                        var companys;
+                        for (var i in records) {
+                            companys += '<option value="' + records[i].id + '">' + records[i].name + '</option>'
+                        }
+                        $("#companys").append(companys);
+                        getModuleHtml(function() {
+                            ajax(service_prefix.manage, "/site/list", "post", JSON.stringify({entity: {companyId: data.obj.companyId}, pager: {current: 1, size: 10}})).then(datas => {
+                                sdata = datas.obj.records;
+                                var sites = "<option value='-1'>————最前面————</option>";
+                                for (var i in sdata) {
+                                    sites += '<option value="' + (sdata[i].siteOrder) + '">' + sdata[i].name + '</option>';
+                                }
+                                sites += '<option value="' + (sdata[sdata.length - 1].siteOrder) + '">————最后面————</option>';
+                                $("#siteOrder").append(sites);
+                            })
+                            layui.form.val("siteForm", data.obj);
+                            layui.form.render();
+                        })
+                    })
+                })
+            } else {
+                layer.alert(data.msg);
+            }
+        })
+    }
+
+    function editSite(id, data) {
+        ajax(service_prefix.manage, "/site/" + id, "put", JSON.stringify(data)).then(function (data) {
+            if (data.success) {
+
+            }
+        })
+    }
+
+    //删除站点
+    function delSite(delId, status) {
+        ajax(service_prefix.manage, "/site/updateStatus?ids=" + delId + "&status=" + status, "get").then(function (data) {
+            if (data.success) {
+                getThisSiteTree();
+                getDelSite(1, 10)
+                layer.closeAll();
+            }
+        })
+    }
+
+    //根据id获取站点信息
+    function getSiteById(id) {
+        if(!id) id = siteId();
+        siteMsgId = id;
+        ajax(service_prefix.manage, "/site/" + id, "get").then(function (data) {
+            if (data.success) {
+                layui.laytpl($("#siteDetail").html()).render(data.obj, function (html) {
+                    $("#info").html(html);
+                    layui.form.render();
+                })
+            } else {
+                layer.alert(data.msg);
+            }
+        })
+        siteDistributeList(id,1, 10);
+    }
+
+    function add1() {
+        layerOpenHtml("新建站点",800,610,"simple/manage/site/siteForm.html",function(){
+            ajax(service_prefix.member, "/company/list", "post", JSON.stringify({pager: {current: 1, size: -1}})).then(res => {
+                var records = res.obj.records;
+                var companys;
+                for (var i in records) {
+                    var companySel = "";
+                    if (records[i].id === siteId()) {
+                        companySel = "selected";
+                    }
+                    companys += '<option value="' + records[i].id + '" ' + companySel + '>' + records[i].name + '</option>'
+                }
+                $("#companys").append(companys);
+                getModuleHtml(function(){
+                    layui.form.val("siteForm", res.obj);
+                    layui.form.render();
+                })
+            })
+        })
+    }
+
+    function getRight(obj) {
+        layui.laytpl($("#compSiteTempl").html()).render(obj, function (html) {
+            $("#ComAndSite").html(html);
+            layui.form.render();
+        })
+        $(".companyName").text(obj.name);
+        showTab('first');
+    }
+
+    function searchPage(data) {
+        layui.laytpl($("#compSiteTempl").html()).render(data, function (html) {
+            $("#ComAndSite").html(html);
+            layui.form.render();
+        })
+    }
+
+    //获取回收站数据
+    function getDelSite(pageNo, size) {
+        var jsondata = {
+            "pager": {"current": pageNo, "size": size},
+            "entity": {"companyId":siteId(),"status": 1, "name": document.getElementById("delSiteName").value}
+        }
+        ajax(service_prefix.manage, "/site/getDelList", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                if (data.success || data.obj.records.length > 0) {
+                    siteObj = data.obj.records;
+                    for (var i in data.obj.records) {
+                        if (str.length !== 0) {
+                            str += ','
+                        }
+                        str += data.obj.records[i].id;
+                    }
+                    layui.use(['laypage', 'table'], function () {
+                        var table = layui.table
+                            , laypage = layui.laypage;
+                        table.render({
+                            elem: '#test3'
+                            , data: data.obj.records
+                            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            , cols: [[
+                                {type: 'checkbox', field: "id"}
+                                , {type: 'numbers', title: '序号', align: "center"}
+                                , {field: 'name', title: '显示名称', align: 'left'}
+                                , {field: 'code', title: '唯一标识', align: 'left'}
+                                , {field: 'dataPath', title: '原位置', align: 'left'}
+                                , {field: 'modify_by', title: '删除者', align: 'left'}
+                                // , {field: 'look', width: 195, title: '操作', toolbar: '#barDemo', align: "center"}
+                            ]]
+                        });
+                        table.on('row(LAY-app-content-tags)', function (obj) {
+                            var data = obj.data;
+                            //标注选中样式
+                            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                        });
+                        layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                            var data = obj.data; //获得当前行数据
+                            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                            var tr = obj.tr; //获得当前行 tr 的DOM对象
+                            if (layEvent === 'delete') { //查看
+                                layer.alert("确定删除:[" + data.name + "]?", function () {
+                                    delsiteTrue(data.id)
+
+                                })
+                            } else if (layEvent === 'reset') {
+                                layer.alert("确定还原:[" + data.name + "]?", function () {
+//                                  delExtField([data.id]);
+                                    resetSite(data.id, 0);
+                                })
+                            }
+
+                        });
+                        laypage.render({
+                            elem: 'demo8'
+                            , count: data.obj.total
+                            , curr: data.obj.current
+                            , limit: data.obj.size
+                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                            , jump: function (obj, first) {
+                                if (!first) {
+                                    pageNo = obj.curr
+                                    size = obj.limit
+                                    getDelSite(pageNo, size)
+                                }
+
+                            }
+                        });
+                    });
+                }
+            }
+        })
+    }
+
+    function reset() {
+        var data = checkChecked('test3');
+        if (data) {
+            delSite(data, 0);
+        }
+    }
+
+    function delsiteTrue(delId) {
+        ajax(service_prefix.manage, "/site/" + delId, "delete").then(function (data) {
+            if (data.success) {
+                if (data.success) {
+                    layer.closeAll();
+                    getDelSite(1, 10);
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        })
+    }
+
+    function showExportHelp(){
+        layer.alert("先上传jar包，等待服务重启后，再上传excel数据。")
+    }
+
+    layui.use(['laypage', 'layer'], function () {
+        var laypage = layui.laypage
+            , layer = layui.layer;
+        laypage.render({
+            elem: 'demo5'
+            , count: 8
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , jump: function (obj) {
+            }
+        });
+        laypage.render({
+            elem: 'demo6'
+            , count: 5
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , jump: function (obj) {
+            }
+        });
+        laypage.render({
+            elem: 'demo7'
+            , count: 8
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , jump: function (obj) {
+            }
+        });
+        laypage.render({
+            elem: 'demo8'
+            , count: 5
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , jump: function (obj) {
+            }
+        });
+    })
+    layui.use('form', function () {//声明使用layUI的form
+        var form = layui.form;
+        form.render();//刷新所有渲染效果，也可以单独熟悉某个效果
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+
+    active.addExtField = function () {
+        layer.open({
+            type: 1,
+            title: "新建扩展字段",
+            area: ['550px', '670px'],
+            shade: 0,
+            maxmin: true,
+            content: '<div id="fieldForm"></div>',
+            cancel: function () {
+
+            }
+        });
+        layui.laytpl($("#fieldTemplate").html()).render({tableid: metadataObj.id, tablename: metadataObj.name}, function (html) {
+            $("#fieldForm").html(html)
+        });
+    };
+    //监听操作列工具条
+    layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if (layEvent === 'delete') { //查看
+            layer.alert("确定删除:[" + data.fieldname + "]", function () {
+                delExtField([data.id]);
+            })
+        }
+    });
+
+    function reset2() {
+        var data = checkChecked('test6');
+        if (data) {
+            delColumn1(data, 0)
+        }
+    }
+
+    function delColumn1(delId, status) {
+        ajax(service_prefix.manage, "/programa/updateStatus?ids=" + delId + "&status=" + status, "get").then(function (data) {
+            if (data.success) {
+                if (data.success) {
+                    layer.closeAll();
+                    getThisSiteTree();
+                    getDelColumns(1, 10)
+                }
+            }
+        })
+    }
+
+    //回收站
+    function getDelColumns(pageNo, size) {
+        var jsondata = {
+            "pager": {"current": pageNo, "size": size},
+            "entity": {"status": 1, "name": document.getElementById("ColumnName").value}
+        }
+        ajax(service_prefix.manage, "/programa/getDelList", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                if (data.success || data.obj.records.length > 0) {
+                    chnlObj = data.obj.records;
+                    layui.use(['laypage', 'table'], function () {
+                        var table = layui.table,
+                            laypage = layui.laypage;
+                        table.render({
+                            elem: '#test6'
+                            , data: data.obj.records
+                            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            , cols: [[
+                                {type: 'checkbox', field: "id"}
+                                , {type: 'numbers', title: '序号', align: "center", width: '77'}
+                                , {field: 'name', title: '显示名称', align: "left", width: '200'}
+                                , {field: 'skuNumber', title: '唯一标识', align: "left", width: '200'}
+                                , {field: 'chnlDataPath', title: '原位置', align: "left", width: '200'}
+                                , {field: 'operTime', title: '删除时间', align: "left", width: '200'}
+                                , {field: 'operUser', title: '删除者', align: "left", width: '200'}
+                                // , {field: 'look', width: 130, title: '操作', toolbar: '#barDemo2', align: "center"}
+                            ]]
+                        });
+                        table.on('row(LAY-app-content-tags)', function (obj) {
+                            var data = obj.data;
+                            //标注选中样式
+                            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                        });
+                        layui.table.on('tool(test6)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                            var data = obj.data; //获得当前行数据
+                            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                            var tr = obj.tr; //获得当前行 tr 的DOM对象
+                            if (layEvent === 'delete2') { //查看
+                                layer.alert("确定删除:[" + data.name + "]?", function () {
+                                    delColumnTrue(data.id);
+                                })
+                            } else if (layEvent === 'reset2') {
+                                layer.alert("确定还原:[" + data.name + "]?", function () {
+                                    resetColumn(data.id);
+                                })
+                            }
+                        })
+                        laypage.render({
+                            elem: 'demo5'
+                            , count: data.obj.total
+                            , curr: data.obj.current
+                            , limit: data.obj.size
+                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                            , jump: function (obj, first) {
+                                if (!first) {
+                                    pageNo = obj.curr
+                                    size = obj.limit
+                                    getDelColumns(pageNo, size)
+
+                                }
+
+                            }
+                        });
+                    });
+                }
+            }
+        })
+    }
+
+    function delColumnTrue(delId) {
+        ajax(service_prefix.manage, "/programa/" + delId, "delete").then(function (data) {
+            if (data.success) {
+                if (data.success) {
+                    layer.closeAll();
+                    getDelColumns(1, 10);
+                    getTreeData();
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        })
+    }
+
+    function resetColumn(id) {
+        delColumn1(id, 0)
+    }
+</script>
+
+<script type="text/html" id="pic1">
+    <a class="layui-btn-xs" lay-event="edit"><img src="common/img/u5839.png" alt=""></a>
+</script>
+<script type="text/html" id="pic2">
+    {{#  if(d.rightValue === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic3">
+    {{#  if(d.sign === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic4">
+    {{#  if(d.experience === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic5">
+    {{#  if(d.score === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic6">
+    {{#  if(d.classify === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic7">
+    {{#  if(d.wealth === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic8">
+    {{#  if(d.classifys=== "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic9">
+    {{#  if(d.wealths=== "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script id="wbdrTemplate" type="text/html">
+    <div class="xzfile">
+        <p class="xz">选择文件：</p>
+        <input type="text" class="wenj"><p class="liulan" id="upload">浏览文件</p>
+        <span class="jzc">仅支持<span class="red">Excel</span><span class="red"></span></span>
+    </div>
+</script>
+<script id="xzwdTemplate" type="text/html">
+
+    <form class="layui-form">
+        <p>请选择导出内容:</p>
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <select name="">
+                    <option value="">请选择</option>
+                    <option value="1">网站内容</option>
+                    <option value="2">网站群内容</option>
+                    <!-- <option value="">属性</option>
+                    <option value="">权限</option> -->
+                </select>
+            </div>
+        </div>
+    </form>
+</script>
+<script id="ydTemplate" type="text/html">
+    {{#layui.each(d, function(index, item){ }}
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title" data_id="{{index}}" data_cid="{{item.id}}" onclick="move(this)">
+            <img src="common/img/u5548.png">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.name}}
+        </h2>
+    </div>
+    {{# }) }}
+</script>
+
+<!--新建站点分发-->
+<script type="text/html" id="siteDistributeTpl">
+    <form class="layui-form" lay-filter="siteDistributeForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分发类型:</label>
+                    <div class="layui-input-block">
+                        <select name="targetType" onchange="Typefunction()">
+                            <option id="sfpt" value="1">SFTP服务</option>
+                            <option id="file" value="2">文件系统</option>
+                            <option id="ftp" value="3">FTP服务</option>
+                            <!--<option>DOCKER服务</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="sfpt ftp">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="sign_required">*</span>服务器地址：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" placeholder="请输入" name="targetServer"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="sign_required">*</span>服务器端口：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" placeholder="请输入" name="targetPort"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" placeholder="请输入" name="loginUser"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" placeholder="请输入" name="loginPwd"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="sign_required">*</span>存放目录：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" lay-verify="required" placeholder="请输入" name="dataPath"/>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="file isdisplay">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="sign_required">*</span>存放目录：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" lay-verify="required" placeholder="请输入" name="dataPath"/>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" lay-skin="primary" id="enableConfi" name="status">启用配置
+                    </div>
+                </div>
+                <div class="button-bar">
+                    <button type="button" class="layui-btn" lay-submit lay-filter="addSiteff">确定</button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="zzffId" id="zzffId">
+    </form>
+</script>
+
+<!--站点分发-操作列模板-->
+<script type="text/html" id="barDistribute">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/html" id="statusTpl">
+    {{# if(d.status==1){ }}
+    启用
+    {{# }else if(d.status==0){ }}
+    未启用
+    {{# } }}
+</script>
+<script type="text/html" id="statusTp2">
+    {{# if(d.targetType==1){ }}
+    SFTP服务
+    {{# }else if(d.targetType==2){ }}
+    文件系统
+    {{# }else if(d.targetType==3){ }}
+    FTP服务
+    {{# } }}
+</script>
+<script>
+    function publishIndex(){
+        var tplId=$("#ComAndSite .checkDiv input:checked").attr("data-tpl");
+        var siteid = $("#ComAndSite .checkDiv input:checked").val();
+        if(tplId){
+            ajax(service_prefix.manage,"/template/" + tplId, "get", {}).then(function(res) {
+                if(res.success && res.obj){
+                    ajax(service_prefix.generator, "/html/createHtml1", "post", JSON.stringify({template: res.obj.temphtml, path: "", fileName: res.obj.outputfilename, tempext: res.obj.tempext})).then(data => {
+                        ajax(service_prefix.manage,"/site/" + siteid, "put", JSON.stringify({dataPath: data.obj.path})).then(data => {
+                    })
+                })
+                }
+            })
+        }
+    }
+    $(".layui-colla-content").click(function () {})
+    $('.moree ul').on('click','li',function(){
+        var x=$(this).text()
+        switch(x){
+            case '停用站点':
+                if($("#ComAndSite input:checked").length<1){
+                    layer.msg('请选择一个站点');
+                    return false
+                }
+                if($("#ComAndSite input:checked").length>1){
+                    layer.msg('一次最多停用一个站点');
+                    return false
+                }
+                var siteId=$("#ComAndSite .checkDiv input:checked").val();
+                var dataCode=$("#ComAndSite .checkDiv input:checked").attr('data-code');
+                var data={
+                    "sitestatus":'1',
+                    "code":dataCode
+                }
+                ajax(service_prefix.manage, "/site/"+siteId , "put",JSON.stringify(data)).then(function (data) {
+                    if (data.success) {
+                        layer.msg(data.msg)
+                        getThisSiteTree()
+                    }
+                })
+                break;
+            case '恢复站点':
+                if($("#ComAndSite input:checked").length<1){
+                    layer.msg('请选择一个站点');
+                    return false
+                }
+                if($("#ComAndSite input:checked").length>1){
+                    layer.msg('一次最多停用一个站点');
+                    return false
+                }
+                var siteId=$("#ComAndSite .checkDiv input:checked").val();
+                var dataCode=$("#ComAndSite .checkDiv input:checked").attr('data-code');
+                var data={
+                    "sitestatus":'0',
+                    "code":dataCode
+                }
+                ajax(service_prefix.manage, "/site/"+siteId , "put",JSON.stringify(data)).then(function (data) {
+                    if (data.success) {
+                        layer.msg(data.msg)
+                        getThisSiteTree()
+                    }
+                })
+                break;
+            case '复制站点':
+                if($("#ComAndSite input:checked").length<1){
+                    layer.msg('请选择一个站点');
+                    return false
+                }
+                if($("#ComAndSite input:checked").length>1){
+                    layer.msg('一次最多复制一个站点');
+                    return false
+                }
+
+                var siteId=$("#ComAndSite .checkDiv input:checked").val();
+                ajax(service_prefix.manage, "/site/copySite/"+siteId , "put").then(function (data) {
+                    if (data.success) {
+                        layer.msg(data.msg)
+                        getThisSiteTree()
+                    }
+                })
+                break;
+            case '发布首页':
+                publishIndex();
+                break;
+            case '移动站点':
+                if($("#ComAndSite input:checked").length<1){
+                    layer.msg('请选择一个站点');
+                    return false
+                }
+                if($("#ComAndSite input:checked").length>1){
+                    layer.msg('一次最多移动一个站点');
+                    return false
+                }
+                layer.open({
+                    title: '移动站点'
+                    ,area: ['355px', '500px']
+                    ,content: '<div class="ydTree"></div>'
+                    ,btn: ['确定', '取消']
+                    ,yes: function(index, layero){
+                        var siteId=$("#ComAndSite .checkDiv input:checked").val();
+                        var  zuZi=$(".bgcolore").attr("data_cid")
+                        var dataCode=$("#ComAndSite .checkDiv input:checked").attr('data-code');
+                        var data={
+                            "code":dataCode,
+                            "companyId":zuZi
+                        }
+                        ajax(service_prefix.manage, "/site/"+siteId , "put",JSON.stringify(data)).then(function (data) {
+                            if (data.success) {
+                                layer.msg(data.msg)
+                                getThisSiteTree()
+
+
+                            }
+                        })
+                        layer.close(index);
+                    }
+                    ,btn2: function(index, layero){
+                        layer.close(index);
+                    }
+
+                    ,cancel: function(index, layero){
+                        layer.close(index);
+                    }
+                })
+                ajax(service_prefix.manage, "/site/getSiteTree", "get").then(function (data) {
+                    if (data.success) {
+                        //站点树
+                        layui.laytpl($("#ydTemplate").html()).render(data.obj, function (html) {
+                            $(".ydTree").html(html);
+                            layui.use(['element', 'layer'], function () {
+                                var element = layui.element;
+                                element.render('collapse');
+                            });
+
+                        });
+                    } else {
+                        console.log(data.msg);
+                    }
+                })
+
+                break;
+        }
+    })
+    function move(data){
+        if($("#ComAndSite  input:checked").length>1){
+            layer.msg('一次最多移动一个站点');
+            return false
+        }
+        $(data).addClass('bgcolore').siblings().removeClass("bgcolore")
+
+    }
+    $('.moree ').mouseenter(function(){
+        $('.moree ul').show()
+    })
+    $('.moree ').mouseleave(function(){
+        $('.moree ul').hide()
+    })
+    var str='';
+    function lead(){
+        layer.open({
+            title: '从外部导入站点'
+            ,area: ['500px', '265px']
+            ,content: '<div class="drwb"></div>'
+            ,btn: ['确定', '取消']
+            ,yes: function(index, layero){
+                layer.close(index);
+            }
+            ,btn2: function(index, layero){
+                layer.close(index);
+            }
+
+            ,cancel: function(index, layero){
+                layer.close(index);
+            }
+        })
+        layui.laytpl($("#wbdrTemplate").html()).render({}, function(html){
+            $(".drwb").html(html)
+            //导入站点
+            layui.use('upload', function () {
+                var upload = layui.upload;
+                var zcid=siteId()
+                //指定允许上传的文件类型
+                upload.render({
+                    elem: '#upload'
+                    , url: service_prefix.manage+'/site/import/'+zcid
+                    , accept: 'file' //普通文件
+                    , done: function (res) {
+                        layer.closeAll();
+                    }
+                });
+            });
+        });
+    }
+
+    //新建站点分发
+    function addSiteDistribute() {
+        layerOpen("新建站点分发",480,400);
+        lodTpl("siteDistributeTpl","openDiv",{});
+//        $("#zzffId").attr('value', "")
+        $("#zzffId").val("");
+    }
+    //站点分发列表
+    function siteDistributeList(siteMsgId,pageNo, size){
+        // alert(siteMsgId)
+//        var data = {
+//            "msg":"成功",
+//            "obj":{
+//                "current":1,
+//                "pages":1,
+//                "records":[{
+//                    "id":1,
+//                    "status":"已启用",
+//                    "distributeType":"SFTP",
+//                    "path":"/home/zhongkeyuan/",
+//                    "serverAddress":'101.206.11.98',
+//                    "crUser":"admin",
+//                    "createTime":"2021-09-19 02:01:01",
+//                    "modifyUser":"admin",
+//                    "modifyTime":"2021-09-19 02:01:01"
+//                },{
+//                    "id":2,
+//                    "status":"已启用",
+//                    "distributeType":"SFTP",
+//                    "path":"/home/zhongkeyuan/",
+//                    "serverAddress":'101.206.11.98',
+//                    "crUser":"admin",
+//                    "createTime":"2021-09-19 02:01:01",
+//                    "modifyUser":"admin",
+//                    "modifyTime":"2021-09-19 02:01:01"
+//                }],
+//                "size":10,
+//                "total":2
+//            },
+//            "status":"200",
+//            "success":true,
+//            "timestamp":1637136043171
+//        };
+
+        if(siteMsgId!=undefined){
+            var jsondata = {
+                "pager": {"current": pageNo, "size": size},
+                "entity": {"siteid": siteMsgId}
+            }
+            ajax("", "/zdff/publishdistriBution/selectPageBySelection", "post", JSON.stringify(jsondata)).then(function (data) {
+                if (data.success) {
+                    if (data.success || data.obj.records.length > 0) {
+                        chnlObj = data.obj.records;
+                        layui.use(['laypage', 'table'], function () {
+                            var table = layui.table,
+                                laypage = layui.laypage;
+                            table.render({
+                                elem: '#siteDistributeList'
+                                , data: data.obj.records
+                                , limit: 11
+                                , cols: [[
+                                    {type: 'checkbox', field: 'ids', fixed: 'left'}
+                                    , {type: 'numbers', title: '序号', fixed: 'left'}
+                                    , {field: 'status', title: '状态', fixed: 'left', templet:"#statusTpl",fixed: 'left'}
+                                    , {field: 'targetType', title: '分发类型', templet:"#statusTp2", align: "center"}
+                                    , {field: 'dataPath', title: '存放目录', align: "center"}
+                                    , {field: 'targetServer', title: '服务器地址', align: "center"}
+                                    , {field: 'crUser', title: '创建人', align: "center"}
+                                    , {field: 'crTime', title: '创建时间', align: "center"}
+                                    , {field: 'operUser', title: '操作人', align: "center"}
+                                    , {field: 'operTime', title: '操作时间', align: "center"}
+                                    , {field: 'look',  title: '操作', toolbar: '#barDistribute', align: "center"}
+                                ]]
+                            });
+                            layui.table.on('tool(siteDistributeList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                                var data = obj.data; //获得当前行数据
+                                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                                if (layEvent === 'edit') { //查看
+                                    //delColumnTrue(data.id);
+
+                                } else if (layEvent === 'del') {
+                                    layer.alert("确定删除:[" + data.name + "]?", function () {
+                                        //resetColumn(data.id);
+                                    })
+                                }
+                            })
+                            laypage.render({
+                                elem: 'demo10'
+                                , count: data.obj.total
+                                , curr: data.obj.current
+                                , limit: data.obj.size
+                                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                                , jump: function (obj, first) {
+                                    if (!first) {
+                                        pageNo = obj.curr
+                                        size = obj.limit
+                                        siteDistributeList(siteMsgId,pageNo, size)
+
+                                    }
+
+                                }
+                            });
+                        });
+                    }
+                }
+            })
+        }
+
+    }
+
+    siteDistributeList(siteMsgId,1, 10);
+
+    function checkCheckedzzff(table, field) {
+        if (!field) field = "ids";
+        var data = getTableCheck(table);
+        if (data.length <= 0) {
+            layer.alert("请选择数据");
+            return false;
+        } else {
+            var ids = [];
+            for (var i in data) {
+                ids.push(data[i][field]);
+            }
+            return ids;
+        }
+    }
+    //启用站点分发
+    function enableDistribute() {
+        var data = checkCheckedzzff('siteDistributeList');
+        if (data) {
+            layer.alert("确实要将该分发点启用吗？", function () {
+                ajax("", "/zdff/publishdistriBution/editStatus/" + data + "/1", "post").then(function (data) {
+                    if (data.success) {
+                        siteDistributeList(siteMsgId,1, 10);
+                        layer.closeAll();
+                    }
+                })
+            })
+        }
+
+    }
+
+    //禁用站点分发
+    function cancelDistribute() {
+        var data = checkCheckedzzff('siteDistributeList');
+        if (data) {
+            layer.alert("确实要将该分发点禁用吗？", function () {
+                ajax("", "/zdff/publishdistriBution/editStatus/" + data + "/0", "post").then(function (data) {
+                    if (data.success) {
+                        siteDistributeList(siteMsgId,1, 10);
+                        layer.closeAll();
+                    }
+                })
+            })
+        }
+    }
+
+    function delColumnZdffs(delId) {
+        ajax("", "/zdff/publishdistriBution/deleteById/" + delId, "post").then(function (data) {
+            if (data.success) {
+                if (data.success) {
+                    layer.closeAll();
+                    siteDistributeList(siteMsgId,1, 10);
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        })
+    }
+
+    //站点分发 编辑和删除
+    layui.table.on('tool(siteDistributeBar)', function (obj) { //注：tool是工具条事件名，table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if (layEvent === 'del') { //删除
+            layer.alert("确定是否删除？", function () {
+                // doDeleteByIds([data]);
+                delColumnZdffs(data.ids)
+            })
+        } else if (layEvent === 'edit') { //编辑
+            layerOpen("修改站点分发",480,400);//
+            lodTpl("siteDistributeTpl","openDiv",{});
+//            $("#zzffId").attr('value', data.id)
+            $("#zzffId").val(data.ids);
+            ajax("", "/zdff/publishdistriBution/selectPublishdistri/" + data.ids, "POST").then(function (data) {
+                if (data.success) {
+                    layui.form.val("siteDistributeForm", data.obj);
+                    layui.form.render();
+                } else {
+                    layer.alert(data.msg);
+                }
+            })
+        }
+    });
+
+
+    layui.form.on("submit(addSiteff)", function (data) {
+        var id = data.field.zzffId;
+        if (id === "" || id === null) {
+            var type = "post";
+            var url = "/zdff/publishdistriBution/insertPublishdistri";
+            var msg = "新建成功";
+        } else {
+            type = "post";
+            url = "/zdff/publishdistriBution/updatePublishdistri/";
+            msg = "修改成功";
+        }
+        data.field.id = id;
+        var status = $("#enableConfi").prop("checked") ? 1 : 0;
+        data.field.status = status;
+        data.field.columnid = 0;
+        data.field.siteid = siteMsgId;
+        ajax("", url, type, JSON.stringify(data.field)).then(res => {
+            if (res.success) {
+            layer.closeAll();
+            siteDistributeList(siteMsgId,1, 10);
+
+        } else {
+            layer.alert(res.msg)
+        }
+    })
+        return false;
+    })
+
+    function Typefunction() {
+        var options = document.getElementById("targetType");
+        for (var i = 0; i < options.length; i++) {
+            var divid = options[i].id;
+            if (options[i].selected) {
+                $("." + divid).show();
+            } else {
+                $("." + divid).hide();
+            }
+        }
+    }
+</script>

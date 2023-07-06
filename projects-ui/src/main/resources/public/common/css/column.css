@@ -1,0 +1,281 @@
+/*栏目列表*/
+.uls li {
+  width: 181px;
+  height: 184px;
+  border: 1px solid rgba(228, 228, 228, 1);
+  margin: 0px 0px 15px 15px;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.uls li:nth-child(6n-5) {
+  margin-left: 0px;
+}
+
+.uls .layui-form-checkbox[lay-skin=primary] i {
+  left: -90px;
+}
+.uls li form {
+  width: 181px;
+  height: 144px;
+  background: url("../../../common/img/u7159.png") no-repeat center center;
+  background-size: 50% 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.uls li > img {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.uls li:last-child button {
+  border: none;
+  background: url("../../../common/img/u5320.png") no-repeat center center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.chanelName {
+  text-align: center;
+  line-height: 133px;
+  font-size: 18px;
+  font-weight: bolder;
+  height: 133px;
+  overflow: hidden;
+}
+.uls .bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 181px;
+  background: rgba(240, 240, 240, 1);
+  text-align: center;
+}
+.uls .bottom img {
+  margin: 10px;
+}
+#info tr td:nth-of-type(2n+1) {
+  text-align: right;
+  background: #fcfcfc;
+  width: 195px;
+}
+#info tr td:nth-of-type(4) {
+  text-align: left;
+  background: #fff;
+  width: 430px;
+}
+
+#info tr td:last-child {
+  background: #ffffff;
+}
+
+#info tr td {
+  border: 1px solid #e7e7e7;
+}
+
+#info tr td input {
+  margin-left: 3px;
+}
+.layui-card .layui-tab {
+  border: none;
+  box-shadow: none;
+}
+.layui-btn:nth-of-type(2) {
+  margin-left: 10px;
+}
+
+#import,
+#export {
+  display: inline-block;
+}
+
+.kinds {
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.kinds span {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.kinds span:first-child {
+  font-size: 24px;
+  color: #009688;
+}
+
+.layui-table-cell .layui-form-checkbox[lay-skin=primary] {
+  height: 48px;
+}
+
+.layui-form [lay-ignore] {
+  width: 86px;
+  height: 24px;
+  margin-top: -5px;
+}
+
+.layui-laypage-limits select {
+  width: 81px;
+  height: 22px;
+  position: relative;
+  margin-left: 0;
+}
+
+.rightList {
+  margin: 15px 0
+}
+
+.rightList span {
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.rightList span:first-of-type {
+  color: #009986;
+  font-size: 24px;
+}
+
+.right {
+  background: url("../../../common/img/u6237.png") no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.err {
+  background: url("../../../common/img/u6239.png") no-repeat;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+#item .layui-table-view {
+  margin-left: 0px;
+}
+
+.title {
+  margin-left: 15px;
+  color: #0178B7;
+}
+
+#state input {
+  margin: 20px;
+}
+
+#state {
+  width: 520px;
+  padding-left: 10px;
+}
+
+.radio p {
+  height: 30px;
+}
+
+#task label {
+  display: block;
+  margin-top: 10px;
+}
+
+#task label select, #hotwords label select {
+  background: #ffffff;
+  color: #000;
+  height: 25px;
+  position: relative;
+}
+
+#openDiv .layui-this {
+  background-color: #009688;
+  color: white;
+}
+
+#openDiv .layui-tab-title li:hover {
+  background-color: #009688;
+  color: white;
+}
+
+.layui-card .layui-tab {
+  border: none;
+  box-shadow: none;
+}
+
+#openDiv .layui-tab {
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+#openDiv table {
+  margin: 0;
+}
+
+/*.layui-input-block span span {
+  line-height: 38px;
+  max-width: 395px;
+  display: block;
+  overflow: hidden;
+  float: left;
+  word-break: break-all;
+  height: 38px
+}*/
+
+/*.layui-input-block span {
+  line-height: 38px;
+}*/
+
+#searchForm .layui-form-item {
+  margin-bottom: 5px;
+  display: inline-block;
+  width: 250px;
+}
+
+#searchForm .layui-form-item .layui-input-block {
+  width: 145px;
+}
+
+.hiteLable {
+  padding: 0;
+}
+
+.show-less .layui-form-item:nth-child(n+6) {
+  display: none !important;
+}
+
+#fieldTableInfo {
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+}
+
+#fieldTableInfo span {
+  margin-right: 20px;
+}
+
+.form-item-inline {
+  display: inline-block;
+}
+
+.helf-form-item{
+  display: inline-block;
+  width: 49%;
+}
+
+#metadataOrView .layui-form-item:nth-child(n+2){
+  display: none;
+}
+.uebot{width: 1025px;height:52px ;background: #f0f0ee;overflow: hidden;padding: 5px 0;}
+.uebot .btn1{background: #fff;height: 30px;line-height: 30px;margin-left: 15px;padding:0px 15px;float: left;cursor: pointer;font-size: 14px;color: #333;}
+#keyword{width: 1026px;}
+.sjbtn{width: 72px;height: 34px;line-height: 34px;}
+.sjbtnn{width: 142px;height: 34px;line-height: 34px;}
+.layui-layer-btn  .layui-layer-btn0,.layui-layer-btn  .layui-layer-btn1{border: 1px solid #029687;    padding: 2px 21px;}
+.layui-layer-btn .layui-layer-btn0{background: #029687;}
+.tuisong .layui-input-block{margin-left: 0;}
+.tuisong .layui-inline{display: block;}
+.bitianxingxing {color: red;margin-right: 5px;}

@@ -1,0 +1,49 @@
+<title>前台地址管理</title>
+<div class="layui-fluid" >
+    <div class="layui-card h100" style="background: #fff">
+        <div class="layui-card-header">前台地址管理</div>
+        <div class="layui-card-body" id="addrList">
+
+        </div>
+    </div>
+</div>
+<script>
+    var data=[
+        {name:"非遗域名"},
+        {name:"智能家居"},
+        {name:"软通域名"},
+        {name:"非遗域名"},
+    ]
+    layui.laytpl($("#addr").html()).render(data,function(html){
+        $("#addrList").html(html);
+        layui.form.render();
+
+    })
+    function editDomain(event,index) {  //域名修改
+        layer.alert("修改成功");
+        $(".save").eq(Number(index)).removeClass("layui-btn-disabled");
+        $(".save").eq(Number(index)).attr("disabled",false)
+    }
+    layui.form.on('submit(confirmSave)',function (data) { //保存修改
+         layer.alert("保存成功")
+    })
+</script>
+<script type="text/html" id="addr">
+    <form class="layui-form" style="margin: 20px">
+        {{# layui.each(d, function(index, item){ }}
+        <div class="layui-form-item">
+        <label class="layui-form-label">{{item.name}}</label>
+        <div class="layui-input-block" >
+        <input type="text" class="layui-input" style="display: inline-block;width: 1270px">
+        <div class="layui-btn-container" style="display: inline-block;margin-left: 30px">
+        <button class="layui-btn" type="button" onclick="editDomain(event,'{{index}}')">修改</button>
+        <button class="layui-btn layui-btn-disabled save" type="button" lay-submit lay-filter="confirmSave"  disabled>保存</button>
+        </div>
+        </div>
+        </div>
+        {{#  }); }}
+        {{# if(d.length === 0){ }}
+        无数据
+        {{# } }}
+        </form>
+</script>

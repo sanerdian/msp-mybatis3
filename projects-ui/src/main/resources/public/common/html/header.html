@@ -1,0 +1,130 @@
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect id="flex">
+                    <a href="javascript:void(0);" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:toFrontUrl()" title="前台">
+                        <i class="layui-icon layui-icon-website"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:refreshList();" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-3" style="color: #000;"></i>
+                    </a>
+                </li>
+
+                <!--<li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                    <!--<input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">-->
+                <!--</li>-->
+            </ul>
+            <!-- <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs"> -->
+                <ul class="layui-tab-title titleBreadCrumb" id="LAY_app_tabsheader">
+                    <li lay-id="/" onclick="loaddiv('/simple/home/index.html','首页')"><i class="layui-icon layui-icon-home"></i></li>
+                    <!--<li  class='tab'><span id='tabName'></span><i class='layui-icon layui-unselect layui-tab-close'>ဆ</i></li>-->
+                    <li class='tab'>当前位置：<span id='tabName'></span></li>
+                </ul>
+            <!-- </div> -->
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+                <li class="layui-nav-item" lay-unselect>
+
+                    <a href="javascript:go2Menu('/simple/messages/msg/list.html','消息通知')" title="消息通知" layadmin-event="message" id="msg">
+                        <i class="layui-icon layui-icon-notice layui-anim layui-anim-up" ></i>
+
+                        <!--<script type="text/html" template lay-url="./json/message/new.js">-->
+
+                            <span class="layui-badge-dot "></span>
+
+                    </a>
+                </li>
+                <!-- <div class="msgBox" style="width: 200px;height: 150px;border: 1px solid #000;position: absolute; left: -10px;display: none"></div> -->
+                <!--<li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+                    <!--<a href="javascript:;" layadmin-event="theme">-->
+                        <!--<i class="layui-icon layui-icon-theme"></i>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" title="便签" onclick="note()">
+                        <i class="layui-icon layui-icon-note"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" title="全屏" onclick="entryFullScreen(event)">
+                        <i class="layui-icon layui-icon-screen-full"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect id="userItemView">
+                </li>
+
+                <!--<li class="layui-nav-item layui-hide-xs" lay-unselect>
+                   <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>
+                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>-->
+            </ul>
+        </div>
+
+
+<!--        <div class="layadmin-pagetabs" id="LAY_app_tabs">
+            &lt;!&ndash;<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>&ndash;&gt;
+            &lt;!&ndash;<div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>&ndash;&gt;
+            &lt;!&ndash;<div class="layui-icon layadmin-tabs-control layui-icon-down">&ndash;&gt;
+                &lt;!&ndash;<ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">&ndash;&gt;
+                    &lt;!&ndash;<li class="layui-nav-item" lay-unselect>&ndash;&gt;
+                        &lt;!&ndash;<a href="javascript:;"></a>&ndash;&gt;
+                        &lt;!&ndash;<dl class="layui-nav-child layui-anim-fadein">&ndash;&gt;
+                            &lt;!&ndash;<dd layadmin-event="closeThisTabs"><a href="javascript:closeThisTabs();">关闭当前标签页</a></dd>&ndash;&gt;
+                            &lt;!&ndash;<dd layadmin-event="closeOtherTabs"><a href="javascript:closeOtherTabs();">关闭其它标签页</a></dd>&ndash;&gt;
+                            &lt;!&ndash;<dd layadmin-event="closeAllTabs"><a href="javascript:closeAllTabs();">关闭全部标签页</a></dd>&ndash;&gt;
+                        &lt;!&ndash;</dl>&ndash;&gt;
+                    &lt;!&ndash;</li>&ndash;&gt;
+                &lt;!&ndash;</ul>&ndash;&gt;
+            &lt;!&ndash;</div>&ndash;&gt;
+            <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                    <li lay-id="/" onclick="loaddiv('/simple/home/index.html','首页')"><i class="layui-icon layui-icon-home"></i></li>
+                    &lt;!&ndash;<li  class='tab'><span id='tabName'></span><i class='layui-icon layui-unselect layui-tab-close'>ဆ</i></li>&ndash;&gt;
+                    <li class='tab'>当前位置：<span id='tabName'></span></li>
+                </ul>
+            </div>
+        </div>-->
+
+<!--用户信息-->
+<!-- <script type="text/html" id="userItemTemplate">
+    {{# if(d.success && d.obj.status){ }}
+        <a href="javascript:;">
+            <cite id="currUser">{{d.obj.user.name}}</cite>
+            <span class="layui-nav-more"></span>
+        </a>
+        <dl class="layui-nav-child">
+            <dd><a href="javascript:go2Menu('simple/member/user/info.html','基本资料')">基本资料</a></dd>
+            <dd><a href="javascript:go2Menu('simple/member/user/password.html','修改密码')">修改密码</a></dd>
+            <hr>
+            <dd style="text-align: center;"><a href="javascript:logout()">退出</a></dd>
+        </dl>
+    {{# }else{ }}
+        <a href="simple/member/user/login.html">
+            <cite>登录</cite>
+        </a>
+    {{# } }}
+</script> -->
+<script type="text/html" id="userItemTemplate">
+    {{# if(d.success && d.obj.status){ }}
+        <a href="javascript:;">
+            <cite id="currUser" data-id="{{d.obj.user.id}}">{{d.obj.user.name}}</cite>
+            <!-- <span class="layui-nav-more"></span> -->
+        </a>|
+        <a href="javascript:go2Menu('simple/member/user/info.html','基本资料')">基本资料</a>|
+        <a href="javascript:go2Menu('simple/member/user/password.html','修改密码')">修改密码</a>|
+        <a href="javascript:logout()">退出</a>
+    {{# }else{ }}
+        <a href="login.html">
+            <cite>登录</cite>
+        </a>
+    {{# } }}
+</script>

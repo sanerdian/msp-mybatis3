@@ -1,0 +1,167 @@
+﻿<!--弹出层模板（新增，查看，编辑）-->
+<form class="layui-form" lay-filter="editForm">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">父级分类:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="parentName" readonly autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类法名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="className" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">标签匹配词组:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="classDesc" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类法模块:</label>
+                <div class="layui-input-block">
+                    <select name="moduleId" id="select_module" lay-filter="select_module"></select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">编码规则:</label>
+                <div class="layui-input-block">
+                    <select name="bmname" id="select_moduler" lay-filter="select_moduler"></select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类法描述:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="matchg" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <input type="hidden" name="moduleName" id="moduleName">
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类法图标:</label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="test10">
+                        <div id="upicon">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                        </div>
+                        <div class="layui-hide" id="uploadDemoView">
+                            <img src="" alt="图标" style="width: 228px">
+                        </div>
+                    </div>
+                    <input type="hidden" id="iconUrl" name="iconUrl" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <input hidden="hidden" name="id">
+    <input hidden="hidden" name="parentId">
+    <div class="button-bar">
+        <button class="layui-btn" lay-submit lay-filter="addBtn">确认</button>
+        <button class="layui-btn" type="button" data-type="close">取消</button>
+    </div>
+</form>
+<script>
+    function setFormData(data){
+        getModuleHtml(function(){
+            layui.form.val("editForm",data);
+            showClassIcon(data.iconUrl);
+            //拖拽上传
+            layui.upload.render({
+                elem: '#test10'
+                ,url: '/member/user/importHead' //改成您自己的上传接口
+                ,done: function(res){
+                    if(res.success){
+                        showClassIcon(res.obj.url);
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+            layui.form.render();
+        })
+    }
+    function setFormDataa(data){
+        getModuleHtmll(function(){
+            layui.form.val("editForm",data);
+            showClassIcon(data.iconUrl);
+            //拖拽上传
+            layui.upload.render({
+                elem: '#test10'
+                ,url: '/member/user/importHead' //改成您自己的上传接口
+                ,done: function(res){
+                    if(res.success){
+                        showClassIcon(res.obj.url);
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+            layui.form.render();
+        })
+    }
+    function getModuleHtml(fn){
+        ajax('',"/metadata/moduleinfo/list","post",JSON.stringify({pager:{current:1,size:-1}})).then(function(res){
+            var html='<option value="">无</option>';
+            for(var o of res.obj.records){
+                html += '<option value="{id}">{modulename}</option>'.format(o);
+            }
+            $("#select_module").html(html);
+            fn();
+        })
+    }
+    function getModuleHtmll(fn){
+        ajax('',"/metadata/encoding/list","post",JSON.stringify({pager:{current:1,size:-1}})).then(function(res){
+            var html='<option value="">无</option>';
+            for(var o of res.obj.records){
+                html += '<option value="{bmname}">{bmname}</option>'.format(o);
+            }
+            $("#select_moduler").html(html);
+            fn();
+        })
+    }
+
+    function showClassIcon(url){
+        if(!url) return false;
+        $("#iconUrl").val(url);
+        $('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', url);
+        $("#upicon").addClass("layui-hide");
+    }
+
+    // layui.form.on('select(select_moduler)', function(data){
+    //     console.log(data);
+    //     $("#moduleName").val(data.elem[data.elem.selectedIndex].text);
+    // });
+
+    layui.form.on('select(select_module)', function(data){
+        console.log(data);
+        $("#moduleName").val(data.elem[data.elem.selectedIndex].text);
+    });
+
+    layui.form.on("submit(addBtn)", function (data) {
+        var thisUrl = url;
+        var method = "post";
+        var fields = data.field;
+        if (fields.id) {
+            msg = "修改成功";
+            thisUrl = url + "/" + fields.id;
+            method = "put";
+        };
+        ajax(service_prefix.metadata, thisUrl, method, JSON.stringify(fields)).then(res => {
+            layer.closeAll();
+            if(fields.parentId != 0){
+                if(fields.parentId == $(".active").attr("data_id")){
+                    reflashTree();
+                }else if(fields.id){
+                    asyncParent();
+                }else{
+                    asyncChild();
+                }
+            }
+        }).catch(function (res) {});
+        return false;
+    })
+</script>

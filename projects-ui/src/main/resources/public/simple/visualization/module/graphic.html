@@ -1,0 +1,189 @@
+<script type="text/html" id="module_graphic" xmlns="http://www.w3.org/1999/html">
+    <div id="{{ d.widgetId }}" class="draggable-graphic ui-draggable ui-draggable-handle w_graphic"
+         style="position: absolute">
+        <div class="content border_content">
+            <ul>
+                {{# layui.each(d.dbField, function(index, item){ }}
+                <li style="float: left">
+                    {{# if(d.titlePosition === 'top' || d.titlePosition === 'left'){ }}
+                    <div class="graphic_element"><span class="graphic_title layui-form-label" style="text-align:center;padding:5px;width: 500px">{{ item.title }}</span></div>
+                    {{# } }}
+                    <div class="graphic_element"><img class="graphic_content" src=" {{ item.graphic }} "></div>
+                    {{# if(d.titlePosition === 'bottom' || d.titlePosition === 'right'){ }}
+                    <div class="graphic_element"><span class="graphic_title layui-form-label" style="text-align:center;padding:5px;width: 500px">{{ item.title }}</span></div>
+                    {{# } }}
+                </li>
+                {{# if((index+1)%d.numPerLine === 0){ }}
+                    <div style="clear: left"></div>
+                {{# }else{ }}
+                    <div class="graphic_space" style="float: left;height: 1px;width: 20px;"></div>
+                {{# } }}
+                {{# }); }}
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_graphic_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_graphic_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings">
+        <div class="layui-tab" style="margin: 0;padding: 0">
+            <ul class="layui-tab-title">
+                <li class="layui-this">文字样式</li>
+                <li>关联字段</li>
+            </ul>
+
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form action="" class="layui-form content">
+                        <label for="" class="layui-form-label" style="padding: 16px 15px">表格样式：</label>
+                        <div class="layui-input-block">
+                            <div class="tag_style">
+                                <div class="tag_style_img">
+                                    <img src="../images/graphic_style_img.png" style="position:absolute;margin: 7px 17px">
+                                    <div style="width: 50px;height: 20px;margin:6px auto;background: #ade0fd"></div>
+                                    <div style="width: 50px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                    <div style="width: 50px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                </div>
+                                <div class="tag_style_flag">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                            <div class="tag_style">
+                                <div class="tag_style_img" style="left:80px;">
+                                    <div style="width: 50px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                    <div style="width: 50px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                    <img src="../images/graphic_style_img.png" style="position:absolute;margin: 1px 17px">
+                                    <div style="width: 50px;height: 20px;margin:6px auto;background: #ade0fd"></div>
+                                </div>
+                                <div class="tag_style_flag" style="left:124px;">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                            <div class="tag_style">
+                                <div class="tag_style_img" style="left:160px;">
+                                    <div style="float: left">
+                                        <img src="../images/graphic_style_img.png" style="position:absolute;margin: 16px 7px">
+                                        <div style="width: 32px;height: 37px;margin:6px auto;background: #ade0fd"></div>
+                                    </div>
+                                    <div style="float: left;margin: 0 2px">
+                                        <div style="width: 15px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:7px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:7px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                    </div>
+                                </div>
+                                <div class="tag_style_flag" style="left:204px;">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                            <div class="tag_style">
+                                <div class="tag_style_img" style="left:240px;">
+                                    <div style="float: left;margin: 0 2px">
+                                        <div style="width: 15px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:7px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:7px auto;border:none;background: #e3e2e8"></div>
+                                        <div style="width: 15px;height: 2px;margin:6px auto;border:none;background: #e3e2e8"></div>
+                                    </div>
+                                    <div style="float: left">
+                                        <img src="../images/graphic_style_img.png" style="position:absolute;margin: 16px 7px">
+                                        <div style="width: 32px;height: 37px;margin:6px auto;background: #ade0fd"></div>
+                                    </div>
+                                </div>
+                                <div class="tag_style_flag" style="left:284px;">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <label for="" class="layui-form-label" style="clear: left">位置尺寸：</label>
+                        <div class="layui-input-block" style="padding-top: 10px">
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_left"
+                                   value="{{ d.left }}">
+                            <span class="text_set_note" style="padding: 0 10px">X</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_top"
+                                   value="{{ d.top }}">
+                            <span class="text_set_note" style="padding: 0 10px">Y</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_width"
+                                   value="{{ d.width }}">
+                            <span class="text_set_note" style="padding: 0 10px">W</span>
+                        </div>
+                        <label for="" class="layui-form-label">单行个数：</label>
+                        <div class="layui-input-block" style="padding-top: 10px">
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_num_per_line"
+                                   value="{{ d.numPerLine }}">
+                            <span style="margin-left: 15px;float: left">间距：</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_graphic_space"
+                                   value="{{ d.graphicSpace }}">
+                        </div>
+                        <label for="" class="layui-form-label" style="clear: left">内容数量：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="num_per_page" lay-filter="{{ d.widgetId }}_num_per_page"
+                                   title="全部" value="0" checked>
+                            <input type="radio" name="num_per_page" lay-filter="{{ d.widgetId }}_num_per_page"
+                                   title="固定" value="1">
+                            <input type="text" class="text_set_input_with_border set_per_page" style="position: relative; top: 3px" lay-verify="text_position_num"
+                                   name="num_per_page" value="{{ d.numPerPage }}">
+                            <span class="set_per_page" style="margin: 0 5px;position: relative; top: 3px">条</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">
+                    <form action="" class="layui-form content">
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">元数据表：</label>
+                            <div class="layui-input-block" style="width: 380px">
+                                <select lay-verify="required" class="data_set_sel">
+                                    <option>无</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">图片字段：</label>
+                            <div class="layui-input-block"
+                                 style="width: 380px;height: 216px;border: #dbdbdb 1px solid;">
+                                <i style="color: #AAAAAA; font-size: 14px;position: absolute;top: 50%;left: 150px">请选择元数据表</i>
+                            </div>
+                        </div>
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">内容字段：</label>
+                            <div class="layui-input-block"
+                                 style="width: 380px;height: 216px;border: #dbdbdb 1px solid;">
+                                <i style="color: #AAAAAA; font-size: 14px;position: absolute;top: 50%;left: 150px">请选择元数据表</i>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="layui-input-block w_settings_btn" style="margin-top: 30px">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+        <div style="position:absolute;top: 12px; right: 20px;font-weight: bold;cursor: pointer"><i
+                class="layui-icon layui-icon-close"></i></div>
+    </div>
+</script>
+
+

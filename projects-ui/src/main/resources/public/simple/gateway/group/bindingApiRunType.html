@@ -1,0 +1,28 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateApiRunType">
+	<form class="layui-form" lay-filter="editForm">
+		<div class="layui-card">
+			<div class="layui-card-body">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">运行状态:</label>
+                    <div class="layui-input-block">
+                        <select name="runType" lay-verify="required">
+                            <option value=""></option>
+                            <option value="dev">开发</option>
+                            <option value="test" selected>测试</option>
+                            <option value="pre">预运行</option>
+                            <option value="pro">生产</option>
+                        </select>
+                        <span class="bitianspan">必填</span>
+                    </div>
+                </div>
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-ApiRunType-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

@@ -1,0 +1,257 @@
+.head {
+  background: #e4e4e4;
+  height: 50px;
+  line-height: 50px;
+}
+.addNewClass {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #fff;
+  color: #333;
+  border-radius: 20px;
+  line-height: 40px;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.leftHead span {float:left;font-size:18px;font-weight:bold;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.rightHead i {
+  font-size: 20px;
+  color: #fff;
+  vertical-align: middle;
+}
+.rightHead {
+  float: left;
+}
+.rightHead {
+  float: right;
+  height: 50px;
+}
+.rightHead span {
+  display: inline-block;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.content {
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.toggleFilter {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: url(../img//u1179.png) repeat-y center 11px;
+  cursor: pointer;
+  z-index: 6;
+  transform: rotate(0deg);
+  transition: all .3s ease-in;
+}
+.toggleFilter.slide {
+  transform: rotate(180deg);
+  transition: all .3s ease-in;
+}
+.filter {
+  background: #f2f2f2;
+  padding: 20px 0;
+  /* overflow: hidden; */
+  width: 100%;
+}
+
+.filter .layui-form-label {
+  width: 90px;
+}
+.filter .layui-input-block {
+  /* margin-left: 106px; */
+  margin-left: 90px;
+}
+.filter .textareaLine {
+  padding-right: 10px;
+}
+/* .editBody {
+  position: fixed;
+  top: 223px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+} */
+.leftSide,
+.rightSide {
+  box-sizing: border-box;
+  /* position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: auto; */
+  display: inline-block;
+  font-size: 14px;
+}
+.leftSide {
+  position: absolute;
+  width: 220px;
+  background: #393d49;
+  color: #fff;
+  right: 0;bottom:20px;top:0;z-index:99;
+}
+.rightSide {position:absolute;left:0;top:0;right: 0;bottom:0;background:#f2f2f2;}
+.rightSide .txt {
+  font-size: 14px;
+}
+
+.leftSide li > span {
+  display: block;
+  line-height: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/*编辑*/
+.leftSide .editBox {
+  width: 100px;
+  height: 20px;
+  border: 1px dotted #fff;
+}
+.rightSide .topTitle {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 60px;
+  background: #fff;
+}
+.topTitle > div {
+  /* width: 50%; */
+  line-height: 60px;
+}
+/* .topTitle > .topTitLeft {
+  float: left;
+} */
+.topTitle > .topTitRight {
+  float: right;
+  text-align: right;
+}
+
+.panelView > div.codeView {
+  background: #000;
+}
+.topTitle span {
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.layoutBox {
+  border: 1px dotted #aaa;
+  vertical-align: top;
+  position: relative;
+  height: 100px;
+}
+.layoutBox.noBorder,
+.pageView .layoutBox {
+  border: 1px solid transparent;
+}
+.layui-nav .layui-nav-item {
+  cursor: pointer;
+}
+
+
+
+.groupBox{overflow:hidden;}
+.groupBox .groupItem {float:left;width:23%;height:300px;box-shadow:0 0 5px #ccc;margin: 20px 1%;position: relative;}
+.groupBox .groupItem .pic{
+  height: 244px;
+  vertical-align: middle;
+  background: #fff;
+  overflow: hidden;
+  font-size: 14px;
+}
+.groupBox .groupItem .hoverBack {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+.hoverBack > .btnBox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin-top: -15px;
+  text-align: center;
+  z-index: 2;
+}
+.hoverBack > .btnBottom {
+  top: 90%;
+  background: #fff;
+}
+.btnBottom .btnBlueright{
+  width: 110px;
+  background: #3383fa;
+  color: #fff;
+  border-radius: 30px;
+}
+.btnBottom .btnOrangeright{
+  width: 110px;
+  background: rgba(248, 95, 75, 1);
+  color: #fff;
+  border-radius: 30px;
+}
+.groupBox .groupItem:hover .hoverBack {
+  display: block;
+}
+.hoverBack .opacityBack {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  width: 100%;
+  height: 80%;
+  background:  rgba(2, 2, 2, 0.298039215686275);
+}
+.groupBox .groupItem .pic img {
+  max-width: 100%;max-height:100%;
+}
+
+.groupBox .groupItem .txtBox {margin:10px 0 0;
+  line-height: 30px;
+  text-align: center;
+}
+.layui-form-item .layui-input-inline{width:120px;}
+.layui-form-item .layui-input-inline.bigWid{width:200px;}
+.page{background:#fff;padding:15px;}
+.layui-nav .layui-this:after{height:3px;background-color:#009688;}
+.layui-btn-primary{border:1px solid #e6e6e6;}
+.productBody > div:nth-child(2), .productBody > div:nth-child(4){padding:0;}
+
+.rightSide .layui-nav{background:#fff;}
+.rightSide .layui-nav .layui-nav-item a{font-size:16px;color:#333;}
+.rightSide .layui-nav .layui-this:after{background:#009688;}
+.rightSide .layui-nav-bar{background:#009688;}
+.layui-btn2{border:1px solid #009688;background:#fff;color:#009688;}
+.layui-btn2:hover{color:#009688;}
+
+.editBody{background:#393d49;position:absolute;left:0;top:237px;right:0;bottom:0;}
+body{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:hidden;}
+.visualMain{position:absolute;top:0;left:0;right:0;bottom:0;}
+.leftSide .layui-side-scroll{width:240px;height:auto;position:absolute;top:112px;bottom:0;}
+.leftSide .layui-nav-tree {width: 220px;}
+.reverse-btn{
+  color: #009688;
+  border: solid 1px rgba(0, 150, 136, 1);
+  background-color: rgba(255, 255, 255, 1);
+}
+.reverse-btn:hover{
+  color: #009688;
+} 
+.btn_center {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0 0 0;
+}
+.specialWord{
+  color: red;
+}

@@ -1,0 +1,212 @@
+<script type="text/html" id="module_table" xmlns="http://www.w3.org/1999/html">
+    <div id="{{ d.widgetId }}" class="draggable-text ui-draggable ui-draggable-handle w_table"
+         style="position: absolute">
+        <div class="compute_text" style="position: absolute"></div>
+        <div class="content border_content" style="background: white;">
+            <div class="table_container">
+                <table id="table_{{ d.widgetId }}" lay-filter="filter_table_{{ d.widgetId }}"></table>
+                {{# if(d.style === 0){ }}
+                <br class="table_page_br">
+                <div id="table_page_{{ d.widgetId }}"></div>
+                {{# } }}
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_table_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_table_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings">
+        <div class="layui-tab" style="margin: 0;padding: 0">
+            <ul class="layui-tab-title">
+                <li class="layui-this">文字样式</li>
+                <li>关联字段</li>
+            </ul>
+
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form action="" class="layui-form content">
+                        <label for="" class="layui-form-label" style="padding: 16px 15px">表格样式：</label>
+                        <div class="layui-input-block">
+                            <div class="tag_style">
+                                <div class="tag_style_img">
+                                    <img src="../images/table_style0.png" style="margin: 7px auto">
+                                </div>
+                                <div class="tag_style_flag">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                            <div class="tag_style">
+                                <div class="tag_style_img" style="left:80px;">
+                                    <img src="../images/table_style1.png" style="margin: 7px auto">
+                                </div>
+                                <div class="tag_style_flag" style="left:124px;">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                            <div class="tag_style">
+                                <div class="tag_style_img" style="left:160px;">
+                                    <img src="../images/table_style2.png" style="margin: 7px auto">
+                                </div>
+                                <div class="tag_style_flag" style="left:204px;">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                            <div class="tag_style">
+                                <div class="tag_style_img" style="left:240px;">
+                                    <img src="../images/table_style2.png" style="margin: 7px auto">
+                                </div>
+                                <div class="tag_style_flag" style="left:284px;">
+                                    <img class="tag_style_active_icon1">
+                                    <img class="tag_style_active_icon2">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <label for="" class="layui-form-label" style="padding-top: 15px;">位置尺寸：</label>
+                        <div class="layui-input-block" style="padding-top: 15px">
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_left"
+                                   value="{{ d.left }}">
+                            <span class="text_set_note">X</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_top"
+                                   value="{{ d.top }}">
+                            <span class="text_set_note">Y</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_width"
+                                   value="{{ d.width }}">
+                            <span class="text_set_note">W</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_height"
+                                   value="{{ d.height }}">
+                            <span class="text_set_note">H</span>
+                        </div>
+
+                        <label for="" class="layui-form-label">字体：</label>
+                        <div class="layui-input-block">
+                            <select lay-verify="required" class="font_family_sel">
+                                {{# if(d.fontFamily === "微软雅黑") { }}
+                                <option value="微软雅黑" selected>微软雅黑</option>
+                                {{# } else { }}
+                                <option value="微软雅黑">微软雅黑</option>
+                                {{# }if(d.fontFamily === "黑体") { }}
+                                <option value="黑体" selected>黑体</option>
+                                {{# } else { }}
+                                <option value="黑体">黑体</option>
+                                {{# }if(d.fontFamily === "宋体") { }}
+                                <option value="宋体" selected>宋体</option>
+                                {{# } else { }}
+                                <option value="宋体">宋体</option>
+                                {{# }if(d.fontFamily === "Arial") { }}
+                                <option value="Arial" selected>Arial</option>
+                                {{# } else { }}
+                                <option value="Arial">Arial</option>
+                                {{# }if(d.fontFamily === "Helvetica") { }}
+                                <option value="Helvetica" selected>Helvetica</option>
+                                {{# } else { }}
+                                <option value="Helvetica">Helvetica</option>
+                                {{# } }}
+                            </select>
+                        </div>
+                        <label for="" class="layui-form-label">边距：</label>
+                        <div class="layui-input-block" style="padding-top: 10px">
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_margin3"
+                                   value="{{ d.margin[3] }}">
+                            <span class="text_set_note">左</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_margin0"
+                                   value="{{ d.margin[0] }}">
+                            <span class="text_set_note">上</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_margin1"
+                                   value="{{ d.margin[1] }}">
+                            <span class="text_set_note">右</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_margin2"
+                                   value="{{ d.margin[2] }}">
+                            <span class="text_set_note">下</span>
+                        </div>
+                        <label for="" class="layui-form-label">排版：</label>
+                        <div class="text_icon_style">
+                            {{# if(d.textAlign === "left") { }}
+                            <i class="layui-icon layui-icon-align-left text_style active"></i>
+                            {{# } else { }}
+                            <i class="layui-icon layui-icon-align-left text_style"></i>
+                            {{# }if(d.textAlign === "center") { }}
+                            <i class="layui-icon layui-icon-align-center text_style active "></i>
+                            {{# } else { }}
+                            <i class="layui-icon layui-icon-align-center text_style"></i>
+                            {{# }if(d.textAlign === "right") { }}
+                            <i class="layui-icon layui-icon-align-right text_style active"></i>
+                            {{# } else { }}
+                            <i class="layui-icon layui-icon-align-right text_style"></i>
+                            {{# } }}
+                        </div>
+                        <label for="" class="layui-form-label" style="clear: left">选择设置：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="select_style" lay-filter="{{ d.widgetId }}_select_style"
+                                   title="单选" value="1">
+                            <input type="radio" name="select_style" lay-filter="{{ d.widgetId }}_select_style"
+                                   title="复选" value="2" checked>
+                            <input type="radio" name="select_style" lay-filter="{{ d.widgetId }}_select_style"
+                                   title="无选择" value="0">
+                        </div>
+                        <label for="" class="layui-form-label" style="clear: left">分页设置：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="num_per_page" lay-filter="{{ d.widgetId }}_num_per_page"
+                                   title="显示" value="1">
+                            <input type="radio" name="num_per_page" lay-filter="{{ d.widgetId }}_num_per_page"
+                                   title="不显示" value="0">
+                            <input type="text" class="text_set_input_with_border set_per_page"
+                                   style="position: relative; top: 3px" lay-verify="text_position_num"
+                                   name="num_per_page" value="{{ d.numPerPage }}">
+                            <span class="set_per_page" style="margin: 0 5px;position: relative; top: 3px">条/页</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">
+                    <form action="" class="layui-form content">
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">元数据表：</label>
+                            <div class="layui-input-block" style="width: 380px">
+                                <select lay-verify="required" class="data_set_sel">
+                                    <option>无</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">关联字段：</label>
+                            <div class="layui-input-block"
+                                 style="width: 380px;height: 216px;border: #dbdbdb 1px solid;">
+                                <i style="color: #AAAAAA; font-size: 14px;position: absolute;top: 50%;left: 150px">请选择元数据表</i>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="layui-input-block w_settings_btn" style="margin: 20px">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+        <div style="position:absolute;top: 12px; right: 20px;font-weight: bold;cursor: pointer"><i
+                class="layui-icon layui-icon-close"></i></div>
+    </div>
+</script>
+
+

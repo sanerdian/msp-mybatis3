@@ -1,0 +1,22 @@
+<style>
+
+</style>
+<div>
+    <table class="layui-hide" id="test"></table>
+</div>
+<script>
+    let tableData = [
+        {num:1,name:'张翰',time:'2023-03-09',note:'发起此流程'}
+    ]
+    layui.table.render({
+        elem: '#test'
+        ,data:tableData
+        ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        ,cols: [[
+        {field:'num', title: '步骤序号', sort: true}
+        ,{field:'name', title: '办理人员'} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
+        ,{field:'time', title: '创建时间', sort: true}
+        ,{field:'note', title: '内容'}
+        ]]
+    });
+</script>

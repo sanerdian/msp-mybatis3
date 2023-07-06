@@ -1,0 +1,145 @@
+﻿<title>统计数据的自动执行</title>
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+    <a><i class="layui-icon layui-icon-prev"></i></a>
+    <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+    <a>统计数据的自动执行<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+    <div class="right">
+      <a><i class="layui-icon layui-icon-next"></i></a>
+      <a><i class="layui-icon layui-icon-down"></i></a>
+    </div>
+  </div>
+</div>
+<div class="layui-fluid">
+  <div class="layui-card h100" id="index">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto"> 
+      <div class="top_btn">
+        <button class="layui-btn" data-method="offset">新建调度任务</button>
+        <button class="layui-btn">批量删除</button>
+      </div>
+      <form class="layui-form">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline top_search_btn">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>  
+      </form>
+    </div>
+    <div class="layui-card-body">
+      <table id="test" lay-filter="test"></table>
+    </div>
+  </div>
+</div>
+
+<script type="text/html" id="titleTpl">
+  <a href="javascript:void(0);" class="layui-table-link" style="color:#000" onclick="go()">{{d.content}}</a>
+</script>
+<script type="text/html" id="fieldTemplate">
+  <form class='layui-form' id='form'>
+    <div class="layui-form-item" style='margin-top:10px;'>
+      <label class="layui-form-label"><span>*</span>名称</label>
+      <div class="layui-input-block" style='height:38px;width:327px;overflow:hidden;border-radius:2px'>
+        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style='width:327px;'>
+      </div>
+    </div>
+    <div class="layui-form-item" style='margin-top:10px;'>
+      <label class="layui-form-label">描述</label>
+      <div class="layui-input-block" >
+        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style='width:327px;'>
+      </div>
+    </div>
+    <div class="layui-form-item" style='margin-top:10px;'>
+      <label class="layui-form-label">类型</label>
+      <div class="layui-input-block" style='line-height:36px;margin-left:5px;color:#ccc' >
+        统计数据的自动执行
+      </div>
+    </div>
+    <div class="layui-form-item" style='margin-top:10px;'>
+      <label class="layui-form-label">运行模式</label>
+      <div class="layui-input-block">
+        <select name="interest" lay-filter="aihao">
+          <option value="0" selected>请选择运行模式</option>
+          <option value="1">每天执行一次</option>
+          <option value="2">每天执行多次</option>
+
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item" style='margin-top:10px;'>
+      <label class="layui-form-label"><span>*</span>执行时间 </label>
+      <div class="layui-input-block" style='height:38px;width:327px;overflow:hidden;border-radius:2px'>
+        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入 (时间格式：HH:mm,如12：24)" class="layui-input">
+      </div>
+    </div>
+  </form>
+  <div class='layui-btn-container' style='margin:30px 0 0 300px;'>
+    <button class='layui-btn'>确定</button>
+    <button class="layui-btn layui-btn-primary">取消</button>
+  </div>
+</script>
+
+<script>
+  layui.use('table', function(){
+    var table = layui.table;
+
+    table.render({
+      elem: '#test'
+      ,data:[
+        {num:1,name:"统计数据的自动准备",content:"每天定时将统计数据记录到临时表中",msgType:"统计数据的自动执行"},
+      ]
+      ,cols: [[
+        {type:'checkbox',fixed: 'left'}
+        ,{field:'num', title: '序号',fixed: 'left'}
+        ,{field:'name', title: '名称',fixed: 'left'}
+        ,{field:'content',title:'描述'}
+        ,{field:'msgType',title:'类型'}
+        ,{field:'parms',title:'操作参数'}
+        ,{field:'operation',width:120,title:'<div>操作</div>',toolbar: '#barDemo',fixed: 'right'}
+      ]]
+    });
+  });
+  layui.use('layer', function(){ //独立版的layer无需执行这一句
+    var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+    //触发事件
+    var active = {
+
+      offset: function(othis){
+        var type = othis.data('type')
+                ,text = othis.text();
+
+        layer.open({
+          type: 1,
+          area: ['502px', '396px'],
+          title:'新建调度任务',
+          maxmin: true,
+          content: '<div id="fieldForm"></div>'
+        });
+        layui.laytpl($("#fieldTemplate").html()).render({}, function(html){
+          $("#fieldForm").html(html);
+          layui.form.render();
+        })
+      },
+
+    };
+
+    $(document).on('click', '.layui-btn',function(){
+      var othis = $(this), method = othis.data('method');
+      active[method] ? active[method].call(this, othis) : '';
+    });
+
+  });
+
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">修改</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>

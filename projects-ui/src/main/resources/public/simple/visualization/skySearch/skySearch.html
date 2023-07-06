@@ -1,0 +1,44 @@
+<script type="text/html" id="module_skySearch">
+    <div id="{{ d.widgetId }}" class="draggable-search ui-draggable ui-draggable-handle w_search"
+         style="position: absolute">
+        <div class="content border_content">
+            <form>
+                <div class="layui-text sky_select">
+                    <div class="layui-input-block sky_input_block">
+                        <select name="city" lay-verify="required">
+                            <option value="">全部</option>
+                            <option value="0">北京首都----</option>
+                            <option value="1">上海</option>
+                            <option value="2">广州</option>
+                            <option value="3">深圳</option>
+                            <option value="4">杭州</option>
+                        </select>
+                    </div>
+                    <div class="sky_select_input">
+                        <input type="text" name="title" required="" lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input"> 
+                    </div>
+                    <button class="layui-index sky_select_index">
+                        <i class="layui-icon layui-icon-search" style=" padding:0 4px 0 2px"></i>搜索
+                    </button>
+                </div>
+        </form>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_skySearch_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_skySearch_set">
+ 
+</script>
+
+

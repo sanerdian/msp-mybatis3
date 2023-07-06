@@ -1,0 +1,348 @@
+<title>我的待办</title>
+<link rel="stylesheet" href="common/css/myWork.css">
+<script src="simple/flowable/myWork/myWork.js"></script>
+<style>
+    .layui-form-label{
+        text-align: left;
+        width: 70px;
+    }
+    .layui-input-block{
+        margin-left: 70px;
+    }
+    .batchExpert{
+        float: right;
+    }
+    .open_layer_form .layui-input{
+        width: 100%;
+    }
+</style>
+<!-- 主页面 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+              <li class="layui-this"  onclick="taskList(1)">代办流程</li>
+              <li onclick="historyList(1)">已办流程</li>
+              <li onclick="procList(1)">待我查阅</li>
+              <li onclick="procList(1)">我的关注</li>
+              <li class="batchExpert">
+                <button class="layui-btn layuiadmin-btn-admin" data-type="batchExpert" onclick="batchExpert()">批量导出</button>
+              </li>
+            </ul>
+            <div class="layui-tab-content" style="height: 800px;">
+                
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">流水号：</label>
+                            <div class="layui-input-block">
+                                <input  type="text" name="name" placeholder="请输入"  autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">流程名称：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="regtime" placeholder="请输入" id="searchDate" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">发起人：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="regtime" placeholder="请输入" id="searchDate" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">流程状态：</label>
+                            <div class="layui-input-block">
+                                <select name="city">
+                                    <option value="">全部</option>
+                                    <option value="交接申请">交接申请</option>
+                                    <option value="资料提交">资料提交</option>
+                                    <option value="项目资料审核">项目资料审核</option>
+                                    <option value="项目流程审核">项目流程审核</option>
+                                    <option value="财务数据审核">财务数据审核</option>
+                                    <option value="交接完成">交接完成</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline top_search_btn">
+                            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+              <div class="layui-tab-item layui-show">
+                    <div class="table-area">
+                        <table class="layui-hide" id="workTable" lay-filter="workTable"></table>
+                    </div>
+                    <div id="page"></div>
+              </div>
+            </div>
+          </div> 
+    </div>
+</div>
+<div id="editOpenDiv"></div>
+<!-- 操作按钮 -->
+<script type="text/html" id="operation">
+    <div class='layui-btn-container'>
+        <button class='layui-btn  layui-btn-sm' lay-event='toDetail'>审核详情</button>
+        <button class='layui-btn  layui-btn-sm' onclick="showFlowImg('{{d.processInstanceId}}', '')">流程图</button>
+    </div>
+</script>
+
+<!-- 弹出层：启动流程 -->
+<div id="start_process" style="display: none;">
+    <div class="layui-card-body">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 110px;">选择流程：</label>
+                <div class="layui-input-block" style="margin-left: 115px; width:240px;">
+                    <select lay-verify="required" class="layui-form-select" id="select_process">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 110px;">选择审核人：</label>
+                <div class="layui-input-block" style="margin-left: 115px; width:240px;">
+                    <select lay-verify="required" class="layui-form-select" id="select_auditor">
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 弹出层：审核详情-->
+<div class="audit_detail">
+    <!-- 工具栏：包含元数据标题、审核按钮 -->
+    <div class="fabu_tit">
+        <h3><img src="common/img/flowable/ico_30.png" /><span class="news_title"></span></h3>
+        <div class="fabu_btn">
+            <a href="javascript:;" id="button_agree" class="link_bgblue_img" style="display:none;" onclick="showDialog(1, '同意')"><img src="common/img/flowable/ico_39.png" />同意</a>
+            <a href="javascript:;" id="button_rollback" class="link_org_img" style="display:none;" onclick="showDialog(4, '驳回')"><img src="common/img/flowable/ico_40.png" />驳回</a>
+        </div>
+    </div>
+
+    <div class="fabu_title">
+        <ul id="nodeListView"> </ul>
+    </div>
+
+    <div class="fabu_layout">
+        <!-- 元数据公共信息 -->
+        <dl class="shenqing" id="myAuditDetailView"></dl>
+        <!-- 操作记录 -->
+        <div class="operate" id="myAuditOperateView"> </div>
+    </div>
+</div>
+
+<!-- 弹出层：同意、不同意、撤销、转办 -->
+<div id="task_audit" style="display: none;">
+    <div class="layui-card-body">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 110px;" id="label_audit_opinion">审批意见：</label>
+                <div class="layui-input-block" lay-filter="advice" style="margin-left: 115px; width:360px;">
+                    <textarea placeholder="请输入内容" class="layui-textarea" id="audit_opinion"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--操作记录-->
+<script type="text/html" id="myAuditOperateTemplate">
+    <div class="jilu_tit">
+        <h4>操作记录 <span class="operateNum"></span> <img src="common/img/flowable/ico_33.png" /></h4>
+    </div>
+    <ul class="jilu_list">
+        {{#  layui.each(d, function(index, item){ }}
+        <li>
+            <span>{{item.timeStr}}</span>
+            <em></em>
+            <p><strong>{{item.userName}}</strong>{{item.typeName}}</p>
+            {{# if(item.message){ }}
+            <p>处理意见：{{item.message}}</p>
+            {{# } }}
+        </li>
+        {{#  }); }}
+    </ul>
+</script>
+
+<!--审核流程环节-->
+<script type="text/html" id="nodeListTemplate">
+    <li class="hover">开始</li>
+    {{#  layui.each(d, function(index, item){ }}
+    {{# if(item.passed == 1){ }}
+    <li class="on">{{item.nodeName}}</li>
+    {{# }else { }}
+    <li>{{item.nodeName}}</li>
+    {{# } }}
+    {{#  }); }}
+    <li class="endHover">结束</li>
+</script>
+
+<!--申请信息-->
+<script type="text/html" id="myAuditDetailTemplate">
+    {{#  layui.each(d, function(index, item){ }}
+    <dt><h3>申请消息</h3><a href="javascript:showMetaDetail();" ><img src="common/img/flowable/ico_32.png" />元数据信息</a></dt>
+    <dd>
+        <ul>
+            <li>
+                <strong>申请人</strong>
+                <p>{{item.startUserName}}</p>
+            </li>
+            <li>
+                <strong>申请时间</strong>
+                <p>
+                    {{#  if(item.startTime){ }}
+                    {{layui.util.toDateString(new Date(item.startTime).getTime(), "yyyy-MM-dd HH:mm:ss") }}
+                    {{#  } }}
+                </p>
+            </li>
+            <li>
+                <strong>审核状态</strong>
+                {{# var status = item.metaStatus;}}
+                {{# if(status == '1'){ }}
+                <p>审核中</p>
+                {{# }else if(status == '2'){ }}
+                <p>已终止</p>
+                {{# }else if(status == '3'){ }}
+                <p>已撤回</p>
+                {{# }else if(status == '4'){ }}
+                <p>已完成</p>
+                {{# }else if(status == '5'){ }}
+                <p>已驳回</p>
+                {{# } }}
+            </li>
+            <li>
+                <strong>审核日期</strong>
+                <p>
+                    {{#  if(item.auditTime){ }}
+                    {{layui.util.toDateString(new Date(item.auditTime).getTime(), "yyyy-MM-dd HH:mm:ss") }}
+                    {{#  } }}
+                </p>
+            </li>
+            <li>
+                <strong>最终审核结果</strong>
+                {{# var operStatus = item.publishStatus;}}
+                {{# if(operStatus == '0'){ }}
+                <p>不同意</p>
+                {{# }else if(operStatus == '1'){ }}
+                <p>同意</p>
+                {{# }else { }}
+                <p></p>
+                {{# } }}
+            </li>
+        </ul>
+    </dd>
+    {{#  }); }}
+</script>
+
+<script type="text/html" id="metadataDetailTpl">
+    <div class="layui-tab layui-tab-card" style="height: 707px; ">
+        <div class="layui-tab-content" style="overflow-y: auto;height: 666px;">
+            {{# var j = 0; layui.each(d.fields, function(index, item){ }}
+            <div class="layui-tab-item {{j==0?'layui-show':''}}">
+                <table class="layui-table" lay-even="" lay-skin="row" id="metadataDetailTable">
+                    <colgroup>
+                        <col width="50">
+                        <col width="150">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                    {{#layui.each(item, function(index1, item1){
+                    if(item1.showDetail == 1){ }}
+                    <tr>
+                        <td rowspan="{{ d.data[item1.proName] && (item1.fieldtype==14 || item1.fieldtype==15 || item1.fieldtype==16 || item1.fieldtype==17)?d.data[item1.proName].split(',').length:'' }}">{{item1.anothername}}</td>
+                        {{# if(item1.fieldtype==14 || item1.fieldtype==15 || item1.fieldtype==16 || item1.fieldtype==17){ }}
+                        {{# if(d.data[item1.proName]){
+                        var files = d.data[item1.proName].split(",");
+                        for(var i in files){
+                        }}
+                        {{# if(i != 0){ }}
+                    <tr>
+                        {{# } }}
+                        <td class="{{item1.fieldtype == 13?'classTd':''}}"><a style="color: blue;" href="{{files[i]}}" download="{{files[i].substring(files[i].lastIndexOf('/')+1)}}">{{files[i]}}</a></td>
+                    </tr>
+                    {{#    }
+                    }else{
+                    }}
+                    <td></td>
+                    {{# } }}
+                    {{# }else{ }}
+                    <td class="{{item1.fieldtype == 13?'classTd':''}}">{{d.data[item1.proName]}}</td>
+                    {{# } }}
+                    </tr>
+                    {{# } }) }}
+                    {{# if(d.data.status == 20){ }}
+                    <tr>
+                        <td>审核原因</td>
+                        <td>{{d.data.doctitle}}</td>
+                    </tr>
+                    {{# } }}
+                    </tbody>
+                </table>
+            </div>
+            {{# j++; }) }}
+            <div class="layui-tab-item" style="position:relative;" id="metadataImgBody">
+
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/html" id="stateTpl">
+    {{#  if(d.state == 0){ }}
+    <span style='color:green'>进行中</span>
+    {{#  } else{ }}
+    <span style='color:red;'>已结束</span>
+    {{#  } }}
+</script>
+
+<!-- 任务开始时间 -->
+<script type="text/html" id="taskStartTimeTpl">
+    {{#  if(d.taskStartTime){ }}
+    {{layui.util.toDateString(new Date(d.taskStartTime).getTime(), "yyyy-MM-dd HH:mm:ss") }}
+    {{#  } else { }}
+    {{#  } }}
+</script>
+
+<!-- 任务结束时间 -->
+<script type="text/html" id="taskEndTimeTpl">
+    {{#  if(d.taskEndTime){ }}
+    {{layui.util.toDateString(new Date(d.taskEndTime).getTime(), "yyyy-MM-dd HH:mm:ss") }}
+    {{#  } else { }}
+    {{#  } }}
+</script>
+
+<!-- 流程开始时间 -->
+<script type="text/html" id="procStartTimeTpl">
+    {{#  if(d.procStartTime){ }}
+    {{layui.util.toDateString(new Date(d.procStartTime).getTime(), "yyyy-MM-dd HH:mm:ss") }}
+    {{#  } else { }}
+    {{#  } }}
+</script>
+
+<!-- 流程结束时间 -->
+<script type="text/html" id="procEndTimeTpl">
+    {{#  if(d.procEndTime){ }}
+    {{layui.util.toDateString(new Date(d.procEndTime).getTime(), "yyyy-MM-dd HH:mm:ss") }}
+    {{#  } else { }}
+    {{#  } }}
+</script>
+
+<script type="text/html" id="procStateTpl">
+    {{#  if(d.procState == 1){ }}
+    <span>进行中</span>
+    {{#  } else if(d.procState == 0){ }}
+    <span>已结束</span>
+    {{#  } }}
+</script>
+
+<script src="simple/flowable/myWork/list.js"></script>
+
+<script>
+    layui.form.render()
+</script>

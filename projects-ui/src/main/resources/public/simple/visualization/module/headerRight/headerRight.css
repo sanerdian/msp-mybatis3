@@ -1,0 +1,9 @@
+.visual_header_right {
+  float: right;
+  line-height: 40px;
+  height: 40px;
+}
+
+.visual_header_right a {
+  padding: 0 20px;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.FznMapper">
+    <!-- 评论列表最大数 -->
+    <select id="pageStyles" resultType="java.util.Map">
+        select *
+          from (select t.*, rownum rn
+                  from FZNSTYLE t
+                 where CONCAT(',', CONCAT(type, ',')) like
+                       CONCAT(',', CONCAT(#{type}, ','))) tmp
+         where rn between #{start} and #{end}
+    </select>
+</mapper>

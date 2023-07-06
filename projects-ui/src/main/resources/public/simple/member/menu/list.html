@@ -1,0 +1,634 @@
+﻿<style>
+    .ztree li span.button.ico_close, .ztree li span.button.ico_open, .ztree li span.button.ico_docu {margin: 0;}
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 md2-left" style="height: 100%;">
+        <div class="layui-card" style="height: 100%;">
+            <div class="layui-card-header"><h3>菜单设置</h3></div>
+            <div class="layui-card-body" style="height:100%">
+                <div class="button-container">
+                    <button type="button" class="layui-btn layui-btn-sm limit-add" data-type="add">
+                        <i class="layui-icon">&#xe608;</i>新建
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-sm limit-edit" data-type="edit">
+                        <i class="layui-icon">&#xe642;</i>修改
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-sm limit-del" data-type="del">
+                        <i class="layui-icon">&#xe640;</i>删除
+                    </button>
+                </div>
+                <div class="tree_left" style="height: 80%;">
+                    <ul id="treeDemo" class="ztree" style="height: 100%;box-sizing: border-box;padding: 0;">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md9 md2-right">
+        <div class="layui-card" id="list" style="height: 100%;">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <h3>菜单列表</h3>
+                <form class="layui-form">
+                    <!-- <div class="layui-form-item layui-inline">
+                        <div class="layui-form-label">服务名称：</div>
+                        <input type="text" name="modstr" class="layui-input layui-input-inline "/>
+                        <button class="layui-btn" lay-submit lay-filter="searchMnu">搜索</button>
+                    </div> -->
+                    <div class="layui-inline">
+                      <label class="layui-form-label" style="padding:10px 15px">服务名称</label>
+                      <div class="layui-input-block">
+                        <input type="text" name="modstr" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline top_search_btn">
+                      <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchMnu">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                      </button>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body" style="height: 90%;">
+                <div class="table-area" style="height: 90%;">
+                    <table id="demo" lay-filter="test"></table>
+                </div>
+                <div id="page"></div>
+            </div>
+        </div>
+        <div class="layui-card h100" id="base">
+            <div class="layui-card-header"><h3>基本信息</h3></div>
+            <div class="layui-card-body">
+                <table class="layui-table" lay-even="" lay-skin="row" id="info">
+                    <colgroup>
+                        <col width="50">
+                        <col width="150">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>菜单名称</td>
+                            <td id="menuName"></td>
+                        </tr>
+                        <tr>
+                            <td>服务名称</td>
+                            <td id="serviceName"></td>
+                        </tr>
+                        <tr>
+                            <td>服务前缀</td>
+                            <td id="servicePrefix"></td>
+                        </tr>
+                        <tr>
+                            <td>服务后缀</td>
+                            <td id="modSuffix"></td>
+                        </tr>
+                        <tr>
+                            <td>父节点</td>
+                            <td id="parentName"></td>
+                        </tr>
+                        <tr>
+                            <td>布局</td>
+                            <td>两栏式</td>
+                        </tr>
+                        <tr>
+                            <td>状态</td>
+                            <td style="color: #009688" id="buju"></td>
+                        </tr>
+                        <tr>
+                            <td>URL</td>
+                            <td id="menuUrl"></td>
+                        </tr>
+                        <tr>
+                            <td>唯一标识</td>
+                            <td id="menuCode"></td>
+                        </tr>
+                        <tr>
+                            <td>图标链接</td>
+                            <td id="menuPhotoUrl"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--
+                          <button class="layui-btn layui-btn-primary" style="margin-top: 20px;" onclick="returnBack()">返回</button>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="titleTpl">
+    <a href="javascript:void(0);" onclick='go("{{d.id}}")' class="layui-table-link">{{d.name}}</a>
+</script>
+
+<script type="text/html" id="titleActive">
+    <a>{{d.active == 1 ? "启用" : "停用"}}</a>
+</script>
+
+
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html" id="tableDataTemplate">
+    <form class="layui-form" lay-filter="menuForm">
+        <div class="layui-card">
+            <div class="layui-card-body" style="width:80%;margin:0 auto;margin-top:10px;">
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">父菜单:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="parentTitle" readonly autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">菜单名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">服务名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="serviceName" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">服务前缀:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="servicePrefix" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">服务后缀:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="modSuffix" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">状态:</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="active" value="1" title="启用" checked="checked">
+                        <input type="radio" name="active" value="0" title="停用">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">唯一标识:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="naturalId" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">描述:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="description" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">图标:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="photoUrl" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">URL:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="url" placeholder="请输入" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">选择机构:</label>
+                    <div class="layui-input-block">
+                        <select class="layui-input" lay-verify="required" id="sorg" name="companyId">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom:10px">
+                    <label class="layui-form-label">后一菜单:</label>
+                    <div class="layui-input-block">
+                        <select class="layui-input" id="seq" name="seq">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="type" value="" id="menuTy">
+        <input hidden="hidden" name="id" value="">
+        <input hidden="hidden" name="parentId" value="">
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addMenu">确认</button>
+            <button class="layui-btn" type="button" data-type="close">取消</button>
+        </div>
+    </form>
+</script>
+
+<script>
+    function refreshList() {
+        returnBack();
+        tempFindMenu();
+        doList(1, "");
+    }
+
+    var url = "/menu";
+    var menuObj = {};
+    var menuObjp = {};
+    var defaultPageSize = 15;
+    var zTreeObj;
+    var zpid;
+    var menuType = paramObj["type"];
+
+    function checkChoice() {
+        if (!menuObj.id) {
+            layer.alert("请选择菜单");
+            return false;
+        }
+        return true;
+    }
+
+    //设置弹出层数据（新增，查看，修改）
+    function setOpenData(data) {
+        layui.layer.open({
+            type: 1,
+            title: "数据<span style='color: red;float:right' id='tempMsg'>",
+            area: ['30%', '95%'],
+            anim: 2,
+            content: '<div id="table_data"></div>'
+        });
+        layui.laytpl($("#tableDataTemplate").html()).render({}, function (html) {
+            $("#table_data").html(html)
+        });
+
+        $("#menuTy").val(menuType);
+        setCompanySelect();
+        //组装seq下拉框
+        var html = "<option value='0'>最前面</option>";
+        var seqNodes; //参与排序所有节点
+        if (data.id) {
+            if (zTreeObj.getSelectedNodes()[0].getParentNode()) {
+                seqNodes = zTreeObj.getSelectedNodes()[0].getParentNode().children;
+            } else {
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                //获取全部节点数据
+                seqNodes = treeObj.getNodes();
+            }
+        } else {
+            if (zTreeObj.getSelectedNodes()[0]) {
+                seqNodes = zTreeObj.getSelectedNodes()[0].children;
+            } else {
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                //获取全部节点数据
+                seqNodes = treeObj.getNodes();
+            }
+        }
+
+        var obj = $("#seq option:selected");
+
+        //拼接html
+        if (seqNodes !== undefined) {
+            seqNodes.forEach(function (item, index) {
+                html += "<option value='" + item.seq + "'>" + item.name + "</option>";
+            });
+            var maxSeq;
+            if (seqNodes.length > 0) {
+                maxSeq = seqNodes[seqNodes.length - 1].seq + 1; //排序最大值
+            } else {
+                maxSeq = 0;
+            }
+        }
+        html += "<option value='" + maxSeq + "'>最后面</option>";
+        $("#seq").html(html);
+        layui.form.val("menuForm", data);
+        layui.form.render();
+    }
+
+    function setCompanySelect() {
+        //1.获取父节点集合
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        //返回一个根节点
+        var nodes = treeObj.getNodesByFilter(function (node) {
+            return node.level == 0
+        });
+        //2.循环集合 拼装option
+        var html1;
+        nodes.forEach(function (item, index) {
+            var sorgname = "";
+            if (!menuObj.id) {
+                if (item.id === menuObjp.id) {
+                    sorgname = "selected";
+                }
+            } else {
+                if (item.id === menuObj.companyId) {
+                    sorgname = "selected";
+                }
+            }
+            html1 += "<option value='" + item.id + "' " + sorgname + ">" + item.name + "</option>";
+        });
+        $("#sorg").html(html1);
+        layui.form.render();
+    }
+
+    //新增数据方法
+    function doAdd(data) {
+        ajax(service_prefix.member,url, 'post', JSON.stringify(data)).then(function(res) {
+            if (res.success) {
+                res.msg = "新建成功";
+                clearMenuObj();
+                layer.closeAll();
+                tempFindMenu(data.parentId,data.companyId);
+            } else {
+                layer.alert("新建失败");
+            }
+        })
+    }
+
+    function clearMenuObj() {
+        menuObj = {};
+    }
+
+    //更新方法
+    function doUpdate(data) {
+        ajax(service_prefix.member,url + "/" + data.id, "put", JSON.stringify(data)).then(function(res) {
+            if (res.success) {
+                layer.closeAll();
+                tempFindMenu();
+            } else {
+                layer.alert("修改失败");
+            }
+
+        })
+    }
+
+    function showObj(obj) {
+        $("#menuName").text(obj.name);
+        $("#serviceName").text(obj.modstr);
+        $("#servicePrefix").text(obj.realmName);
+        $("#parentName").text(obj.parentTitle?obj.parentTitle:0);
+        if(obj.url){
+            $("#menuUrl").text(obj.url);
+        }else{
+            $("#menuUrl").parent().hide();
+        }
+        $("#menuCode").text(obj.naturalId);
+        $("#menuPhotoUrl").text(obj.photoUrl);
+        $("#list").hide();
+        $('#base').show();
+        $("#buju").text(obj.active == 1 ? "启用" : "停用");
+
+    }
+
+    function go(id) {
+        getMenuObj(id).then(function(res) {
+            showObj(res.obj);
+        });
+    }
+
+    function returnBack() {
+        $("#list").show();
+        $('#base').hide();
+    }
+
+    //根据id查询数据
+    function getMenuObj(id) {
+        return new Promise(function(resovle, reject){
+            ajax(service_prefix.member,url + "/" + id, "get", {}).then(function(res) {
+                resovle(res);
+            }).catch(function(res) {
+                (rerejects);
+            })
+        })
+    }
+
+    //获取菜单树结构数据
+    function tempFindMenu(id,cid) {
+        ajax(service_prefix.member,url + "/tree", "get", {type: menuType}).then(function(res) {
+            var datas = res.obj;
+            var datas1 = [];
+            for(var o of datas){
+                if(o.parentId == 0 || o.parentId == o.companyId){
+                    datas1.push(o);
+                }
+            }
+            showTree(datas1,id,cid);
+        })
+    }
+
+    //删除
+    function doDelete(id2) {
+        ajax(service_prefix.member,url + "/" + id2, "delete", {}).then(function(res) {
+            if (res.success) {
+                tempFindMenu();
+                clearMenuObj();
+                layer.closeAll();
+            } else {
+                layer.alert("删除失败");
+            }
+        }).catch(function(res) {
+            }
+        )
+
+    }
+
+    doList(1, "");
+
+    //条件列表查询
+    function doList(current, id,parms) {
+        if(!parms){
+            parms = {};
+        }
+        var data = {};
+        data.pager = {current: current, size: defaultPageSize};
+        parms.type = menuType;
+        parms.companyId = id;
+        parms.siteId = id;
+        data.entity = parms;
+        ajax(service_prefix.member,url + "/list", "post", JSON.stringify(data)).then(function (res) {
+            if (res.success) {
+                setTableData(res.obj.records);
+               /* page3(id, res.obj.total, res.obj.current, defaultPageSize);*/
+                pageList(id, res.obj.total, res.obj.current, defaultPageSize)
+            }
+        })
+    }
+
+    function del() {
+
+        if (checkChoice()) {
+            layer.alert("确认删除菜单:[" + menuObj.name + "]?", function () {
+                doDelete(menuObj.id);
+            })
+        }
+    }
+
+    function add() {
+        var node = getZtreeCurrNode(zTreeObj);
+        setOpenData(node.parentId==-1?{parentId:0}:{parentId: node.id, parentTitle: node.name});
+    }
+
+    function edit() {
+        if (checkChoice()) {
+            setOpenData(menuObj);
+        }
+    }
+</script>
+
+<script>
+    $(function () {
+        returnBack();
+        tempFindMenu();
+    })
+</script>
+<script>
+    //layui
+
+    // layui.laypage.render({
+    //     elem: 'page'
+    //     , count: 100 //数据总数
+    //     , limit: defaultPageSize
+    //     , curr: 1
+    //     , jump: function (obj, first) {
+    //         if (!first) {
+    //             //getMetadatas(obj.curr)
+    //         }
+    //     }
+    // });
+
+    layui.form.on("submit(addMenu)", function (data) {
+        if (data.field.id) {
+            doUpdate(data.field);
+        } else {
+            doAdd(data.field);
+        }
+        return false;
+    })
+
+    layui.form.on("submit(searchMnu)", function (data) {
+        doList(1,"",data.field);
+        return false;
+    })
+
+
+    //渲染数据到table
+    function setTableData(data) {
+        layui.use('table', function () {
+            var table = layui.table;
+            //第一个实例
+            table.render({
+                elem: '#demo'
+                , data: data
+                , limit: defaultPageSize
+                , cols: [[ //表头
+                    {type: 'numbers', title: '序号',fixed: 'left',width: 60}
+                    , {field: 'name', title: '菜单名称',templet: '#titleTpl',width: 160,fixed: 'left'}
+                    ,{field: 'modstr', title: '服务名称',width: 160}
+                    ,{field: 'realmName', title: '服务前缀',width: 100}
+                    ,{field: 'modSuffix', title: '服务后缀',width: 100}
+                    , {field: 'parentTitle', title: '父节点',width: 200}
+                    , {field: "active", title: '状态', width: '60', templet: "#titleActive"}
+                    , {field: 'url', title: 'URL',width: 200}
+                    , {field: 'crUser', width: 70, title: '创建人'}
+                    , {field: 'createTime', width: 140, title: '创建时间'}
+                    , {field: 'modifyUser', width: 70, title: '操作人'}
+                    , {field: 'modifyTime', width: 140, title: '操作时间'}
+                ]],
+                id: "id"
+                ,limit: 15
+            });
+            /*laypage.render({
+                elem:'page'
+                ,count:data.obj.total
+                ,curr:data.obj.current
+                ,limit:pageSize
+                ,layout:['count','prev','page','next','refresh','skip']
+                ,jump:function (obj,first) {
+                    if (!first){
+                        defaultPageSize = obj.limit;
+                        doList(obj.curr,id,{});
+                    }
+                }
+            })*/
+        });
+    }
+
+    function pageList(id,total,curr,size) {
+        layui.laypage.render({
+            elem: 'page'
+            ,limit:size
+            ,curr:curr
+            ,count: total //数据总数，从服务端得到
+            ,limits : [15,50,100]
+            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            ,jump: function(obj, first){
+                if(!first){
+                    defaultPageSize = obj.limit;
+                    doList(obj.curr,id,{});
+                }
+            }
+        });
+    }
+
+
+
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+<!--ztree-->
+<script>
+    var settingss = {
+        data: {
+            simpleData: {
+                enable: true,  //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id",  //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId",    //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: -1,  //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            },
+            key: {
+                url: 'url1'
+            }
+        },
+        view: {showLine: false, showIcon: true},
+        callback: {
+            onClick: zTreeOnClick,
+            onExpand: zTreeOnExpand
+        }
+    };
+
+    function zTreeOnExpand(event, treeId, treeNode) {
+        zTreeObj.expandNode(treeNode, true, true, true);
+    };
+
+    //渲染树结构
+    function showTree(data,id,cid) {
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, data); //初始化树
+        // zTreeObj.expandAll(true);    //true 节点全部展开、false节点收缩
+        if(cid){
+            var node = zTreeObj.getNodeByParam("id", cid, null);
+            zTreeObj.expandNode(node, true, true, true);
+
+            if(id){
+                var node1 = zTreeObj.getNodeByParam("id", id, null);
+                zTreeObj.selectNode(node1);
+            }
+        }
+    }
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        zpid = treeNode.id;
+        if (treeNode.parentId <= 0) {
+            menuObjp = treeNode;
+            doList(1, treeNode.id);
+            returnBack();
+            return false;
+        }
+        getMenuObj(treeNode.id).then(function(res) {
+            menuObj = res.obj;
+            showObj(menuObj);
+        });
+        changeLimitShow(treeNode.id,treeNode.parentId);
+    };
+
+    function changeLimitShow(id,parentId){
+        limitShow("menu",id,parentId);
+    }
+
+    changeLimitShow();
+</script>

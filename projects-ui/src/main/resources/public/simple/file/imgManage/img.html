@@ -1,0 +1,3503 @@
+﻿<!--<script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>-->
+<link href="thirdparty/select2/select2.min.css" rel="stylesheet" />
+<script src="thirdparty/select2/select2.min.js"></script>
+<!-- <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script> -->
+<script src="simple/file/js/jquery.Jcrop.js"></script>
+<!-- 图片剪切 -->
+<script src="common/js/numberInput.js"></script>
+<script src="common/js/img.js"></script>
+<!--<script src="js/upload.js"></script>-->
+<link rel="stylesheet" href="common/css/index.css">
+<link rel="stylesheet" href="common/css/column.css">
+<link rel="stylesheet" href="common/css/keywordSelect2.css">
+<!-- 图片编辑 -->
+<!-- <link type="text/css" href="thirdparty/imageEditor/css/colorpicker.min.css" rel="stylesheet">
+<link type="text/css" href="thirdparty/imageEditor/css/tui-image-editor.css" rel="stylesheet"> -->
+<style>
+
+  .innerImg{width:60%;padding:0 20px;height: 100%;box-sizing:border-box;float: left; }
+  .innerImg img{border:1px solid #f2f2f2;height:100%;width:100%; }
+  .infoImg {width:40%;padding:0 20px;height: 100%;box-sizing:border-box;float: left;border-left:2px solid #f2f2f2; }
+  .infoImg .infoTitle{width:100%;height:55px;box-sizing:border-box; background: #f2f2f2; }
+  .infoImg .infoTitle p {line-height:55px;box-sizing:border-box;font-size: 18px;font-weight: bold;float:left;    padding-left: 20px;    width: 330px;overflow: hidden; height: 50px;white-space: nowrap;text-overflow: ellipsis;}
+  .infoImg .infoTitle span {padding:15px;float:right; padding-left: 0; }
+  .infoImg .infoTitle span img {width: 20px; height: 20px; cursor: pointer;}
+  .infoImg .infoBody{height: 427px;overflow-y:auto ;    width: 100%}
+  .infoImg .infoBody p{height: 50px; line-height: 50px;    padding-left: 20px;border-bottom: 1px  dashed #f2f2f2;width: 95%; overflow: hidden;}
+  .imgBody{height: 660px;box-sizing:border-box;  padding: 100px 20px 30px 20px;}
+
+  #nav span,
+  .right span {
+    display: none;
+  }
+
+  #nav a {
+    display: inline-block;
+    width: 40px;
+    height: 56px;
+    text-align: center;
+    border: 1px solid #f5f5f5;
+  }
+
+  #nav a:nth-of-type(3) {
+    display: inline-block;
+    width: 220px;
+    height: 52px;
+    text-align: left;
+    padding-left: 20px;
+    border-top: 2px solid #000;
+    font-weight: bold;
+  }
+
+  .right {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .layui-breadcrumb a {
+    color: #000 !important;
+  }
+
+  #nav span,
+  .right span {
+    display: none;
+  }
+
+  #title li {
+    width: 167px;
+    border: 1px solid #ccc;
+  }
+
+  #nav a {
+    display: inline-block;
+    width: 40px;
+    height: 56px;
+    text-align: center;
+    border: 1px solid #f5f5f5;
+  }
+
+  #nav a:nth-of-type(3) {
+    display: inline-block;
+    width: 220px;
+    height: 52px;
+    text-align: left;
+    padding-left: 20px;
+    border-top: 2px solid #000;
+    font-weight: bold;
+  }
+
+  #form31 .layui-textarea {
+    min-height: 45px;
+  }
+
+  .right {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .layui-breadcrumb a {
+    color: #000 !important;
+  }
+
+  .ztree li {
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  #list1 .layui-table td {
+    padding: 0;
+    text-align:center ;
+  }
+
+  .imgBox {
+    margin-top: 15px;
+    margin-left: 30px;
+    height: 580px;
+  }
+
+  .imgBox li {
+    width: 230px;
+    height: 161px;
+    background-size: 100% 100%;
+    float: left;
+    margin-right: 25px;
+    margin-bottom: 20px;
+  }
+
+  .imgBox li .img {
+    width: 240px;
+    height: 135px;
+    position: relative;
+    border: 1px solid #ececec;
+  }
+
+  .imgBox li .img img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .imgBox1 li {
+    width: 100%;
+    height: 115px;
+    border-bottom: 1px solid #f5f5f5;
+    position: relative;
+  }
+
+  .imgBox1 li .right {
+    width: 140px;
+    height: 70px;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+  }
+
+  .imgBox1 li .content {
+    height: 70px;
+    position: absolute;
+    top: 10px;
+    left: 175px;
+  }
+
+  .layui-table tbody tr:hover {
+    background: #fff;
+  }
+
+  td .layui-input,
+  .layui-select,
+  .layui-textarea {
+    border: none;
+  }
+
+  .inner1 li {
+    float: left;
+    margin-left: 15px;
+  }
+
+  .inner1 li:last-child {
+    width: 175px;
+    height: 197px;
+    background: #f6f6f6;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  #test11 i {
+    display: none;
+  }
+
+  #test11 .layui-colorpicker {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+  }
+
+  .inner1 li:last-child img {
+    position: absolute;
+    top: 40px;
+    left: 30px;
+  }
+
+  #form2 .layui-form-select .layui-edge,
+  #form3 .layui-form-select .layui-edge {
+    position: absolute;
+    right: 10px;
+    top: 75%;
+  }
+
+  .box {
+    width: 1050px;
+    height: 520px;
+    margin-left: 70px;
+    background: #fff;
+    padding: 10px 0 0 10px;
+    border-radius: 2px;
+  }
+
+  .layui-layer-hui .layui-layer-content {
+    padding: 0 25px;
+  }
+
+  .prev {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background: #ccc;
+    position: absolute;
+    line-height: 60px;
+    top: 250px;
+    left: 30px;
+  }
+
+  .next {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background: #ccc;
+    position: absolute;
+    line-height: 60px;
+    top: 250px;
+    right: 30px;
+  }
+
+  .image {
+    width: 600px;
+    height: 464px;
+    /*background: url(./img/u6147.png) no-repeat;*/
+    background-size: 100% 100%;
+  }
+
+  .left {
+    float: left;
+    margin: 50px 90px 0 0;
+  }
+
+  .rights {
+    /*float: left;*/
+  }
+
+  .layui-layer-hui {
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .videos {
+    display: none;
+    width: 795px;
+    height: 464px;
+    background: url(common/img/u6147.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 0;
+    left: 0
+  }
+
+  .ztree {
+    width: auto;
+    overflow-y: hidden;
+  }
+
+  /* 转发 审核按钮 */
+
+  .layui-layer-btn .layui-layer-btn0,
+  .layui-layer-btn .layui-layer-btn1 {
+    border: 1px solid #029687;
+    padding: 2px 21px;
+  }
+
+  .layui-layer-btn .layui-layer-btn0 {
+    background: #029687;
+  }
+
+  .tuisong .layui-input-block {
+    margin-left: 0;
+  }
+
+  .tuisong .layui-inline {
+    display: block;
+  }
+
+  #search {
+    margin-right: 19px;
+    margin-left: 10px;
+  }
+
+  .drwb {
+    color: #333;
+  }
+
+  .bottom_tab{
+    position: absolute;
+    bottom: 0;
+  }
+</style>
+
+<script src="common/js/column.js"></script>
+
+
+<script>
+  var size = 15;
+  var curr = 1;
+  var url = '/picture';
+  var total = 0;
+  var obj = {};
+  var arr = [];
+  var id = "";
+  var ids = ""
+  var isNew = 1;
+  var startTime = "";
+  var endTime = "";
+  var columnId = "";
+  var columnName = "";
+  /*
+  1.sign为0表示该资源是图片
+   2.isNew为0表示是原图，isNew为1表示处理过的图片
+    */
+  var imgArray = [];
+
+  function getImgList(curr, obj) { //获取图片列表
+    obj.isNew = isNew;
+    var data = {
+      "pager": {
+        "current": curr,
+        "size": size,
+        "sortProps": [{
+          "key": "datetime",
+          "value": false
+        }]
+      },
+      "picture": obj
+    }
+    ajax(service_prefix.resources, url + "/list", 'post', JSON.stringify(data)).then(function (res) {
+      arr = res.obj.records;
+      total = res.obj.total;
+      layui.use('laypage', function () {
+        var laypage = layui.laypage;
+        //执行一个laypage实例
+        laypage.render({
+          elem: 'test1',
+          count: res.obj.total,
+          curr: res.obj.current,
+          limit: res.obj.size,
+          layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+          jump: function (obj, first) {
+            if (!first) {
+              curr = obj.curr
+              tempSize = obj.limit
+              var obj1 = {};
+              obj1.sign = 0
+
+              if (columnId) {
+                obj1.columnId = columnId;
+              }else if (siteId) {
+                obj1.companyId = companyId;
+              }else if (companyId) {
+                obj1.siteId = siteId;
+              }
+              getImgList(curr, obj1)
+            }
+          }
+        });
+      });
+      records = res.obj.records;
+      localStorage.setItem("imgInfos", JSON.stringify(records));
+      for (var i in records) {
+        records[i].datetime = getTimes(records[i].datetime)
+      }
+      layui.laytpl($("#imgtpl").html()).render(records, function (html) {
+        $("#imgList").html(html);
+        layui.form.render();
+      })
+      layui.laytpl($("#imgtpl1").html()).render(records, function (html) {
+        $("#imgList1").html(html);
+        layui.form.render();
+      })
+    })
+  }
+</script>
+
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space12">
+    <div class="layui-col-md3 md2-left h100">
+      <div class="layui-card">
+        <div class="layui-card-header">图片管理
+          <!--<button class="layui-btn layui-btn-sm"data-method="setting">设置</button>-->
+          <!--<i class="layui-icon layui-icon-set"  style="float: right;color: #333" ></i>-->
+          <img src="common/img/u7869.png" alt="" style="float: right;margin-top: 12px ;cursor: pointer"
+            onclick="setting()">
+        </div>
+        <div class="layui-card-body">
+          <ul id="treeDemo" class="ztree"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md9 md2-right h100">
+      <div class="layui-tab h100" style="position: relative;">
+            <div class="layui-tab-content h100" style="height: 780px;width: 1323px">
+              <!-- 第一栏 -->
+              <div class="layui-tab-item layui-show">
+                <div class="layui-card h100" id='list1' style="height:730px">
+                  <form class="layui-form" style="display: inline-block;">
+                    <div class="layui-form-item" style="display: inline-block;">
+                      <label class="layui-form-label"
+                        style="padding:  9px 0px 9px 15px;width:30px;text-align:center">名称</label>
+                      <div class="layui-input-block" style="width: 120px;margin-left: 65px;">
+                        <input type="text" class="layui-input" placeholder="请输入" id="name">
+                      </div>
+                    </div>
+                    <div class="layui-form-item" style="display: inline-block;">
+                      <label class="layui-form-label"
+                        style="padding: 9px 0 9px 15px;width:45px;text-align:center">关键词</label>
+                      <div class="layui-input-block" style="width: 120px;margin-left: 65px;">
+                        <input type="text" class="layui-input" name="creator" id="creator">
+                      </div>
+                    </div>
+                    <div class="layui-form-item" style="display: inline-block;">
+                      <label class="layui-form-label"
+                        style="padding: 9px 0 9px 15px;width:56px;text-align:center">上传时间</label>
+                      <div class="layui-input-block" style="width: 190px;margin-left: 75px;">
+                        <input type="text" class="layui-input" id="t12" placeholder=" - " style="text-align: center">
+                      </div>
+                    </div>
+                  </form>
+                  <div class="layui-btn-container" style="display: inline-block;width: 670px;">
+                    <button class="layui-btn" id="search" onclick="search()"><i
+                        class="layui-icon layui-icon-search"></i></button>
+<!--                    <button class="layui-btn" id="unpassAll">转发</button>-->
+<!--                    <button class="layui-btn" id="passAll">审核</button>-->
+                    <button class="layui-btn" onclick="delByIds()">批量删除</button>
+                    <button class="layui-btn" onclick="addMark()">批量新建水印</button>
+<!--                    <button class="layui-btn" onclick="publishImg()">资源发布</button>-->
+                    <button class="layui-btn" onclick="showKeywords()" id="uploads">图片上传</button>
+                  </div>
+                  <div class="layui-form">
+                    <table class="layui-table">
+                      <colgroup>
+                        <col width="80">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="120">
+                        <col width="30" align="center">
+                        <col width="30" align="center">
+                      </colgroup>
+                      <tbody>
+                        <tr>
+                          <td style="width: 140px!important">
+                            <div class="layui-input-block" style="margin-left: 0;">
+                              <select name="" id="sort" lay-filter="sort">
+                                <option value="默认排序" selected>默认排序</option>
+                                <option value="上传时间排序">上传时间排序</option>
+                                <option value="上传时间排序">文件大小排序</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="layui-input-block" style="margin-left: 0;">
+                              <select name="form" lay-verify="required" lay-filter="style">
+                                <option value="" disabled selected hidden>版式</option>
+                                <option value="全部">全部</option>
+                                <option value="0">横图</option>
+                                <option value="1">竖图</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="layui-input-block" style="margin-left: 0;">
+                              <select lay-verify="required" lay-filter="forms">
+                                <option value="" disabled selected hidden>格式</option>
+                                <option value="全部">全部</option>
+                                <option value="jpg">jpg</option>
+                                <option value="png">png</option>
+                                <option value="tif">tif</option>
+                                <option value="gif">gif</option>
+                                <option value="bmp">bmp</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="layui-input-block" style="margin-left: 0;">
+                              <select name="form" lay-verify="required" lay-filter="copyright">
+                                <option value="" disabled selected hidden>版权归属</option>
+                                <option value="全部">全部</option>
+                                <option value="原创">原创</option>
+                                <option value="经授权">经授权</option>
+                                <option value="其他">其他</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="layui-input-block" style="margin-left: 0;">
+                              <select name="form" lay-verify="required" lay-filter="state">
+                                <option value="" disabled selected hidden>图片状态</option>
+                                <option value="0">新稿</option>
+                                <option value="10">审核</option>
+                                <option value="20">发布</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td style="width:700px;"></td>
+                          <td class="img1">
+                            <img src="common/img/u6616_mouseOver.png" alt="" srcset="" id='change1'>
+                          </td>
+                          <td class="img1">
+                            <img src="common/img/u6611.png" alt="" srcset="" id='change2'>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                    <ul class="imgBox" id="imgList" style="height:545px;overflow: auto">
+                    </ul>
+
+                    <ul class="imgBox1" id="imgList1" style="display: none;height:490px;overflow: auto">
+
+                    </ul>
+                    <div id="test1" style="margin-left: 30px;"></div>
+
+                  </div>
+                </div>
+                <div class="layui-card h100" id="form9" style="height: 730px;margin-top: -10px;display: none;"></div>
+                <!-- 上传 -->
+                <div class="layui-card h100" id='list2' style="display: none;height: 730px">
+                  <div class="layui-card-header">
+                    <button class="layui-btn" style="float: right" onclick='returnBack()'>返回
+                    </button>
+                  </div>
+                  <div class="layui-card-body">
+                    <div class='inner' style="width: 695px;height:234px;margin: 180px auto">
+                      <form class="layui-form" method="post" action="javascript:;">
+
+                        <div class="layui-form-item">
+
+                          <div class="layui-inline">
+                            <div class="layui-upload-drag " id="chooseFile">
+                              <p style="width: 265px;position: relative;margin-left: 145px"><i
+                                  class="layui-icon layui-icon-upload"
+                                  style="font-size: 35px"></i>&nbsp;&nbsp;&nbsp;<span
+                                  style="position: absolute">点击上传</span></p>
+                              <p style="margin-top:20px; color:#ccc;text-align: center;">
+                                --------------------------------------&nbsp;&nbsp;或&nbsp;&nbsp;--------------------------------------
+                              </p>
+                              <p style="margin-top:20px; color:#0000ff;text-align: center;font-size: 20px;">从电脑里拖拽图片至此上传
+                              </p>
+                              <p style="margin-top:20px; color:#ccc;text-align: center;color:#ccc;">
+                                支持jpg、png、jpeg、gif...等格式,图像大于72dpi,宽度大于2000px;（批量上传每次上限300个）</p>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </form>
+
+                    </div>
+                  </div>
+
+                </div>
+                <!-- 编辑图片信息 -->
+                <div class="layui-card h100" id='list3' style="display: none;height: 730px">
+                  <div class="layui-card-header">
+                    <button class="layui-btn" style="float: right" onclick='returnBack1()'>返回
+                    </button>
+                  </div>
+                  <div class="layui-card-body" style="height: 650px">
+
+                    <div class="inner1">
+                      <div class="layui-main">
+                        <div class="layui-inline" id="upload_preview"></div>
+                      </div>
+                      <form class="layui-form" style="margin-top: 360px">
+                        <div class="layui-form-item">
+                          <div class="layui-input-block" style="margin-left: 0">
+                            <input type="checkbox" lay-filter="check" lay-skin="primary" title="按默认设置处理（水印、压缩…）">
+                          </div>
+                        </div>
+                      </form>
+                      <div class="edit" style="position: relative;">
+                        <button class="layui-btn layui-btn-normal layui-btn-lg"
+                          style="width: 265px;margin-bottom: 10px;display: inline-block;" onclick="edit()"><i
+                            class="layui-icon layui-icon-upload"></i>编辑图片
+                        </button>
+                        <span
+                          style="margin-left: 15px;color:#666;display: inline-block;height: 44px;position: absolute;top:10px;line-height: 44px;">共<i
+                            id="counts">0</i>张照片（上传过程中请不要删除原始照片）</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="layui-card h100" id='list7' style="display: none;height: 730px">
+                  <div class="layui-card-header">
+                    <button class="layui-btn" style="float: right" onclick='returnBack5()'>返回
+                    </button>
+                  </div>
+                  <div class="layui-card-body" id="editInfo">
+                  </div>
+                </div>
+              </div>
+              <!-- 第二栏 -->
+              <div class="layui-tab-item" style="position: relative" id="main">
+                <div class="layui-card">
+                  <div class="search-bar">
+                    <button class="layui-btn" onclick="addImgColumn()">新建栏目</button>
+                    <button class="layui-btn" onclick="editByIds()">修改栏目</button>
+                    <button class="layui-btn" onclick="delColumn2()">删除栏目</button>
+                    <button class="layui-btn" id="import">导入栏目</button>
+                    <button class="layui-btn" style="margin-left:10px;" id="export" onclick="exportExc()">导出栏目</button>
+                    <form class="layui-form" action="" style="display: inline-block;float: right;">
+                      <input type="text" name="title" placeholder="请输入" autocomplete="off"
+                        class="layui-input search-input" id="val">
+                      <button class="layui-btn" type="button" onclick="searchColumn1()"><i
+                          class="layui-icon">&#xe615;</i></button>
+                    </form>
+                  </div>
+                </div>
+                <ul class="uls" id="first" style="height: 630px;overflow-y: auto;clear: both;">
+                </ul>
+                <div id="demo8" align="center"></div>
+              </div>
+              <!-- 第三栏 -->
+              <div class="layui-tab-item" id="columnDetail">
+                <div class="layui-card h100" id='list5' style="display: none;height: 730px">
+                  <div class="layui-card-header">
+                    <button class="layui-btn" style="float: right" onclick='returnBack3()'>返回
+                    </button>
+                  </div>
+                  <div class="layui-card-body">
+                    <div class="inner3">
+                      <h3
+                        style="color: #169BD5;margin-left: 500px;margin-top:20px;font-weight:bold;display: inline-block;">
+                        单独新建信息</h3>
+                      <div class="infoBox"
+                        style="width: 470px;height:100%;border-left:1px solid #ccc;float:right;margin-top: 20px;">
+                        <div class="infoBox"
+                          style="width: 420px;height:640px;border-left:1px solid #ccc;position: absolute;top:0px;right:0;">
+                          <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                            <ul class="layui-tab-title">
+                              <li class="layui-this">基本信息</li>
+                              <li id="heads" style="display:none ">详细信息</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                              <div class="layui-tab-item layui-show">
+                                <form class="layui-form" id='form31' lay-filter="info" style="height: 614px">
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">图片名称</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" placeholder="请输入内容" name="name"
+                                        id="picName">
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">*版权归属</label>
+                                    <div class="layui-input-block">
+                                      <select name="copyright" id="belong">
+                                        <option value="原创">原创</option>
+                                        <option value="经授权">经授权</option>
+                                        <option value="其他">其他</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">来源</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" placeholder="请输入内容" name="resc"
+                                        id="resource">
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">*描述</label>
+                                    <div class="layui-input-block">
+                                      <textarea class="layui-textarea" style="border: 1px solid #ccc" name="fdesc"
+                                        id="ms"></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">文件夹路径</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" placeholder="请输入内容" name="path" id="paths">
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">格式</label>
+                                    <div class="layui-input-block">
+                                      <select name="form" id="forms">
+                                        <option value="jpg" selected>jpg</option>
+                                        <option value="png">png</option>
+                                        <option value="gif">gif</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">文件大小</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" value="" name="fsize" id="size">
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">比例</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" value="" name="scale" id="scale">
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">分辨率</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" value="" name="reso" id="reso">
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">版式</label>
+                                    <div class="layui-input-block">
+                                      <select name="style" id="style">
+                                        <option value="横版" selected>横版</option>
+                                        <option value="竖版">竖版</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <button class="layui-btn layui-btn-normal"
+                                    style="width: 310px;margin:0px 0 20px 50px;" lay-submit lay-filter="confirm"
+                                    type="button">保存
+                                  </button>
+                                </form>
+                              </div>
+                              <div class="layui-tab-item" id="contents">
+                                <form class="layui-form" style="height: 614px" lay-filter="detailInfo">
+
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">色域、色彩空间</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Color Space" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">图像构造</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Components Configuration" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">镜头光圈</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Aperture Value" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">曝光补偿</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Exposure Bias Value" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">测光方式</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Metering Mode" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">焦距</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Focal Length" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">光圈值</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="F-Number" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">曝光程序</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Exposure Program" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">曝光方式</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Exposure Mode" disabled>
+                                    </div>
+                                  </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">曝光时间</label>
+                                    <div class="layui-input-block">
+                                      <input type="text" class="layui-input" name="Exposure Time" disabled>
+                                    </div>
+                                  </div>
+                                  <button class="layui-btn layui-btn-normal"
+                                    style="width: 310px;margin:0px 0 20px 50px;" onclick="confirm1()" type="button">保存
+                                  </button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="imgIcon" style="width:379px;height:466px;margin: 50px 0 0 150px;position: relative;">
+                        <!-- <img src="common/img/u6733.jpg" alt="" srcset="" style="width: 100%;height:100%;"> -->
+                        <!--<img src="common/img/u7603.png" alt="" srcset="" style="position: absolute;width: 60px;height: 60px;;position: absolute;top:50%;left:50%;margin: -30px 0 0 -30px;">-->
+                        <ul class="picView-magnify-list" style="padding: 30px" id="list">
+                          <li style="width: 100%;height: 100%">
+                            <a href="javascript:void(0)" data-magnify="gallery" data-group="g1"
+                              data-src="common/img/u6147.png" data-caption="测试图片一">
+                              <img src="" alt="" id="img" style="width: 100%;height: 100%">
+                            </a>
+                          </li>
+                        </ul>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ul class="layui-tab-title bottom_tab">
+              <li id="imgTab" class="layui-this">图片管理</li>
+              <li id="columnTab">子栏目管理</li>
+              <li id="infoTab" onclick="showColumnInfo()">基本信息</li>
+            </ul>
+          </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/html" id="imgtpl">
+  {{# layui.each(d, function(index, item){ }}
+  <li style="position: relative">
+    <div class="img">
+      {{# var imgurl = getAjaxUrl("",item.url) }}
+      <img src="{{ imgurl }}" alt="{{item.keyword}}" title="{{item.keyword}}" onclick="preview('{{item.id}}',event)">
+
+      <!--<div class="layui-btn-container" style="position: absolute;right:0px;top:0px;" id="collect">-->
+      <!--<button class="layui-btn layui-btn-sm"-->
+      <!--style="background: rgba(0,0,0,0.7);border-radius: 2px;" >-->
+      <!--{{#if(item.collection===0){ }}-->
+      <!--<img src="common/img/u582.png" alt="" onclick="collect('{{item.id}}',event)" style="    width: 25px;-->
+      <!--height: 25px;-->
+      <!--margin-top: 3px;" >-->
+      <!--{{#} else if(item.collection===1){ }}-->
+      <!--<img src="common/img/u582_mouseOver.png" alt="" onclick="collect('{{item.id}}',event)" style="    width: 25px;-->
+      <!--height: 25px;-->
+      <!--margin-top: 3px;" >-->
+      <!--{{#} }}-->
+      <!--</button>-->
+      <!--<button class="layui-btn layui-btn-sm"-->
+      <!--<button class="layui-btn layui-btn-sm"-->
+      <!--style="background: rgba(0,0,0,0.7);border-radius: 2px" onclick="downLoadPic('{{item.id}}',event)">下载</button>-->
+      <!--<button class="layui-btn layui-btn-sm"-->
+      <!--style="background: rgba(0,0,0,0.7);border-radius: 2px" onclick="deletes('{{item.id}}',event)"><i-->
+      <!--class="layui-icon layui-icon-delete"></i></button>-->
+      <!--</div>-->
+    </div>
+    <div class="checkDiv" style="position: absolute;left: 5px;bottom: 0px;">
+      <input type="checkbox" name="ids" lay-skin="primary" id="check" lay-filter="checked" value="{{item.id}}">
+    </div>
+
+    <div class="text" style="height: 20px;overflow: hidden;width: 150px;text-overflow:ellipsis;white-space: nowrap;float: right;margin-right: 40px;margin-top: 4px;">
+
+      {{#if(item.status===0){ }}
+      <span style="color: blue">新稿</span>
+      {{#} else if(item.status===10){ }}
+      <span style="color: blue">审核</span>
+      {{#} else if(item.status===20){ }}
+      <span style="color: blue">发布</span>
+      {{#} }}
+      |&nbsp;&nbsp;<span style="text-align: center"
+        title="{{item.name}}.{{item.form}}">{{item.name}}.{{item.form}}</span>
+    </div>
+  </li>
+  {{#  }); }}
+  {{# if(d.length === 0){ }}
+  无数据
+  {{# } }}
+</script>
+<script type="text/html" id="imgtpl1">
+  {{# layui.each(d, function(index, item){ }}
+  <li>
+    <div class="right">
+      {{# var imgurl = getAjaxUrl("",item.url) }}
+      <img src="{{ imgurl }}" alt="" style="width: 100%;height: 100%" onclick="preview('{{item.id}}',event)">
+    </div>
+    <div class="content">
+      <p> {{item.name}}</p>
+      <p style="margin-top: 15px;">
+        <span>来源：{{item.resc}}</span>
+        <span>格式：{{item.form}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>大小：{{item.fsize}}kB</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>上传时间：{{item.datetime}}</span>
+      </p>
+      <p style="margin-top: 5px;">
+        <span>路径：{{item.url}}</span>
+      </p>
+
+    </div>
+    <div class="layui-btn-container" style="position: absolute;right:20px;top:30px;">
+      <!--<div class="layui-btn" onclick="downLoadPic('{{item.id}}',event)">下载</div>-->
+      <!--<div class="layui-btn layui-btn-danger" onclick="deletes('{{item.id}}',event)">删除</div>-->
+    </div>
+  </li>
+  {{#  }); }}
+  {{# if(d.length === 0){ }}
+  无数据
+  {{# } }}
+</script>
+
+<script type="text/html" id="inner">
+  <div class="inner5">
+    <div class='left'
+      style="width: 700px;height:500px;background: #f5f5f5;padding: 20px;margin: 40px 50px 0;display: inline-block">
+      {{# var imgurl = getAjaxUrl("",d.url) }}
+      <img src="{{imgurl}}" class='image' style="height: 484px;width: 695px;position: relative;">
+    </div>
+    <div class="infoBox"
+      style="width: 420px;height:640px;border-left:1px solid #ccc;position: absolute;top:0px;right:0;">
+      <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+          <li class="layui-this">基本信息</li>
+          <li id="heads" style="display:none ">详细信息</li>
+        </ul>
+        <div class="layui-tab-content" style="overflow-y: auto;height: 570px;">
+          <div class="layui-tab-item layui-show select2-parent2">
+            <form class="layui-form" id='form31' lay-filter="info" style="height: 614px">
+              <div class="layui-form-item">
+                <label class="layui-form-label">图片名称</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" placeholder="请输入内容" name="name" id="picName">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">*版权归属</label>
+                <div class="layui-input-block">
+                  <select name="copyright" id="belong">
+                    <option value="原创">原创</option>
+                    <option value="经授权">经授权</option>
+                    <option value="其他">其他</option>
+                  </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">来源</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" placeholder="请输入内容" name="resc" id="resource">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">*描述</label>
+                <div class="layui-input-block">
+                  <textarea class="layui-textarea" style="border: 1px solid #ccc" name="fdesc" id="ms"></textarea>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">文件夹路径</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" readonly placeholder="请输入内容" name="path" id="paths">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">格式</label>
+                <div class="layui-input-block">
+                  <select name="form" id="forms" disabled>
+                    <option value="jpg" selected>jpg</option>
+                    <option value="jpeg">jpeg</option>
+                    <option value="png">png</option>
+                    <option value="gif">gif</option>
+                  </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">文件大小</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" disabled value="" name="fsize" id="fsize">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">比例</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" disabled value="" name="scale" id="scale">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">分辨率</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" disabled value="" name="reso" id="reso">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">版式</label>
+                <div class="layui-input-block">
+                  <select name="style" id="style">
+                    <option value="横版" selected>横版</option>
+                    <option value="竖版">竖版</option>
+                  </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">关键词</label>
+                <div class="layui-input-block layui-select2">
+                  <select name="keyword" id="keyword" multiple="multiple">
+                  </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">自定义关键词</label>
+                <div class="layui-input-block layui-select2">
+                  <input type="text" class="layui-input" name="customKeyword"/>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">拍摄者</label>
+                <div class="layui-input-block layui-select2">
+                  <input type="text" class="layui-input" autocomplete="off" name="shotman">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">经度</label>
+                <div class="layui-input-block layui-select2">
+                  <input type="text" class="layui-input" autocomplete="off" name="longitude">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">纬度</label>
+                <div class="layui-input-block layui-select2">
+                  <input type="text" class="layui-input" autocomplete="off" name="latitude">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">拍摄时间</label>
+                <div class="layui-input-block layui-select2">
+                  <input type="text" class="layui-input" autocomplete="off" name="takeTime">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">拍摄地点</label>
+                <div class="layui-input-block layui-select2">
+                  <input type="text" class="layui-input" autocomplete="off" name="location">
+                </div>
+              </div>
+              <button class="layui-btn layui-btn-normal" style="width: 310px;margin:0px 0 20px 50px;" lay-submit
+                lay-filter="confirm" type="button">保存
+              </button>
+            </form>
+          </div>
+          <div class="layui-tab-item" id="imgContents">
+            <form class="layui-form" style="height: 614px" lay-filter="detailInfo">
+
+              <div class="layui-form-item">
+                <label class="layui-form-label">色域、色彩空间</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Color Space" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">图像构造</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Components Configuration" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">镜头光圈</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Aperture Value" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">曝光补偿</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Exposure Bias Value" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">测光方式</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Metering Mode" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">焦距</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Focal Length" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">光圈值</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="F-Number" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">曝光程序</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Exposure Program" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">曝光方式</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Exposure Mode" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">曝光时间</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Exposure Time" disabled>
+                </div>
+              </div>
+              <button class="layui-btn layui-btn-normal" style="width: 310px;margin:0px 0 20px 50px;"
+                onclick="confirm1()" type="button">保存
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</script>
+
+<!-- 水印  收藏  上传 -->
+<script>
+  var siteObj = {};
+  var columnObj = {};
+  var uploadFileBtn;
+  function collect(id, event) {
+    var src = event.target.getAttribute('src')
+    if (src === "common/img/u582.png") {
+      event.target.setAttribute('src', "common/img/u582_mouseOver.png")
+      ajax(service_prefix.resources, url + "/changeCollect?id=" + id, 'post').then(function (res) {
+        console.log(res)
+      })
+    } else if (src === "common/img/u582_mouseOver.png") {
+      event.target.setAttribute('src', "common/img/u582.png")
+      ajax(service_prefix.resources, url + "/changeCollect?id=" + id, 'post').then(function (res) {
+        console.log(res)
+      })
+    }
+  }
+
+  function selected(event) {
+    event.stopPropagation()
+  }
+
+  layui.use('laydate', function () { //日期显示组件
+    var laydate = layui.laydate;
+    laydate.render({
+      elem: '#t12',
+      range: true,
+      done: function (value) {
+        startTime = value.split(' -')[0]
+        endTime = value.split('- ')[1]
+      }
+    });
+  })
+  var zNodes;
+  var flag = false;
+  var bool = false;
+
+  function addMark() { //批量新建水印
+    var data = document.getElementsByName("ids")
+    var ids = "";
+    var count = 0;
+    for (var i in data) {
+      if (data[i].checked) {
+        if (count !== 0) {
+          ids += ",";
+        }
+        ids += data[i].value;
+        count++;
+
+      }
+
+    }
+    if (ids === "") {
+      layer.alert("请选择需要加水印的图片")
+      return false;
+    }
+    var markId = localStorage.getItem("markId");
+    var syType = localStorage.getItem('syType');
+    if(!markId || !syType){
+      layer.alert("请设置水印");
+      return false;
+    }
+    var idArr = ids.split(',')
+    if (syType === "文字水印") {
+      ajax(service_prefix.resources, url + "/addWaterMark?ids=" + ids + "&markid=" + markId, 'post').then(function (
+        res) {
+        if (res.success) {
+          getTreeData()
+        }
+      })
+    } else {
+      ajax(service_prefix.resources, "/picture/addPictWaterMark?ids=" + ids + "&markid=" + markId, 'post').then(
+        function (res) {
+          if (res.success) {
+            var obj = {};
+            obj.sign = 0;
+            getTreeData()
+          }else{
+            layer.alert(res.msg);
+          }
+        })
+    }
+
+  }
+
+  function delByIds() { //判断是否勾选要删除的图片
+    var data = document.getElementsByName("ids")
+    var ids = "";
+    var count = 0;
+    for (var i in data) {
+      if (data[i].checked) {
+        if (count !== 0) {
+          ids += ",";
+        }
+        ids += data[i].value;
+        count++;
+
+      }
+
+    }
+    if (ids === "") {
+      layer.alert("请选择要删除的图片")
+      return false;
+    }
+    deletePics(ids)
+  }
+
+  function deletePics(ids) { //批量删除图片
+    ajax(service_prefix.resources, "/picture/delByIds?ids=" + ids, 'get').then(function (res) {
+      if (res.success) {
+        getTreeData();
+      }
+    })
+  }
+
+  function getzTreeChildrenNode(treeNode, result) {
+    //检测是否为父节点
+    if (treeNode.isParent) {
+      var childrenNodes = treeNode.children; //查询子节点
+      if (childrenNodes) {
+        //子节点拼接
+        for (var i = 0; i < childrenNodes.length; i++) {
+          if (result) {
+            result += ',' + childrenNodes[i].id;
+          } else {
+            result += childrenNodes[i].id;
+          }
+          result = getzTreeChildrenNode(childrenNodes[i], result); //循环调用
+        }
+      }
+    }
+    return result; //返回
+  }
+
+
+
+  function getTimes(time) {
+    var timeStemp = new Date(time);
+    return timeStemp.getFullYear() + "-" + (timeStemp.getMonth() + 1) + "-" + timeStemp.getDate() + "  " + timeStemp
+      .getHours() + ":" + timeStemp.getMinutes()
+  }
+
+  var columnid = localStorage.getItem("columnid")
+  var imgArr = [];
+  layui.use(['layer', 'element', 'form', 'upload'], function () {
+    var layer = layui.layer,
+      element = layui.element,
+      form = layui.form,
+      upload = layui.upload;
+
+    //创建监听函数
+    var xhrOnProgress = function (fun) {
+      xhrOnProgress.onprogress = fun; //绑定监听
+      //使用闭包实现监听绑
+      return function () {
+        //通过$.ajaxSettings.xhr();获得XMLHttpRequest对象
+        var xhr = $.ajaxSettings.xhr();
+        //判断监听函数是否为函数
+        if (typeof xhrOnProgress.onprogress !== 'function')
+          return xhr;
+        //如果有监听函数并且xhr对象支持绑定时就把监听函数绑定上去
+        if (xhrOnProgress.onprogress && xhr.upload) {
+          xhr.upload.onprogress = xhrOnProgress.onprogress;
+        }
+        return xhr;
+      }
+    }
+    uploadFileBtn = upload.render({
+      elem: '#chooseFile', //绑定元素
+      url: getAjaxUrl(service_prefix.resources, '/picture/upload?id=' + columnId), //上传接口
+      exts: 'jpg|png|jpeg', //限定上传类型
+      //accept: images,//指定允许上传时校验的文件类型 images（图片）、file（所有文件）、video（视频）、audio（音频）
+      acceptMime: 'image/jpg, image/png, image/jpeg', //只筛选上述类型图片
+      //number： '0',//0为不限制上传数量
+      xhr: xhrOnProgress,
+      data: {
+        keyword:"",
+        customKeyword:""
+      }, //可选项 额外的参数，如：{id: 123, abc: 'xxx'}
+      multiple: true, // 开启多文件上传
+      drag: true, //是否允许拖拽上传
+      size: 1024 * 0, //为0为不限制大小
+      //监听xhr进度，并返回给进度条
+      progress: function (value) { //上传进度回调 value进度值
+        element.progress('upload_progress', value + '%') //设置页面进度条
+      },
+      before: function (obj) {
+        //开始上传时候让进度条去除隐藏状态
+        $("#upload_progress").removeClass("layui-hide");
+
+        //或者设置loading
+        //layer.load(1); //去除方法为 layer.close('loading'); 或者 layer.closeAll('loading');
+      },
+      //auto: false, //选择文件后不自动上传 默认值为true
+      //bindAction: '#testListAction', //指向一个按钮触发上传
+      //选择文件的回调 在文件被选择后触发，该回调会在 before 回调之前。一般用于非自动上传（即 auto: false ）的场景 预览图片等其他操作
+      /*choose: function(obj){
+       //将每次选择的文件追加到文件队列
+       var files = obj.pushFile();
+       //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+       obj.preview(function(index, file, result){
+       console.log(index); //得到文件索引
+       console.log(file); //得到文件对象
+       console.log(result); //得到文件base64编码，比如图片
+       //obj.resetFile(index, file, '123.jpg'); //重命名文件名
+       //这里还可以做一些 append 文件列表 DOM 的操作
+       //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
+       //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
+       obj.preview(function(index, file, result){
+       //对上传失败的单个文件重新上传，一般在某个事件中使用
+       //obj.upload(index, file);
+       });
+       });
+       */
+      /*allDone: function(obj){ //当文件全部被提交后，才触发  开启多文件上传时该回调才可触发
+       console.log(obj.total); //得到总文件数
+       console.log(obj.successful); //请求成功的文件数
+       console.log(obj.aborted); //请求失败的文件数
+       },*/
+      done: function (res, index, upload) { //在多文件上传中 每次成功将被调用一次
+        /*  你不一定非得按照上述格式返回，只要是合法的 JSON 字符即可。其响应信息会转化成JS对象传递给 done 回调。
+         {	如果上传后，出现文件下载框（一般为ie下），那么你需要在服务端对response的header设置 Content-Type: text/html
+         "code": 0,
+         "msg": "",
+         "data": {
+         "src": "http://google.com"
+         }
+         }
+         */
+        //上传完毕回调
+        //假设code=0代表上传成功
+
+        if (res) { //此处只用于单文件图片的上传，若为多图片多文件请做其他处理
+          ids = res.id;
+          imgArr.push(res)
+          localStorage.setItem('uploadImg', JSON.stringify(imgArr))
+          localStorage.setItem("ids", res.id);
+          idArr.push(res.id);
+          $("#list2").hide();
+          $("#list3").show();
+          isNew = "1";
+          localStorage.setItem("isNew", isNew)
+          $("#upload_preview").append("<div style='position: relative;float: left'><img alt='预览图' src='" +
+            getAjaxUrl("", res.url) + "' width='230px' height='146px' /></div>");
+          $("#upload_preview div").append(
+            "<button style='position: absolute;top:5px;right: 5px;background: #000' class='deletePic' class='layui-btn layui-btn-xs'><i class='layui-icon layui-icon-delete' style='color: #FFFFFF'></i></button>"
+          )
+          $("#counts").text(imgArr.length)
+          $('.deletePic').each(function () {
+            $(this).click(function () {
+              $(this).prev("img").remove();
+              $(this).remove();
+            })
+          })
+          getImgList("1",{columnId:columnId});
+            returnBack6();
+
+        }
+        //获取当前触发上传的元素
+        //var item = this.item;
+      },
+      error: function (index, upload) {
+        //请求异常回调
+        layer.close(layer.index);
+        layer.confirm("上传失败，您是否要重新上传？", {
+          btn: ['确定', '取消'],
+          icon: 3,
+          title: "提示"
+        }, function () {
+          //关闭询问框
+          layer.closeAll();
+          //重新调用上传方法
+          uploadFileBtn.upload();
+        })
+      }
+    });
+
+
+  })
+
+  //获取所有子节点
+  function getAllChildrenNodes(treeNode, result) {
+    if (treeNode.isParent) {
+      var childrenNodes = treeNode.children;
+      if (childrenNodes) {
+        for (var i = 0; i < childrenNodes.length; i++) {
+          result += ',' + childrenNodes[i].id;
+          result = getAllChildrenNodes(childrenNodes[i], result);
+        }
+      }
+    }
+    return result;
+  }
+
+  //  var imgArr =[];
+  //  layui.use([ 'layer', 'element', 'form', 'upload' ], function() {
+  //      var layer = layui.layer,
+  //          element = layui.element,
+  //          form = layui.form,
+  //          upload = layui.upload;
+  //
+  //      //创建监听函数
+  //      var xhrOnProgress = function(fun) {
+  //          xhrOnProgress.onprogress = fun; //绑定监听
+  //          //使用闭包实现监听绑
+  //          return function() {
+  //              //通过$.ajaxSettings.xhr();获得XMLHttpRequest对象
+  //              var xhr = $.ajaxSettings.xhr();
+  //              //判断监听函数是否为函数
+  //              if (typeof xhrOnProgress.onprogress !== 'function')
+  //                  return xhr;
+  //              //如果有监听函数并且xhr对象支持绑定时就把监听函数绑定上去
+  //              if (xhrOnProgress.onprogress && xhr.upload) {
+  //                  xhr.upload.onprogress = xhrOnProgress.onprogress;
+  //              }
+  //              return xhr;
+  //          }
+  //      }
+  //      var s = layer.load();
+  //      var uploadFile = upload.render({
+  //          elem : '#chooseFile', //绑定元素
+  // url : getAjaxUrl(service_prefix.resources,'/picture/upload?id=' + columnId), //上传接口
+  //          exts : 'jpg|png|jpeg',//限定上传类型
+  //          //accept: images,//指定允许上传时校验的文件类型 images（图片）、file（所有文件）、video（视频）、audio（音频）
+  //          acceptMime : 'image/jpg, image/png, image/jpeg',//只筛选上述类型图片
+  //          //number： '0',//0为不限制上传数量
+  //          xhr : xhrOnProgress,
+  //          //data: {}, //可选项 额外的参数，如：{id: 123, abc: 'xxx'}
+  //          multiple: true,// 开启多文件上传
+  //          drag:true, //是否允许拖拽上传
+  //          size: 1024*0,//为0为不限制大小
+  //          //监听xhr进度，并返回给进度条
+  //          progress : function(value) { //上传进度回调 value进度值
+  //              console.log(value);
+  //              element.progress('upload_progress', value + '%') //设置页面进度条
+  //          },
+  //          before : function(obj) {
+  //              //开始上传时候让进度条去除隐藏状态
+  //              $("#upload_progress").removeClass("layui-hide");
+  //
+  //              //或者设置loading
+  //              //layer.load(1); //去除方法为 layer.close('loading'); 或者 layer.closeAll('loading');
+  //          },
+  //          //auto: false, //选择文件后不自动上传 默认值为true
+  //          //bindAction: '#testListAction', //指向一个按钮触发上传
+  //          //选择文件的回调 在文件被选择后触发，该回调会在 before 回调之前。一般用于非自动上传（即 auto: false ）的场景 预览图片等其他操作
+  //        /*choose: function(obj){
+  //         //将每次选择的文件追加到文件队列
+  //         var files = obj.pushFile();
+  //         //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+  //         obj.preview(function(index, file, result){
+  //         console.log(index); //得到文件索引
+  //         console.log(file); //得到文件对象
+  //         console.log(result); //得到文件base64编码，比如图片
+  //         //obj.resetFile(index, file, '123.jpg'); //重命名文件名
+  //         //这里还可以做一些 append 文件列表 DOM 的操作
+  //         //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
+  //         //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
+  //         obj.preview(function(index, file, result){
+  //         //对上传失败的单个文件重新上传，一般在某个事件中使用
+  //         //obj.upload(index, file);
+  //         });
+  //         });
+  //         */
+  //        /*allDone: function(obj){ //当文件全部被提交后，才触发  开启多文件上传时该回调才可触发
+  //         console.log(obj.total); //得到总文件数
+  //         console.log(obj.successful); //请求成功的文件数
+  //         console.log(obj.aborted); //请求失败的文件数
+  //         },*/
+  //          done : function(res, index, upload) {//在多文件上传中 每次成功将被调用一次
+  //            /*  你不一定非得按照上述格式返回，只要是合法的 JSON 字符即可。其响应信息会转化成JS对象传递给 done 回调。
+  //             {	如果上传后，出现文件下载框（一般为ie下），那么你需要在服务端对response的header设置 Content-Type: text/html
+  //             "code": 0,
+  //             "msg": "",
+  //             "data": {
+  //             "src": "http://google.com"
+  //             }
+  //             }
+  //             */
+  //              //上传完毕回调
+  //              //假设code=0代表上传成功
+  //
+  //              if (res) {//此处只用于单文件图片的上传，若为多图片多文件请做其他处理
+  //                  console.log(s)
+  //                  layer.close(s)
+  //                  ids=res.id;
+  //                  imgArr.push(res)
+  //                  console.log(imgArr)
+  //                  localStorage.setItem('uploadImg',JSON.stringify(imgArr))
+  //                  localStorage.setItem("ids",res.id);
+  //                  idArr.push(res.id);
+  //                  console.log(idArr);
+  //                  $("#list2").hide();
+  //                  $("#list3").show();
+  //                  isNew ="0";
+  //                  localStorage.setItem("isNew",isNew)
+  //                  $("#upload_preview").append("<div style='position: relative;float: left'><img alt='预览图' src='"+res.path.replace('/data/upload','/files') +"' width='230px' height='146px' /></div>");
+  //                  $("#upload_preview div").append("<button style='position: absolute;top:5px;right: 5px;background: #000' class='deletePic' class='layui-btn layui-btn-xs'><i class='layui-icon layui-icon-delete' style='color: #FFFFFF'></i></button>")
+  //                  $("#counts").text(imgArr.length)
+  //                  $('.deletePic').each(function () {
+  //                      $(this).click(function () {
+  //                          $(this).prev("img").remove();
+  //                          $(this).remove();
+  //                      })
+  //                  })
+  //              }
+  //              //获取当前触发上传的元素
+  //              //var item = this.item;
+  //          },
+  //          error : function(index, upload) {
+  //              //请求异常回调
+  //              layer.close(layer.index);
+  //              layer.confirm("上传失败，您是否要重新上传？", {
+  //                  btn : [ '确定', '取消' ],
+  //                  icon : 3,
+  //                  title : "提示"
+  //              }, function() {
+  //                  //关闭询问框
+  //                  layer.closeAll();
+  //                  //重新调用上传方法
+  //                  uploadFile.upload();
+  //              })
+  //          }
+  //      });
+  //
+  //
+  //  })
+
+</script>
+<!-- 预览图片 -->
+<script>
+  var idArr = [];
+  var id1 = "";
+
+  //预览图片
+  function preview(id, event) {
+
+    event.stopPropagation();
+    $("#heads1").hide()
+    $("#list1").hide();
+    $("#form9").show();
+    id1 = id
+    localStorage.setItem("id1", id1)
+    ajax(service_prefix.resources, "/picture/getPicInfo?ids=" + id, 'post').then(function (res) {
+      if (res.success) {
+        layui.form.val("detailInfo", res.obj[0])
+      }
+    })
+    ajax(service_prefix.resources, url + "/" + id, "get").then(function (res) {
+      res.obj.columnName = columnName;
+      layui.laytpl($("#detail").html()).render(res.obj, function (html) {
+        $("#form9").html(html);
+        if (res.obj.isNew === 0) {
+          $("#lookOld").hide();
+          $("#downloadOld").hide()
+        } else {
+          $("#lookOld").show();
+          $("#downloadOld").show()
+        }
+        layui.form.render();
+        var picInfo = localStorage.getItem('picInfo');
+        if (picInfo === "是") {
+          $("#heads1").show()
+        } else {
+          $("#heads1").hide()
+        }
+        layui.use('element', function () {
+          var $ = layui.jquery,
+            element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+          //触发事件
+          var active = {
+            tabAdd: function () {
+              //新增一个Tab项
+              element.tabAdd('demo', {
+                title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                ,
+                content: '内容' + (Math.random() * 1000 | 0),
+                id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+              })
+            },
+            tabDelete: function (othis) {
+              //删除指定Tab项
+              element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+              othis.addClass('layui-btn-disabled');
+            },
+            tabChange: function () {
+              //切换到指定Tab项
+              element.tabChange('demo', '22'); //切换到：用户管理
+            }
+          };
+
+          $('.site-demo-active').on('click', function () {
+            var othis = $(this),
+              type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+          });
+
+          //Hash地址的定位
+          var layid = location.hash.replace(/^#test=/, '');
+          element.tabChange('test', layid);
+
+          element.on('tab(test)', function (elem) {
+            location.hash = 'test=' + $(this).attr('lay-id');
+          });
+
+        });
+
+      })
+    })
+
+  }
+
+  var imgs = JSON.parse(localStorage.getItem("imgInfos"))
+  var srcArr = []
+  var ids1 = []
+  var indexs = 0
+  for (var i in imgs) {
+    srcArr.push(imgs[i].url)
+    ids1.push(imgs[i].id)
+  }
+  var id1 = localStorage.getItem("id1")
+  for (var i in ids1) {
+    if (id1 === ids1[i]) {
+      indexs = i;
+    }
+  }
+// 分页
+  function next() {
+    indexs++;
+    //              return;
+    if (indexs > srcArr.length - 1) {
+      layer.alert("已经到了最后一张了");
+      return;
+    }
+    ajax(service_prefix.resources, url + "/" + ids1[indexs], "get").then(function (res) {
+
+      layui.laytpl($("#detail").html()).render(res.obj, function (html) {
+        $("#form9").html(html);
+        if (res.obj.isNew === 0) {
+          $("#lookOld").hide();
+          $("#downloadOld").hide()
+        } else {
+          $("#lookOld").show();
+          $("#downloadOld").show()
+        }
+        layui.form.render();
+        var picInfo = localStorage.getItem('picInfo');
+        if (picInfo === "是") {
+          $("#heads1").show()
+        } else {
+          $("#heads1").hide()
+        }
+        layui.use('element', function () {
+          var $ = layui.jquery,
+            element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+          //触发事件
+          var active = {
+            tabAdd: function () {
+              //新增一个Tab项
+              element.tabAdd('demo', {
+                title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                ,
+                content: '内容' + (Math.random() * 1000 | 0),
+                id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+              })
+            },
+            tabDelete: function (othis) {
+              //删除指定Tab项
+              element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+              othis.addClass('layui-btn-disabled');
+            },
+            tabChange: function () {
+              //切换到指定Tab项
+              element.tabChange('demo', '22'); //切换到：用户管理
+            }
+          };
+
+          $('.site-demo-active').on('click', function () {
+            var othis = $(this),
+              type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+          });
+
+          //Hash地址的定位
+          var layid = location.hash.replace(/^#test=/, '');
+          element.tabChange('test', layid);
+
+          element.on('tab(test)', function (elem) {
+            location.hash = 'test=' + $(this).attr('lay-id');
+          });
+
+        });
+
+      })
+    })
+  }
+
+  function prev1() {
+    indexs--;
+    if (indexs < 0) {
+      layer.alert("已经到了第一张了");
+      return;
+    }
+    ajax(service_prefix.resources, url + "/" + ids1[indexs], "get").then(function (res) {
+
+      layui.laytpl($("#detail").html()).render(res.obj, function (html) {
+        $("#form9").html(html);
+        if (res.obj.isNew === 0) {
+          $("#lookOld").hide();
+          $("#downloadOld").hide()
+        } else {
+          $("#lookOld").show();
+          $("#downloadOld").show()
+        }
+        layui.form.render();
+        var picInfo = localStorage.getItem('picInfo');
+        if (picInfo === "是") {
+          $("#heads1").show()
+        } else {
+          $("#heads1").hide()
+        }
+        layui.use('element', function () {
+          var $ = layui.jquery,
+            element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+          //触发事件
+          var active = {
+            tabAdd: function () {
+              //新增一个Tab项
+              element.tabAdd('demo', {
+                title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                ,
+                content: '内容' + (Math.random() * 1000 | 0),
+                id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+              })
+            },
+            tabDelete: function (othis) {
+              //删除指定Tab项
+              element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+              othis.addClass('layui-btn-disabled');
+            },
+            tabChange: function () {
+              //切换到指定Tab项
+              element.tabChange('demo', '22'); //切换到：用户管理
+            }
+          };
+
+          $('.site-demo-active').on('click', function () {
+            var othis = $(this),
+              type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+          });
+
+          //Hash地址的定位
+          var layid = location.hash.replace(/^#test=/, '');
+          element.tabChange('test', layid);
+
+          element.on('tab(test)', function (elem) {
+            location.hash = 'test=' + $(this).attr('lay-id');
+          });
+
+        });
+
+      })
+    })
+  }
+
+  function add1() {
+    $('#list4').hide();
+    $('#list5').show();
+    var imgs = JSON.parse(localStorage.getItem("uploadImg"))
+    var form = layui.form;
+    form.val('info', imgs[0]);
+    layui.use('element', function () {
+      var $ = layui.jquery,
+        element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+      //触发事件
+      var active = {
+        tabAdd: function () {
+          //新增一个Tab项
+          element.tabAdd('demo', {
+            title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+            ,
+            content: '内容' + (Math.random() * 1000 | 0),
+            id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+          })
+        },
+        tabDelete: function (othis) {
+          //删除指定Tab项
+          element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+          othis.addClass('layui-btn-disabled');
+        },
+        tabChange: function () {
+          //切换到指定Tab项
+          element.tabChange('demo', '22'); //切换到：用户管理
+        }
+      };
+
+      $('.site-demo-active').on('click', function () {
+        var othis = $(this),
+          type = othis.data('type');
+        active[type] ? active[type].call(this, othis) : '';
+      });
+
+      //Hash地址的定位
+      var layid = location.hash.replace(/^#test=/, '');
+      element.tabChange('test', layid);
+
+      element.on('tab(test)', function (elem) {
+        location.hash = 'test=' + $(this).attr('lay-id');
+      });
+
+    });
+
+  }
+
+  //图片上传
+
+  //上传图片弹框
+  function uploadFile() {
+    layer.open({
+      type: 1 //此处以iframe举例
+      ,
+      title: '上传',
+      area: ['800px', '600px'],
+      shade: 0.3,
+      maxmin: true,
+      content: "<div id='form9'></div>"
+
+    });
+    layui.laytpl($("#uploadTpl").html()).render({}, function (html) {
+      $("#form9").html(html);
+      layui.form.render();
+    })
+  }
+
+  //是否勾选按默认设置处理
+  form.on('checkbox(check)', function (data) {
+    var checked = data.elem.checked;
+    var syType = localStorage.getItem('syType');
+    var markId = localStorage.getItem("markId")
+    if (checked) {
+      ////文字水印
+      if (syType === "文字水印") {
+        var ids = "";
+        var ids1 = "";
+        if (idArr.length === 1) {
+          ids = idArr[0]
+        } else {
+          ids = idArr.join(',');
+        }
+        isNew = "";
+        localStorage.setItem("isNew", isNew)
+        if (localStorage.getItem("markId") != 0) {
+          ajax(service_prefix.resources, url + "/addWaterMark?ids=" + ids + "&markid=" + markId, 'post').then(
+            function (res) {
+              if (res.success) {
+                ids1 = res.msg;
+                localStorage.setItem("markId", 0);
+                console.log(res);
+                var width = Number(localStorage.getItem("width"));
+                var height = Number(localStorage.getItem("height"));
+                console.log(width, height);
+                if (width != 0 && height != 0) {
+                  ajax(service_prefix.resources, url + "/picCompress?ids=" + ids1 + "&w=" + width + "&h=" +
+                    height, "post").then(function (res) {
+                      //console.log(res);
+                      if (res.success) {
+                        localStorage.setItem("width", 0);
+                        localStorage.setItem("height", 0);
+                      }
+                    })
+                }
+              }
+            })
+        }
+        //             //压缩图片
+        //             var size =localStorage.getItem("size")
+        if (localStorage.getItem("markId") == 0) {
+          var width = Number(localStorage.getItem("width"));
+          var height = Number(localStorage.getItem("height"));
+          if (width != 0 && height != 0) {
+            ajax(service_prefix.resources, url + "/picCompress?ids=" + ids + "&w=" + width + "&h=" + height, "post")
+              .then(function (res) {
+                if (res.success) {
+                  localStorage.setItem("width", 0);
+                  localStorage.setItem("height", 0);
+
+                }
+              })
+          }
+        }
+
+      } else {
+        var ids = "";
+        if (idArr.length === 1) {
+          ids = idArr[0]
+        } else {
+          ids = idArr.join(',');
+        }
+        isNew = "1";
+        localStorage.setItem("isNew", isNew);
+        var location = Number(localStorage.getItem("location"))
+        var alpha = Number(localStorage.getItem("alpha"))
+        ajax(service_prefix.resources, "/picture/addPictWaterMark?ids=" + ids + "&markid=" + markId, 'post').then(
+          function (res) {
+            console.log(res)
+          })
+        var width = Number(localStorage.getItem("width"));
+        var height = Number(localStorage.getItem("height"));
+        if (width != 0 && height != 0) {
+          ajax(service_prefix.resources, url + "/picCompress?ids=" + ids + "&w=" + width + "&h=" + height, "post")
+            .then(function (res) {
+              console.log(res)
+            })
+        }
+
+      }
+    } else {
+      isNew = "0";
+      localStorage.setItem("isNew", isNew)
+    }
+  })
+  var forms1 = "",
+    limitForm = "",
+    limitSize = "";
+
+  function edit() { //编辑图片
+    ajax(service_prefix.resources, "/picture/" + idArr[0], "get").then(function (res) {
+      if (res.success) {
+        $('#list3').hide();
+        forms1 = res.obj.form;
+        size = res.obj.size;
+        $('#list5').show();
+        $(".magnify-modal").show();
+        $("#img").attr("src", res.obj.url)
+        var picInfo = localStorage.getItem('picInfo');
+        if (picInfo === "是") {
+          $("#head").show()
+        } else {
+          $("#head").hide()
+        }
+        layui.form.val("info", res.obj)
+      }
+    })
+    ajax(service_prefix.resources, "/picture/getPicInfo?ids=" + idArr[0], 'post').then(function (res) {
+      if (res.success) {
+        console.log(res.obj)
+        layui.form.val("detailInfo", res.obj[0])
+      }
+    })
+  }
+
+  function returnBack() { //回到上一级
+    $("#list1").show();
+    $('#list2').hide();
+  }
+
+  function returnBack1() {
+    $("#list1").show();
+    $('#list3').hide();
+  }
+
+  function returnBack2() {
+    $("#list3").show();
+    $('#list4').hide();
+  }
+
+  function returnBack3() {
+    $("#list3").show();
+    $('#list5').hide();
+    $(".magnify-modal").hide();
+  }
+
+  function returnBack4() {
+    $("#list1").show();
+    $('#list6').hide();
+  }
+
+  function returnBack5() {
+    $("#list1").show();
+    $('#list7').hide();
+  }
+
+  function returnBack6() {
+    $("#list1").show();
+    $("#list3").hide();
+    $("#form9").hide()
+  }
+
+  $("#change2").hover(function () {
+    $(this).attr('src', 'common/img/u6611_mouseOver.png');
+  }, function () {
+    $(this).attr('src', 'common/img/u6611.png');
+  })
+
+
+  $('.img1').click(function () {
+    if ($(this).find('img').attr('id') == 'change2') {
+      $(this).find('img').attr('src', 'common/img/u6611_mouseOver.png');
+      $('#change1').attr('src', 'common/img/u6616.png')
+      $(".imgBox").hide()
+      $(".imgBox1").show()
+    } else if ($(this).find('img').attr('id') == 'change1') {
+      $(this).find('img').attr('src', 'common/img/u6616_mouseOver.png');
+      $('#change2').attr('src', 'common/img/u6611.png')
+      $(".imgBox").show()
+      $(".imgBox1").hide()
+    }
+  })
+
+
+  layui.use('form', function () { //声明使用layUI的form
+    var form = layui.form;
+    form.render(); //刷新所有渲染效果，也可以单独熟悉某个效果
+    //监听提交
+    form.on('submit(formDemo)', function (data) {
+      layer.msg(JSON.stringify(data.field));
+      return false;
+    });
+  });
+  layui.use('layer', function () { //独立版的layer无需执行这一句
+    var layer = layui.layer; //独立版的layer无需执行这一句
+    //触发事件
+    var active = {
+      preview: function () {
+        layer.msg("<div id='form9'></div>", {
+          time: 0,
+          closeBtn: 2,
+          shade: 0.3,
+          area: ['1300px', '530px']
+        });
+        layui.laytpl($("#detail").html()).render({}, function (html) {
+          $("#form9").html(html);
+          layui.form.render();
+        })
+        $('.image').click(function () { //这个视频被点击后执行
+          var img = $(this).attr('vpath'); //获取视频预览图
+          var video = $(this).attr('ipath'); //获取视频路径
+          $('.videos').html("<video id=\"video\" poster='" + img +
+            "' style='width: 795px;height:464px;' src='" + video +
+            "' preload=\"auto\" controlsList=\"nodownload\" controls=\"controls\" autoplay=\"autoplay\"></video><img onClick=\"close1()\" class=\"vclose\" src=\"gb.png\" width=\"25\" height=\"25\"/>"
+          );
+          $('.videos').show();
+        });
+
+        function close1() {
+          var v = document.getElementById('video'); //获取视频节点
+          $('.videos').hide(); //点击关闭按钮关闭暂停视频
+          v.pause();
+          $('.videos').html();
+        }
+      },
+
+
+    };
+
+    $('.layui-btn').click(function (event) {
+      event.stopPropagation();
+      var othis = $(this),
+        method = othis.data('method');
+      active[method] ? active[method].call(this, othis) : '';
+    });
+    $('.img').click(function () {
+      var othis = $(this),
+        method = othis.data('method');
+      active[method] ? active[method].call(this, othis) : '';
+    });
+  });
+
+  function setting() {
+    layer.open({
+      type: 1 //此处以iframe举例
+      ,
+      title: '设置',
+      area: ['520px', '610px'],
+      shade: 0.3,
+      maxmin: true,
+      content: "<div id='form1' class='select2-parent1'>1111</div>"
+
+    });
+    var obj = {};
+    obj.isCompress = 0;
+    var data = {
+      "pager": {
+        "current": 1,
+        'size': 100
+      },
+      'entity': obj
+    }
+
+    layui.laytpl($("#setForms").html()).render({}, function (html) {
+      $("#form1").html(html);
+      var keywords = localStorage.getItem("keyword");
+      initSelect2(keywords?keywords.split(";"):"","globalKeyword","select2-parent1");
+      $("#globalCustomKeyword").val(localStorage.getItem("customKeyword"));
+      ajax(service_prefix.resources, "/watermark/1190169972001751041", "get").then(function (res) {
+        if (res.success) {
+          $("#supForm").val(res.obj.supForm)
+        }
+      })
+      layui.form.verify({
+        imgForms: [
+          /^(jpg|bmp|gif|ico|pcx|jpeg|tif|png|raw|tga)|.*((jpg|bmp|gif|ico|pcx|jpeg|tif|png|raw|tga)(,jpg|,bmp|,gif|,ico|pcx|,jpeg|,tif|,png|,raw|,tga))$/,
+          '图片格式有误，请输入正确的格式'
+        ]
+      });
+      layui.form.on("select(selected)", function (data) {
+        ajax(service_prefix.resources, "/watermark/" + data.value, 'get').then(function (res) {
+          if (res.success) {
+            var wmkSign = res.obj.wmkSign
+            if (wmkSign === "1") {
+              localStorage.setItem('syType', "图片水印")
+            } else {
+              localStorage.setItem('syType', "文字水印")
+            }
+          }
+        })
+      })
+      $(function () {
+        $(".wrapper").numInput({
+          width: 90, //宽度
+          positive: true, //允许输入正数
+          negative: true, //允许输入负数
+          //faq：positive，negative不能同时false，同时false按同时为true处理
+          floatCount: 4, //小数点后保留位数
+          //命名空间，防止样式冲突
+          wrapperClass: 'num-input-wrap', //最外层容器
+          inputClass: 'num-input', //input输入框
+          addClass: 'add', //增加按钮
+          subtractClass: 'subtract', //减少按钮
+        });
+      })
+      var obj = {}
+      obj.isCompress = 1
+      var data1 = {
+        'entity': obj,
+        "pager": {
+          "current": 1,
+          'size': 100
+        }
+      }
+      ajax(service_prefix.resources, '/watermark/list', 'post', JSON.stringify(data1)).then(function (res) {
+        if (res.success) {
+          var records = res.obj.records;
+
+          var marks = ""
+          for (var i in records) {
+            marks += '<option value="' + records[i].id + '">' + records[i].name +
+              "<i class='layui-icon layui-icon-close'></i>" + '</option> '
+
+          }
+          $("#compressSize").append(marks)
+
+          layui.form.render();
+
+        }
+
+      })
+      ajax(service_prefix.resources, '/watermark/list', 'post', JSON.stringify(data)).then(function (res) {
+        if (res.success) {
+          var records = res.obj.records;
+
+          var marks;
+          for (var i in records) {
+            marks += '<option value="' + records[i].id + '">' + records[i].name + '</option>'
+
+          }
+          $("#marks").append(marks)
+
+            $("#marks").val(localStorage.getItem("markId"));
+
+          layui.form.render();
+        }
+      })
+      var obj = {}
+      obj.isCompress = 2;
+      var data2 = {
+        'entity': obj,
+        "pager": {
+          "current": curr,
+          'size': 10
+        }
+      }
+      ajax(service_prefix.resources, '/watermark/list', 'post', JSON.stringify(data2)).then(function (res) {
+        if (res.success) {
+          var records = res.obj.records;
+
+          var marks = '';
+          for (var i in records) {
+            marks += '<option value="' + records[i].id + '">' + records[i].copyRight + '</option>'
+
+          }
+          $("#copyrights").append(marks)
+
+          layui.form.render();
+        }
+      })
+
+      //            ajax("/picture/formString",'post',{}).then(function (res) {
+      //                if(res.success){
+      //                    $("#supForm").val(res.msg);
+      //                }
+      //            })
+      //            ajax("/picture/supSize",'post',{}).then(function (res) {
+      //                if(res.success){
+      //                    $("#upsize").val(res.obj)
+      //                }
+      //            })
+
+
+    })
+    var form = layui.form;
+    form.on("submit(saveWaterMark)", function (data) {
+      localStorage.setItem("width", data.field.width);
+      localStorage.setItem("height", data.field.height);
+      localStorage.setItem("supForm", data.field.supForm);
+      localStorage.setItem("supSize", data.field.upsize);
+      localStorage.setItem("markId", data.field.waterMark);
+      var data2 = $('#globalKeyword').select2('val');
+      if(data2) localStorage.setItem("keyword", data2.join(";"));
+      localStorage.setItem("customKeyword", data.field.customKeyword);
+      reloadUpData();
+      layer.closeAll();
+      return false;
+    })
+    form.on('radio(addSy)', function (data) {
+
+      if (data.value === "是") {
+        $("#sy").show()
+      } else {
+        $("#sy").hide()
+      }
+    });
+    form.on('radio(picInfo)', function (data) {
+
+      localStorage.setItem("picInfo", data.value)
+    });
+    form.on('radio(totalColumn)', function (data) {
+
+      if (data.value === "是") {
+        flag = true;
+      } else {
+        flag = false;
+      }
+
+    });
+    layui.form.on("select(size)", function (data) {
+      ajax(service_prefix.resources, "/watermark/" + data.value, "get").then(function (res) {
+        if (res.success) {
+          $("#width").val(res.obj.cpsW)
+          $("#heights").val(res.obj.cpsH)
+        }
+      })
+    })
+  }
+
+  function showKeywords(){
+    layerOpen("设置关键词",450,300);
+    lodTpl("setKeywordTpl","openDiv");
+    var keywords = localStorage.getItem("keyword");
+    initSelect2(keywords?keywords.split(";"):"","globalKeyword","select2-parent1");
+    $("#globalCustomKeyword").val(localStorage.getItem("customKeyword"));
+  }
+
+  form.on("submit(saveKeywords)", function (data) {
+    var data2 = $('#globalKeyword').select2('val');
+    localStorage.setItem("keyword", data2.join(";"));
+    localStorage.setItem("customKeyword", data.field.customKeyword);
+    reloadUpData();
+    layer.closeAll();
+    uploadImg();
+    return false;
+  })
+
+  function reloadUpData(){
+    var keywords = localStorage.getItem("keyword");
+    var customKeyword = localStorage.getItem("customKeyword")
+    uploadFileBtn.reload({data: {
+        keyword:keywords,
+        customKeyword:customKeyword
+      }});
+  }
+
+  function uploadImg() {
+    if (!bool) {
+      var that = this;
+      //多窗口模式，层叠置顶
+      layer.open({
+        type: 1,
+        title: '上传到',
+        area: ['502px', '452px'],
+        shade: 0.3,
+        maxmin: true,
+        content: "<div id='form'></div>",
+        btn: ['开始上传', '取消'],
+        btn2: function () {
+          layer.closeAll();
+        },
+        yes: function () {
+          if (!columnId) {
+            layer.alert("请先选择栏目");
+            return;
+          }
+          layer.closeAll();
+          $("#list1").hide();
+          $('#list2').show();
+        }
+      });
+      layui.laytpl($("#upload").html()).render({}, function (html) {
+        $("#form").html(html);
+        layui.form.render();
+      })
+      var settingss = {
+        data: {
+          simpleData: {
+            enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+            idKey: "id", //节点数据中保存唯一标识的属性名称
+            pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+            rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+          },
+          key: {
+            name: "name" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+          }
+        },
+        view: {
+          showLine: false,
+          showIcon: true
+        },
+        callback: {
+          onClick: zTreeOnClick
+        }
+      };
+      ajax(service_prefix.manage, "/programa/getTreeData", "post", {}).then(data => {
+        var nodes = data.obj;
+        zTreeObj = $.fn.zTree.init($("#treeDemo1"), settingss, data.obj); //初始化树
+        zTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+      })
+    } else {
+      $("#list2").show();
+      $("#list1").hide();
+    }
+
+  }
+
+  function zTreeOnClick(event, treeId, treeNode) {
+    if (treeNode.level > 2 || treeNode.level === 2) {
+      columnId = treeNode.id;
+      var nodes = treeNode.getPath()
+      for(var i in nodes){
+        if(nodes.level == 0){
+          // companyId =
+        }
+      }
+    }
+    var imgArr = [];
+
+    uploadFileBtn.reload({url:getAjaxUrl(service_prefix.resources, '/picture/upload?id=' + columnId)});
+    // url: getAjaxUrl(service_prefix.resources, '/picture/upload?id=' + columnId), //上传接口
+
+    layui.use(['layer', 'element', 'form', 'upload'], function () {
+      var layer = layui.layer,
+        element = layui.element,
+        form = layui.form,
+        upload = layui.upload;
+
+      //创建监听函数
+      var xhrOnProgress = function (fun) {
+        xhrOnProgress.onprogress = fun; //绑定监听
+        //使用闭包实现监听绑
+        return function () {
+          //通过$.ajaxSettings.xhr();获得XMLHttpRequest对象
+          var xhr = $.ajaxSettings.xhr();
+          //判断监听函数是否为函数
+          if (typeof xhrOnProgress.onprogress !== 'function')
+            return xhr;
+          //如果有监听函数并且xhr对象支持绑定时就把监听函数绑定上去
+          if (xhrOnProgress.onprogress && xhr.upload) {
+            xhr.upload.onprogress = xhrOnProgress.onprogress;
+          }
+          return xhr;
+        }
+      }
+      var form = "jpg|png|jpeg";
+      var form1 = localStorage.getItem("supForm").split(",").join("|") + "|" + form;
+      var supForm = form1 || form
+      var size = "1024*0"
+      var size1 = localStorage.getItem("supSize");
+      var supSize = size1 || size;
+      uploadFile = upload.render({
+        elem: '#chooseFile', //绑定元素
+        url: getAjaxUrl(service_prefix.resources, '/picture/upload?id=' + columnId), //上传接口
+        exts: supForm, //限定上传类型
+        //accept: images,//指定允许上传时校验的文件类型 images（图片）、file（所有文件）、video（视频）、audio（音频）
+        //              acceptMime : 'image/jpg, image/png, image/jpeg',//只筛选上述类型图片
+        //number： '0',//0为不限制上传数量
+        xhr: xhrOnProgress,
+        //data: {}, //可选项 额外的参数，如：{id: 123, abc: 'xxx'}
+        multiple: true, // 开启多文件上传
+        drag: true, //是否允许拖拽上传
+        size: Number(supSize), //为0为不限制大小
+        //监听xhr进度，并返回给进度条
+        progress: function (value) { //上传进度回调 value进度值
+          element.progress('upload_progress', value + '%') //设置页面进度条
+        },
+        before: function (obj) {
+          //开始上传时候让进度条去除隐藏状态
+          $("#upload_progress").removeClass("layui-hide");
+          //或者设置loading
+          //layer.load(1); //去除方法为 layer.close('loading'); 或者 layer.closeAll('loading');
+        },
+        //auto: false, //选择文件后不自动上传 默认值为true
+        //bindAction: '#testListAction', //指向一个按钮触发上传
+        //选择文件的回调 在文件被选择后触发，该回调会在 before 回调之前。一般用于非自动上传（即 auto: false ）的场景 预览图片等其他操作
+        /*choose: function(obj){
+         //将每次选择的文件追加到文件队列
+         var files = obj.pushFile();
+         //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+         obj.preview(function(index, file, result){
+         console.log(index); //得到文件索引
+         console.log(file); //得到文件对象
+         console.log(result); //得到文件base64编码，比如图片
+         //obj.resetFile(index, file, '123.jpg'); //重命名文件名
+         //这里还可以做一些 append 文件列表 DOM 的操作
+         //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
+         //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
+         obj.preview(function(index, file, result){
+         //对上传失败的单个文件重新上传，一般在某个事件中使用
+         //obj.upload(index, file);
+         });
+         });
+         */
+        /*allDone: function(obj){ //当文件全部被提交后，才触发  开启多文件上传时该回调才可触发
+         console.log(obj.total); //得到总文件数
+         console.log(obj.successful); //请求成功的文件数
+         console.log(obj.aborted); //请求失败的文件数
+         },*/
+        done: function (res, index, upload) { //在多文件上传中 每次成功将被调用一次
+          /*  你不一定非得按照上述格式返回，只要是合法的 JSON 字符即可。其响应信息会转化成JS对象传递给 done 回调。
+           {	如果上传后，出现文件下载框（一般为ie下），那么你需要在服务端对response的header设置 Content-Type: text/html
+           "code": 0,
+           "msg": "",
+           "data": {
+           "src": "http://google.com"
+           }
+           }
+           */
+          //上传完毕回调
+          //假设code=0代表上传成功
+
+          if (res) { //此处只用于单文件图片的上传，若为多图片多文件请做其他处理
+            ids = res.id;
+            imgArr.push(res)
+            localStorage.setItem('uploadImg', JSON.stringify(imgArr))
+            localStorage.setItem("ids", res.id);
+            idArr.push(res.id);
+            $("#list2").hide();
+            $("#list3").show();
+            isNew = "";
+            localStorage.setItem("isNew", isNew)
+            $("#upload_preview").append("<div style='position: relative;float: left'><img alt='预览图' src='" +
+              res.path.replace('/data/upload', '/files') + "' width='230px' height='146px' /></div>");
+            $("#upload_preview div").append(
+              "<button style='position: absolute;top:5px;right: 5px;background: #000' class='deletePic' class='layui-btn layui-btn-xs'><i class='layui-icon layui-icon-delete' style='color: #FFFFFF'></i></button>"
+            )
+            $("#counts").text(imgArr.length)
+            $('.deletePic').each(function () {
+              $(this).click(function () {
+                $(this).prev("img").remove();
+                $(this).remove();
+              })
+            })
+          }
+          //获取当前触发上传的元素
+          //var item = this.item;
+        },
+        error: function (index, upload) {
+          //请求异常回调
+          layer.close(layer.index);
+          layer.confirm("上传失败，您是否要重新上传？", {
+            btn: ['确定', '取消'],
+            icon: 3,
+            title: "提示"
+          }, function () {
+            //关闭询问框
+            layer.closeAll();
+            //重新调用上传方法
+            uploadFile.upload();
+          })
+        }
+      });
+
+
+    })
+
+  }
+
+  function add() {
+    var obj = {};
+    obj.crUser = $("#crUser").val();
+    obj.contentType = $("#contentType").val();
+    obj.copyright = $("#copyright").val();
+    obj.resc = $("#resc").val();
+    obj.fdesc = $("#desc").val();
+    obj.sign = 0;
+    var ids = idArr.join(",");
+    ajax(service_prefix.resources, url + "/addAll?ids=" + ids, "post", JSON.stringify(obj)).then(function (res) {
+      if (res.success) {
+        $('#list4').hide();
+        $('#list5').show();
+      }
+    })
+
+  }
+
+  function deletePic(event) {
+    console.log(event);
+  }
+
+  function downLoadPic(id, event) {
+    event.stopPropagation();
+
+    window.location.href = url + "/downLoad?id=" + id;
+  }
+
+
+  function deletes(id, event) {
+    event.stopPropagation();
+    var that = this;
+    //多窗口模式，层叠置顶
+    layer.open({
+      type: 1 //此处以iframe举例
+      ,
+      title: '提示',
+      area: ['380px', '221px'],
+      shade: 0.3,
+      maxmin: true,
+      content: "<div style='text-align:center;line-height:120px;'>确认要删除该图片及其信息？</div>",
+      btn: ['确定', '取消'] //只是为了演示
+      ,
+      yes: function () {
+        ajax(service_prefix.resources, url + "/" + id, 'delete').then(function (res) {
+          if (res.success) {
+            $("#form9").hide();
+            $("#list1").show();
+            layer.closeAll();
+            getTreeData()
+          }
+        })
+      },
+      btn2: function () {
+        layer.closeAll();
+      }
+
+    });
+  }
+  function jcrop() {
+    $("#element_id").Jcrop().getWidgetSize();
+  }
+</script>
+<script type="text/html" id="setForms">
+  <form class="layui-form" style="margin-top: 10px;">
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">压缩比例</label>
+      <div class="layui-input-block" style="width: 300px;margin-left: 140px;">
+        <select name="compress" id="compressSize" lay-filter="size">
+          <option selected> 请选择</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">选择尺寸</label>
+      <div class="layui-input-block" style="width: 100px;margin-left: 10px;display: inline-block">
+        <input type="text" class="layui-input" name="width" id="width" disabled>
+      </div>
+      <div class="layui-input-block" style="width: 100px;margin-left: 10px;display: inline-block">
+        <input type="text" class="layui-input" name="height" id="heights" disabled>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:120px;text-align: left;margin-left: 24px">图片信息抽取</label>
+      <div class="layui-input-block" style="width: 300px;margin-left: 140px;">
+        <input type="radio" name="sex" value="是" title="是" lay-filter="picInfo">
+        <input type="radio" name="sex" value="否" title="否" lay-filter="picInfo" checked>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">支持格式</label>
+      <div class="layui-input-block" style="width: 300px;margin-left: 140px;">
+        <input type="text" class="layui-input" autocomplete="off" name="supForm" id="supForm" lay-verify="imgForms">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">上传大小</label>
+      <div class="layui-input-block" style="width: 300px;margin-left: 140px;">
+        <select name="upsize" id="">
+          <option value="1024" selected>1M</option>
+          <option value="5120">5M</option>
+          <option value="10240">10M</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">所属版权</label>
+      <div class="layui-input-block" style="width: 300px;margin-left: 140px;">
+        <select name="copyRight" id="copyrights">
+
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">汇总子栏目</label>
+      <div class="layui-input-block" style="width: 300px;margin-left: 140px;">
+        <input type="radio" name="sex1" value="是" title="是" lay-filter="totalColumn">
+        <input type="radio" name="sex1" value="否" title="否" lay-filter="totalColumn">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">水印</label>
+      <div class="layui-input-block" style="width: 300px;margin-left: 5px;float: left;">
+        <select name="waterMark" id="marks" lay-filter="selected">
+          <option value="0" selected>请选择</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">关键词</label>
+      <div class="layui-input-block layui-select2" style="width: 300px;margin-left: 5px;float: left;">
+        <select name="keyword" id="globalKeyword" multiple="multiple">
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"
+        style="padding:  9px 0px 9px 15px;width:95px;text-align: left;margin-left: 24px">自定义关键词</label>
+      <div class="layui-input-block layui-select2" style="width: 300px;margin-left: 5px;float: left;">
+        <input type="text" class="layui-input" autocomplete="off" id="globalCustomKeyword" name="customKeyword">
+      </div>
+    </div>
+    <div class="layui-btn-container" style="    text-align: center;">
+      <button class="layui-btn" type="button" lay-submit lay-filter="saveWaterMark">确定</button>
+      <button class="layui-btn layui-btn-primary" onclick="layer.closeAll()" type="button">取消</button>
+    </div>
+  </form>
+</script>
+<script type="text/html" id="setKeywordTpl">
+  <div class="layui-card-body select2-parent1">
+    <form class="layui-form" style="margin-top: 10px;">
+      <div class="layui-form-item">
+        <label class="layui-form-label">关键词</label>
+        <div class="layui-input-block layui-select2">
+          <select name="keyword" required lay-verify="required" id="globalKeyword" multiple="multiple">
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">自定义关键词</label>
+        <div class="layui-input-block layui-select2">
+          <input type="text" class="layui-input" autocomplete="off" id="globalCustomKeyword" name="customKeyword">
+        </div>
+      </div>
+      <div class="layui-btn-container" style="    text-align: center;">
+        <button class="layui-btn" type="button" lay-submit lay-filter="saveKeywords">确定</button>
+        <button class="layui-btn layui-btn-primary" onclick="layer.closeAll()" type="button">取消</button>
+      </div>
+    </form>
+  </div>
+</script>
+<script type="text/html" id='upload'>
+  <div class='treeBox' style='margin:15px 35px;border:1px solid #f5f5f5;width:428px;height:317px;'>
+    <ul id="treeDemo1" class="ztree" style="width: 428px;height: 317px;"></ul>
+  </div>
+</script>
+<script type="text/html" id='detail'>
+  <div class="layui-card-header">
+    <span onclick="returnBack6()" style="cursor:pointer;"> 〈 返回</span>
+  </div>
+  <div class="layui-card-body imgBody">
+    {{# var imgurl = getAjaxUrl("",d.url) }}
+    <div class='innerImg'>
+      <img src="{{imgurl}}" id="imgs1" />
+    </div>
+    <div class='infoImg'>
+      <div class="infoTitle"><p title="{{d.name}}">{{d.name}}</p>
+        <span>
+          {{#if(d.collection===1){ }}
+                <img src="common/img/u582_mouseOver.png" alt="" onclick="collect('{{d.id}}',event)">
+                {{#} else { }}
+                <img src="common/img/u582.png" alt="" onclick="collect('{{d.id}}',event)">
+                {{#} }}
+        </span>
+        <span><img src="common/img/u6231.png" onclick="lookOld('{{imgurl}}')"></span>
+      </div>
+      <div class="infoBody">
+        <p>大小：{{d.fsize}}KB</p>
+        <p>格式：{{d.form}}</p>
+        <p>上传时间：{{d.createTime}}</p>
+        <p>路径：{{d.url}}</p>
+        <p>来源：{{d.resc}}</p>
+        <p>版权所属：{{d.copyright}}</p>
+        <p>图片状态：{{d.status == 0?"新稿":d.status == 10?"审核":"发布"}}</p>
+        <p>关键词：{{d.keyword}}</p>
+        <p>自定义关键词：{{d.customKeyword}}</p>
+        <p>拍摄者：{{d.shotman}}</p>
+        <p>经度：{{d.longitude}}</p>
+        <p>纬度：{{d.latitude}}</p>
+        <p>拍摄时间：{{d.takeTime}}</p>
+        <p>拍摄地点：{{d.location}}</p>
+        {{#
+            var cinfo = d.imginfo;
+            var infoJson;
+            if(d.imginfo){
+              infoJson = JSON.parse(d.imginfo);
+            }
+            if(infoJson){
+              for(var i in infoJson){
+        }}
+                <p>{{i}}：{{infoJson[i]}}</p>
+        {{#
+              }
+            }
+        }}
+      </div>
+      <div class="layui-btn-container">
+        {{#if(d.status!=10){ }}
+        <button class='layui-btn' onclick="changeState('审核','{{d.id}}')">审核</button>
+        {{#} }}
+        {{#if(d.status!=20){ }}
+        <button class='layui-btn' onclick="changeState('发布','{{d.id}}')">发布</button>
+        {{#} }}
+        <button class='layui-btn layui-btn-danger' onclick="update('{{d.id}}')">修改</button>
+      </div>
+    </div>
+  </div>
+</script>
+<script type="text/html" id='detail1'>
+  <div class='prev1' style="position: absolute;top: 290px;left: 20px">
+    <button class="layui-btn layui-btn-sm" title="上一张图片" onclick="prev1()" id="prev"><i
+        class='layui-icon layui-icon-left'></i></button>
+  </div>
+  <div class='next1' style="position: absolute;top: 290px;left: 700px">
+    <button class="layui-btn layui-btn-sm" title="下一张图片" onclick="next()"><i
+        class='layui-icon layui-icon-right'></i></button>
+  </div>
+  <div class='box'>
+    <div class='left'>
+      {{# var imgurl = getAjaxUrl("",d.url) }}
+      <div class='image'>
+        <img src="{{imgurl}}" width="100%" height="100%" id="imgs1" />
+      </div>
+
+    </div>
+    <div class='rights' style="overflow: hidden">
+      <button class="layui-btn" style="position: absolute;right:20px;top:20px" onclick="returnBack6()">返回</button>
+      <div class="layui-tab">
+        <ul class="layui-tab-title">
+          <li class="layui-this">基本信息</li>
+          <li id="heads1">详细信息</li>
+        </ul>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
+            <div class='layui-btn-container' style='margin-top:30px;'>
+              <button class="layui-btn layui-btn-sm layui-btn-normal ">{{#if(d.collection===1){ }}
+                <img src="common/img/u582_mouseOver.png" alt="" onclick="collect('{{d.id}}',event)" style="    width: 25px;
+    height: 25px;
+    margin-top: 3px;">
+                {{#} else { }}
+                <img src="common/img/u582.png" alt="" onclick="collect('{{d.id}}',event)" style="    width: 25px;
+    height: 25px;
+    margin-top: 3px;">
+                {{#} }}
+              </button>
+
+              {{#if(d.resParentId!=0){ }}
+              <button class='layui-btn layui-btn-normal layui-btn-sm' style='margin-left:10px;' id="lookOld"
+                onclick="lookOld('{{d.resParentId}}')">查看原图</button>
+              {{#} }}
+
+              <button class='layui-btn layui-btn-normal layui-btn-sm' style='margin-left:10px;'
+                onclick="deletes('{{d.id}}',event)">删除</button>
+              <!--<button class='layui-btn layui-btn-normal layui-btn-sm' style='margin-left:10px;'-->
+                <!--onclick="jcrop()">裁剪</button>-->
+
+              <div>
+                {{# var imgurl1 = getAjaxUrl("",d.url) }}
+                <img id="element_id" src="{{imgurl1}}" style='width:200px;height:150px;'></div>
+            </div>
+            <p style='margin-top:20px; color:#666;text-align:left;'>名称：{{d.name}}</p>
+            <p style='margin-top:10px; color:#666;text-align:left'>大小：{{d.fsize}}KB</p>
+            <p style='margin-top:10px; color:#666;text-align:left'>格式：{{d.form}}</p>
+            <p style='margin-top:10px; color:#666;text-align:left'>上传时间：{{d.createTime}}</p>
+            <p style='margin-top:10px; color:#666;text-align:left'>路径：{{d.url}}</p>
+            <p style='margin-top:10px; color:#666;text-align:left'>来源：{{d.resc}}</p>
+            <p style='margin-top:10px; color:#666;text-align:left'>版权所属：{{d.copyright}}</p>
+            <p style='margin-top:10px; color:#666;text-align:left'>创建人：{{d.crUser}}</p>
+            {{#if(d.status===0){ }}
+            <p style='margin-top:10px; color:#666;text-align:left'>图片状态：新稿</p>
+            {{#} else if(d.status===10){ }}
+            <p style='margin-top:10px; color:#666;text-align:left'>图片状态：审核</p>
+            {{#} else if(d.status===20){ }}
+            <p style='margin-top:10px; color:#666;text-align:left'>图片状态：发布</p>
+            {{#} }}
+            <div class="layui-btn-container" style="margin-top: 20px;">
+              {{#if(d.status!=10){ }}
+              <button class='layui-btn' onclick="changeState('审核','{{d.id}}')">审核</button>
+              {{#} }}
+              {{#if(d.status!=20){ }}
+              <button class='layui-btn' onclick="changeState('发布','{{d.id}}')">发布
+                {{#} }}
+                <button class='layui-btn layui-btn-danger' onclick="update('{{d.id}}')">修改</button>
+            </div>
+          </div>
+          <div class="layui-tab-item">
+            <div class='layui-btn-container' style='margin-top:30px;'>
+              <button class="layui-btn layui-btn-sm layui-btn-normal ">{{#if(d.collection===1){ }}
+                <img src="common/img/u582_mouseOver.png" alt="" onclick="collect('{{d.id}}',event)" style="width: 25px;height: 25px;margin-top: 3px;">
+                {{#} else { }}
+                <img src="common/img/u582.png" alt="" onclick="collect('{{d.id}}',event)" style="    width: 25px;
+    height: 25px;
+    margin-top: 3px;">
+                {{#} }}
+              </button>
+
+              {{#if(d.resParentId!=0){ }}
+              <button class='layui-btn layui-btn-normal layui-btn-sm' style='margin-left:10px;' id="lookOld"
+                onclick="lookOld('{{d.resParentId}}')">查看原图</button>
+              {{#} }}
+
+              <button class='layui-btn layui-btn-normal layui-btn-sm' style='margin-left:10px;'
+                onclick="deletes('{{d.id}}',event)">删除</button>
+            </div>
+            <form class="layui-form" style="height: 614px;margin-top: 20px" lay-filter="detailInfo">
+              <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding: 9px 0">色域、色彩空间</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Color Space" disabled style="border: none">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding: 9px 0">图像构造</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Components Configuration" disabled style="border: none">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding: 9px 0">镜头光圈</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Aperture Value" disabled style="border:none">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding: 9px 0">曝光补偿</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Exposure Bias Value" disabled style="border: none">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding: 9px 0">测光方式</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Metering Mode" disabled style="border: none">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding: 9px 0">焦距</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="Focal Length" disabled style="border: none">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding: 9px 0">光圈值</label>
+                <div class="layui-input-block">
+                  <input type="text" class="layui-input" name="F-Number" disabled style="border: none">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</script>
+<!-- <script type="text/javascript" src="thirdparty/imageEditor/libs/fabric.js"></script>
+<script type="text/javascript" src="thirdparty/imageEditor/libs/tui-code-snippet.js"></script>
+<script type="text/javascript" src="thirdparty/imageEditor/libs/FileSaver.min.js"></script>
+<script type="text/javascript" src="thirdparty/imageEditor/libs/colorpicker.min.js"></script>
+<script type="text/javascript" src="thirdparty/imageEditor/libs/tui-image-editor.min.js"></script>
+<script src="thirdparty/imageEditor/js/basic.js"></script> -->
+
+<script>
+  var ids1;
+
+  function lookOld(imgurl) {
+//    ajax(service_prefix.resources, url + "/" + id, "get").then(function (res) {
+//      if (res.success) {
+//        window.open(res.obj.url);
+//      }
+//    })imgurl
+      window.open(imgurl);
+  }
+  function update(id) {
+    ids1 = id;
+    ajax(service_prefix.resources, url + "/" + id, "get").then(function (res) {
+      if (res.success) {
+        var imgurl = getAjaxUrl("", res.obj.url)
+        $("#form9").hide();
+        $("#list7").show();
+      }
+
+      layui.laytpl($("#inner").html()).render(res.obj, function (html) {
+        $("#editInfo").html(html);
+        layui.form.val("info", res.obj);
+        layui.form.render();
+        var picInfo = localStorage.getItem('picInfo');
+        if (picInfo === "是") {
+          $("#heads").show()
+        } else {
+          $("#heads").hide()
+        }
+
+        var data = {};
+
+        initSelect2(res.obj.keyword.split(";"),"keyword","select2-parent2");
+        layui.form.render('select');
+        $(".layui-select2 .layui-unselect").remove();
+
+        ajax(service_prefix.resources, "/picture/getPicInfo?ids=" + id, 'post').then(function (res) {
+          if (res.success) {
+            layui.form.val("detailInfo", res.obj[0])
+          }
+        })
+      })
+    })
+  }
+
+  function initSelect2(val,id,parent){
+    var data = [
+      {text: "单位", children: [
+        {id: "委办", text:'委办'},
+        {id: "信息中心", text:'信息中心'},
+        {id: "河南局", text:'河南局'},
+        {id: "山东局", text:'山东局'},
+        {id: "黑河局", text:'黑河局'},
+        ]},
+      {text: "地域", children: [
+        {id: "四川", text:'四川'},
+        {id: "甘肃", text:'甘肃'},
+        {id: "宁夏", text:'宁夏'},
+        {id: "内蒙古", text:'内蒙古'},
+        {id: "陕西", text:'陕西'},
+        {id: "山西", text:'山西'},
+        {id: "河南", text:'河南'},
+        {id: "山东", text:'山东'},
+        ]},
+      {text: "其他", children: [
+          {id: "防汛抗旱", text:'防汛抗旱'},
+          {id: "水资源保护", text:'水资源保护'},
+          {id: "水量调度", text:'水量调度'},
+          {id: "水土保持", text:'水土保持'},
+          {id: "工程建设", text:'工程建设'},
+          {id: "水行政管理", text:'水行政管理'},
+          {id: "综合协调", text:'综合协调'},
+          {id: "规划", text:'规划'},
+          {id: "科技", text:'科技'},
+          {id: "财务", text:'财务'},
+          {id: "人事", text:'人事'},
+          {id: "党建", text:'党建'},
+          {id: "监察审计", text:'监察审计'},
+          {id: "工会", text:'工会'}
+        ]}
+    ]
+    var selectorx = $('#'+id).select2({
+      placeholder: '请选择数据',
+      maximumSelectionLength:0,
+      allowClear: true,
+      width:"100%",
+      closeOnSelect:false,
+      separator: ";",
+      data:data,
+      dropdownParent:$("."+parent)
+    });
+    $("#"+id).val(val).trigger("change");
+  }
+
+  function search() {
+    var name = $("#name").val();
+    var creator = $("#creator").val();
+    if (!name && !creator & !startTime & !endTime) {
+      getTreeData()
+    } else {
+      obj.name = name;
+      obj.keyword = creator;
+      obj.startTime = startTime;
+      obj.endTime = endTime;
+      obj.columnId = columnId;
+      getImgList(1, obj)
+    }
+  }
+
+  layui.form.on("submit(confirm)", function (data) {
+    var data2 = $('#keyword').select2('val');
+    if(data2){
+      data.field.keyword = data2.join(";");
+    }
+    editInfo(data.field, ids1);
+    return false;
+  })
+  function confirm1() {
+    var obj = {};
+    obj.name = $("#picName").val()
+    obj.copyright = $("#belong").val()
+    obj.resc = $("#resource").val()
+    obj.fdesc = $("#ms").val();
+    obj.path = $("#paths").val();
+    obj.form = $("#forms").val();
+    obj.size = $("#size").val();
+    obj.scale = $("#scale").val()
+    obj.reso = $("#reso").val()
+    obj.picSign = $("#style").val();
+    var id = JSON.parse(localStorage.getItem("uploadImg"))[0].id;
+    ajax(service_prefix.resources, url + "/" + id, "put", JSON.stringify(obj)).then(function (res) {
+      if (res.success) {
+        $("#list5").hide();
+        $("#list1").show();
+      }
+    })
+  }
+
+  function editInfo(data, id) {
+    ajax(service_prefix.resources, url + "/" + id, "put", JSON.stringify(data)).then(function (res) {
+      if (res.success) {
+        $("#list7").hide();
+        $("#list1").show();
+        getTreeData()
+      }
+    })
+  }
+
+  var colors = "",
+    alpha = "",
+    fontSize = "",
+    picalpha = "";
+
+  function addSys() {
+    layer.open({
+      type: 1 //此处以iframe举例
+      ,
+      title: '设置水印',
+      area: ['520px', '590px'],
+      shade: 0.3,
+      maxmin: true,
+      content: "<div id='form12'></div>"
+
+    });
+    layui.laytpl($("#syPage").html()).render({}, function (html) {
+      $("#form12").html(html);
+      layui.form.render();
+    })
+  }
+</script>
+<script type="text/html" id="syPage">
+  <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title" id="title" style="width: 400px;margin: 30px auto">
+      <li class="layui-this">图片水印</li>
+      <li>文字水印</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+      <div class="layui-tab-item layui-show" style="width: 400px;margin: 30px auto">
+
+      </div>
+      <div class="layui-tab-item" style="width: 400px;margin: 30px auto">
+
+
+      </div>
+    </div>
+  </div>
+</script>
+<!-- <script src="thirdparty/jquery/jquery-2.2.2.min.js"></script> -->
+<script src="common/js/index.js"></script>
+<script src="common/js/jquery.rotate.min.js"></script>
+<script>
+  layui.form.on("submit(addShuiyin)", function (data) {
+
+    $("#title li").each(function () {
+      if ($(this).hasClass("layui-this")) {
+
+        if ($(this).text() === "文字水印") {
+          localStorage.setItem('syType', $(this).text())
+          data.field.alpha = alpha;
+          data.field.fontSize = fontSize;
+          data.field.red = Number(colors.split("(")[1].split(",")[0]);
+          data.field.green = Number(colors.split("(")[1].split(",")[1].split("")[1]);
+          data.field.blue = Number(colors.split("(")[1].split(",")[2].split(")")[0]);
+          data.field.location = Number(data.field.location)
+          var id = "1177165361448071170"
+          ajax(service_prefix.resources, "/watermark/edit", 'post', JSON.stringify(data.field)).then(
+            function (res) {
+              if (res.success) {
+                layer.closeAll();
+              }
+            })
+        } else {
+          localStorage.setItem('syType', $(this).text())
+          var obj = {};
+          obj.location = Number(data.field.location);
+          obj.picalpha = picalpha;
+          ajax(service_prefix.resources, "/watermark/edit", 'post', JSON.stringify(obj)).then(function (
+            res) {
+            if (res.success) {
+              layer.closeAll();
+            }
+          })
+        }
+      }
+    })
+  })
+  $(function () {
+    $('[data-magnify]').Magnify({
+      Toolbar: [
+        'prev',
+        'next',
+        'rotateLeft',
+        'rotateRight',
+        'zoomIn',
+        'actualSize',
+        'zoomOut'
+      ],
+      keyboard: true,
+      //            draggable:true,
+      //            movable:true,
+      modalSize: [800, 600],
+      beforeOpen: function (obj, data) {
+        console.log('beforeOpen')
+      },
+      opened: function (obj, data) {
+        console.log('opened')
+      },
+      beforeClose: function (obj, data) {
+        console.log('beforeClose')
+      },
+      closed: function (obj, data) {
+        console.log('closed')
+      },
+      beforeChange: function (obj, data) {
+        console.log('beforeChange')
+      },
+      changed: function (obj, data) {
+        console.log(obj, data);
+        console.log('changed')
+      }
+    });
+
+  })
+</script>
+
+<script type="text/html" id="columnDetailTpl">
+  <button class="layui-btn" type="button" onclick="editColumn('{{d.id}}')">修改栏目</button>
+  <table class="layui-table" style="width: 75%" lay-even="" lay-skin="row" id="info">
+    <colgroup>
+      <col width="20%">
+      <col width="">
+      <col>
+    </colgroup>
+    <tbody>
+      <tr>
+        <td>状态：</td>
+        <td>{{d.status==0?"启用":"停用"}}</td>
+      </tr>
+      <tr>
+        <td>所属站点：</td>
+        <td>{{d.siteName}}</td>
+      </tr>
+      <tr>
+        <td>唯一标识：</td>
+        <td>{{d.skuNumber}}</td>
+      </tr>
+      <tr>
+        <td>栏目名称：</td>
+        <td>{{d.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+<script type="text/html" id="templetTpl">
+  <form class="layui-form" lay-filter="templetForm">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 25px 15px;    height: 780px;">
+
+        <div class="layui-form-item form-item-inline" style="width: 500px">
+          <label class="layui-form-label">模板名称:</label>
+          <div class="layui-input-block">
+            <input type="text" name="tempname" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item form-item-inline">
+          <label class="layui-form-label">模板类型:</label>
+          <div class="layui-input-block">
+            <select name="temptype" class="layui-input" required lay-verify="required">
+              <option value="1">概览模板</option>
+              <option value="2">细览模板</option>
+              <option value="3">嵌套模板</option>
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item form-item-inline">
+          <label class="layui-form-label">输出文件名:</label>
+          <div class="layui-input-block">
+            <input type="text" name="outputfilename" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item form-item-inline">
+          <label class="layui-form-label">扩展名:</label>
+          <div class="layui-input-block">
+            <input type="text" name="tempext" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item form-item-inline">
+          <label class="layui-form-label">站点:</label>
+          <div class="layui-input-block">
+            <span>{{d.siteName}}</span>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">模板描述:</label>
+          <div class="layui-input-block" style="display: inline-block;margin-left: 0">
+            <textarea class="layui-textarea" style="height: 55px;min-height: 0;width: 1010px;"
+              name="tempdesc"></textarea>
+          </div>
+          <div class="layui-upload" style="    position: absolute;display: inline-block;
+    margin-left: 50px;
+    margin-top: 12px;">
+            <button type="button" class="layui-btn" id="test1" style="display: inline-block">上传模板缩略图</button>
+            <div class="layui-upload-list" style="display: inline-block;position: absolute;
+    left: 140px;
+    top: -20px;    height: 50px;
+    width: 120px;
+    border: 1px solid;
+    margin-left: 10px">
+              <img class="layui-upload-img" id="demos1" style="width: 100%;height: 100%">
+              <p id="demoText"></p>
+            </div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">模板文本:</label>
+          <div class="layui-input-block">
+            <textarea class="layui-textarea" style="height: 673px;padding-top: 7px;line-height: 18px!important;"
+              name="temphtml" id="text1"></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="button-bar">
+      <button class="layui-btn" lay-submit lay-filter="addTemplet">提交</button>
+      <button class="layui-btn" type="button" data-type="close">返回</button>
+    </div>
+    <input type="hidden" name="id">
+    <input type="hidden" name="siteid">
+  </form>
+</script>
+<script type="text/html" id="columnTpl">
+  <form class="layui-form" lay-filter="columnForm">
+    <div class="layui-card-body">
+      <div class="layui-form-item">
+        <label class="layui-form-label">状态:</label>
+        <div class="layui-input-block">
+          <input type="radio" name="stop" checked value="0" title="启用">
+          <input type="radio" name="stop" value="1" title="停用">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">所属站点:</label>
+        <div class="layui-input-block">
+          <span>{{d.siteName}}</span>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">父栏目:</label>
+        <div class="layui-input-block">
+          <span>{{d.parentName}}</span>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">栏目类型:</label>
+        <div class="layui-input-block">
+          <select name="" class="layui-input" required lay-verify="required">
+            <option value="1">普通栏目</option>
+            <option value="2">图片新闻</option>
+            <option value="3">头条栏目</option>
+            <option value="4">链接栏目</option>
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">唯一标识:</label>
+        <div class="layui-input-block">
+          <input type="text" name="skuNumber" required lay-verify="required" placeholder="请输入" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">栏目名称:</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required lay-verify="required" placeholder="请输入" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">前一个栏目:</label>
+        <div class="layui-input-block">
+          <select class="layui-input" id="chnlOrder" name="chnlOrder">
+          </select>
+        </div>
+      </div>
+      <input type="hidden" name="id">
+      <div class="button-bar">
+        <button type="button" class="layui-btn" lay-submit lay-filter="addColumn">确定</button>
+        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+      </div>
+    </div>
+    <input type="hidden" name="siteId">
+    <input type="hidden" name="parentId">
+    <input type="hidden" name="id">
+  </form>
+</script>
+<script type="text/html" id="columnListTmpl">
+  {{#layui.each(d, function(index, item){}}
+  <li id="{{item.id}}" order="{{item.chnlOrder}}">
+    <form class="layui-form" action="">
+      <div class="layui-form-item" pane="">
+        <div class="layui-input-block">
+          <input type="checkbox" name="ids" lay-skin="primary" id="check" value="{{item.id}}">
+        </div>
+      </div>
+      <div class="chanelName">{{item.name}}</div>
+    </form>
+    <div class="bottom">
+      <img src="common/img/u5722.png" alt="" onclick="editColumn('{{item.id}}')">
+      <img src="common/img/u5725.png" alt="" onclick="getColumnById('{{item.id}}')">
+      <img onclick="delColumn1('{{item.id}}',1)" src="common/img/u5729.png" alt="" srcset="">
+    </div>
+  </li>
+  {{#}) }}
+  <li>
+    <button type="button" onclick="addImgColumn()" class="layui-btn"></button>
+  </li>
+</script>
+
+<script>
+  $("#passAll").click(function (data) {
+    layer.open({
+      title: '审核',
+      area: ['500px', '300px'],
+      content: '<div class="drwb"></div>',
+      btn: ['确定', '取消'],
+      yes: function (index, layero) {
+        console.log(1)
+       changeState('审核','{{d.id}}')
+        layer.close(index);
+      },
+      btn2: function (index, layero) {
+        layer.close(index);
+      },
+      cancel: function (index, layero) {
+        layer.close(index);
+      }
+    })
+    layui.laytpl($("#shTemplate").html()).render(data, function (html) {
+      $(".drwb").html(html)
+      setRender();
+    });
+  })
+</script>
+
+<!-- 新加审核功能 -->
+<script type="text/html" id="shTemplate">
+  <form action="" class='layui-form'>
+  <div class="layui-form-item">
+  <label class="layui-form-label">审核状态：</label>
+   <div class="layui-input-block">
+    <input type="radio" name="sex" value="审核通过" title="审核通过" checked="">
+    <input type="radio" name="sex" value="审核不通过" title="审核不通过">
+  </div>
+  </div>
+  <label class="layui-form-label">审核理由：</label>
+  <textarea name="" id="reson" rows=6 cols=30 placeholder="请输入描述理由"  ></textarea>
+  </form>
+</script>
+
+
+<!-- 转发功能 -->
+<script type="text/html" id="tuisongTemplate">
+  <form action="" class="layui-form">
+    <p>请选择推送渠道:</p>
+    <div class="layui-inline">
+      <div class="layui-input-block"><select name="">
+          <option value="">请选择</option>
+          <option value="">推送到网站渠道</option>
+          <option value="">推送到第三方渠道</option>
+        </select></div>
+    </div>
+    <p>请选择推送站点:</p>
+    <div class="layui-inline">
+      <div class="layui-input-block"><select name="">
+          <option value="">请选择</option>
+          <option value="">中科聚网公众号</option>
+          <option value="">中科聚网微博号</option>
+        </select></div>
+    </div>
+  </form>
+</script>
+
+<script>
+  $("#unpassAll").click(function (data) {
+    layer.open({
+      title: '推送',
+      area: ['500px', '320px'],
+      content: '<div class="tuisong"></div>',
+      btn: ['确定', '取消'],
+      yes: function (index, layero) {
+        layer.close(index);
+      },
+      btn2: function (index, layero) {
+        layer.close(index);
+      },
+      cancel: function (index, layero) {
+        layer.close(index);
+      }
+    })
+    layui.laytpl($("#tuisongTemplate").html()).render(data, function (html) {
+      $(".tuisong").html(html)
+      setRender();
+    });
+  })
+</script>
+<script>
+  $(function(){
+    getTreeData();
+  })
+</script>
+</body>
+
+</html>

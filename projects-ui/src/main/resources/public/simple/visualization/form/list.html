@@ -1,0 +1,96 @@
+<title>表单管理</title>
+<link rel="stylesheet" href="simple/visualization/css/form.css">
+<div class="layui-fluid">
+	<div class="layui-card h100">
+		<div class="top_box">
+            <div class="top_right">
+                <button class="layui-btn" id="formAddBtn">新建表单</button>
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <input type="text" placeholder="请输入表单名称" class="layui-input" name="">
+                        <button class="layui-btn" lay-submit lay-filter="searchGroup"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+            
+        <div class="type_box">
+            <div class="type_left">
+                <button type="button" class="layui-btn layui-btn-primary">表单分类 ></button>
+            </div>
+            <div class="type_right">
+                <div class="type_list">
+                    <button type="button" class="layui-btn" data-type="">人事管理</button>
+                    <button type="button" class="layui-btn layui-btn-primary" data-type="">项目管理</button>
+                    <button type="button" class="layui-btn layui-btn-primary" data-type="">行政管理</button>
+                </div>
+                <div class="type_btn" id="formTypeAddBtn"><span class="add">+</span></div>
+            </div>
+        </div>
+        <div class="main">
+            <!-- <div id="groupListView"></div> -->
+            <div class="pic_list">
+                <div class="item">
+                    <div class="pic">
+                        <div class="img">
+                            <img src="http://36.138.169.165:8081/files/thumbnail/25e18f45-d76f-4ae4-a81d-41dcaeadfa6d.png"/>
+                        </div>
+                        <div class="hover">
+                            <div class="btn">
+                                <a class="layui-btn layui-btn-radius btn_blue" href="/simple/visualization/form/formEdit.html" target="_blank">编辑</a>
+                                <button class="layui-btn layui-btn-radius btn_red" onclick="delmoudle('{{item.id}}' ,'{{item.title}}')">删除</button>
+                            </div>
+                            <div class="opacity"></div>
+                        </div>
+                    </div>
+                    <div class="txt">标题</div>
+                </div>
+            </div>
+            <!--分页-->
+            <div class="page" id="page"></div>
+        </div>
+	</div>
+</div>
+
+
+
+
+<!-- 添加表单分类，点击加号后的弹框 -->
+<script type="text/html" id="formTypeLayerTemplate">
+    <form class="layui-form" action="" lay-filter="groupTypeForm">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="required"> * </span>分类名称:</label>
+                <div class="layui-input-block">
+                  <input type="text" name="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+      </form>
+</script>
+
+<!-- 点击新建分类后的弹框 -->
+<script type="text/html" id="formAddTemplate">    
+    <form class="layui-form set_from">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required"> * </span>表单名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required"> * </span>表单分类:</label>
+            <div class="layui-input-block">
+                <select name="" lay-verify="required">
+                    <option>人事管理</option>
+                    <option>项目管理</option>
+                    <option>行政管理</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script src="simple/visualization/js/form.js"></script>
+<script>
+</script>

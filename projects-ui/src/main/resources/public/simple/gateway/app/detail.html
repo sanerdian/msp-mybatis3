@@ -1,0 +1,170 @@
+<div class="layui-fluid" id="detail">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="tool_btn_box">
+                <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="returnBack()">返回上一级</button>
+                <button class="layui-btn" onclick="doEditDetail()">编辑</button>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div id="baseInfoView"></div>
+        </div>
+
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li>已授权的Api</li>
+                <li>应用密钥</li>
+<!--                <li class="layui-this">数据同步</li>-->
+            </ul>
+            <div class="layui-tab-content">
+                <!-- 标签内容开始 -->
+                <div class="layui-tab-item layui-show">
+                    <!-- 搜索开始 -->
+                    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-item-formlist">
+                        <form class="layui-form" id="formSearchItem1">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">Api名称</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">http方法:</label>
+                                    <div class="layui-input-block">
+                                        <select name="reqMethod">
+                                            <option value=""></option>
+                                            <option value="GET">GET</option>
+                                            <option value="POST">POST</option>
+                                            <option value="PUT">PUT</option>
+                                            <option value="DELETE">DELETE</option>
+                                            <option value="HEAD">HEAD</option>
+                                            <option value="OPTIONS">OPTIONS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">分组</label>
+                                    <div class="layui-input-block">
+                                        <select name="groupId" class="groupOption">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">请求路径</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="reqUri" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline top_search_btn">
+                                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-item1-back-search">
+                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="top_btn">
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="exportExcel" export-type="appApi" data-layer-html="exportExcel.html" data-layer-path="simple/gateway/export/">Excel导出</button>
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="addItem1.html">授权</button>
+                            <button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del" data-layer-html="addItem1.html">删除</button>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- 列表开始 -->
+                        <div class="table-area">
+                            <table id="tableItem1" lay-filter="tableItem1"></table>
+                        </div>
+                        <div id="page_tableItem1"></div>
+                        <!-- 列表结束 -->
+                    </div>
+                </div>
+                <!-- 标签内容结束 -->
+                <!-- 标签内容开始 -->
+                <div class="layui-tab-item">
+                    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-item2-formlist">
+                        <form class="layui-form" id="formSearchItem2"></form>
+                    </div>
+                    <div>
+                        <div class="tool_btn_box" align="right">
+                            <!--
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="refresh" data-layer-html="addItem2.html" >刷新</button>
+                            -->
+                        </div>
+                        <!-- 列表开始 -->
+                        <div class="table-area">
+                            <table id="tableItem2" lay-filter="tableItem2"></table>
+                        </div>
+                        <div id="page_tableItem2"></div>
+                        <!-- 列表结束 -->
+                    </div>
+                </div>
+                <!-- 标签内容结束 -->
+<!--                &lt;!&ndash; 标签内容开始：数据同步 &ndash;&gt;-->
+<!--                <div class="layui-tab-item  layui-show">-->
+<!--                    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-item3-formlist">-->
+<!--                        <form class="layui-form" id="formSearchItem3"></form>-->
+<!--                        <div class="top_btn">-->
+<!--                            <button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="addItem3.html">新增</button>-->
+<!--                            <button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del" data-layer-html="addItem3.html">删除</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <div class="tool_btn_box" align="right">-->
+<!--                            &lt;!&ndash;-->
+<!--                            <button class="layui-btn layuiadmin-btn-admin" data-type="refresh" data-layer-html="addItem2.html" >刷新</button>-->
+<!--                            &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; 列表开始 &ndash;&gt;-->
+<!--                        <div class="table-area">-->
+<!--                            <table id="tableItem3" lay-filter="tableItem3"></table>-->
+<!--                        </div>-->
+<!--                        <div id="page_tableItem3"></div>-->
+<!--                        &lt;!&ndash; 列表结束 &ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash; 标签内容结束：数据同步 &ndash;&gt;-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 基本信息 -->
+<script type="text/html" id="baseInfoTemplate">
+    <form class="layui-form" lay-filter="formDetail">
+        <blockquote class="layui-elem-quote">应用规则详情</blockquote>
+        <table class="layui-table">
+            <tbody>
+            <tr>
+                <td class="td_bg" width="10%">id</td>
+                <td width="40%">{{d.id}}</td>
+                <td class="td_bg" width="10%">应用名称</td>
+                <td width="40%">{{d.name}}</td>
+            </tr>
+            <tr>
+                <td class="td_bg" width="10%">应用描述</td>
+                <td width="40%">{{d.description}}</td>
+                <td class="td_bg" width="10%">备注</td>
+                <td width="40%">{{d.remark}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</script>
+
+<script  src="simple/gateway/app/detail.js"></script>
+
+<!--操作 模板-->
+<script type="text/html" id="operateItemTemplate">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="operateItem2Template">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">刷新</a>
+</script>
+
+<script type="text/html" id="operateItem3Template">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>

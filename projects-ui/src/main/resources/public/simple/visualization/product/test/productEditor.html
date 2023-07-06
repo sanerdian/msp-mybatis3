@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>可视化编辑</title>
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/jquery/jquery-ui.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../js/config.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="productEditor.js"></script><!--引入编辑器JS文件-->
+    <script src="productCommonWidget.js"></script><!--引入点击组件JS文件-->
+    <link rel="stylesheet" href="../test/topLayout/topLayout.css"><!--引入布局组件css文件-->
+    <script src="../test/topLayout/topLayout.js"></script><!--引入布局组件JS文件-->
+    <link rel="stylesheet" href="../test/leftBar/leftBar.css"><!--引入左侧栏目组件css文件-->
+    <script src="../test/leftBar/leftBar.js"></script><!--引入左侧栏目组件JS文件-->
+    <link rel="stylesheet" href="../test/tableList/tableList.css"><!--引入左侧栏目组件css文件-->
+    <script src="../test/tableList/tableList.js"></script><!--引入左侧栏目组件JS文件-->
+    <script src="../js/code.js"></script>
+    <script src="../js/WidgetLogin.js"></script>
+    <script src="../js/WidgetText.js"></script>
+    <script src="../js/WidgetImage.js"></script>
+    <script src="../js/WidgetTag.js"></script>
+    <script src="../js/WidgetPartition.js"></script>
+    <script src="../js/WidgetSidebar.js"></script>
+    <script src="../js/WidgetNavbar.js"></script>
+    <script src="../js/WidgetTable.js"></script>
+    <script src="../js/WidgetButton.js"></script>
+    <script src="../js/WidgetSearch.js"></script>
+    <script src="../js/WidgetRect.js"></script>
+    <script src="../js/WidgetGraphic.js"></script>
+    <script src="../js/WidgetVideo.js"></script>
+    <link rel="stylesheet" href="../formating/lib/codemirror.css">
+    <script src="../formating/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="../formating/theme/night.css">
+    <link rel="stylesheet" href="../formating/theme/monokai.css">
+    <script src="../formating/lib/util/simple-hint.js"></script>
+    <link rel="stylesheet" href="../formating/lib/util/simple-hint.css">
+    <script src="../formating/lib/util/javascript-hint.js"></script>
+    <script src="../formating/lib/util/formatting.js"></script>
+    <script src="../formating/mode/css/css.js"></script>
+    <script src="../formating/mode/xml/xml.js"></script>
+    <script src="../formating/mode/javascript/javascript.js"></script>
+    <script src="../formating/mode/htmlmixed/htmlmixed.js"></script>
+    <!--    <link rel="stylesheet" href="../formating/doc/docs.css">-->
+    <link rel="stylesheet" href="../formating/lib/util/simple-hint.css">
+    <script src="../formating/lib/util/javascript-hint.js"></script>
+    <script src="../formating/mode/javascript/javascript.js"></script>
+    <script src="../leftBar/leftBar.js"></script>
+    <link rel="stylesheet" href="../leftBar/leftBar.css">
+</head>
+
+<style>
+    @import "../css/common1.css";
+    @import "../css/login.css";
+    @import "../css/editor.css";
+</style>
+
+<body>
+<div class="filter">
+    <form id="groupFrom">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                    <label class="layui-form-label">产品名称：</label>
+                    <div class="layui-input-inline bigWid">
+                    <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">网页类型：</label>
+                    <div class="layui-input-inline">
+                        <select name="netType" lay-verify="">
+                            <option value="">请选择</option>
+                            <option value="PC">PC</option>
+                            <option value="Mobile">移动</option>
+                            <option value="bgScreen">大屏</option>
+                        </select> 
+                    </div>
+                    <label class="layui-form-label">输出文件名：</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="outFileName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">扩展名：</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="exteName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">行业分类：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="indClass" lay-verify="">
+                              <option value="">请选择</option>
+                              <option value="铁路">铁路</option>
+                              <option value="水利">水利</option>
+                              <option value="科研">科研</option>
+                              <option value="大学">大学</option>
+                              <option value="其它">其它</option>
+                            </select> 
+                          </div>
+                    </div>
+                    <label class="layui-form-label">模板类型：</label>
+                    <div class="layui-input-inline">                        
+                        <select name="type">    
+                            <option value="">请选择</option>     
+                            <option value="0" checked title="首页模板">首页模板</option>                   
+                            <option value="1" title="概览模板">概览模板</option>
+                            <option value="2" title="细览模板">细览模板</option>
+                        </select>
+                    </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="editor_nav">
+    <span id="editor_name">可视化PC页面编辑器</span>
+    <div id="editor_tab" class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li id="product_item" class="layui-this">可视化产品模板</li>
+            <li id="code_item">可视化产品代码</li>
+            <li style="pointer-events: none">产品帮助文档</li>
+        </ul>
+    </div>
+    <div class="editor_set">
+        <div class="layui-input-inline page_list">
+            <div class="layui-unselect layui-form-select downpanel" style="width: 168px">
+                <div class="layui-select-title">
+                    <span class="layui-input layui-unselect">请选择</span>
+                    <input type="hidden" name="selectID" value="0">
+                    <i class="layui-edge"></i>
+                </div>
+                <dl class="layui-anim">
+                    <div class="list_top">
+                        <span>导航页面</span>
+                    </div>
+                    <dd>
+                        <ul class="classtree" style="width: 168px"></ul>
+                    </dd>
+                    <div>
+                        <div class="list_notice"><span>*请保存后再切换页面</span></div>
+                        <button class="layui-btn layui-bg-green layui-fluid list_button">页面管理</button>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="page_set">
+            <img src="../images/web_set.png">
+            <span>网页设置</span>
+        </div>
+        <div class="separator"><span>|</span></div>
+        <div class="backward">
+            <img src="../images/backward.png"/>
+        </div>
+        <div class="forward">
+            <img src="../images/forward.png"/>
+        </div>
+        <button id=save class="layui-btn layui-bg-green save">
+            保存
+        </button>
+        <button id=preview class="layui-btn layui-btn-primary preview">
+            预览
+        </button>
+        <button id=cancel class="layui-btn layui-btn-primary cancel">
+            取消
+        </button>
+    </div>
+    <div id="tools" class="ui-draggable ui-draggable-handle">
+        <div class="tool_content">
+            <div class="tool_main">
+                <div id="basic_widget">
+                    <div class="widget_title">
+                        <div class="widget_title_name">基础组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                    <div class="widget_zone" id="basicView" style="height:250px;overflow-y:auto;">
+                        <script type="text/html" id="basicTemplate">
+                            {{# layui.each(d, function(index, item){ }}
+                            {{# if(item.title == '文本'){ }}
+                            <div id="tool_widget_text" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '图片'){ }}
+                            <div id="tool_widget_image" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '头部布局'){ }}
+                            <div id="tool_widget_topLayout" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '机床左侧栏目'){ }}
+                            <div id="tool_widget_leftBar" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '机床表格列表'){ }}
+                            <div id="tool_widget_tableList" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# } }}
+                            {{# }); }}
+                        </script>
+                    </div>
+                </div>
+                <div id="app_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">应用组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                    <div class="widget_zone" id="appView" style="height:250px;overflow-y:auto;">
+                        <script type="text/html" id="appTemplate">
+                            {{# layui.each(d, function(index, item){ }}
+                            {{# if(item.title == '文本'){ }}
+                            <div id="tool_widget_text" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '图片'){ }}
+                            <div id="tool_widget_image" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '头部布局'){ }}
+                            <div id="tool_widget_topLayout" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '机床左侧栏目'){ }}
+                            <div id="tool_widget_leftBar" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# }else if(item.title == '机床表格列表'){ }}
+                            <div id="tool_widget_tableList" class="widget_zone1">
+                                <div class="icon_text widget_icon">
+                                    <img class="icon_text" src="">
+                                </div>
+                                <div class="widget_text">{{item.title}}</div>
+                            </div>
+                            {{# } }}
+                            {{# }); }}
+                        </script>
+                    </div>
+                </div>
+                <div id="report_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">报表组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                </div>
+                <div id="page_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">页面组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                </div>
+                <div id="custom_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">自定义组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tool_bar2">
+            <div class="tool_padding"><span>···</span></div>
+            <div class="group_zone bar_shrink">
+                <div class="group_zone1">
+                    <div class="group_icon basic_widget_icon">
+                        <img class="icon icon_basic" src="../images/t_basic1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon app_widget_icon">
+                        <img class="icon icon_app" src="../images/t_app1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon report_widget_icon">
+                        <img class="icon icon_report" src="../images/t_report1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon page_widget_icon">
+                        <img class="icon icon_page" src="../images/t_page1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon custom_widget_icon">
+                        <img class="icon icon_custom" src="../images/t_custom1.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tool_bar1">
+            <div class="tool_padding"><span>···</span></div>
+            <div class="tool_close"><i class="layui-icon layui-icon-close"></i></div>
+        </div>
+    </div>
+
+<!--    <div>-->
+<!--        <button id=preview style="position:fixed; right:10px;bottom:20px;opacity:0.5;">预览</button>-->
+<!--    </div>-->
+</div>
+<div id="editor_page_table_container" style="display: none">
+    <div class="i_tab_pre">
+        <div class="i_tab_info"><span>设置显示页面：</span></div>
+        <div class="i_tab_add_page"><span>添加页面</span></div>
+    </div>
+    <table id="editor_page_table" lay-filter="filter_editor_page_table"></table>
+    <div class="total_number"></div>
+    <div class="layui-input-block">
+        <button id="editor_table_ok" class="layui-btn">确定</button>
+        <button id="editor_table_cancel" class="layui-btn layui-btn-primary">取消</button>
+    </div>
+</div>
+<div id="editor_page_table_content" style="display: none;">
+    <div class="layui-form-item" style="margin-top: 5px;">
+        <label class="layui-form-label">栏目名称</label>
+        <div class="layui-input-block" style="width:350px">
+        <input type="text" id="gain_title" name="title" lay-verify="title" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-input-block" style="padding-left: 70px;">
+        <button id="editor_table_ok2" class="layui-btn">确定</button>
+        <button id="editor_table_cancel2" class="layui-btn layui-btn-primary">取消</button>
+    </div>
+</div>
+<div id="editor_page_set" class="editor_page_set" style="display: none"></div>
+<div id="editor_page_add" class="editor_page_set" style="display: none"></div>
+
+<div id="editor_content" style="display: flex">
+    <div id="sidebar"></div>
+    <div id=right_zone>
+        <div id="navbar"></div>
+        <div id="app"></div>
+    </div>
+    <div id=menu></div>
+    <div id=settings></div>
+    <div id=template></div>
+</div>
+<div id="editor_code" style="display: none">
+    <div id="code_tab" class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li id="html_code_item" class="layui-this">HTML</li>
+            <li id="css_code_item">CSS</li>
+            <li id="js_code_item">JS</li>
+        </ul>
+    </div>
+    <div>
+        <form id="html_code_form" class="code_form"><textarea id="html_code" name="html_code"></textarea></form>
+        <form id="css_code_form" class="code_form"><textarea id="css_code" name="css_code"></textarea></form>
+        <form id="js_code_form" class="code_form"><textarea id="js_code" name="js_code"></textarea></form>
+    </div>
+</div>
+
+</body>
+
+<script type="text/html" id="tpl_editor_page_set">
+    <form action="" class="layui-form content">
+        <div class="layui-form-item">
+            <label for="page_name" class="layui-form-label">栏目名称：</label>
+            <div class="layui-input-block">
+                <input id="page_name" type="text" lay-skin="primary" class="layui-input editor_input"
+                       placeholder="请输入" value="{{ d.title }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">网页类型：</label>
+            <div class="layui-input-block">
+                <span>PC端</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">行业分类：</label>
+            <div class="layui-input-block">
+                <span>标准业务</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">媒介应用：</label>
+            <div class="layui-input-block">
+                <span>中台应用</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">模板类型：</label>
+            <div class="layui-input-block">
+                <span>E-安保</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择上级栏目：</label>
+                <div class="layui-input-inline">
+                    <div class="layui-unselect layui-form-select downpanel" style="width: 398px;height: 37px">
+                        <div class="layui-select-title">
+                            <span class="layui-input layui-unselect">请选择</span>
+                            <input type="hidden" name="selectID" value="0">
+                            <i class="layui-edge"></i>
+                        </div>
+                        <dl class="layui-anim">
+                            <dd>
+                                <ul class="classtree" style="width: 398px"></ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">访问路径：</label>
+            <div class="layui-input-block">
+                <span>-</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">打开方式：</label>
+            <input type="radio" name="open_type" title="当前窗口" value="current_win" checked>
+            <input type="radio" name="open_type" title="新窗口" value="new_win">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">页面背景：</label>
+            <div class="page_bg" style="float: left">
+                <div class="color_picker"></div>
+                <div>颜色</div>
+            </div>
+            <div class="page_bg">
+                <div class="page_bg_picker"><img></div>
+                <div>图片</div>
+                <div class="page_bg_selector">
+                    <div class="page_bg_selector_preview">
+                        <img>
+                        <i class="layui-icon layui-icon-close layui-bg-red" style="float: right;font-size: 10px"></i>
+                    </div>
+                    <div class="page_bg_selector_text">选择</div>
+<!--                    <button type="button" class="layui-btn page_bg_selector_text" id="btnUpload">开始上传</button>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item submit_item">
+            <div class="layui-input-block">
+                <button class="layui-btn new_page_ok">确定</button>
+                <button class="layui-btn layui-btn-primary new_page_cancel">取消</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="i_tab_right_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="update" class="i_tab i_tab_edit">
+        </span>
+        <span>
+            <img lay-event="copy" class="i_tab i_tab_copy">
+        </span>
+        <span>
+            <img lay-event="add" class="i_tab i_tab_add">
+        </span>
+        <span>
+            <img lay-event="delete" class="i_tab i_tab_delete">
+        </span>
+    </div>
+</script>
+
+<script type="text/html" id="i_tab_order_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="left" class="i_tab i_tab_arrow">
+        </span>
+        <span>
+            <img lay-event="up" class="i_tab i_tab_arrow rotate1">
+        </span>
+        <span>
+            <img lay-event="right" class="i_tab i_tab_arrow rotate2">
+        </span>
+        <span>
+            <img lay-event="down" class="i_tab i_tab_arrow rotate3">
+        </span>
+    </div>
+</script>
+
+<script id="tpl"></script>
+
+<script>
+    let widgetArray = []; // 组件列表
+    let currentPage = ""; // 当前编辑页名称
+    let currentPageTitle = ""; // 当前编辑页标题
+    let currentPageData = {}; // 当前编辑页数据
+    let zIndexMax = -1; // 组件层级最大值
+    let renderIdMax = -1; // 渲染编号最大值
+    let commonData = {};
+    let sidebarHtml = '';
+    let navbarHtml = '';
+    $(function () {
+        // 初始化编辑器导航
+        initEditorNav();
+        // 初始化页面管理
+        initNavPageTable();
+        // 初始化工具条
+        initToolBar();
+        // 初始化通用数据
+        initCommonData();
+        // 初始化代码编辑器
+        initCodeEditor();
+    });
+</script>
+</html>

@@ -1,0 +1,32 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateItem3">
+	<form class="layui-form" lay-filter="editFormItem3">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">用户Id</label>
+					<div class="layui-input-block">
+						<input type="text" name="refId"  lay-verify="required|naturalNumber" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">限流值</label>
+					<div class="layui-input-block">
+						<input type="number" name="limitValue" lay-verify="required|naturalNumber" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+
+				<input hidden="hidden" name="id">
+				<input hidden="hidden" name="rateLimitId">
+				<input hidden="hidden" name="type">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item3-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

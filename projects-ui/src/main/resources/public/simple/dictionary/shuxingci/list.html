@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="simple/dictionary/css/style.css">
+<style type="text/css">
+    table tr:nth-of-type(2n) {
+        background-color: #f8f8f8;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-card h100">
+        <!-- 搜索开始 -->
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="top_btn">
+                <!-- <button class="layui-btn layuiadmin-btn-admin" data-type="">本系统发布</button> -->
+                <!-- <button class="layui-btn layuiadmin-btn-admin" data-type="">发布并推送到kfk</button> -->
+                <button class="layui-btn layuiadmin-btn-admin" data-type="addDict" data-layer-html="add.html">手工录入</button>
+                <!--        <button class="layui-btn layuiadmin-btn-admin" onclick="importData()">批量导入</button>
+                <button class="layui-btn layuiadmin-btn-admin" data-type="export">批量导出</button>-->
+                <button class="layui-btn layuiadmin-btn-admin" data-type="examDict" data-layer-html="exam.html">审核</button>
+                <!--				<button class="layui-btn layuiadmin-btn-admin" data-type="out">停用</button>-->
+                <button class="layui-btn layuiadmin-btn-admin" data-type="delDict">删除</button>
+            </div>
+            <!--<div class="top_btn">
+                 <button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">新建</button>
+                 <button class="layui-btn layuiadmin-btn-admin" data-type="">审核</button>
+                  <button class="layui-btn layuiadmin-btn-admin" data-type="">停用</button>
+                 <button class="layui-btn layuiadmin-btn-admin" data-type="del">删除</button>
+             </div>-->
+            <form class="layui-form" id="formSearch">
+                <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">创建时间：</label>
+                        <div class="layui-input-block">
+                            <select name="cruser" lay-filter="timeSlot">
+                                <option value="">全部</option>
+                                <option value="近一天">近一天</option>
+                                <option value="近三天">近三天</option>
+                                <option value="近一周">近一周</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">属性词</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="shuxingci" placeholder="请输入" autocomplete="off"
+                                class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-back-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 搜索结束 -->
+        <div class="layui-card-body" text-align="center">
+            <!-- 列表开始 -->
+            <!--            <div class="table-area"  style="overflow-x:auto;width:4000px;height:1000px">-->
+            <div class="table-area">
+                <table id="tableData" lay-filter="tableData"></table>
+            </div>
+            <div id="page"></div>
+            <!-- 列表结束 -->
+        </div>
+
+    </div>
+</div>
+
+<div id="editOpenDiv"></div>
+<div id="deatilOpenDiv"></div>
+
+<script type="text/html" id="operateTemplate">
+    <button class="layui-btn layui-btn-xs" lay-event="detail">详情</button>
+    <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+</script>
+
+<!--词条状态-->
+<script type="text/html" id="statusTpl">
+    {{# if(d.status==-1){ }}
+    未生效
+    {{# }else if(d.status==0){ }}
+    已生效
+    {{# }else if(d.status==1){ }}
+    停用
+    {{# } }}
+</script>
+<script src="common/js/list.js"></script>
+<script src="common/js/xm-select.js"></script>
+<script src="simple/dictionary/js/dictionary.js"></script>
+<script src="simple/dictionary/shuxingci/list.js"></script>
+<script src="simple/dictionary/js/Convert_Pinyin.js"></script>

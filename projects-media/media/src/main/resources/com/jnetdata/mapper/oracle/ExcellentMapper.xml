@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.ExcellentMapper">
+
+	<!--SELECT t.ID, t.DOCCHANNELID, t.DOCSTATUS, t.SINGLETEMPKATE, t.SITEID, t.DOCVALID, t.DOCPUBTIME, t.OPERUSER, t.OPERTIME, t.DOCTITLE, t.DOCRELTIME, t.DOCPUBURL, t.LINKURL, t.CLASSINFOID, t.STATUS, t.COMPANYID, t.WEBSITEID, t.COLUMNID, t.modify_by as modifyBy, t.MODIFY_USER as MODIFYUSER , t.SEQENCING, t.modify_time as MODIFYTIME, t.FLOW_ID as FLOWID, t.FLOW_USER as FLOWUSER, t.TITLE, t.PUSER, t.PTIME, t.CUSER, t.ZHENGWEN, t.SUMMARY, t.HOMETITLE, t.SUBTITLE, t.DOCSOURCE, t.DOCAUTHOR, t.ISPROHIBITPUBLISH, t.COPYFLAG, t.ISROTATION, t.STATE, t.DIANPINGSHU, t.TUIJIANZHE, t.LOGOTU, t.KEYWORDS, t.SCSTATE, t.PUSHTORANGE, t.COMMENTALLOWED, t.COMMENTCHECKED, t.COLUMNNAME, t.FROZENTYPE, t.WRITINGTIME, t.SOURCEURL, t.CDNTYPE, t.TOPPINGFLAG, t.TOPPINGORDER, t.ROTATIONORDER, t.CRUSER, t.CRNUMBER as CREATEBY, t.CRTIME as createTime,-->
+
+	<sql id="wherecolunm">
+		SELECT t.*,
+		(select count(*) from jmeta_xinwen_read r where r.docid=t.id and r.crnumber = #{entity.userid}) as readcount,
+		(select count(*) from jmeta_xinwen_comment c where c.docid=t.id) as commentcount
+	</sql>
+
+	<!-- 新闻列表 -->
+	<select id="selectPageXinwen" resultType="com.jnetdata.msp.media.vo.xinwenVo">
+
+		SELECT *  FROM ( SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM
+		(
+
+		<include refid="wherecolunm" />
+			FROM jmeta_xinwen020 t where 1=1 <if test="entity.id == null or entity.id == ''"> and t.status='21'</if> and t.docstatus='0'
+
+			<include refid="XinwenWhere" />
+
+		) TMP_PAGE) WHERE ROW_ID &lt;= #{max} AND ROW_ID > #{min}
+
+	</select>
+
+	<!-- 新闻数量 -->
+	<select id="selectPageXinwenMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmeta_xinwen020 t where 1=1 <if test="entity.id == null or entity.id == ''"> and t.status='21'</if> and t.docstatus='0'
+		<include refid="XinwenWhere" />
+	</select>
+
+	<sql id="XinwenWhere">
+
+		<if test="entity.id != null and entity.id != ''">
+			and t.id= #{entity.id}
+		</if>
+
+		<if test="entity.id == null or entity.id == ''">
+			<if test="entity.whereType =='collect'">
+				and (select count(1) from jmeta_collect c where c.state='1' and c.docid=t.id and c.crnumber=#{entity.userid})>0
+			</if>
+
+			<if test="entity.columnid != null and entity.columnid != ''">
+				and (t.columnid=#{entity.columnid} or (select count(1) from channelinfo c where c.channelid=t.columnid and c.siteid =#{entity.columnid})>0 or
+				(select count(1) from channelinfo c where c.channelid=t.columnid and c.parentid=#{entity.columnid})>0)
+			</if>
+
+			<if test="entity.tjtype != 'tj'">
+				and (t.pushtorange is null or t.pushtorange='全部用户')
+			</if>
+
+			<if test="entity.tjtype == 'tj'">
+				and t.pushtorange is not null and ((instr(t.pushtouser,#{entity.userid})>0)
+
+				or (((instr(t.dwbsm,#{workerVo.dwbsm})>0)
+
+					or (instr(t.bmbm,#{workerVo.bmbm})>0))
+
+					and (t.xm is null or (instr(#{workerVo.xm},t.xm)>0))
+
+					and (t.sex is null or t.sex=#{workerVo.sex})
+
+					and (t.age is null or (instr(t.age,#{workerVo.age})>0))
+
+					and (t.xwhcdhz is null or (instr(t.xwhcdhz,#{workerVo.xwhcdhz})>0))
+
+					and (t.sxzy is null or (instr(t.sxzy,#{workerVo.sxzy})>0))
+
+					and (t.zzmm is null or (instr(t.zzmm,#{workerVo.zzmm})>0))
+
+					and (t.zwmc is null or (instr(t.zwmc,#{workerVo.zwmc})>0))
+
+					and (t.xjszwmc is null or (instr(t.xjszwmc,#{workerVo.xjszwmc})>0))
+
+					and (t.jsdj is null or (instr(t.jsdj,#{workerVo.jsdj})>0))
+
+					and (t.szbz is null or (instr(t.szbz,#{workerVo.szbz})>0))
+
+					and (t.bzzlx is null or (instr(t.bzzlx,#{workerVo.bzzlx})>0))
+
+					and (t.gz is null or (instr(t.gz,#{workerVo.gz})>0)))
+				)
+			</if>
+
+			<if test="entity.title !=null and entity.title!=''">
+				and  (instr(t.title,#{entity.title})>0)
+			</if>
+
+			<choose>
+				<when test="entity.logotu !=null and entity.logotu!=''">
+					and t.isrotation = '1' and (t.pushtorange is null or t.pushtorange='全部用户')
+					order by rotationorder asc
+				</when>
+				<otherwise>order by t.toppingorder asc,t.ptime desc</otherwise>
+			</choose>
+		</if>
+	</sql>
+
+
+	<!-- 问卷调查列表   and to_date(v.hsstartdate,'yyyy-MM-dd')>=to_date(sysdate,'yyyy-MM-dd') -->
+	<select id="selectInvestigateList" resultType="com.jnetdata.msp.tlujy.investigate.model.Investigate">
+		SELECT  ID AS id,DOCCHANNELID AS docchannelid,DOCSTATUS AS docstatus,SINGLETEMPKATE AS singletempkate,SITEID AS siteid,DOCVALID AS docvalid,DOCPUBTIME AS docpubtime,OPERUSER AS operuser,OPERTIME AS opertime,DOCTITLE AS doctitle,DOCRELTIME AS docreltime,DOCPUBURL AS docpuburl,LINKURL AS linkurl,CLASSINFOID AS classinfoid,STATUS AS status,COMPANYID AS companyid,WEBSITEID AS websiteid,COLUMNID AS columnid,MODIFY_BY AS modifyBy,MODIFY_USER AS modifyUser,SEQENCING AS seqencing,MODIFY_TIME AS modifyTime,TITLE AS title,INFOTYPE AS infotype,LIMITFLAG AS limitflag,LIMITTYPE AS limittype,LIMITCOUNT AS limitcount,SHOWRESULTTYPE AS showresulttype,HSSTARTDATE AS hsstartdate,HSENDDATE AS hsenddate,REMARKS AS remarks,EXPLAINS AS explains,FLOW_ID AS flowId,FLOW_USER AS flowUser,TUIJIANZHE AS tuijianzhe,LOGOTU AS logotu,TIMELIMITFLAG AS timelimitflag,TIMELIMITSECOND AS timelimitsecond,ISALLOWEDLEAVEMIDWAY AS isallowedleavemidway,PAGETYPE AS pagetype,PUSHSQL AS pushsql,pushtouser AS pushtouser,CRUSER AS crUser,CRNUMBER AS createBy,CRTIME AS createTime  FROM JMETA_INVESTIGATE v
+		where v.status='21'
+		 	and (((v.pushtouser is null or v.pushtouser like '[]') and (v.pushtogroup is null or v.pushtogroup like '[]')) or ((v.pushtouser like CONCAT(CONCAT('%',#{userid}),'%')
+			or regexp_like (v.pushtogroup,(select listagg(l.dwbsm,'|') WITHIN GROUP (order by rownum) from lz_worker_dc_73 l where l.externalid=#{userid})))))
+		order by crtime desc
+	</select>
+
+	<!-- 投票列表 -->
+	<select id="selectPageVote" resultType="com.jnetdata.msp.tlujy.vote.model.Vote">
+		SELECT *  FROM ( SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM
+		(
+			select ID AS id,DOCCHANNELID AS docchannelid,DOCSTATUS AS docstatus,SINGLETEMPKATE AS singletempkate,SITEID AS siteid,DOCVALID AS docvalid,DOCPUBTIME AS docpubtime,OPERUSER AS operuser,OPERTIME AS opertime,DOCTITLE AS doctitle,DOCRELTIME AS docreltime,DOCPUBURL AS docpuburl,LINKURL AS linkurl,CLASSINFOID AS classinfoid,STATUS AS status,COMPANYID AS companyid,WEBSITEID AS websiteid,COLUMNID AS columnid,MODIFY_USER AS modifyUser,SEQENCING AS seqencing,FLOW_ID AS flowId,FLOW_USER AS flowUser,TITLE AS title,STARTDATE AS startdate,ENDDATE AS enddate,LIMITTYPE AS limittype,LIMITCOUNT AS limitcount,REMARKS AS remarks,PHOTO AS photo,STATE AS state,CRUSER AS crUser,CRNUMBER AS createBy,CRTIME AS createTime,modify_by AS modifyBy,modify_time AS modifyTime,votethemeid as votethemeid,PUSHSQL AS pushsql,pushtouser AS pushtouser
+			from jmeta_vote v
+			where v.state='1' and (((v.pushtouser is null or v.pushtouser like '[]') and (v.pushtogroup is null or v.pushtogroup like '[]')) or ((v.pushtouser like CONCAT(CONCAT('%',#{entity.loginid}),'%')
+			or regexp_like (v.pushtogroup,(select listagg(l.dwbsm,'|') WITHIN GROUP (order by rownum) from lz_worker_dc_73 l where l.externalid=#{entity.loginid})))))
+
+			<if test="entity.votethemeid !=null and entity.votethemeid !=''">
+				and v.votethemeid=#{entity.votethemeid}
+			</if>
+
+			<choose>
+				<when test="entity.orderby == 'count'">
+					order by (select count(*) from jmeta_vote_user u where u.voteid=v.id) desc
+				</when>
+				<otherwise>
+					order by crtime desc
+				</otherwise>
+			</choose>
+		) TMP_PAGE) WHERE ROW_ID &lt;= #{max} AND ROW_ID > #{min}
+	</select>
+
+	<!-- 投票数量 -->
+	<select id="selectPageVoteMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmeta_vote t where t.state='1'
+	</select>
+
+
+	<!-- 投票数量 -->
+	<select id="checkLz_Worker" resultType="java.lang.Integer">
+		select count(1) from lz_worker_dc_73 l where l.externalid=#{userid} ${pushsql}
+	</select>
+
+	<select id="userZd" resultType="com.jnetdata.msp.media.vo.TreeVo">
+		select c.channelid as id,c.chnlname as name from channelinfo c where c.dwid=#{dwbsm}
+		union
+		select w.siteid as id,w.sitename as name from websiteinfo w where w.dwid=#{dwbsm}
+	</select>
+
+	<!--新闻关注序号+1-->
+	<update id="updateXiwenfollowMax">
+		update jmeta_follow x set x.ordernum=x.ordernum+1 where x.ptuserid=#{ptuserid} and x.ordernum>=#{min} and x.ordernum &lt;= #{max}
+	</update>
+
+	<!--新闻关注序号减1-->
+	<update id="updateXiwenfollowMin">
+		update jmeta_follow x set x.ordernum=x.ordernum-1 where x.ptuserid=#{ptuserid} and x.ordernum>=#{min} and x.ordernum &lt;= #{max}
+	</update>
+
+	<select id="bmParentList" resultType="java.lang.String">
+		select d.dwbsm from lz_dwjbxx d  start with d.dwbsm=#{dwbsm} connect by prior d.fdwbsm=d.dwbsm
+	</select>
+
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.MonitorResultMapperExt">
+
+    <select id="countInfoClassify" parameterType="hashmap" resultType="hashmap">
+        select info_classify, count(*) as info_classify_count
+        from jmeta_monitor_result
+        where monitor_time &gt;= #{startTime}
+        and monitor_time &lt;= #{endTime}
+        group by info_classify
+    </select>
+
+    <select id="countClassifyAndStatus" resultType="hashmap">
+        select info_classify,  info_status, count(*) as info_count
+        from jmeta_monitor_result
+        group by info_classify, info_status
+    </select>
+
+    <select id="countByType" parameterType="hashmap" resultType="hashmap">
+        select problem_type, count(*) as  problem_type_count
+        from jmeta_monitor_result
+        where info_classify=#{infoClassify} and info_status=#{infoStatus}
+        group by problem_type
+    </select>
+
+</mapper>

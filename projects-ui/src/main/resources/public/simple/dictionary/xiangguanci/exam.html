@@ -1,0 +1,192 @@
+<!--弹出层模板 新增-->
+<script type="text/html" id="examTemplate">
+    <style>
+        .layui-form-select {
+            width: 300px !important;
+        }
+
+        .layui-col-md5 input {
+            width: 300px !important;
+        }
+
+        /*.layui-btn button{width: 300px;height: 300px;background: #345;position: absolute;right: 20px;top: 20px;}*/
+        .getpingyin {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
+    <div class="layui-card-body">
+        <div style="width:950px; height:780px;">
+            <form class="layui-form" lay-filter="editForm">
+                <div class="layui-row">
+                    <div class="layui-col-md5 layui=col-md5">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">主题词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="wordname" lay-verify="required" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">主题词属性：</label>
+                            <div class="layui-input-block" width=100px>
+                                <select class="layui-input" name="shuxing" id="shuxingKey" lay-filter="sxc" disabled="true">
+                                </select>
+                            </div>
+                        </div>
+  <!--                      <div class="layui-form-item">
+                            <label class="layui-form-label">相关词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="relatedword" id="relatedword" style="width: 300px" disabled="true">
+                            </div>
+                        </div>-->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">相关词同义词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="tongyinci" disabled="true">
+                            </div>
+                        </div>
+
+                        <!--            <div class="layui-form-item">
+                                        <label class="layui-form-label">相关词拼音：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" name="pinyinword" id="pinyinword">
+                                        </div>
+                                        <div class="layui-inline">
+                                            <button class="layui-btn "  onclick="getXiangGuanciPinyin()"  id="huoquXiangGuanciPinYin"   type="button" >
+                                                获取拼音
+                                            </button>
+                                        </div>
+                                    </div>-->
+                        <div layui></div>
+                        <div class="layui-inline">
+                            <div class="layui-form-item" style="float: left;width: 30%">
+                                <label class="layui-form-label">相关词拼音</label>
+                                <div class="layui-input-block" style="position: relative;width: 300px">
+                                    <input type="text" name="pinyinword" autocomplete="off" class="layui-input"
+                                           id="pinyinword" disabled="true">
+                                    <button class="layui-btn getpingyin" onclick="getXiangGuanciPinyin()" id="huoquXiangGuanciPinYin" type="button" disabled="true">
+                                        获取拼音
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">相关同音词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="reltongyinci" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">属性同义词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="sxtongyici" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">属性拼音：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="sxpinyin" autocomplete="off" class="layui-input"
+                                       id="sxpinyin" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">属性同音词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="sxtongyinci" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">停用词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="tingyongci" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">场景词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="changjingci" disabled="true">
+                            </div>
+                        </div>
+<!--                        <div class="layui-form-item">
+                            <label class="layui-form-label">规则：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="rule" disabled="true">
+                            </div>
+                        </div>-->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">词条状态：</label>
+                            <div class="layui-input-block">
+                                <select class="layui-input" name="status">
+                                    <!-- <option value="" selected>未生效</option>-->
+                                    <option value="已生效">已生效</option>
+                                    <option value="未生效" selected>未生效</option>
+                                    <option value="停用">停用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md5 layui=col-md5">
+                        <div class="layui-form-item" style="margin-left:45px">
+                            <label class="layui-form-label">相关贴：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="operuser" disabled="true">
+                                <!--                 相关词， wordname   修改人和相关贴都是operuser-->
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="margin-left:45px">
+                            <label class="layui-form-label">添加相关词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="margin-left:45px">
+                            <label class="layui-form-label">指标一级分类：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="t1" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="margin-left:45px">
+                            <label class="layui-form-label">指标二级分类：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="t2" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="margin-left:45px">
+                            <label class="layui-form-label">指标三级分类：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="ctfl_sanji" disabled="true">
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="margin-left:45px">
+                            <label class="layui-form-label">指标四级分类：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="ctfl_siji" disabled="true">
+                                <!--                                <label class="layui-form-label">指标分类：</label>-->
+                                <!--                                <div id="indexTree" class="demo-tree demo-tree-box" style="width:200px; height:300px; overflow:scroll;"></div>-->
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-form-item" style="margin-left:45px">
+                                <label class="layui-form-label">指标分类：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="key" class="layui-input" value="" name="index_class" placeholder="请输入检索条件"disabled="true">
+                                    <!--                                <div id="indexTree" class="demo-tree demo-tree-box"></div>-->
+                                    <div style="width:300px; height:300px; overflow:scroll;">
+                                        <ul id="treeDemo" class="ztree"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        <!--            <div class="layui-form-item" style="text-align: center">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+                            <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+                        </div>
+                    </div>-->
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

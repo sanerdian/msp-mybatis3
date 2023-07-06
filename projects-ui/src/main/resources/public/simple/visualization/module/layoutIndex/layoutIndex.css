@@ -1,0 +1,7 @@
+.visual_main{width:1200px;margin:0 auto;}
+.visual_row{width:100%;min-height:30px;margin:0 0 15px;border:1px solid #ccc;clear:both;overflow:hidden;}
+.visual_left {float:left;width:910px;min-height:50px;margin:10px 0 0;}
+.visual_right {float:right;width:270px;min-height:50px;margin:10px 0 0;}
+.visual_left_a{float:left;width:415px;min-height:50px;border:1px solid #ccc;}
+.visual_left_b{float:left;width:475px;min-height:50px;border:1px solid #ccc;margin:0 10px;}
+.visual_left_c{float:left;width:284px;min-height:50px;border:1px solid #ccc;}

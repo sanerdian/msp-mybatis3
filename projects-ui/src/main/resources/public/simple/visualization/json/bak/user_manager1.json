@@ -1,0 +1,175 @@
+{
+  "name": "user_manager",
+  "title": "用户管理",
+  "data": [
+    {
+      "widgetId": "widget_sidebar_id_2",
+      "parent": "#sidebar",
+      "type": 4,
+      "index": 2,
+      "title": "E-安保",
+      "fontFamily": "微软雅黑",
+      "fontSize": 14,
+      "lineHeight": 40,
+      "isUnderline": false,
+      "isItalic": false,
+      "isBold": false,
+      "textAlign": "left",
+      "color": "#bcbdbf"
+    },
+    {
+      "widgetId": "widget_navbar_id_0",
+      "parent": "#navbar",
+      "type": 5,
+      "index": 0,
+      "withShrink": true,
+      "withRefresh": true,
+      "withLocation": true,
+      "withUserInfo": true,
+      "withPasswordUpdate": true,
+      "withFullscreen": true,
+      "withLogout": true
+    },
+    {
+      "widgetId": "widget_table_id_1",
+      "parent": "#app",
+      "type": 6,
+      "index": 1,
+      "left": 45,
+      "top": 107,
+      "zIndex": 1,
+      "width": "930",
+      "height": "511",
+      "style": 0,
+      "fontFamily": "微软雅黑",
+      "margin": [
+        "5",
+        "5",
+        "0",
+        "5"
+      ],
+      "textAlign": "center",
+      "dataSelectStyle": 2,
+      "numPerPage": 5,
+      "tableTitle": [
+        {
+          "type": "checkbox",
+          "width": 48,
+          "style": 2,
+          "align": "center",
+          "key": "0-0",
+          "hide": false,
+          "unresize": true
+        },
+        {
+          "type": "numbers",
+          "title": "序号",
+          "width": 40,
+          "key": "0-1",
+          "hide": false,
+          "unresize": true,
+          "align": "center"
+        },
+        {
+          "field": "title",
+          "title": "名称",
+          "width": 236,
+          "key": "0-2",
+          "hide": false,
+          "type": "normal",
+          "unresize": false,
+          "align": "center"
+        },
+        {
+          "field": "title",
+          "title": "名称",
+          "width": 587,
+          "key": "0-3",
+          "hide": false,
+          "type": "normal",
+          "unresize": false,
+          "align": "center"
+        }
+      ],
+      "relatedDbTable": "",
+      "relatedDbField": ""
+    },
+    {
+      "widgetId": "widget_table_id_2",
+      "parent": "#app",
+      "type": 6,
+      "index": 2,
+      "left": 1039,
+      "top": 193,
+      "zIndex": 2,
+      "width": "400",
+      "height": "200",
+      "style": 0,
+      "fontFamily": "微软雅黑",
+      "margin": [
+        "5",
+        "5",
+        "0",
+        "5"
+      ],
+      "textAlign": "left",
+      "dataSelectStyle": 2,
+      "numPerPage": 5,
+      "tableTitle": [
+        {
+          "type": "checkbox",
+          "width": 48,
+          "style": 2,
+          "align": "left",
+          "key": "0-0",
+          "hide": false,
+          "unresize": true
+        },
+        {
+          "type": "numbers",
+          "title": "序号",
+          "width": 40,
+          "align": "left",
+          "key": "0-1",
+          "hide": false,
+          "unresize": true
+        },
+        {
+          "field": "title",
+          "title": "名称",
+          "width": 294,
+          "key": "0-2",
+          "hide": false,
+          "type": "normal",
+          "unresize": false,
+          "align": "left"
+        }
+      ],
+      "relatedDbTable": "",
+      "relatedDbField": ""
+    },
+    {
+      "widgetId": "widget_search_id_0",
+      "parent": "#app",
+      "type": 8,
+      "index": 0,
+      "left": 50,
+      "top": 50,
+      "zIndex": 3,
+      "width": 0,
+      "height": 0,
+      "fieldLogic": "and",
+      "dbTable": "",
+      "dbField": [
+        {
+          "title": "姓名",
+          "field": "name"
+        },
+        {
+          "title": "手机号",
+          "field": "phone"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+  application:
+    name: fastdevplat
+  datasource:
+    #    url: jdbc:mysql://47.93.151.74:13306/fastdev?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:oracle:thin:@39.105.102.10:1521:orcl
+    username: fastdevlhs
+    password: fastdevlhs_123
+    jdbcDialect: oracle
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    druid:
+      test-on-borrow: true
+      test-while-idle: true
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+#flowable:
+#  datasource:
+#    schema: fastdev
+# 配置slq打印日志
+mybatis-plus:
+  mapper-locations: classpath*:com/jnetdata/**/mapper/mysql/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false
+  global-config:
+    db-column-underline: false
+    meta-object-handler: com.jnetdata.msp.core.handler.MyMetaObjectHandler
+swagger:
+  print-init: false #非必需,默认false
+  enabled: true #必需
+  docket:
+    base-package: com.jnetdata.msp
+
+jnetdata:
+  shiro:
+    filterChainDefinitions:
+      - /=user
+      - /index.html=user
+      - /simple/member/user/login.html=anon
+      - /simple/**=user
+  cros:
+    allowedOrigins:
+      - '*'
+thenicesys:
+  message:
+    sms:
+      #[发送短信]
+      #用户名
+      loginName: kfpthy
+      #密码
+      passWord: kfpt123456
+      #企业编号
+      corpId: 2063030
+      #短信实例model
+      modelMessage: 您的短信验证码为：%s【公司信息】
+      #请求地址
+      mtUrl: http://api.mix2.zthysms.com/v2/sendSms
+      #获取md5加密url
+      md5Url: http://api.cosms.cn/sms/getMD5str/
+      #编码格式：0-GB、1-URLENCODE、2-UTF8、3-UCS2
+      msgFormat: 2
+      #短信紧急程度     1：即时	2：一般      3：群发
+      mtLevel: 1
+      #企业签名
+      unitName: 【中科聚网】
+    email:
+      host: smtp.163.com
+      protocol: smtp
+      port: 25
+      account: 18813171370@163.com
+      fullAccount: 18813171370@163.com
+      password: nzf207118
+      nickname: 中科聚网
+user-login-lock-times: 5

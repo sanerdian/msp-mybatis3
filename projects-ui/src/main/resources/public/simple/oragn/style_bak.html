@@ -1,0 +1,792 @@
+﻿<style>
+    .uls li {
+        width: 181px;
+        height: 184px;
+        border: 1px solid rgba(228, 228, 228, 1);
+        margin: 0px 0px 20px 37px;
+        position: relative;
+        display: inline-block;
+        z-index: 1;
+    }
+
+    .uls li:nth-child(6n-5) {
+        margin-left: 0px;
+    }
+
+    .uls .layui-form-checkbox[lay-skin=primary] i {
+        left: -90px;
+    }
+
+    .uls li form {
+        width: 181px;
+        height: 144px;
+        background: url("common/img/u7159.png") no-repeat center center;
+        background-size: 50% 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .chanelName {
+        text-align: center;
+        line-height: 133px;
+        font-size: 18px;
+        font-weight: bolder;
+    }
+
+
+    .layui-btn:nth-of-type(2) {
+        margin-left: 10px;
+    }
+
+    #import,
+    #export {
+        display: inline-block;
+    }
+
+    #info tr td:first-child {
+        text-align: right;
+        background: #fcfcfc;
+    }
+
+    #info tr td:last-child {
+        background: #ffffff;
+    }
+
+    #info tr td {
+        border: 1px solid #e7e7e7;
+    }
+
+    #info tr td input {
+        margin-left: 3px;
+    }
+
+    .kinds span {
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .kinds .active {
+        font-size: 20px;
+        color: #009688;
+        font-weight: bold;
+    }
+
+    .layui-table-cell .layui-form-checkbox[lay-skin=primary] {
+        height: 48px;
+    }
+
+    .uls li:last-child button {
+        border: none;
+        background: url("common/img/u5320.png") no-repeat center center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    .layui-form [lay-ignore] {
+        width: 86px;
+        height: 24px;
+        margin-top: -5px;
+    }
+
+    #item .layui-table-view {
+        margin-left: 0px;
+    }
+
+    #state input {
+        margin: 20px;
+    }
+
+    .radio p {
+        height: 30px;
+    }
+
+    #task label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    #task label select, #hotwords label select {
+        background: #ffffff;
+        color: #000;
+        height: 25px;
+        position: relative;
+    }
+
+    #openDiv .layui-this {
+        background-color: #009688;
+        color: white;
+    }
+
+    #openDiv .layui-tab-title li:hover {
+        background-color: #009688;
+        color: white;
+    }
+
+    .layui-card .layui-tab {
+        border: none;
+        box-shadow: none;
+    }
+
+    #openDiv .layui-tab {
+        margin: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    #openDiv table {
+        margin: 0;
+    }
+
+    .search-bar {
+        padding-bottom: 10px;
+    }
+
+    .layui-input-block span {
+        line-height: 38px;
+    }
+
+    #searchForm .layui-form-item {
+        margin-bottom: 5px;
+    }
+    .kinds {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .form-item-inline {
+        display: inline-block;
+    }
+    .layui-colla-icon {left: 290px;}
+    .layui-colla-title{background-color: white;}
+    .layui-colla-title img{position: absolute;top:13px;}
+    .layui-colla-content img{margin-left: 50px;}
+    .layui-colla-content{cursor: pointer;}
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 md3-left">
+        <div class="layui-card h100">
+            <div id="siteTree" class="layui-collapse" style="overflow: auto;height: 800px;">
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md9 md3-right h100">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab layui-tab-card">
+                    <div class="layui-tab-content">                    
+                        <div class="layui-tab-item layui-show">
+                            <div class="search-bar">
+                                <button class="layui-btn layuiadmin-btn-admin" data-type="add">新建模板</button>
+                                <button class="layui-btn layuiadmin-btn-admin" data-type="edit">修改模板</button>
+                                <button class="layui-btn layuiadmin-btn-admin" data-type="del">删除</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导入模板</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导出模板</button>
+                                <form class="layui-form" action="" style="float: right;">
+                                    <input type="text" name="title" placeholder="请输入模板名称" autocomplete="off" class="layui-input search-input" id="val">
+                                    <button class="layui-btn" type="button" onclick="doList(1)"><i class="layui-icon">&#xe615;</i></button>
+                                </form>
+                            </div>
+                            <div class="kinds">
+                                <span class="active" data_type="">全部模板</span>
+                                <span data_type="1">概览模板</span>
+                                <span data_type="2">细览模板</span>
+                                <span data_type="3">嵌套模板</span>
+                                <span data_status="0">已被使用的</span>
+                                <span data_status="1">未被使用的</span>
+                            </div>
+                            <div class="table-area table-area-mini">
+                                <table class="layui-hide" id="templateList" lay-filter="demo1"></table>
+                            </div>
+                            <div id="page1"></div>
+                        </div>                  
+                        <div class="layui-tab-item">
+                            <div class="search-bar">
+                                <button class="layui-btn layuiadmin-btn-admin" data-type="add">新建JS</button>
+                                <button class="layui-btn layuiadmin-btn-admin">删除JS</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导入JS</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导出JS</button>
+                            </div>
+                            <div class="table-area">
+                                <table class="layui-hide" id="jsList" lay-filter="filterJs"></table>
+                            </div>
+                            <div id="page2"></div>
+                        </div>                 
+                        <div class="layui-tab-item">
+                            <div class="search-bar">
+                                <button class="layui-btn layuiadmin-btn-admin">新建CSS</button>
+                                <button class="layui-btn layuiadmin-btn-admin">删除CSS</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导入CSS</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导出CSS</button>
+                            </div>
+                            <div class="table-area">
+                                <table class="layui-hide" id="cssList" lay-filter="filterCss"></table>
+                            </div>
+                            <div id="page3"></div>
+                        </div>                 
+                        <div class="layui-tab-item">
+                            <div class="search-bar">
+                                <button class="layui-btn layuiadmin-btn-admin">删除IMG</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导入IMG</button>
+                                <button class="layui-btn layuiadmin-btn-admin" >导出IMG</button>
+                            </div>
+                            <div class="table-area">
+                                <table class="layui-hide" id="imgList" lay-filter="filterImg"></table>
+                            </div>
+                            <div id="page4"></div>
+                        </div>
+                    </div>
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">模板</li>
+                        <li>公共JS</li>
+                        <li>公共CSS</li>
+                        <li>IMG文件</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space12" id="addMetadataView" style="display:none;">
+        <div class="layui-card h100" id="addMetadataBody">
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="templetTpl">
+    <form class="layui-form" lay-filter="templetForm">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 25px 15px;    height: 780px;">
+
+                <div class="layui-form-item form-item-inline" style="width: 500px">
+                    <label class="layui-form-label">模板名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="tempName" name="tempname" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">网页类型:</label>
+                    <div class="layui-input-block">
+                        <select name="temptype" id="tempType" class="layui-input" required lay-verify="required">
+                            <option value="1">概览模板</option>
+                            <option value="2">细览模板</option>
+                            <option value="3">嵌套模板</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">输出文件名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="outputfilename" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">扩展名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tempext" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">模板类型:</label>
+                    <div class="layui-input-block">
+                        <select name="tpltype" id="tpltype" class="layui-input" required lay-verify="required">
+                            <option value="2">动态模板</option>
+                            <option value="1">静态模板</option>
+                        </select>
+                    </div>
+                </div>
+                <!--                <div class="layui-form-item form-item-inline">-->
+                <!--                    <label class="layui-form-label">站点:</label>-->
+                <!--                    <div class="layui-input-block">-->
+                <!--                        <span>{{d.siteName}}</span>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <div class="layui-form-item" >
+                    <label class="layui-form-label">模板描述:</label>
+                    <div class="layui-input-block" style="display: inline-block;margin-left: 0">
+                        <textarea class="layui-textarea" style="height: 55px;min-height: 0;width: 1010px;" name="tempdesc"></textarea>
+                    </div>
+                    <div class="layui-upload" style="    position: absolute;display: inline-block;
+    margin-left: 50px;
+    margin-top: 12px;">
+                        <input type="hidden" class="layui-upload-img" name="thumbnail"  >
+                        <button type="button" class="layui-btn" id="uploadTemplate" style="display: inline-block">上传模板缩略图</button>
+                        <div class="layui-upload-list" style="display: inline-block;position: absolute;
+    left: 140px;
+    top: -20px;    height: 50px;
+    width: 120px;
+    border: 1px solid;
+    margin-left: 10px">
+                            <img class="layui-upload-img" id="demos1" style="width: 100%;height: 100%" >
+                            <p id="demoText"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">模板文本:</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" style="height: 673px;padding-top: 7px;line-height: 18px!important;" name="temphtml" id="text1"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addTemplet">提交</button>
+            <button class="layui-btn" type="button" data-type="close">返回</button>
+        </div>
+        <input type="hidden" name="id">
+        <input type="hidden" name="siteid">
+    </form>
+</script>
+
+<!--目录树-->
+<script type="text/html" id="siteTempl">
+    {{#layui.each(d, function(index, item){ }}
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">
+            <img src="common/img/u5548.png">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.name}}
+        </h2>
+        {{#layui.each(item.sites,function(index,item){}}
+        <div class="layui-colla-content layui-show" data_id="{{ item.id }}">
+            <img src="common/img/u5554.png" alt="" srcset="">
+            <span>{{item.name}}</span>
+        </div>
+        {{# }) }}
+    </div>
+    {{# }) }}
+</script>
+
+<script>
+    var pageSize = 15;
+    var tempType = "";
+    var tempStatus = "";
+    var siteId = "";
+    var siteName = "";
+    var path="";
+    $(function () {
+        getSiteTree()
+        doList(1);
+        $(".kinds span").on("click",function(){
+            $(this).addClass("active").siblings().removeClass("active");
+            tempType = $(this).attr("data_type");
+            tempStatus = $(this).attr("data_status");
+            doList(1);
+        })
+        $("#siteTree").on("click",".layui-colla-content",function(){
+            siteId = $(this).attr("data_id");
+            siteName = $(this).find("span").text();
+            doList(1);
+        })
+    })
+
+    //分页
+    function page(obj, total, limit, current, callBack) {
+		layui.laypage.render({
+			elem: obj,
+			count: total,
+			limit: limit,
+			curr: current,
+			layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip'],
+			jump: function (obj, first) {
+				//首次不执行
+				if (!first) {
+					callBack(obj.curr);
+				}
+			}
+		});
+	}
+    //模板列表
+    function doList(pageNo) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": pageSize,
+                sortProps:[{
+                    key:"createTime",value:false
+                }]
+            },
+            entity: {
+                tempname:$("#val").val(),temptype:tempType,status:tempStatus,siteid:siteId
+            }
+        }
+        ajax(service_prefix.manage,"/template/list","post",JSON.stringify(jsondata)).then(data => {
+            if (data.success) {
+                layui.use(['laypage', 'table'], function () {
+                    var table = layui.table,
+                        laypage = layui.laypage;
+                    table.render({
+                        elem: '#templateList'
+                        , data: data.obj.records
+                        ,id:"idTest"
+                        , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        , cols: [[
+                            {type: 'checkbox', field: "id"}
+                            , {type: 'numbers', title: '序号', align: "center"}
+                            , {field: 'temptype', title: '类型', templet: '#typeDemo'}
+                            , {field: 'tempname', title: '模板名称', align: "left"}
+                            , {field: 'temptype',title: '网页类型', templet: '#typeDemo'}
+                            , {field: 'temptype', title: '模板类型', templet: '#typeDemo'}
+                            , {field: 'modifyUser', title: '最近修改人'}
+                            , {field: 'createTime', title: '新建时间'}
+                            , {field: 'modifyTime', title: '修改时间'}
+                            , {field: '', title: '操作', templet:"#operations", width: 140, fixed: 'right'}
+                        ]]
+                        , limit: pageSize
+                    });
+                    table.on('row(LAY-app-content-tags)', function (obj) {
+                        var data = obj.data;
+                        //标注选中样式
+                        obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                    });
+                    layui.table.on('tool(demo1)', function (obj) {
+                        var data = obj.data;
+                        if (obj.event === 'edit') {
+                            ajax(service_prefix.manage,"/site/"+data.siteid,"get",{}).then(res => {
+                                if(res.success){
+                                    layerOpenFull("修改模板");
+                                    lodTpl("templetTpl", "openDiv", {siteName:res.obj.name});
+                                    $("#text1").initTextarea();
+                                    layui.form.val("templetForm",data);
+                                    if(data.thumbnail){
+                                        $('#demos1').attr('src', data.thumbnail);
+                                    }
+                                }else{
+                                    layerOpenFull("修改模板");
+                                    lodTpl("templetTpl", "openDiv", {siteName:""});
+                                    $("#text1").initTextarea();
+                                    layui.form.val("templetForm",data);
+                                    if(data.thumbnail){
+                                        $('#demos1').attr('src', data.thumbnail);
+                                    }
+                                }
+
+                            })
+                        }else  if(obj.event=== 'look'){
+                            window.open(data.thumbnail)
+                        }
+                    });
+
+                    page('page1', data.obj.total, data.obj.size, pageNo, doList);
+                });
+            }
+        })
+    }
+    function add(){
+        if(!siteId){
+            layer.msg("请选择站点!");
+            return false;
+        }
+        layerOpenFull("新建模板");
+        lodTpl("templetTpl", "openDiv", {siteName:siteName});
+        $("#text1").initTextarea();
+
+        layui.form.val("templetForm",{siteid:siteId});
+        layui.use('upload', function(){
+            var $ = layui.jquery
+                ,upload = layui.upload;
+
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#uploadTemplate'
+                ,url: 'resources/picture/upload?id=1190189815098888194'
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#demos1').attr('src', result); //图片链接（base64）
+                    });
+                }
+                ,done: function(res){
+
+                    $("[name=thumbnail]").val(res.url)
+                }
+                ,error: function(){
+
+                }
+            });
+        });
+    }
+    function edit() {
+        var data = getTableEdit("idTest");
+        if(data.siteid){
+            ajax(service_prefix.manage,"/site/"+data.siteid,"get",{}).then(res => {
+                if(res.success){
+                    layerOpenFull("修改模板");
+                    lodTpl("templetTpl", "openDiv", {siteName:res.obj.name});
+                    $("#text1").initTextarea();
+                    layui.form.val("templetForm",data);
+                    layui.use('upload', function(){
+                        var $ = layui.jquery
+                            ,upload = layui.upload;
+
+                        //普通图片上传
+                        var uploadInst = upload.render({
+                            elem: '#uploadTemplate'
+                            ,url: 'resources/picture/upload?id=1190189815098888194'
+                            ,before: function(obj){
+                                //预读本地文件示例，不支持ie8
+                                obj.preview(function(index, file, result){
+                                    $('#demos1').attr('src', result); //图片链接（base64）
+                                });
+                            }
+                            ,done: function(res){
+                                $("[name=thumbnail]").val(res.url)
+                            }
+                            ,error: function(){
+
+                            }
+                        });
+                    });
+                }else{
+                    layerOpenFull("修改模板");
+                    lodTpl("templetTpl", "openDiv", {siteName:""});
+                    $("#text1").initTextarea();
+                    layui.form.val("templetForm",data);
+                    layui.use('upload', function(){
+                        var $ = layui.jquery
+                            ,upload = layui.upload;
+
+                        //普通图片上传
+                        var uploadInst = upload.render({
+                            elem: '#uploadTemplate'
+                            ,url:  'resources/picture/upload?id=1190189815098888194'
+                            ,before: function(obj){
+                                //预读本地文件示例，不支持ie8
+                                obj.preview(function(index, file, result){
+                                    $('#demos1').attr('src', result); //图片链接（base64）
+                                });
+                            }
+                            ,done: function(res){
+
+                                $("[name=thumbnail]").val(res.url)
+                            }
+                            ,error: function(){
+
+                            }
+                        });
+                    });
+                }
+            })
+
+
+        }
+    }
+    function del(){
+        var ids = checkChecked("idTest");
+        if(ids){
+            layer.confirm("此操作有风险，是否继续?",function () {
+                ajax2(service_prefix.manage,"/template/delByIds","get",{ids:ids.join()}).then(res => {
+                    if(!res.success){
+                        layer.alert(res.msg);
+                    }else{
+                        doList(1);
+                        layer.closeAll()
+                    }
+                })
+            })
+
+        }
+    }
+
+    //获取站点树
+    function getSiteTree() {
+        ajax(service_prefix.manage,"/site/getSiteTree","get",{}).then(data => {
+            treeObjs = data.obj;
+            layui.laytpl($("#siteTempl").html()).render(data.obj,function(html){
+                $("#siteTree").html(html);
+                layui.use(['element', 'layer'], function(){
+                    var element = layui.element;
+                    element.render('collapse');
+                });
+
+            })
+        })
+    }
+    
+    //公共JS列表
+    function commonJs(){
+        var data = {
+            "msg":"成功",
+            "obj":{
+                "current":1,
+                "pages":1,
+                "records":[{
+                    "id":1,
+                    "title":"document",
+                    "route":"/zkjw/ggjs/document.js",
+                    "crUser":"admin",
+                    "createTime":"2021-09-19 02:01:01",
+                    "modifyUser":"admin",
+                    "modifyTime":"2021-09-19 02:01:01"
+                },{
+                    "id":2,
+                    "title":"data",
+                    "route":"/zkjw/ggjs/data.js",
+                    "crUser":"admin",
+                    "createTime":"2020-09-19 02:01:01",
+                    "modifyUser":"admin",
+                    "modifyTime":"2020-09-19 02:01:01"
+                }],
+                "size":10,
+                "total":2
+            },
+            "status":"200",
+            "success":true,
+            "timestamp":1637136043171
+        };
+        table.render({
+            elem: '#jsList'
+            , data: data.obj.records
+            , limit: pageSize
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'title', title: 'JS名称', fixed: 'left'}
+                , {field: 'route', title: '相对路径'}
+                , {field: 'crUser', title: '创建人'}
+                , {field: 'createTime', title: '创建时间'}
+                , {field: 'modifyUser', title: '操作人'}
+                , {field: 'modifyTime', title: '操作时间'}
+            ]]
+        });
+    }
+    
+    commonJs();
+
+    //公共CSS列表
+    function commonCss(){
+        var data = {
+            "msg":"成功",
+            "obj":{
+                "current":1,
+                "pages":1,
+                "records":[{
+                    "id":1,
+                    "title":"style1",
+                    "route":"/zkjw/ggjs/style1.css",
+                    "crUser":"admin",
+                    "createTime":"2021-09-19 02:01:01",
+                    "modifyUser":"admin",
+                    "modifyTime":"2021-09-19 02:01:01"
+                },{
+                    "id":2,
+                    "title":"style2",
+                    "route":"/zkjw/ggjs/style2.css",
+                    "crUser":"admin",
+                    "createTime":"2020-09-19 02:01:01",
+                    "modifyUser":"admin",
+                    "modifyTime":"2020-09-19 02:01:01"
+                }],
+                "size":10,
+                "total":2
+            },
+            "status":"200",
+            "success":true,
+            "timestamp":1637136043171
+        };
+        table.render({
+            elem: '#cssList'
+            , data: data.obj.records
+            , limit: pageSize
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'title', title: ' CSS名称', fixed: 'left'}
+                , {field: 'route', title: '相对路径'}
+                , {field: 'crUser', title: '创建人'}
+                , {field: 'createTime', title: '创建时间'}
+                , {field: 'modifyUser', title: '操作人'}
+                , {field: 'modifyTime', title: '操作时间'}
+            ]]
+        });
+    }
+    commonCss();
+
+    //IMG文件列表
+    function commonImg(){
+        var data = {
+            "msg":"成功",
+            "obj":{
+                "current":1,
+                "pages":1,
+                "records":[{
+                    "id":1,
+                    "title":"logo",
+                    "route":"/zkjw/ggjs/logo.png",
+                    "crUser":"admin",
+                    "createTime":"2021-09-19 02:01:01",
+                    "modifyUser":"admin",
+                    "modifyTime":"2021-09-19 02:01:01"
+                },{
+                    "id":2,
+                    "title":"banner",
+                    "route":"/zkjw/ggjs/banner.jpg",
+                    "crUser":"admin",
+                    "createTime":"2020-09-19 02:01:01",
+                    "modifyUser":"admin",
+                    "modifyTime":"2020-09-19 02:01:01"
+                }],
+                "size":10,
+                "total":2
+            },
+            "status":"200",
+            "success":true,
+            "timestamp":1637136043171
+        };
+        table.render({
+            elem: '#imgList'
+            , data: data.obj.records
+            , limit: pageSize
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'title', title: ' IMG名称', fixed: 'left'}
+                , {field: 'route', title: '相对路径'}
+                , {field: 'crUser', title: '创建人'}
+                , {field: 'createTime', title: '创建时间'}
+                , {field: 'modifyUser', title: '操作人'}
+                , {field: 'modifyTime', title: '操作时间'}
+            ]]
+        });
+    }
+    commonImg();
+</script>
+<script type="text/html" id="operations">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="edit">查看</button>
+        <button class="layui-btn layui-btn-sm" lay-event="look">缩略图</button>
+    </div>
+</script>
+<!--layui-->
+<script>
+    layui.form.on("submit(addTemplet)",function(data){
+        data.field.siteid = siteId;
+        if(data.field.id){
+            ajax(service_prefix.manage,"/template/"+data.field.id,"put",JSON.stringify(data.field)).then(res => {
+                doList(1);
+                layer.closeAll();
+            })
+        }else{
+            ajax(service_prefix.manage,"/template","post",JSON.stringify(data.field)).then(res => {
+                doList(1);
+                layer.closeAll();
+            })
+        }
+        return false;
+    })
+</script>
+
+<!--模板类型显示-->
+<script type="text/html" id="typeDemo">
+    {{# if(d.temptype==1){ }}
+    概览
+    {{#} else if(d.temptype==2){ }}
+    细览
+    {{#} else if(d.temptype==3){ }}
+    嵌套
+    {{#} else { }}
+    其他
+    {{# } }}
+</script>

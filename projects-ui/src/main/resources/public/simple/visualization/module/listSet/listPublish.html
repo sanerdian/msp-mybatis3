@@ -1,0 +1,330 @@
+<!Doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>列表页</title>
+        <link rel="stylesheet" href="/thirdparty/layui/css/layui.css">
+        <script src="/thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    </head>
+<body>
+    <link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/356/layoutList.css"><div class="module_box"><!--布局 开始-->
+    <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/376/top.css"><div class="module_box"><!--顶部开始-->
+    <div id="widgetBox1" class="widget_box" data-module-type="">
+        <div class="visual_top_box widget_border_content">
+            <div class="visual_top">
+                <h1 class="visual_logo"><a href="#"><img src="http://36.138.169.165:8081/files/visual/img/376/logo.png"></a></h1>
+                <div class="visual_top_right">
+                    <form class="layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline" style="width:100px;">
+                                <select lay-filter="">
+                                    <option value="1">全部</option>
+                                    <option value="2">国家动态</option>
+                                    <option value="3">机床企业</option>
+                                    <option value="4">机床产品</option>
+                                    <option value="5">行业专家</option>
+                                    <option value="6">行业组织</option>
+                                    <option value="7">文献情报</option>
+                                    <option value="8">研究报告</option>
+                                    <option value="9">知识图谱</option>
+                                </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择" value="全部" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="1" class="layui-this">全部</dd><dd lay-value="2" class="">国家动态</dd><dd lay-value="3" class="">机床企业</dd><dd lay-value="4" class="">机床产品</dd><dd lay-value="5" class="">行业专家</dd><dd lay-value="6" class="">行业组织</dd><dd lay-value="7" class="">文献情报</dd><dd lay-value="8" class="">研究报告</dd><dd lay-value="9" class="">知识图谱</dd></dl></div>
+                            </div>
+                            <div class="layui-inline">
+                                <input type="text" name="name" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">                      
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn" lay-submit="" lay-filter="">
+                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                </button>                        
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+    </div>
+    <!--顶部结束--></div></div>
+    <div class="visual_main">
+        <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/423/headerMenu.css"><div class="module_box"><!--头部菜单开始-->
+    <div id="widgetBox2" class="widget_box" data-module-type="menu">
+        <div class="visual_menu widget_border_content" id="widgetHeaderMenu">
+            <ul id="widgetHeaderMenuView">
+                <li class="ico1"><a href="#">首页</a></li>
+                <li class="ico2"><a href="#">行业动态</a></li>
+                <li class="ico3"><a href="#">机床企业</a></li>
+                <li class="ico4"><a href="#">机床产品</a></li>
+                <li class="ico5"><a href="#">行业专家</a></li>
+                <li class="ico6"><a href="#">行业组织</a></li>
+                <li class="ico7"><a href="#">文献情报</a></li>
+                <li class="ico8"><a href="#">研究报告</a></li>
+                <li class="ico9"><a href="#">知识图谱</a></li>
+            </ul>
+        </div>
+        
+        
+        
+        
+        
+        
+        <!--菜单模板渲染开始-->
+        <script type="text/html" id="widgetHeaderMenuTpl">
+            {{#  layui.each(d, function(index, item){ }} 
+            {{#  if(index < 9){ }}
+            <li class="ico{{ index + 1 }}"><a href="{{ item.listUrl }}">{{ item.name }}</a></li>
+            {{#  } }} 
+            {{#  }); }}
+        </script>
+        <!--菜单模板渲染结束-->
+    </div>
+    <!--头部菜单结束--></div></div>
+        <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/380/crumbs.css"><div class="module_box"><!--面包屑开始-->
+    <div id="widgetBox3" class="widget_box" data-module-type="navigation">
+        <div class="visual_crumbs widget_border_content" id="widgetCrumbs">
+            <span>当前位置：<a href="#">首页</a> &gt; <span>科研信息</span>
+        </span></div>
+        
+        
+        
+        
+        
+        
+    </div>
+    <!--面包屑结束--></div></div>
+        <div class="visual_row">
+            <div class="visual_left">
+                <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/427/leftMenu.css"><div class="module_box"><!--左侧栏目开始-->
+    <div id="widgetBox4" class="widget_box" data-module-type="menu">
+        <div class="visual_left_menu widget_border_content" id="widgetLeftMenu">
+            <div id="widgetLeftMenuView">
+                <h4>文献情报</h4>
+                <ul>
+                    <li class="cur">
+                        <a href="#">论文</a>
+                    </li>
+                    <li>
+                        <a href="#">标准</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        <!--左侧栏目模板渲染开始-->
+        <script type="text/html" id="widgetLeftMenuTpl">
+            {{#  layui.each(d, function(index, item){ }} 
+            {{#  if((index + 1) == d.length){ }}
+            <h4>{{ item.name }}</h4>
+            {{#  } }} 
+            {{#  }); }}
+            <ul>
+            {{#  layui.each(d, function(index, item){ }} 
+            {{# if((index + 1) != d.length){ }}
+            <li>
+                <a href="{{ item.listUrl }}">{{ item.name }}</a>
+            </li>
+            {{#  } }} 
+            {{#  }); }}
+            </ul>
+        </script>
+        <!--左侧栏目模板渲染结束-->
+    </div>
+    <!--左侧栏目结束--></div></div>
+            </div>
+            <div class="visual_right">
+                <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/433/search.css"><div class="module_box"><!--搜索开始-->
+    <div id="widgetBox5" class="widget_box" data-module-type="search">
+        <div class="visual_search widget_border_content">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-inline">
+                        <input type="text" name="title" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">                      
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <button class="layui-btn" lay-submit="" lay-filter="LAY-back-search">
+                            <i class="layui-icon layui-icon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        
+        
+        
+        
+        
+    </div>
+    <!--搜索结束--></div></div>
+                <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/426/tableText.css"><div class="module_box"><!--表格文字列表开始-->
+    <div id="widgetBox6" class="widget_box" data-module-type="table">
+        <div class="visual_table widget_border_content"> 
+            <table id="tableData" class="layui-table" lay-even="" lay-skin="row">
+                <thead> 
+                    <tr> 
+                        <th>标题</th> 
+                        <th>作者</th> 
+                        <th>发表时间</th>
+                        <th>操作</th>
+                    </tr> 
+                </thead> 
+                <tbody>  
+                    <tr> 
+                        <td><span class="computerCode_style" onclick="computerCodeClick('16')">ZKJW-135</span></td> 
+                        <td>
+                            严曼青
+                        </td> 
+                        <td>2014-11-01 14:56</td> 
+                        <td>
+                            <a class="layui-btn layui-btn-xs" href="http://36.138.169.165:8081/" target="_blank">查看</a>
+                        </td>
+                    </tr>  
+                    <tr> 
+                        <td>未来15年将是中国机床业为汽车工业提供装备最后、最好的机会</td> 
+                        <td>
+                            严曼青
+                        </td> 
+                        <td>2014-11-01 14:56</td>
+                        <td>
+                            <a class="layui-btn layui-btn-xs">查看</a>
+                        </td>
+                    </tr> 
+                    <tr> 
+                        <td>未来15年将是中国机床业为汽车工业提供装备最后、最好的机会</td> 
+                        <td>
+                            严曼青
+                        </td> 
+                        <td>2014-11-01 14:56</td> 
+                        <td>
+                            <a class="layui-btn layui-btn-xs">查看</a>
+                        </td>
+                    </tr> 
+                    <tr> 
+                        <td>未来15年将是中国机床业为汽车工业提供装备最后、最好的机会</td> 
+                        <td>
+                            严曼青
+                        </td> 
+                        <td>2014-11-01 14:56</td> 
+                        <td>
+                            <a class="layui-btn layui-btn-xs">查看</a>
+                        </td>
+                    </tr> 
+                    <tr> 
+                        <td>未来15年将是中国机床业为汽车工业提供装备最后、最好的机会</td> 
+                        <td>
+                            严曼青
+                        </td> 
+                        <td>2014-11-01 14:56</td> 
+                        <td>
+                            <a class="layui-btn layui-btn-xs">查看</a>
+                        </td>
+                    </tr> 
+                </tbody> 
+            </table>
+            <!-- 分页开始 -->
+            <div id="tablePage">
+                <div class="layui-box layui-laypage layui-laypage-default">
+                <span class="layui-laypage-count">共 151 条</span>
+                <a href="javascript:;" class="layui-laypage-prev layui-disabled" data-page="0"><i class="layui-icon"></i></a>
+                <span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span>
+                <a href="javascript:;" data-page="2">2</a>
+                <a href="javascript:;" data-page="3">3</a>
+                <a href="javascript:;" data-page="4">4</a>
+                <a href="javascript:;" data-page="5">5</a>
+                <span class="layui-laypage-spr">…</span>
+                <a href="javascript:;" class="layui-laypage-last" title="尾页" data-page="31">31</a>
+                <a href="javascript:;" class="layui-laypage-next" data-page="2"><i class="layui-icon"></i></a>
+                <span class="layui-laypage-limits">
+                    <select lay-ignore="">
+                    <option value="10">10 条/页</option>
+                    <option value="20">20 条/页</option><option value="30">30 条/页</option>
+                    <option value="40">40 条/页</option><option value="50">50 条/页</option>
+                    </select>
+                </span>
+                <a href="javascript:;" data-page="1" class="layui-laypage-refresh"><i class="layui-icon layui-icon-refresh"></i></a>
+                <span class="layui-laypage-skip">到第<input type="text" min="1" value="1" class="layui-input">页<button type="button" class="layui-laypage-btn">确定</button></span>
+                </div>
+            </div>
+            <!-- 分页结束 -->
+        </div>
+        <script src="listDefine.js"></script>
+        
+        
+        <!--方法弹出框模板开始-->
+        <script type="text/html" class="visual_layer_template">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">栏目1</li>
+                    <li>栏目2</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                    </div>
+                    <div class="layui-tab-item">
+                    </div>
+                </div>
+            </div>
+        </script>   
+        <!--方法弹出框模板结束-->
+        
+        
+        
+        <!--操作模板开始-->
+        <script type="text/html" id="tableOperateBar">
+            <a class="layui-btn layui-btn-xs" href="content.html?id={{ d.id }}" target="_blank">查看</a>
+        </script>   
+        <!--操作模板结束-->
+    </div>
+    <!--表格文字列表结束--></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="visual_row canEdit"><link rel="stylesheet" href="http://36.138.169.165:8081/files/visual/css/386/footer.css"><div class="module_box"><!--底部开始-->
+    <div id="widgetBox7" class="widget_box" data-module-type="">
+        <div class="visual_footer widget_border_content">
+            <p>
+                <a href="http://www.amtonline.org/" target="_blank">美国机械制造技术协会</a> |
+                <a href="http://www.ucimu.it/" target="_blank">意大利机床协会</a> |
+                <a href="http://www.afm.es/" target="_blank">西班牙机床协会</a> |
+                <a href="http://www.vdw.de/" target="_blank">德国机械制造商协会</a> |
+                <a href="http://www.swissmem.ch/" target="_blank">瑞士制造协会</a>
+                <a href="http://www.nikkohan.or.jp/" target="_blank">日本机床协会</a> |
+                <a href="http://www.komma.org/" target="_blank">韩国机床协会</a> |
+                <a href="http://www.tami.org.tw/" target="_blank">台湾机械同业会</a> |
+                <a href="http://www.cmtba.org.cn/" target="_blank">中国机床工具协会</a>
+            </p>
+            <p>版权所有通用技术集团机床工程研究院</p>
+        </div>
+        
+        
+        
+        
+        
+        
+    </div>
+    <!--底部结束--></div></div>
+    <!--布局 结束--></div>
+    <link rel="stylesheet" href="/simple/visualization/css/publish.css">
+    <link rel="stylesheet" href="/pub/html/visualStyle/report/collectReport/list.css">
+    <script src="/thirdparty/layui/layui.all.js"></script>
+    <script type="text/javascript" src="/common/js/config.js"></script>
+    <script type="text/javascript" src="/common/js/common.js"></script>
+    <script type="text/javascript" src="/simple/visualization/js/commonVisual.js"></script>
+    <script type="text/javascript" src="/pub/html/visualStyle/report/collectReport/list.js"></script>
+    <script type="text/javascript" src="/simple/visualization/js/publish.js"></script>
+    <script>var columnId = '1600679806687719425';</script>
+</body>
+</html>

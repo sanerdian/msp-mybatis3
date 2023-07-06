@@ -1,0 +1,788 @@
+﻿<title>首页</title>
+<style>
+  #list li{
+    height:100px;
+    margin-left: 1%;
+    width: 19%;
+    margin-top: 10px;
+  }
+  #list li a cite{
+    color: #FFFFFF!important;
+    height: 100%;
+    position: relative;
+  }
+  #list li a cite i{
+    background: none;
+    color: #FFFFFF;
+    height: 40px;
+    line-height: 50px;
+    width:30%;
+  }
+  #list li a cite span{
+    font-size: 36px;
+    position: absolute;
+    left: 15px;
+    top: 10px;
+  }
+  th .layui-table-cell{text-align: center}
+  #time span{
+    display: inline-block;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    background: #ccc;
+    text-align: center;
+    line-height: 30px;
+    margin-top: 5px;
+  }
+  .active{
+    background: #1E9FFF!important;
+    color: #FFFFFF;
+  }
+</style>
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md8">
+      <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12" >
+          <div class="layui-card">
+            <div class="layui-card-header">新增情况
+                <div style="float: right;margin-right: 20px" id="time">
+                  <span class="active">月</span>
+                  <span>年</span>
+                </div>
+            </div>
+
+            <div class="layui-carousel layadmin-carousel layadmin-shortcut" style="height: 130px!important;">
+              <!--<div carousel-item>-->
+              <ul class="layui-row layui-col-space10" id="list" >
+                <li class="layui-col-xs5 " style="background: url(common/img/u1193.png) no-repeat;background-size: 100% 100%">
+                  <a href="javascript:go2Menu('simple/member/user/list.html','系统用户')">
+                    <cite>
+                      <p><span class="counts"></span></p>
+                      <p><img src="common/img/u2133.png" alt="" style="width: 25px;height: 25px;position: absolute;left: 15px;bottom:10px"><span  style="position: absolute;left: 45px;top:60px;font-size: 14px">新增系统用户</span></p>
+                    </cite>
+                  </a>
+                </li>
+                <li class="layui-col-xs5 " style="background:  url(common/img/u2137.png) no-repeat;background-size: 100% 100%">
+                  <a href="javascript:go2Menu('simple/member/user/ituser.html','互联网用户')">
+                    <cite>
+                      <p><span class="counts1"></span></p>
+                      <p><img src="common/img/u2133.png" alt="" style="width: 25px;height: 25px;position: absolute;left: 15px;bottom:10px"><span  style="position: absolute;left: 45px;top:60px;font-size: 14px">新增互联网用户</span></p>
+                    </cite>
+                  </a>
+                </li>
+                <li class="layui-col-xs5 " style="background:  url(common/img/u2145.png) no-repeat;background-size: 100% 100%">
+                  <a href="javascript:go2Menu('/simple/metadata/moduleinfo.html','元数据模块管理')">
+                    <cite>
+                      <p><span class="counts3"></span></p>
+                      <p><img src="common/img/u2149.png" alt="" style="width: 25px;height: 25px;position: absolute;left: 15px;bottom:10px"><span  style="position: absolute;left: 45px;top:60px;font-size: 14px">新增元数据</span></p>
+                    </cite>
+                  </a>
+                </li>
+                <li class="layui-col-xs5 " style="background:  url(common/img/u2153.png) no-repeat;background-size: 100% 100%">
+                  <a href="javascript:go2Menu('/simple/flowable/modeler.html','新增工作流')">
+                    <cite>
+                      <p><span class="counts4">0</span></p>
+                      <p><img src="common/img/u2157.png" alt="" style="width: 25px;height: 25px;position: absolute;left: 15px;bottom:10px"><span  style="position: absolute;left: 45px;top:60px;font-size: 14px">新增工作流</span></p>
+                    </cite>
+                  </a>
+                </li>
+                <li class="layui-col-xs5 " style="background:  url(common/img/u2161.png) no-repeat;background-size: 100% 100%">
+                  <a href="javascript:go2Menu('	/simple/file/imgManage/img.html','图片管理')">
+                    <cite>
+                      <p><span class="counts5"></span></p>
+                      <p><img src="common/img/u2165.png" alt="" style="width: 25px;height: 25px;position: absolute;left: 15px;bottom:10px"><span  style="position: absolute;left: 45px;top:60px;font-size: 14px">新增资源个数</span></p>
+                    </cite>
+                  </a>
+                </li>
+
+              </ul>
+
+              <!--</div>-->
+            </div>
+
+          </div>
+        </div>
+        <!--<div class="layui-col-md6">-->
+          <!--<div class="layui-card">-->
+            <!--<div class="layui-card-header">待办事项</div>-->
+            <!--<div class="layui-card-body">-->
+
+              <!--<div class="layui-carousel layadmin-carousel layadmin-backlog">-->
+                <!--<ul class="layui-row layui-col-space10">-->
+                  <!--<li class="layui-col-xs6">-->
+                    <!--<a lay-href="app/content/comment.html" class="layadmin-backlog-body">-->
+                      <!--<h3>我发起的</h3>-->
+                      <!--<p><cite>66</cite></p>-->
+                    <!--</a>-->
+                  <!--</li>-->
+                  <!--<li class="layui-col-xs6">-->
+                    <!--<a lay-href="app/forum/list2.html" class="layadmin-backlog-body">-->
+                      <!--<h3>待审核</h3>-->
+                      <!--<p><cite>12</cite></p>-->
+                    <!--</a>-->
+                  <!--</li>-->
+                  <!--<li class="layui-col-xs6">-->
+                    <!--<a lay-href="template/goodslist.html" class="layadmin-backlog-body">-->
+                      <!--<h3>已审核</h3>-->
+                      <!--<p><cite>99</cite></p>-->
+                    <!--</a>-->
+                  <!--</li>-->
+                <!--</ul>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div class="layui-col-md12">
+          <div class="layui-card" style="height: 580px;">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+              <ul class="layui-tab-title">
+                <li class="layui-this">元数据量统计概览</li>
+                <li>消息通知</li>
+                <li>任务计划调度日志</li>
+                <li>搜索日志</li>
+                <li>登录日志</li>
+                <li>操作日志</li>
+                <li>发布日志</li>
+              </ul>
+              <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" >
+                  <a href="javascript:go2Menu('/simple/metadata/moduleinfo.html','元数据模块管理')" style="color: #999;position: absolute;font-size: 12px;top:20px;right:20px;">更多>></a>
+                  <div id="main" style="height:400px;"></div>
+                </div>
+                <div class="layui-tab-item" >
+                  <a href="javascript:go2Menu('/simple/messages/msg/list.html','消息通知')" style="color: #999;position: absolute;font-size: 12px;top:20px;right:20px;">更多>></a>
+                  <div id="main1" style="height: 400px;"><table class="layui-hide" id="test7"></table></div>
+                </div>
+                <div class="layui-tab-item" >
+                  <a href="javascript:go2Menu('	/simple/task/task.html','规定定时执行器')" style="color: #999;position: absolute;font-size: 12px;top:20px;right:20px;">更多>></a>
+                  <table id="test6"></table>
+                </div>
+                <div class="layui-tab-item" >
+                  <a href="javascript:void(0)" style="color: #999;position: absolute;font-size: 12px;top:20px;right:20px;">更多>></a>
+                  <table id="test"></table>
+
+                </div>
+                <div class="layui-tab-item" >
+                  <a href="javascript:go2Menu('/simple/log/userlogin/list.html','用户登录日志')" style="color: #999;position: absolute;font-size: 12px;top:20px;right:20px;">更多>></a>
+                  <table  id="test1"></table>
+
+                </div>
+                <div class="layui-tab-item" >
+                  <a href="javascript:go2Menu('/simple/log/content/list.html','用户操作日志')" style="color: #999;position: absolute;font-size: 12px;top:20px;right:20px;">更多>></a>
+                  <table id="test2"></table>
+
+                </div>
+                <div class="layui-tab-item" >
+                  <a href="javascript:go2Menu('/simple/log/publish/list.html','发布页面日志')" style="color: #999;position: absolute;font-size: 12px;top:20px;right:20px;">更多>></a>
+                  <table id="test3"></table>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-col-md4">
+      <div class="layui-card">
+        <div class="layui-card-header">系统信息
+          <a href="javascript:go2Menu('/simple/config/systemmsg/list.html','系统信息')" style="color: #999;float: right;font-size: 12px;">更多>></a>
+        </div>
+        <div class="layui-card-body layui-text">
+          <table class="layui-table">
+            <colgroup>
+              <col width="100">
+              <col>
+            </colgroup>
+            <tbody>
+            <tr>
+              <td>应用版本</td>
+              <td id="version">
+                <!--<script type="text/html" template>-->
+
+
+                <!--<a href="http://fly.layui.com/docs/3/" target="_blank" style="padding-left: 15px;">更新日志</a>-->
+                <!--</script>-->
+              </td>
+            </tr>
+            <tr>
+              <td>基于框架</td>
+              <td id="frame">
+
+              </td>
+            </tr>
+            <tr>
+              <td>手册查看</td>
+              <td id="description"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--<div class="layui-card" style="height: 395px;">-->
+        <!--<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">-->
+          <!--<ul class="layui-tab-title">-->
+            <!--<li class="layui-this">消息通知</li>-->
+            <!--<li>任务计划调度日志</li>-->
+          <!--</ul>-->
+          <!--&lt;!&ndash;<div class="layui-card-body layadmin-takerates">&ndash;&gt;-->
+          <!--<div class="layui-tab-content layadmin-takerates" style="height: 100px;">-->
+            <!--<div class="layui-tab-item layui-show">-->
+              <!--<table class="layui-hide" id="test7"></table>-->
+
+            <!--</div>-->
+            <!--<div class="layui-tab-item">-->
+
+            <!--</div>-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+
+
+
+      <div class="layui-card" style="position: relative">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+          <ul class="layui-tab-title">
+            <li class="layui-this">工作事项</li>
+            <li>我发起的</li>
+            <li>待审核</li>
+            <li>已审核</li>
+          </ul>
+          <div class="layui-tab-content" style="height: 100px;">
+            <div class="layui-tab-item layui-show">
+              <a href="javascript:go2Menu('/simple/flowable/workEvents.html','工作事项')" style="color: #999;position: absolute;font-size: 12px;top:10px;right:20px;">更多>></a>
+              <table class="layui-hide" id="test4"></table>
+            </div>
+            <div class="layui-tab-item">
+              <a href="javascript:go2Menu('/simple/flowable/myWork.html','我的待办')" style="color: #999;position: absolute;font-size: 12px;top:10px;right:20px;">更多>></a>
+              <table class="layui-hide" id="test5"></table>
+            </div>
+            <div class="layui-tab-item">
+              <a href="javascript:void(0)" style="color: #999;position: absolute;font-size: 12px;top:10px;right:20px;">更多>></a>
+              <table class="layui-hide" id="test8"></table>
+            </div>
+            <div class="layui-tab-item">
+              <a href="javascript:void(0)" style="color: #999;position: absolute;font-size: 12px;top:10px;right:20px;">更多>></a>
+              <table class="layui-hide" id="test9"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!--<script src="../../js/layui/layui.js"></script>-->
+<script src="thirdparty/echarts/echarts.min.js"></script>
+<script>
+   // 根据年、月统计新增用户、新增互联网用户，新增资源，新增工作流数量
+       $("#time span").each(function () {
+       if($(this).text()==="月"){
+           ajax(service_prefix.member,'/user/addItThisMonth','get').then(function (res) {
+              if(res.success){
+                  $(".counts1").text(res.obj.count)
+              }
+           })
+           ajax(service_prefix.member,'/user/addThisMonth','get').then(function (res) {
+               if(res.success){
+                   $(".counts").text(res.obj.count)
+               }
+           })
+           ajax(service_prefix.resources,'/picture/addThisMonth','get').then(function (res) {
+               if(res.success){
+                   $(".counts5").text(res.obj.count)
+               }
+           })
+           ajax(service_prefix.metadata,'/addThisMonth','get').then(function (res) {
+               if(res.success){
+                   $(".counts3").text(res.obj.count)
+               }
+           })
+       }
+        $(this).click(function () {
+            var other=$(this).siblings();
+            if($(this).hasClass('active')){
+                other.addClass('active');
+                $(this).removeClass('active');
+            }else{
+                $(this).addClass('active');
+                other.removeClass('active');
+            }
+            if($(this).text()==="月"){
+                ajax(service_prefix.member,'/user/addItThisMonth','get').then(function (res) {
+                    if(res.success){
+                        $(".counts1").text(res.obj.count)
+                    }
+                })
+                ajax(service_prefix.member,'/user/addThisMonth','get').then(function (res) {
+                    if(res.success){
+                        $(".counts").text(res.obj.count)
+                    }
+                })
+                ajax(service_prefix.resources,'/picture/addThisMonth','get').then(function (res) {
+                    if(res.success){
+                        $(".counts5").text(res.obj.count)
+                    }
+                })
+                ajax(service_prefix.metadata,'/addThisMonth','get').then(function (res) {
+                    if(res.success){
+                        $(".counts3").text(res.obj.count)
+                    }
+                })
+            }else{
+                ajax(service_prefix.member,'/user/addItThisYear','get').then(function (res) {
+                    if(res.success){
+                        $(".counts1").text(res.obj.count)
+                    }
+                })
+                ajax(service_prefix.member,'/user/addThisYear','get').then(function (res) {
+                    if(res.success){
+                        $(".counts").text(res.obj.count)
+                    }
+                })
+                ajax(service_prefix.resources,'/picture/addThisYear','get').then(function (res) {
+                    if(res.success){
+                        $(".counts5").text(res.obj.count)
+                    }
+                })
+                ajax(service_prefix.metadata,'/addThisYear','get').then(function (res) {
+                    if(res.success){
+                        $(".counts3").text(res.obj.count)
+                    }
+                })
+            }
+
+
+
+        })
+   })
+   //跳转至相应的栏目页面
+//      function loaddiv(url,name){
+//        var urlparams;
+//        if(url.indexOf("?")>0){
+//            urlparams = url.split("?")[1].split("&");
+//            urlparams.forEach(function(item){
+//                var param = item.split("=");
+//                paramObj[param[0]] = param[1];
+//            })
+//        }
+//        if($.fn.zTree.getZTreeObj("treeDemo")){
+//            $.fn.zTree.getZTreeObj("treeDemo").destroy();
+//        }
+//        $('#LAY_app_body div').html("");
+//        $("#tabName").text(name);
+//        if(url){
+//            $("#LAY_app_body div").load(url);
+//            addMenuLog(url);
+//        }else{
+//            $("#LAY_app_body div").load("/building.html");
+//        }
+//        layui.form.render();
+//    }
+  layui.use('table', function(){    //搜索日志表格渲染
+          var table = layui.table;
+
+    table.render({
+      elem: '#test'
+      ,data:[]
+      ,cols: [[
+        {field:'number', width:80, title: '序号'}
+        ,{field:'keywords', width:400, title: '关键词'}
+        ,{field:'searchTimes', width:300, title: '搜索次数', sort: true}
+        ,{field:'userCounts', width:300, title: '用户数'}
+      ]]
+
+    });
+
+
+
+    table.render({   //工作事项
+         elem: '#test4'
+      ,data:[]
+      ,cols: [[
+        {field:'number', width:80, title: '流水号'}
+        ,{field:'workName', width:125, title: '工作名称'}
+        ,{field:'ipAddress', width:150, title: 'IP地址'}
+        ,{field:'bz', width:150, title: '备注'}
+      ]]
+    });
+    table.render({   //我的待办
+      elem: '#test5'
+      ,data:[]
+      ,cols: [[
+        {field:'number', width:80, title: '流水号'}
+        ,{field:'workName', width:120, title: '工作名称'}
+        ,{field:'ipAddress', width:120, title: '所属流程'}
+        ,{field:'bz', width:110, title: '步骤与流程图'}
+        ,{field:"operations",width:80,title:"操作"}
+      ]]
+    });
+      table.render({ //我发起的
+          elem: '#test8'
+          ,data:[]
+          ,cols: [[
+              {field:'number', width:80, title: '流水号'}
+              ,{field:'workName', width:120, title: '工作名称'}
+              ,{field:'ipAddress', width:120, title: '所属流程'}
+              ,{field:'bz', width:110, title: '步骤与流程图'}
+              ,{field:"operations",width:80,title:"操作"}
+          ]]
+      });
+      table.render({ //我审核的
+                    elem: '#test9'
+          ,data:[]
+          ,cols: [[
+              {field:'number', width:80, title: '流水号'}
+              ,{field:'workName', width:120, title: '工作名称'}
+              ,{field:'ipAddress', width:120, title: '所属流程'}
+              ,{field:'bz', width:110, title: '步骤与流程图'}
+              ,{field:"operations",width:80,title:"操作"}
+          ]]
+      });
+
+
+  });
+  layui.use('element', function(){
+    var $ = layui.jquery
+            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+    //触发事件
+    var active = {
+      tabAdd: function(){
+        //新增一个Tab项
+        element.tabAdd('demo', {
+          title: '新选项'+ (Math.random()*1000|0) //用于演示
+          ,content: '内容'+ (Math.random()*1000|0)
+          ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+        })
+      }
+      ,tabDelete: function(othis){
+        //删除指定Tab项
+        element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+        othis.addClass('layui-btn-disabled');
+      }
+      ,tabChange: function(){
+        //切换到指定Tab项
+        element.tabChange('demo', '22'); //切换到：用户管理
+      }
+    };
+
+    $('.site-demo-active').on('click', function(){
+      var othis = $(this), type = othis.data('type');
+      active[type] ? active[type].call(this, othis) : '';
+    });
+
+  });
+</script>
+<script type="text/html" id="operations">
+  <button class="layui-btn layui-btn-sm">去处理</button>
+</script>
+<script>
+  var tempSize = 10;
+  var userCounts=0; // 新增用户数量
+  var itUserCounts =0; // 新增互联网用户数量
+  var metaData=0; // 新增元数据数量
+  $(function(){
+//    doList(1,{});
+//    doList1(1,{});
+//    getMetadatas(1);
+    getUserNews(1,10);
+    getUserLogin(1);
+    getContent(1,10);
+    getFbLog();
+//    var obj={};
+//    obj.sign=0;
+//    getImgList(obj);
+//     getList();
+
+  })
+  //        $(".counts2").text(Number($(".counts").text())+Number($(".counts1").text()))
+
+//  function doList(current,entity) {
+//    var sortProps = [];
+//    var data={};
+//    data.pager = {current:current,size:tempSize};
+//    data.pager.sortProps = sortProps;
+//    entity.sign = 3;
+//    data.entity = entity;
+//    ajax("/user/list","post",JSON.stringify(data)).then(res=>{
+//      itUserCounts = res.obj.total;
+//      $(".counts1").text(res.obj.total);
+//
+//    })
+//  }
+//  function doList1(current,entity) {
+//    var sortProps = [];
+//    var data={};
+//    data.pager = {current:current,size:tempSize};
+//    data.pager.sortProps = sortProps;
+//    entity.sign = 0;
+//    data.entity = entity;
+//    ajax("/user/list","post",JSON.stringify(data)).then(res=>{
+//      userCounts = res.obj.total
+//      $(".counts").text(res.obj.total);
+//      $(".counts2").text(userCounts+itUserCounts); //获取总用户数
+//    })
+//
+//  }
+  function getList() {    // 获取任务计划调度日志
+       var jsondata = {
+      "pager": {
+        "current": 1,
+        "size": 10
+      }
+    }
+    ajax(service_prefix.task,"/quartzJob/list","post",JSON.stringify(jsondata)).then(function (res) {
+
+      res.obj.records.forEach(function (item,index) {
+        item.number=index+1;
+      })
+      layui.use("table",function () {
+        var table =layui.table;
+        table.render({
+          elem: '#test6'
+          ,data:res.obj.records
+          ,cols: [[
+            {type:'numbers',title: '序号'}
+            ,{field:'jobClassName',title: '用户名'}
+            ,{field:'type',title: '操作类型'}
+            ,{field:'content',title: '内容'}
+          ]]
+        });
+      })
+    })
+  }
+//  function getMetadatas(pageNo) {
+//    var jsondata = {
+//      "pager": {
+//        "current": pageNo,
+//        "size": 10
+//      }
+//    }
+//    ajax("/list", "post", JSON.stringify(jsondata)).then(data=>{
+//      metaData = data.obj.total;
+//      $(".counts3").text(metaData);
+//    })
+//  }
+
+  function getUserNews(pageNo,size){   //获取消息通知
+      var jsondata={
+        "pager": {
+          "current": pageNo,
+          "size": size,
+          "sortProps":{
+            key:"sendTime",
+            value:false
+          }
+        },
+        "entity":{
+        }
+      }
+
+    ajax(service_prefix.message,"/msg/list1","post",JSON.stringify(jsondata)).then(data => {
+      var res =data.obj.records;
+      res.forEach(function (item,index) {
+        item.number=index+1;
+      })
+      layui.use('table', function() {
+        var table = layui.table;
+        table.render({
+          elem: '#test7'
+          ,data:res
+          ,cols: [[
+            {type:'numbers',title: '序号'}
+            ,{field:'title',title: '标题'}
+            ,{field:'sendUserName', title: '发件人'}
+            ,{field:'sendTime', title: '时间'}
+          ]]
+        });
+      })
+    })
+  }
+
+  function getUserLogin(pageNo) { //获取用户登录日志
+      var jsondata={
+      "pager":{
+        "current":pageNo,
+        "size":tempSize,
+        "sortProps":{
+          key:"loginTime",
+          value:false
+        }
+      },
+      "entity":{
+      }
+    }
+      ajax(service_prefix.log,"/userLogin/list","post",JSON.stringify(jsondata)).then(function (data){
+          if(data.success){
+              layui.use('table', function() {
+                  var table = layui.table;
+                  layui.use(['table'],function () {
+                      var table=layui.table
+                      table.render({
+                          elem:'#test1'
+                          ,data:data.obj.records
+                          ,cols: [[
+                              {type:'numbers',title: '序号'}
+                              ,{field:'crUser', title: '用户名'}
+                              ,{field:'address', title: 'IP地址'}
+                              ,{field:'loginTime', title: '登录时间'}
+                          ]]
+                      })
+                  })
+              })
+          }
+      })
+
+  }
+  function getFbLog() { //获取发布日志
+      layui.use("table",function () {
+          var table=layui.table
+              ,laypage=layui.laypage;
+          table.render({
+              elem:'#test3'
+              ,data:[]
+              ,cols: [[
+                  {type:'numbers',title: '序号'}
+                  ,{field:'crUser', title: '用户名'}
+                  ,{field:'handleType', title: '操作类型'}
+                  ,{field:'contentType',title: '内容类型'}
+                  ,{field:'content',title: '内容'}
+                  ,{field:'detail', title: '操作明细'}
+                  ,{field:'createTime', title: '创建时间'}
+              ]]
+          })
+      })
+  }
+  function getContent(pageNo,size) { // 获取操作日志
+      var jsondata={
+      "pager":{
+        "current":pageNo,
+        "size":size,
+        "sortProps":{
+          key:"createTime",
+          value:false
+        }
+      },
+      "entity":{
+        "content":""
+      }
+    }
+      ajax(service_prefix.log,"/content/list","post",JSON.stringify(jsondata)).then(function (data){
+          if(data.success){
+              layui.use(['table','laypage'],function () {
+                  var table=layui.table
+                      ,laypage=layui.laypage;
+                  table.render({
+                      elem:'#test2'
+                      ,data:data.obj.records
+                      ,cols: [[
+                          {type:'numbers',title: '序号'}
+                          ,{field:'crUser', title: '用户名'}
+                          ,{field:'handleType', title: '操作类型'}
+                          ,{field:'contentType',title:"内容类型"}
+                          ,{field:'content',title:"内容"}
+                          ,{field:'detail', title: '操作明细'}
+                          ,{field:'createTime', title: '创建时间'}
+                      ]]
+                  })
+                  laypage.render({
+                      elem:'demo9'
+                      ,count:data.obj.total
+                      ,curr:data.obj.current
+                      ,limit:data.obj.size
+                      ,layout:['count','prev','page','next','limit','refresh','skip']
+                      ,jump:function (obj,first) {
+                          if (!first){
+                              pageNo=obj.curr
+                              size=obj.limit
+                              getContent(pageNo,size)
+                          }
+                      }
+                  })
+              })
+          }
+      })
+  }
+//  function getImgList(obj) {
+//    var data ={
+//      "pager":{
+//        "current":1,
+//        "size":10
+//      },
+//      "picture":obj
+//    }
+//    var url = '/picture';
+//    ajax(url+"/list",'post',JSON.stringify(data)).then(function (res) {
+//      $(".counts5").text(res.obj.total)
+//    })
+//  }
+</script>
+<script>
+  //元数据统计概览echart图
+   var myChart = echarts.init(document.getElementById('main'));
+  ajax(service_prefix.metadata,"/count",'post').then(function (res) {
+    var option = {
+      xAxis: {
+        type: 'category',
+        data: []
+      },
+      yAxis: {
+        type: 'value'
+      },
+      tooltip: { // 鼠标悬浮提示框显示 X和Y 轴数据
+        trigger: 'axis',
+        backgroundColor: 'rgba(32, 33, 36,.7)',
+        borderColor: 'rgba(32, 33, 36,0.20)',
+        borderWidth: 1,
+        textStyle: { // 文字提示样式
+          color: '#fff',
+          fontSize: '12'
+        },
+        axisPointer: { // 坐标轴虚线
+          type: '',
+        }
+      },
+        series: [{
+        data: [],
+        type: 'line'
+      }]
+    };
+    for(var i in res.obj){
+      option.xAxis.data.push(res.obj[i].date);
+      option.series[0].data.push(res.obj[i].count)
+    }
+    myChart.setOption(option)
+  })
+
+  $(function(){
+
+      getApplicationInfo();
+  })
+  function getApplicationInfo() {  //获取系统信息
+          var id="1171988080056377346";
+      ajax(service_prefix.manage,"/systemmsg/" + id, "get", {}).then(function(res){
+          if(res.success){
+             $("#version").text(res.obj.version);
+             $("#frame").text(res.obj.appFrame);
+              $("#description").html("<a href='#'>"+res.obj.manual+"</a>")
+          }
+      })
+  }
+  //
+</script>
+<script>
+
+
+</script>

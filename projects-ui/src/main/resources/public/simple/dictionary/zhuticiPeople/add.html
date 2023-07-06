@@ -1,0 +1,112 @@
+<!--弹出层模板 新增-->
+<script type="text/html" id="addTemplate">
+    <div class="layui-card-body">
+        <div style=" width:100%; height:350px;">
+            <form class="layui-form" lay-filter="addForm">
+                <!--模块名称-->
+                <input type="text" class="layui-input" name="fenlei" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>人名：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="wordname" id="wordname" lay-verify="required">
+                    </div>
+                </div>
+                <!-- <div class="layui-form-item">
+                    <label class="layui-form-label">人名同义词：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="tongyici" id="tongyici">
+                    </div>
+                </div> -->
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">人名拼音：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pinyin" autocomplete="off" class="layui-input"
+                                   id="pinyin">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn " onclick="getzhuticipinyin()" id="huoquzhuticipinyin" type="button">
+                            获取拼音
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="layui-form-item">
+                    <label class="layui-form-label">人名同音词：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="tongyinci">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">英文同义词：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="entongyici">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">英文缩写：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="suoxie">
+                    </div>
+                </div> -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">现任职务：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="currentposition">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">现任单位：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="currentemployer">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">现任开始：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="currentstart">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">现任结束：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="currentend">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">数据来源：</label>
+                    <div class="layui-input-block">
+                        <select name="sourceTerms">
+                            <!--<option value="" selected>手工录入</option>-->
+                            <option value="手工录入" selected>手工录入</option>
+                            <option value="检索日志">检索日志</option>
+                            <option value="外部数据">外部数据</option>
+                            <!--                            <option value="ckm分析">ckm分析</option>-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">词条状态：</label>
+                    <div class="layui-input-block">
+                        <select name="status">
+                            <option value="-1">未生效</option>
+                            <option value="0">已生效</option>
+                            <option value="1">停用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注：</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" name="bz"></textarea>
+                    </div>
+                </div>
+                <div class="button-bar">
+                    <button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+                    <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

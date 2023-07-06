@@ -1,0 +1,167 @@
+<title>数据管理日志</title>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>数据管理日志<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="用户名">用户名</label>
+                        <div class="layui-input-block">
+                            <input id="crUser" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="操作类型">操作类型</label>
+                        <div class="layui-input-block">
+                            <input id="handleType" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="菜单名称">表名称</label>
+                        <div class="layui-input-block">
+                            <input id="contentType" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="操作页面">操作时间</label>
+                        <div class="layui-input-block">
+                            <input id="content" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!-- <div class="layui-inline">
+                        <label class="layui-form-label " title="操作明细">操作明细</label>
+                        <div class="layui-input-block">
+                            <input id="detail" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="创建时间">创建时间</label>
+                        <div class="layui-input-block">
+                            <input id="t12" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div> -->
+                    <div class="layui-inline top_search_btn">
+                        <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-body">
+            <!--<button onclick="getContent(1,10)" class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>-->
+            <div class="table-area">
+                <table class="layui-hide" id="test" style="margin-top: 100px;"></table>
+            </div>
+            <div id="demo8"></div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="subtype">
+    <a>{{data.status == 2 ? "审稿状态" : "撰稿状态"}}</a>
+</script>
+
+<script>
+    $(function () {
+        getContent(1,15);
+    })
+
+    // var startTime='',endTime=""
+    // layui.use('laydate', function() {  //日期显示组件
+    //     var laydate = layui.laydate;
+    //     laydate.render({
+    //         elem: '#t12'
+    //         ,range: true
+    //         ,done:function (value) {
+    //             startTime=value.split(' -')[0]
+    //             endTime =value.split('- ')[1]
+    //         }
+    //     });
+
+    // })
+
+    layui.form.on("submit(searchData)",function(data){
+        var params = urlEncode(data.field);
+        getContent(1,15)
+        return false;
+    })
+    function getContent(pageNo,size) {
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":size,
+                "sortProps":{
+                    key:"crtime",
+                    value:false
+                }
+            },
+            "entity":{
+                "cruser":document.getElementById("crUser").value,
+                "operationStatus":document.getElementById("handleType").value,
+                "columnName":document.getElementById("contentType").value,
+                "crtime":document.getElementById("content").value
+                // "detail":document.getElementById("detail").value,
+                // "createTime":startTime,
+                // "endTime":endTime
+            }
+        }
+        ajax(service_prefix.log,"/taudit/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table
+                        ,laypage=layui.laypage;
+                    table.render({
+                        elem:'#test'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                            ,{field:'cruser', width:140, title: '用户名',fixed: 'left'}
+                            ,{field:'columnName', width:150, title: '表名称'}
+                            ,{field:'status', width:100,title:"状态", templet: function(d){
+                                    if(d.status == 2){
+                                        return "审稿状态";
+                                    } else {
+                                        return "攥稿状态";
+                                    }
+                                }}
+                            /* ,{field:'column', title: '栏目', width: 200}*/
+                            ,{field:'operationStatus',title:"操作类型",width:200}
+                            /*  ,{field:'detail', width:200, title: '操作明细'}*/
+                            , {field: 'cruser', title: '创建人'}
+                            , {field: 'crtime', title: '创建时间'}
+                            , {field: 'upuser', title: '操作人'}
+                            , {field: 'uptime', title: '操作时间'}
+                        ]]
+                        ,limit: 15
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:data.obj.size
+                        ,layout:['count','prev','page','next','limit','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                pageNo=obj.curr
+                                size=obj.limit
+                                getContent(pageNo,size)
+                            }
+                        }
+                    })
+                })
+            }
+        })
+
+    }
+</script>

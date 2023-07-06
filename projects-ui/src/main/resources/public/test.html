@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<head> 
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- <meta http-equiv="Cache-Control" content="no-transform" /> 
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" /> -->
+
+
+    <title>一体化运营平台</title>
+    <link rel="stylesheet" href="thirdparty/layui/css/layui.css" media="all">
+    <script src="thirdparty/jquery/jquery-2.2.2.min.js"></script>
+    <script src="thirdparty/layui/layui.all.js"></script>
+    <script src = "/thirdparty/polyfill/polyfill.min.js"></script>
+    <link rel="stylesheet" href="thirdparty/layui/css/formSelects-v4.css" media="all">
+    <link rel="stylesheet" href="common/css/admin.css" media="all">
+    <link rel="stylesheet" href="common/css/style.css" media="all">
+    <link rel="stylesheet" href="thirdparty/tree/css/metroStyle/metroStyle.css">
+    <script src="common/js/config.js"></script>
+    <script src="thirdparty/layui/formSelects-v4.js"></script><!--下拉多选-->
+    <script src="thirdparty/tree/js/jquery.ztree.all.min.js"></script>
+    <script src="thirdparty/ueditor/ueditor.config.js"></script><!--编辑器-->
+    <script src="thirdparty/ueditor/ueditor.all.js"></script>
+    <script src="thirdparty/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="common/js/common.js"></script>
+<!--    <script src="common/js/index_html.js"></script>-->
+    <script src="common/js/getMenuData.js"></script><!--获取结构树-->
+    <script src="common/js/limit.js"></script><!--权限-->
+    <script src="common/js/other.js"></script><!--从common.js中拆分出来的其它栏目-->
+    <script src="common/js/sql-formatter.min.js"></script>
+    <script src="common/js/jquery.custom.imitate.editor-v1.0.js"></script>
+    <script src="/thirdparty/sortable/Sortable.js"></script><!--拖拽-->
+	<script src="thirdparty/tree/js/jquery.ztree.core.js"></script>
+	<script src="thirdparty/tree/js/jquery.ztree.exhide.js"></script>
+    <script src="thirdparty/tree/js/jquery.ztree.excheck.js"></script>
+    <script src="thirdparty/tree/js/jquery.ztree.exedit.js"></script>
+	<script src="thirdparty/tree/js/fuzzysearch.js"></script>
+    <script src="common/js/draggabilly.pkgd.min.js"></script>
+</head>
+<body>
+<div id="testUe" style="width: 1000px; height: 500px;">
+</div>
+<script>
+    // function getBase64Image(img) {
+    //     var canvas = document.createElement("canvas");
+    //     canvas.width = img.width;
+    //     canvas.height = img.height;
+    //     var ctx = canvas.getContext("2d");
+    //     ctx.drawImage(img, 0, 0, img.width, img.height);
+    //     var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+    //     var dataURL = canvas.toDataURL("image/"+ext);
+    //     return dataURL;
+    // }
+    // var image = new Image();
+    // // image.setAttribute("crossOrigin",'anonymous');
+    // image.src = "http://upload.xinhua08.com/mzpp/mzpp_content_ad.jpg";
+    // image.onload = function(){
+    //     var base64 = getBase64Image(image);
+    //     console.log(base64);
+    // }
+    var ue = UE.getEditor("testUe");
+    // function image2Base64(img) {
+    //     var canvas = document.createElement("canvas");
+    //     canvas.width = img.width;
+    //     canvas.height = img.height;
+    //     var ctx = canvas.getContext("2d");
+    //     ctx.drawImage(img, 0, 0, img.width, img.height);
+    //     var dataURL = canvas.toDataURL("image/png");
+    //     return dataURL;
+    // }
+    //
+    //
+    // var imgurl = $("img").attr("src");  //获取的图片路径
+    //
+    // var img = new Image();
+    //
+    // img.setAttribute("crossOrigin",'Anonymous');
+    //
+    // img.src=imgurl;
+    //
+    // img.onload = function (){
+    //
+    //     var base64 = image2Base64(img);
+    //
+    //
+    //     console.log(base64);   //弹出base64图片字符串看看，如果很长很长就成功啦
+    // }
+
+
+</script>
+</body>
+</html>

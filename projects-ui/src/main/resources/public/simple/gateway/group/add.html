@@ -1,0 +1,100 @@
+<!--用户权限标记-->
+<input hidden="hidden" name="sign" value="3">
+<style>
+	.layui_tree_box {
+		border: 1px solid #f2f2f2;
+		width: 400px;
+		max-height: 400px;
+		overflow: auto;
+	}
+</style>
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html" id="apiParamTemplate">
+	<form class="layui-form" lay-filter="editForm">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">分组名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">实例:</label>
+                    <div class="layui-input-block">
+						<!-- <input type="text" name="caseId" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input"> -->
+						<select name="caseId" id="caseId">
+							{{#console.log(d.list)}}
+							{{# layui.each(d.list, function(index, item){ }}
+							<option value="{{item.id}}">{{item.name}}</option>
+							{{# }); }}
+						</select>
+                        <span class="bitianspan">必填</span>
+                    </div>
+				</div>
+				<div class="layui-form-item">
+                    <label class="layui-form-label">开放状态:</label>
+                    <div class="layui-input-block">
+                        <select name="openstatus" id="openstatus">
+							<option value="开放">开放</option>
+							<option value="停用">停用</option>
+						</select>
+                    </div>
+                </div>
+				<div class="layui-form-item">
+                    <label class="layui-form-label">描述:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="remark" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+				</div>
+				<div class="layui-form-item">
+                    <label class="layui-form-label">上级分组:</label>
+                    <div class="layui-input-block layui_tree_box">
+                        <div id="treeDemo2"></div>
+                    </div>
+				</div>
+                
+
+				<input hidden="hidden" name="id">
+				<!-- <input hidden="hidden" name="sign" id="sign" value="3"> -->
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-api-back-add" lay-demo="getChecked">确认</button>
+					<!--  -->
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>
+<script>
+	
+	function gettreess(){
+		ajax3(service_prefix.gateway, "/group/tree", "get", {}).then(function (res) {
+			treearr = res.obj
+			// debugger
+			// console.log(treearr)
+			layui.use(['transfer','tree','layer', 'util'], function(){
+            var tree = layui.tree;
+            var $ = layui.$
+            ,transfer = layui.transfer
+            ,layer = layui.layer
+            ,util = layui.util;
+            //渲染
+            tree.render({
+                elem: '#treeDemo2'
+                ,data: treearr
+                ,showCheckbox: true  //是否显示复选框
+				,id: 'demoId33'
+				// ,showLine: false
+				,onlyIconControl: true
+                ,isJump: false //是否允许点击节点时弹出新窗口跳转
+                ,click: function(obj){
+					
+                }
+			});
+        });
+		})
+	}
+</script>

@@ -1,0 +1,270 @@
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>用户配置</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="thirdparty/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="common/css/admin.css" media="all">
+  <script type="text/javascript" src="thirdparty/jquery/jquery-2.2.2.min.js"></script>
+  <script type="text/javascript" src="thirdparty/layui/layui.all.js"></script>
+  <script src="common/js/config.js"></script>
+  <script src="common/js/common.js"></script>
+  <script src="common/js/login.js"></script>
+</head>
+<body>
+<style>
+  #table_data input{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    margin: 10px 0;
+  }
+  #table_data{
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+</style>
+  
+
+
+<div class="main" style="width:100%">
+  <div th:include="simple/public/public_menu :: navMenu" style="width: 10%; float: left;"></div>
+<div class="layui-fluid" style="width: 76%;float: left;padding:0px 20px;box-sizing: border-box;">
+  <div class="layui-card">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-userfront-formlist">
+      <div class="layui-form-item">
+
+        <p>设置我的资料</p>
+      </div>
+    </div>
+
+   <div id="userData"></div>
+
+
+    <div id="page" style="padding-left: 20px"></div>
+    <script type="text/html" id="imgTpl">
+      <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
+    </script>
+  </div>
+</div>
+</div>
+
+
+
+
+<script type="text/html" id="userTemplate">
+  {{# if(d.status==true){ }}
+<span>我的角色：</span>
+<select>
+  {{# layui.each(d.role, function(index, item){ }}
+  <option value ="volvo">{{item.name}}</option>
+  {{# }); }}
+</select><br/>
+
+  <span>用户名：</span> <input value="{{d.user.name}}" readonly="readonly"> <br/>
+  <span>昵称：</span> <input id="nickName" value="{{d.user.nickName}}"> <br/>
+  <span>性别：</span>
+  {{# if(d.user.sex=='男'){ }}
+  <input type="radio" class="sex" name="sex" value="男" checked="checked"><span>男</span>
+  <input type="radio" class="sex" name="sex" value="女" ><span>女</span>
+  {{# }else if(d.user.sex=='女'){ }}
+  <input type="radio" class="sex" name="sex" value="男"><span>男</span>
+  <input type="radio" class="sex" name="sex" value="女" checked="checked"><span>女</span>
+  {{# } }}<br/>
+  <span>头像：</span> <input value="{{d.user.headUrl}}" readonly="readonly">
+
+  <img id="headImg" style="height: 50px;width: 50px" src="{{d.user.headUrl}}">
+  <button id="upLoadHead" class="layui-btn layui-btn-sm">
+  <i class="layui-icon">&#xe61f;</i> 上传头像
+  </button>
+
+
+  <br/>
+  <span>手机：</span> <input id="mobile" value="{{d.user.mobile}}"> <br/>
+  <span>邮箱：</span> <input id="email" value="{{d.user.email}}"> <br/>
+  <span>备注：</span> <input id="des"    value="{{d.user.describe}}"> <br/>                                                                                                                                                                                              }}"><br/>
+
+  <input id="userId" hidden="hidden" value="{{d.user.id}}">
+
+
+  <button id="ediUser" class="layui-btn">确认保存</button>
+  <button id="reinvent" class="layui-btn">重新填写</button>
+  {{# }else{ }}
+  <p>请先登录</p>
+  {{# } }}
+
+
+
+</script>
+
+<script type="text/html" id="uploadTemplate">
+  <div class="layui-upload-drag" id="test10">
+    <i class="layui-icon"></i>
+    <p>点击上传，或将文件拖拽到此处</p>
+  </div>
+</script>
+
+
+<script th:inline="none" type='module'>
+
+    import  base from "../../../public/js/common/base.js";
+    import conslog from "../../../public/js/common/conslog.js";
+    import menu from "../../../public/js/common/menu.js";
+    import common from "../../../public/js/common/common.js";
+
+
+
+    var cons = new conslog();
+    var url = "/user";
+
+
+    $(function(){
+        var tempMenu = new menu();
+
+        tempMenu.findMenu();
+        getLoginUser();
+
+        $(document).on('click','#upLoadHead',function(){
+            upLoadHeader();
+        })
+
+        $(document).on('click','#ediUser',function(){
+            doUpdate();
+        })
+
+    });
+
+
+
+    //获取登陆用户
+    function getLoginUser() {
+        var para = {
+            url : url+"/getLoginUser",
+            type : 'get',
+            data : {},
+            async : true
+        }
+        let comm = new common();
+        comm.ajax(para).then(res=>{
+            cons.consoleLog(res);
+            if(res.success==true) {
+                layui.laytpl($("#userTemplate").html()).render(res.obj, function (html) {
+                    $("#userData").html(html)
+                });
+            }
+
+        }).catch(res=>{
+
+        })
+
+    }
+    /**
+     * 上传头像
+     */
+    function upLoadHeader() {
+        layui.layer.open({
+
+            type: 1
+            ,offset: "auto" //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+            ,id: 'layer_importData' //防止重复弹出
+            ,title:"批量导入 <span style='color: red;float:right' id='tempUpload'>"
+            ,content: '<div id="upLoadData"></div>'
+            ,maxWidth:800
+//            ,btn: ['下载模板']
+            ,btnAlign: 'c' //按钮居中
+            ,shade: 0 //不显示遮罩
+//            ,yes: function(index, layero){
+//                alert(1111)
+//            },
+
+        });
+
+        layui.laytpl($("#uploadTemplate").html()).render({}, function(html){
+            $("#upLoadData").html(html)
+        });
+        bindUpload();
+
+    }
+
+    //绑定upload事件
+    function bindUpload() {
+        //批量导入（下载模板）
+        layui.upload.render({
+            elem: '#test10'
+            ,accept:"file"
+            ,url: '/simple/upLoadData/upload?type=1'
+            ,done: function(res){
+                console.log(res)
+                var temp = {};
+                temp.headUrl = res.obj;
+                updataUser(temp);
+            }
+        });
+    }
+    /**
+     * 更新用户头像
+     * @param url
+     */
+    function updataUser(data){
+        var userId = $('#userId').val();
+        data.id = userId;
+        var para = {
+            url : "/user/"+userId,
+            type : 'put',
+            data : JSON.stringify(data),
+            async : true
+        }
+        let comm = new common();
+        comm.ajax(para).then(res=>{
+            if(res.success==true){
+                $('#headImg').attr("src",data.headUrl);
+            }
+            if(res.success==true){
+            layui.layer.msg("头像更换成功！")
+            }
+        }).catch(res=>{
+
+        })
+    }
+    /**
+     * 更新用户信息
+     */
+    function doUpdate() {
+        var userId = $('#userId').val();
+        var sex = $('.sex:radio:checked').val();
+        var data = {
+            id:userId,
+            sex:$('.sex:radio:checked').val(),
+            nickName:$('#nickName').val(),
+            mobile:$('#mobile').val(),
+            email:$('#email').val(),
+            describe:$('#des').val()
+        };
+        var para = {
+            url : "/user/"+userId,
+            type : 'put',
+            data : JSON.stringify(data),
+            async : true
+        }
+        let comm = new common();
+        comm.ajax(para).then(res=>{
+            if(res.success==true){
+                layui.layer.msg("更新信息成功！")
+            }
+//            getLoginUser();
+        }).catch(res=>{
+
+        })
+    }
+
+
+
+
+</script >
+</body>
+</html>

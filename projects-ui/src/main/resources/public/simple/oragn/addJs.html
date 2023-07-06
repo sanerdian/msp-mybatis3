@@ -1,0 +1,45 @@
+<form class="layui-form" lay-filter="jsForm">
+    <div class="layui-card" style="background: #f2f2f2;padding-top:10px;">
+        <div class="layui-card-body" style="width: 1516px;margin:0 auto;background: #fff;box-sizing: border-box;">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="loadType"></span>名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" >
+                <label class="layui-form-label"><span class="loadType"></span>描述:</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" style="height: 55px;" name="rdesc"></textarea>
+                </div>
+            </div>
+        </div>
+        <textarea class="layui-textarea" style="width: 1516px; height: 630px;margin:0 auto; line-height: 18px!important;margin-top:10px;" name="content" id="textJs"></textarea>
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addJs">提交</button>
+            <button class="layui-btn" type="button" data-type="close">返回</button>
+        </div>
+        <input type="hidden" name="id">
+        <input type="hidden" name="siteid">
+        <input type="hidden" name="type">
+    </div>
+</form>
+<script>
+    $(function(){
+        $("#textJs").initTextarea();
+    })
+    layui.form.on("submit(addJs)",function(data){
+        if(data.field.id){
+            ajax(service_prefix.manage,"/tplresource/"+data.field.id,"put",JSON.stringify(data.field)).then(res => {
+                commonList(data.field.type);
+                layer.closeAll();
+            })
+        }else{
+            ajax(service_prefix.manage,"/tplresource/addCommon","post",JSON.stringify(data.field)).then(res => {
+                commonList(data.field.type);
+                layer.closeAll();
+            })
+        }
+        return false;
+    })
+</script>

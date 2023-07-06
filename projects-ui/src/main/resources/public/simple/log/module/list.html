@@ -1,0 +1,159 @@
+﻿<title>组件操作日志</title>
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+    <a><i class="layui-icon layui-icon-prev"></i></a>
+    <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+    <a>组件操作日志<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+    <div class="right">
+      <a><i class="layui-icon layui-icon-next"></i></a>
+      <a><i class="layui-icon layui-icon-down"></i></a>
+    </div>
+  </div>
+</div>
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+      <form class="layui-form">
+        <div class="layui-form-item">
+         <!-- <div class="layui-inline">
+            <label class="layui-form-label " title="用户名">用户名</label>
+            <div class="layui-input-block">
+              <input id="modelType" type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+          </div>-->
+          <div class="layui-inline">
+            <label class="layui-form-label " title="用户名">用户名</label>
+            <div class="layui-input-block">
+              <input id="crUser" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="操作类型">操作类型</label>
+            <div class="layui-input-block">
+              <input id="name" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="模板名称">模板名称</label>
+            <div class="layui-input-block">
+              <input id="metadatatitle" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="创建时间">创建时间</label>
+            <div class="layui-input-block">
+              <input id="t12" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline top_search_btn">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+
+
+<!--         &lt;!&ndash; <div class="layui-inline top_search_btn">-->
+<!--            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">-->
+<!--              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>-->
+<!--            </button>-->
+<!--          </div>&ndash;&gt;-->
+        </div>
+      </form>
+    </div>
+    <div class="layui-card-body">
+      <div class="table-area">
+          <table id="test" lay-filter="test"></table>
+      </div>
+      <div id="demo8"></div>
+
+      <!-- <form class="layui-form" style="float: right;margin-right:100px;">
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <input type="text" name="title" required  lay-verify="required" placeholder="原始消息" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </form>
+      <button class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button> -->
+      <!-- <table class="layui-hide" id="test" style="margin-top: 100px;"></table> -->
+
+    </div>
+  </div>
+</div>
+<script>
+    $(function () {
+        getModel(1,15);
+    })
+layui.form.on("submit(searchData)",function(data){
+        var params = urlEncode(data.field);
+        getModel(1,15);
+        return false;
+    })
+    function getModel(pageNo,size) {
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":size,
+              "sortProps":{
+                key:"crtime",
+                value:false
+              }
+            },
+            "entity":{
+              "cruser":$("#crUser").val(),
+              // "address":document.getElementById("address").value,
+              // "handleType":document.getElementById("handleType").value,
+              "templateName":$("#metadatatitle").val(),
+              "operation":$("#name").val(),
+              // "detail":document.getElementById("detail").value,
+              // "result":document.getElementById("result").value,
+              "crtime":$("#t12").val()
+            }
+        }
+        ajax(service_prefix.log,"/element/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table
+                        ,laypage=layui.laypage;
+                    table.render({
+                        elem:'#test'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                           ,{field:'cruser', width:200, title: '用户名'}
+                          , {field: 'ipadress', width: 220, title: 'ip地址'}
+                       /* , {field: 'templateType', width: 360, title: '模板类型'}*/
+                        , {field: 'templateName', width: 360, title: '模板名称'}
+                        , {field: 'operation', width: 360, title: '操作类型'}
+                        ,{field:'cruser', width:200, title: '创建人'}
+                        , {field: 'crtime', title: '创建时间'}
+                           /* ,{field:'column', width:200, title: '栏目',fixed: 'left'}
+                            ,{field:'modelId', width:200, title: '组件ID'}
+                            ,{field:'modelType', width:200, title: '组件类型'}
+                            ,{field:'handleType', width:200, title: '操作类型'}
+                            ,{field:'crUser', width:200, title: '用户名'}
+                            ,{field:'detail', width:200, title: '操作明细'}
+                            , {field: 'crUser', width: 120, title: '创建人'}
+                            , {field: 'createTime', width: 160, title: '创建时间'}
+                            , {field: 'modifyUser', width: 120, title: '操作人'}
+                            , {field: 'modifyTime', width: 160, title: '操作时间'}*/
+                        ]]
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:data.obj.size
+                        ,layout:['count','prev','page','next','limit','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                pageNo=obj.curr
+                                size=obj.limit
+                                getModel(pageNo,size)
+                            }
+                        }
+                    })
+                })
+            }
+        })
+    }
+</script>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.viewtableinfo.mapper.ViewTableMapper">
+
+    <update id="createView">
+        CREATE OR REPLACE VIEW ${ViewTable.viewname}  as select
+        <choose>
+            <when test="list != null and list.size > 0">
+                <foreach collection="list" item="item" index="index" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                 *
+            </otherwise>
+        </choose>
+        FROM ${ViewTable.tablename}
+    </update>
+
+    <select id="existsView" resultType="String">
+        SELECT OBJECT_NAME FROM USER_OBJECTS WHERE  OBJECT_NAME =  #{viewname}
+    </select>
+
+    <select id="viewSql" resultType="String">
+        SELECT text FROM USER_VIEWS where VIEW_NAME = #{viewname}
+    </select>
+
+    <update id="dropView">
+      DROP VIEW IF EXISTS ${viewname}
+    </update>
+
+    <update id="performSql">
+        ${sql}
+    </update>
+</mapper>

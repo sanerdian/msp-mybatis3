@@ -1,0 +1,73 @@
+﻿<div class="layui-card">
+    <div class="layui-card-header layui-form">
+        <input name="name" class="layui-input" style="width: 100px;display: inline;" id="sn" value="JMETA_">
+        <button class="layui-btn" style="display: inline;" id="searchDbTableBtn">搜索</button>
+        <div style="width: 150px;display: inline-block;"><select class="layui-input" style="width: 100px;" id="checkModule" lay-filter="checkModule"></select></div>
+        <div style="width: 150px;display: inline-block;"><select class="layui-input" style="width: 100px;" id="checkGroup" lay-filter="checkGroup"></select></div>
+    </div>
+    <div class="layui-card-body" style="height: 600px; overflow-y: auto">
+        <table class="layui-hide" id="dbTablesTable" lay-filter="dbTablesTable"></table>
+    </div>
+    <div class="button-bar">
+        <button class="layui-btn" id="dbTablesToMetadataBtn">确定</button>
+        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+    </div>
+</div>
+<script>
+    function getDbTables(){
+        var name = $("#sn").val();
+        ajaxPost('/metadata/getDbTables', {name:name}, function(res){
+            layui.table.render({
+                elem: '#dbTablesTable'
+                , data: res.obj
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    {type: 'checkbox'}
+                    , {field: 'tablename', title: '表名'}
+                    , {field: 'anothername', title: '中文名'}
+                ]]
+                , limit: 10000
+            });
+        });
+    }
+
+    function getCheckModules(){
+        ajaxJsonPost("/metadata/moduleinfo/list", {pager:{current:1,size:-1}}, function (res){
+            var html = "";
+            for(var o of res.obj.records){
+                html += "<option value='{id}'>{modulename}</option>".format(o);
+            }
+            $("#checkModule").html(html);
+            layui.form.render('select');
+        })
+    }
+
+    function getCheckGropu() {
+        ajax(service_prefix.metadata, "/group/all", "post", {}).then(function(data) {
+            for (var i in data.obj) {
+                $("#checkGroup").append("<option value='" + data.obj[i].id + "'>" + data.obj[i].name + "</option>")
+            }
+            layui.form.render('select');
+        })
+    }
+
+    $("#dbTablesToMetadataBtn").click(function (){
+        var tables = getTableCheck("dbTablesTable");
+        var moduleId = $("#checkModule").val();
+        var groupId = $("#checkGroup").val();
+        ajaxJsonPost("/metadata/checkDbTables?moduleId={0}&groupId={1}&ttype=0".format(moduleId,groupId),tables, function (res){
+            if(res.success){
+                layer.closeAll();
+                getMetadatas(1)
+            }else{
+                layer.alert(res.msg);
+            }
+        })
+    })
+    $("#searchDbTableBtn").click(function (){
+        getDbTables();
+    })
+    getDbTables();
+    getCheckModules();
+    getCheckGropu();
+</script>

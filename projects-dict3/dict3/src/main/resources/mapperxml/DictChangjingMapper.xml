@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictChangjingMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictChangjing">
+    <!--@mbg.generated-->
+    <!--@Table dict_changjing-->
+    <id column="JMETACHANGJINGID" jdbcType="BIGINT" property="jmetachangjingid" />
+    <result column="CHANGJINGCI" jdbcType="VARCHAR" property="changjingci" />
+    <result column="CTZT" jdbcType="BOOLEAN" property="ctzt" />
+    <result column="SOURCE" jdbcType="VARCHAR" property="source" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="CRUSR" jdbcType="VARCHAR" property="crusr" />
+    <result column="OPTIME" jdbcType="TIMESTAMP" property="optime" />
+    <result column="OPUSR" jdbcType="VARCHAR" property="opusr" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JMETACHANGJINGID, CHANGJINGCI, CTZT, `SOURCE`, CRTIME, CRUSR, OPTIME, OPUSR, `STATUS`
+  </sql>
+</mapper>

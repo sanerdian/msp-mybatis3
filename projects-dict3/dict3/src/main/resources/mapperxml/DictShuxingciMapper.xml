@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictShuxingciMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictShuxingci">
+    <!--@mbg.generated-->
+    <!--@Table dict_shuxingci-->
+    <result column="JMETASHUXINGCIID" jdbcType="BIGINT" property="jmetashuxingciid" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="cruser" />
+    <result column="CRTIME" jdbcType="DATE" property="crtime" />
+    <result column="CRNUMBER" jdbcType="INTEGER" property="crnumber" />
+    <result column="DOCCHANNELID" jdbcType="INTEGER" property="docchannelid" />
+    <result column="DOCSTATUS" jdbcType="INTEGER" property="docstatus" />
+    <result column="SINGLETEMPKATE" jdbcType="INTEGER" property="singletempkate" />
+    <result column="SITEID" jdbcType="INTEGER" property="siteid" />
+    <result column="DOCVALID" jdbcType="TIMESTAMP" property="docvalid" />
+    <result column="DOCPUBTIME" jdbcType="TIMESTAMP" property="docpubtime" />
+    <result column="OPERUSER" jdbcType="VARCHAR" property="operuser" />
+    <result column="OPERTIME" jdbcType="TIMESTAMP" property="opertime" />
+    <result column="DOCTITLE" jdbcType="VARCHAR" property="doctitle" />
+    <result column="DOCRELTIME" jdbcType="TIMESTAMP" property="docreltime" />
+    <result column="SHUXINGCI" jdbcType="VARCHAR" property="shuxingci" />
+    <result column="WORDNAME" jdbcType="VARCHAR" property="wordname" />
+    <result column="RELATIONWORD" jdbcType="VARCHAR" property="relationword" />
+    <result column="SX_RELATIONWORD" jdbcType="VARCHAR" property="sxRelationword" />
+    <result column="TONGYICI" jdbcType="VARCHAR" property="tongyici" />
+    <result column="PINYIN" jdbcType="VARCHAR" property="pinyin" />
+    <result column="TONGYINCI" jdbcType="VARCHAR" property="tongyinci" />
+    <result column="RANK" jdbcType="VARCHAR" property="rank" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JMETASHUXINGCIID, CRUSER, CRTIME, CRNUMBER, DOCCHANNELID, DOCSTATUS, SINGLETEMPKATE, 
+    SITEID, DOCVALID, DOCPUBTIME, OPERUSER, OPERTIME, DOCTITLE, DOCRELTIME, SHUXINGCI, 
+    WORDNAME, RELATIONWORD, SX_RELATIONWORD, TONGYICI, PINYIN, TONGYINCI, `RANK`, `STATUS`
+  </sql>
+</mapper>

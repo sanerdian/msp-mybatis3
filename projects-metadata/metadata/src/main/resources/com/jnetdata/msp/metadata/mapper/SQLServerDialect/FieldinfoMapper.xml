@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.fieldinfo.mapper.FieldinfoMapper">
+
+    <select id="getTableField" resultType="String">
+      select DISTINCT COLUMN_NAME from information_schema.COLUMNS where table_name = #{tablename}
+    </select>
+
+    <update id="createField">
+      ALTER TABLE ${tablename} ADD  ${fieldname}  ${dbTypeStr}
+      <if test="dbTypeStr!='text' and dbTypeStr !='date' and dbTypeStr !='int' and dbTypeStr !='bigint'" >
+            (${dblength})
+      </if>
+       <if test="defaultvalue!=null and defaultvalue!=''">
+           default #{defaultvalue}
+       </if>
+
+
+    </update>
+
+    <update id="updateField">
+      ALTER TABLE ${tablename} alter column  ${fieldname}  ${dbTypeStr}
+        <if test="dbTypeStr!='LONGTEXT' and dbTypeStr !='DATE'">
+            (${dblength})
+        </if>
+        <if test="defaultvalue!=null and defaultvalue!=''">
+            default #{defaultvalue}
+        </if>
+
+    </update>
+
+    <update id="updateFieldName">
+      ALTER TABLE ${tablename} CHANGE ${oldname} ${fieldname} ${dbTypeStr}
+        <if test="dbTypeStr!='LONGTEXT' and dbTypeStr !='DATE'">
+        (${dblength})
+        </if>
+    </update>
+
+    <update id="deleteField">
+      ALTER TABLE ${tablename} drop column ${fieldname}
+    </update>
+
+
+</mapper>

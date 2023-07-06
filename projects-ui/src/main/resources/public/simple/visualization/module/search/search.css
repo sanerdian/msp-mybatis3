@@ -1,0 +1,5 @@
+.visual_search{overflow:hidden;}
+.visual_search .layui-form .layui-form-item .layui-form-label{width:auto;}
+.visual_search .layui-form .layui-form-item{float:left;margin:0 10px 0 0;clear:inherit;}
+.visual_search .layui-form .layui-form-item .layui-inline{margin:0;}
+.visual_search .layui-form .layui-form-item .layui-btn{background:#3c96f4;color:#fff;}

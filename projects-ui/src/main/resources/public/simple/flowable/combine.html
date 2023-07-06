@@ -1,0 +1,130 @@
+﻿<title>流程归档</title>
+<style>
+  #nav span,.right span{display: none;}
+  #nav a{display: inline-block;width: 40px;height: 56px;text-align: center;border: 1px solid #f5f5f5;}
+  #nav a:nth-of-type(3){display: inline-block;width: 220px;height: 52px; text-align: left;padding-left: 20px;border-top: 2px solid #000;font-weight: bold;}
+  .right{display: inline-block;position: absolute;top: 0;right: 0;}
+  .layui-breadcrumb a{color: #000!important;}
+  .icon{background: url(common/img/guidang.png) no-repeat; display: inline-block;width:22px;height: 22px;position: absolute;top:10px;}
+</style>
+
+<div class="layui-fluid">
+  <div class="layui-card h100">
+    <div class="layui-card-header" style="border-bottom: 2px solid #379ff7;;">
+      <span class="icon"></span>
+      <span style="margin-left: 30px;">流程归档</span>
+      <button class="layui-btn  layui-btn-sm" style="position: absolute;top:5px;right:15px;" data-method="combine">我要归档</button>
+    </div>
+    <div class="layui-card-body">
+      <!-- 列表开始 -->
+      <div class="table-area">
+        <table id="tableData" lay-filter="tableData"></table>
+      </div>
+      <div id="pageData"></div>
+      <!-- 列表结束 -->
+    </div>
+  </div>
+</div>
+<script>
+  const columns = [
+    {type:'checkbox'}
+    ,{field:'rowNum', title: '序号',align: 'right',width:80}
+    // ,{field:'id', title: 'id',align: 'left',width:80}
+    ,{field:'type', title: '流程类别',align: 'left',sort: true,width:120}
+    ,{field:'name', title: '流程名称',align: 'left',sort: true,width:120}
+    ,{field:'version', title: '版本号',align: 'left',width:80}
+    ,{field:'startUser', title: '发起人', align: 'left',sort: true,width:100}
+    ,{field:'startTime', title: '流程创建时间', align: 'left',sort: true,width:150}
+    ,{field:'startFor', title: '流程事由', align: 'left'}
+    ,{field:'endResult', title: '处理结果', align: 'left'}
+    ,{field:'endTime', title: '归档时间', align: 'left',sort: true,width:150}
+  ];
+  //条件查询:已归档的流程
+  let param4Data={};// 查询的条件
+  function doListData(current) {
+      doListTable(service_prefix.flowable, "/archived/list","post",param4Data,current,null
+            ,"tableData",columns,"pageData");
+  }
+  doListData(1);//默认查询第一页
+
+  //点击按钮操作
+  $('.layui-btn').click(function(){
+    const method = $(this).attr('data-method');
+    if('combine'==method){//点击按钮“我要归档”
+      setOpenData();
+    }
+  });
+  function setOpenData(){//弹窗
+    setLayer('combine',"请选择要归档的流程",'1100px','600px');
+    laytpl($('#templateCombine').html()).render({}, function(html){
+      $('#combine').html(html);
+      doListItem(1);
+      setRender();
+    });
+  }
+  //条件查询:待归档的流程
+  let param4NotArchived={};// 查询的条件
+  function doListNotAchived(current) {
+    let columnsNotArchived = [
+      {type:'checkbox'}
+      // ,{field:'rowNum', title: '序号',align: 'right',width:80}
+      // ,{field:'id', title: 'id',align: 'left',width:80}
+      ,{field:'type', title: '流程类别',align: 'left',sort: true,width:120}
+      ,{field:'name', title: '流程名称',align: 'left',sort: true,width:120}
+      ,{field:'version', title: '版本号',align: 'left',width:80}
+      ,{field:'startUserId', title: '发起人', align: 'left',sort: true,width:100}
+      ,{field:'startTime', title: '流程创建时间', align: 'left',sort: true,width:150}
+      ,{field:'startFor', title: '流程事由', align: 'left'}
+      ,{field:'endResult', title: '处理结果', align: 'left'}
+      ,{field:'endTime', title: '结束时间', align: 'left',sort: true,width:150}
+    ];
+    doListTable(service_prefix.flowable, "/archived/list","post",param4NotArchived,current,null
+            ,"tableData",columnsNotArchived,"pageData");
+  }
+
+</script>
+<script type="text/html" id='templateCombine'>
+  <div id="list">
+    <div class="layui-card h100">
+      <!-- 搜索开始 -->
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <form class="layui-form" id="formIpRule" hidden>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">ip规则</label>
+              <div class="layui-input-block">
+                <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline top_search_btn">
+              <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-ipRule-back-search">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- 搜索结束 -->
+
+      <div class="layui-card-body">
+        <!-- 列表开始 -->
+        <div>
+          <!-- 列表开始 -->
+          <div class="table-area">
+            <table id="tableItem" lay-filter="tableItem"></table>
+          </div>
+          <div id="pageItem"></div>
+          <!-- 列表结束 -->
+        </div>
+        <!-- 列表结束 -->
+      </div>
+      <div class="button-bar">
+        <button class="layui-btn" type="button" lay-submit lay-filter="LAY-ipRule-back-add">确认</button>
+        <button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+      </div>
+    </div>
+  </div>
+</script>
+<script>
+  layui.form.render();
+</script>

@@ -1,0 +1,177 @@
+<title>元数据管理日志</title>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>元数据管理日志<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="用户名">用户名</label>
+                        <div class="layui-input-block">
+                            <input id="crUser" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="操作类型">操作类型</label>
+                        <div class="layui-input-block">
+                            <input id="name" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="操作表">操作表</label>
+                        <div class="layui-input-block">
+                            <input id="metadatatitle" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="创建时间">创建时间</label>
+                        <div class="layui-input-block">
+                            <input id="t12" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline top_search_btn">
+                        <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-body">
+            <div class="table-area">
+                <table id="test" lay-filter="test"></table>
+            </div>
+            <div id="demo8"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        getContent(1,15);
+    })
+
+    var startTime='',endTime=""
+    layui.use('laydate', function() {  //日期显示组件
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#t12'
+            // ,range: true
+            // ,done:function (value) {
+            //     startTime=value.split(' -')[0]
+            //     endTime =value.split('- ')[1]
+            // }
+        });
+
+    })
+
+    layui.form.on("submit(searchData)",function(data){
+        var params = urlEncode(data.field);
+        getContent(1,15)
+        return false;
+    })
+    function getContent(pageNo,size) {
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":size,
+                "sortProps":{
+                    key:"crtime",
+                    value:false
+                }
+            },
+            "entity":{
+                "username":$("#crUser").val(),
+                // "address":document.getElementById("address").value,
+                // "handleType":document.getElementById("handleType").value,
+                "title":$("#metadatatitle").val(),
+                "handletype":$("#name").val(),
+                // "detail":document.getElementById("detail").value,
+                // "result":document.getElementById("result").value,
+                "crtime":$("#t12").val()
+                // "endTime":endTime
+            }
+        }
+        console.log(jsondata);
+        ajax("","/operator/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table
+                        ,laypage=layui.laypage;
+                    table.render({
+                        elem:'#test'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                            /*  ,{field:'crUser', width:140, title: '用户名',fixed: 'left'}*/
+                            ,{field:'username',title:"用户名",width:218}
+                             ,{field:'ipaddress', title: 'ip地址', width: 250}
+                            ,{field:'handletype', title: '操作类型',width:300}
+                          /*  ,{field:'detail', width:200, title: '操作明细',}
+                            ,{field: 'crUser', width: 120, title: '创建人'}*/
+                            ,{field: 'title', width: 260, title: '操作表'},
+                            {field:'username',title:"创建人",width:315}
+                            ,{field:'crtime',title:"创建时间"}
+                           /* ,{field: 'modifyUser', width: 120, title: '操作人'}
+                            ,{field: 'modifyTime', width: 160, title: '操作时间'}*/
+                        ]]
+                        ,limit: 15
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:data.obj.size
+                        ,layout:['count','prev','page','next','limit','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                pageNo=obj.curr
+                                size=obj.limit
+                                getContent(pageNo,size)
+                            }
+                        }
+                    })
+                })
+            }
+        })
+    }
+    // layui.use('table', function(){
+    //     var table = layui.table;
+    //
+    //     table.render({
+    //         elem: '#test'
+    //         ,data:[
+    //             {id:1,username:"shuangming",operation:"取消推荐",contentType:"文章",chanel:"站点相关(15129)",crTime:"2019-03-06 15:46",content:"广告服务(485517)",detail:"操作成功"},
+    //             {id:2,username:"shuangming",operation:"设置推荐",contentType:"文章",chanel:"站点相关(15129)",crTime:"2019-03-06 15:20",content:"广告服务(485517)",detail:"操作成功"},
+    //             {id:3,username:"shuangming",operation:"编辑",contentType:"文章",chanel:"轮播图(15113)",crTime:"2019-03-06 15:17",content:"《天下第一镖局》定档8.24 樊少皇护镖第一美人(486159)",detail:"操作成功"},
+    //             {id:4,username:"shuangming",operation:"设置热点",contentType:"文章",chanel:"财经(15117)",crTime:"2019-03-06 15:14",content:"零售业复苏迹象明显，周大福营收、溢利双增长(485995)",detail:"操作成功"},
+    //             {id:5,username:"shuangming",operation:"取消推荐",contentType:"文章",chanel:"站点相关(15129)",crTime:"2019-03-06 15:11",content:"广告服务(485517)",detail:"操作成功"},
+    //             {id:6,username:"shuangming",operation:"设置推荐",contentType:"文章",chanel:"站点相关(15129)",crTime:"2019-03-06 15:05",content:"广告服务(485517)",detail:"操作成功"},
+    //             {id:7,username:"shuangming",operation:"编辑",contentType:"文章",chanel:"轮播图(15113)",crTime:"2019-03-06 14:53",content:"《天下第一镖局》定档8.24 樊少皇护镖第一美人(486159)",detail:"操作成功"},
+    //             {id:8,username:"shuangming",operation:"设置热点",contentType:"文章",chanel:"财经(15117)",crTime:"2019-03-06 14:50",content:"零售业复苏迹象明显，周大福营收、溢利双增长(485995)",detail:"操作成功"},
+    //             {id:9,username:"shuangming",operation:"编辑",contentType:"文章",chanel:"轮播图(15113)",crTime:"2019-03-06 12:46",content:"《天下第一镖局》定档8.24 樊少皇护镖第一美人(486159)",detail:"操作成功"},
+    //             {id:10,username:"shuangming",operation:"设置热点",contentType:"文章",chanel:"财经(15117)",crTime:"2019-03-06 12:46",content:"零售业复苏迹象明显，周大福营收、溢利双增长(485995)",detail:"操作成功"}
+    //         ]
+    //         ,cols: [[
+    //             {field:'id', width:80, title: '序号'}
+    //             ,{field:'username', width:193, title: '用户名'}
+    //             ,{field:'operation', width:160, title: '操作类型'}
+    //             ,{field:'contentType',title:"内容类型",width:200}
+    //             ,{field:'chanel', title: '栏目', width: 200}
+    //             ,{field:'content',title:"内容",width:400}
+    //             ,{field:'detail', title: '操作明细', width: 200}
+    //             ,{field:'crTime', title: '创建时间', width:200}
+    //         ]],
+    //         page:true
+    //     });
+    // });
+</script>

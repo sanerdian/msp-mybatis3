@@ -1,0 +1,238 @@
+<!--产品管理界面-->
+<link rel="stylesheet" href="simple/visualization/css/common.css">
+<link rel="stylesheet" href="simple/visualization/css/product.css">
+<div class="layui-fluid">
+  <div id="productIndex">
+    <div class="productHead">
+      <div class="prohLeft">
+        <ul class="layui-nav layui-bg-white">
+          <li class="layui-nav-item layui-this" data="">
+            <a>PC端</a>
+          </li>
+          <li class="layui-nav-item" data="0">
+            <a>H5移动端</a>
+          </li>
+          <li class="layui-nav-item" data="1">
+            <a>APP端</a>
+          </li>
+          <li class="layui-nav-item" data="2">
+            <a>小程序端</a>
+          </li>
+          <li class="layui-nav-item" data="3">
+            <a>大屏端</a>
+          </li>
+        </ul>
+      </div>
+      <div class="prohRight">
+        <!-- <a type="button" class="layui-btn" target="_blank" onclick="buildMouldfunction()"
+          style="display:none;">新建可视化模板(新)</a> -->
+        <!-- <button type="button" class="layui-btn reverse-btn">导出可视化模板</button>
+        <button type="button" class="layui-btn reverse-btn">导入可视化模板</button> -->
+        <button class="layui-btn buildMould"> 新建可视化模板</button>
+        <form class="layui-form">
+          <div class="layui-form-item">
+            <input type="text" placeholder="请输入模板名称" class="layui-input" name="title" autocomplete="off">
+            <button class="layui-btn" lay-submit lay-filter="searchProduct"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="productBody">
+      <!--全部模板-->
+      <div class="layui-show">
+        <div class="productFilter allModel">
+          <div class="btnRow businessBox">
+            <div class="btnRowLeft">
+              <button type="button" class="layui-btn layui-btn-primary">行业分类 ></button>
+            </div>
+            <div class="btnRowRight">
+              <div class="type businessType">
+                <button type="button" class="layui-btn active" data="标准业务">标准业务</button>
+                <button type="button" class="layui-btn layui-btn-primary" data="融媒体">融媒体</button>
+                <button type="button" class="layui-btn layui-btn-primary" data="综合办公平台">综合办公</button>
+                <button type="button" class="layui-btn layui-btn-primary" data="泊车">泊车</button>
+                <button type="button" class="layui-btn layui-btn-primary" data="旅游">旅游</button>
+              </div>
+            </div>
+          </div>
+          <div class="btnRow mjBox">
+            <div class="btnRowLeft">
+              <button type="button" class="layui-btn layui-btn-primary">媒介应用 ></button>
+            </div>
+            <div class="btnRowRight">
+              <div class="type mediaType">
+                <button type="button" class="layui-btn active" data="中台应用">中台应用</button>
+                <button type="button" class="layui-btn layui-btn-primary" data="前台应用">前台应用</button>
+              </div>
+            </div>
+          </div>
+          <div class="btnRow templateBox">
+            <div class="btnRowLeft">
+              <button type="button" class="layui-btn layui-btn-primary">产品名称 ></button>
+            </div>
+            <div class="btnRowRight">
+              <div class="type templateType"></div>
+              <!-- <div class="addition_btn"><span class="addition">+</span></div> -->
+              <div class="addition_btn" id="templateTypeAddBtn"><span class="addition">+</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="proModelBody" id="productView">
+        </div>
+        <div class="page" id="productViewPage">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--产品模板-->
+<script type="text/html" id="productList">
+    <div class="groupBox">
+            {{# layui.each(d, function(index, item){ }}
+            <div class="groupItem">
+                <div class="pic">
+                    <div class="imgBox">
+                        {{# if(item.img.indexOf("/files") == 0){item.img = getAjaxUrl("",item.img);} }}
+                        <img src="{{item.img}}">
+                    </div>
+                    <div class="hoverBack">
+                        <div class="btnBox btnCenter">
+                            <a class="layui-btn layui-btn-radius layui-btn-danger " onclick="applyTemplate('{{item.id}}','{{item.type}}')">应用</a>
+                            <!-- <a class="layui-btn layui-btn-radius layui-btn-danger" data-type="apply">应用</a> -->
+                        </div>
+                        <div class="btnBox btnBottom">
+                           <!-- <a class="layui-btn layui-btn-radius btnBlueleft" href="simple/visualization/product/productEdit.html#id={{item.id}}" target="_blank">预览</a>  -->
+                            <a class="layui-btn layui-btn-radius btnBlueright" href="simple/visualization/product/productEdit.html#id={{item.id}}" target="_blank">编辑</a>
+                            <!-- 增加删除按钮 -->
+                            <button class="layui-btn layui-btn-radius btnOrangeright" onclick="delTemplate('{{item.id}}' ,'{{item.title}}')">删除</button>
+                        </div>
+                        <div class="opacityBack"></div>
+                    </div>
+                </div>
+                {{# if (item.title) { }}
+                    <div class="txtBox">{{ item.title}}</div>
+                {{# } }}
+            </div>
+        {{# }); }}
+    {{# if (d.length == 0) { }}
+            <span style="font-size: 14px;display: block;text-align: center; padding: 50px 0;">未找到数据</span>
+    {{# } }}
+    </div>
+</script>
+<!--表格右侧的应用模板-->
+<script type="text/html" id="operateTemplate">
+	<span class="warnColor"  onclick="applyTemplate('{{item.id}}','{{item.type}}')">应用</span>
+</script>
+
+<!--选择站点栏目-->
+<script type="text/html" id="applyTemplate">
+    <ul id="treeDemo" class="ztree" style="width:370px;height:400px;"></ul>
+    <div class="button-bar">
+        <button class="layui-btn" lay-submit="" lay-filter="apply_submit" type="button">确认</button>
+        <!-- <button class="layui-btn" type="button" data-type="close">取消</button> -->
+    </div>
+</script>
+<script src="simple/visualization/js/commonVisual.js"></script>
+<script type="text/javascript" src="simple/visualization/js/getViewService.js"></script>
+<script type="text/javascript" src="simple/visualization/js/product.js"></script>
+<!-- 点击新建模板后的弹框 -->
+<script type="text/html" id="buildMould">
+    <form class="layui-form set_from">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>产品名称:</label>
+          <div class="layui-input-block">
+            <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>输出文件名:</label>
+            <div class="layui-input-block">
+              <input type="text" name="outFileName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>网页类型:</label>
+            <div class="layui-input-block">
+              <select name="netType" lay-verify="required">
+                <option value="PC端">PC端</option>
+                <option value="H5移动端">H5移动端</option>
+                <option value="APP端">APP端</option>
+                <option value="小程序端">小程序端</option>
+                <option value="大屏端">大屏端</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>行业分类:</label>
+            <div class="layui-input-block">
+              <select name="businessType" lay-verify="required">
+                <option value="标准业务">标准业务</option>
+                <option value="融媒体">融媒体</option>
+                <option value="综合办公平台">综合办公平台</option>
+                <option value="泊车">泊车</option>
+                <option value="旅游">旅游</option>
+              </select>
+            </div>
+          </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>媒介应用:</label>
+          <div class="layui-input-block">
+            <select name="mjType" lay-verify="required">
+              <option value="中台应用">中台应用</option>
+              <option value="前台应用">前台应用</option>
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>模板类型:</label>
+          <div class="layui-input-block">
+            <select name="templateType" class="visualMouldtype" lay-verify="required">
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>模板分类:</label>
+          <div class="layui-input-block">                      
+            <select name="type" lay-verify="required">
+              <option value="1">首页展示模板</option>
+              <option value="2">详情展示模板</option>
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>扩展名:</label>
+          <div class="layui-input-block">
+            <input type="text" name="exteName"  placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">产品描述:</label>
+          <div class="layui-input-block">
+            <textarea name="proDes" placeholder="请输入描述" class="layui-textarea"></textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block btn_center" >
+              <button class="layui-btn" lay-submit lay-filter="templateBtnAdd" >确认</button>
+              <button type="reset" class="layui-btn layui-btn-primary reverse-btn">取消</button>
+            </div>
+        </div>
+      </form>
+</script>
+
+<!-- 添加模板类型，点击加号后的弹框 -->
+<script type="text/html" id="templateTypeLayerTemplate">
+    <form class="layui-form">
+        <div class="layui-card-body">
+          <div class="layui-form-item">
+              <label class="layui-form-label"><span style="color: red;"> * </span>模板类型:</label>
+              <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+          </div>
+            <div class="layui-form-item">
+                <button class="layui-btn submit_hide" lay-submit lay-filter="templateTypeFormSubmit">提交</button>
+            </div>
+        </div>
+      </form>
+</script>

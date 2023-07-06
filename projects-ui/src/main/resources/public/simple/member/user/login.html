@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="thirdparty/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="thirdparty/jquery/jquery-2.2.2.min.js"></script>
+    <script type="text/javascript" src="thirdparty/layui/layui.all.js"></script>
+    <script src="common/js/config.js"></script>
+    <script src="common/js/common.js"></script>
+    <script src="common/js/login.js"></script>
+    <style>
+        html{
+            background: url("common/img/bg.png") no-repeat ;
+            height:100%;
+
+            width:100%;
+
+            overflow: hidden;
+
+            background-size:cover;
+        }
+        .layui-input-block i {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .layui-input-block input {
+            padding-left: 30px;
+        }
+        .layui-form-checkbox[lay-skin=primary]{position: relative;}
+        .layui-form-checkbox[lay-skin=primary] i{position: absolute;top:0;}
+    </style>
+</head>
+
+<body>
+<div  style="margin: 40px 0 0 50px">
+    <img src="common/img/jnet_logo_white.png" alt="" style="width: 80px;height: 70px">
+    <h2 class="title" style="margin-bottom:40px;color: #fff;display: inline-block;margin-left: 20px;font-weight: bolder"><div><span id="title"></span></div></h2>
+</div>
+<div class="layui-container" style="margin-top: 315px">
+ <div style="width: 400px;float: right;height: 360px;position: relative;background: #fff;margin-top: -135px;margin-left: 100px">
+
+    <form class="layui-form" lay-filter="formDemo" style="width: 318px;margin: 25px auto">
+        <div class="head" style="height: 40px;line-height: 40px;">登录</div>
+        <div style="width: 318px;height: 1px;background: #000"></div>
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <div class="layui-input-block" style="margin-left:0;width:318px;  position: relative;">
+                <i class="layui-icon layui-icon-username"></i>
+                <input type="text" name="name" id="username" lay-verify="required" class="layui-input" placeholder="用户名" autocomplete="off">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left:0;width:318px;  position: relative;">
+                <i class="layui-icon layui-icon-password"></i>
+                <input type="password" name="passWord" lay-verify="required" class="layui-input" placeholder="密码" autocomplete="off" id="pwd">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block"
+                 style="margin-left:0;width:190px;  position: relative;display: inline-block;">
+                <i class="layui-icon layui-icon-vercode"></i>
+                <input type="text" value="test" name="code" id="imgcode" lay-verify="required" class="layui-input" placeholder="请输入验证码" autocomplete="off">
+            </div>
+            <span style="margin-left: 10px;width:108px;height:40px;display: inline-block;">
+                    <img id="verifyCodeImg" onclick="changeImg()" alt="" style="width: 118px;height:40px">
+                </span>
+        </div>
+        <div class="layui-form-item" style="position: relative;">
+            <div class="layui-input-block" style="margin-left: 0; display: inline-block;">
+                <input type="checkbox" name="remember" lay-skin="primary" title="记住密码" lay-filter="remember">
+            </div>
+            <a href="#" style="position: absolute;right:10px; top:10px;">忘记密码？</a>
+        </div>
+        <button class="layui-btn" lay-submit lay-filter="login" style="width: 150px">登录</button>
+        <button class="layui-btn" lay-submit lay-filter="synclogin" style="width: 150px">同步登录</button>
+    </form>
+ </div>
+
+</div>
+<p style="text-align: center;margin-top:850px;color: #FFFFFF">版权所有：<span id="copyright"></span></p>
+</body>
+
+</html>

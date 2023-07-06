@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.tableinfo.mapper.TableinfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <!--<resultMap id="BaseResultMap" type="">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="mobilephone" property="mobilephone" />
+        <result column="description" property="description" />
+    </resultMap>-->
+
+    <update id="createTable">
+        create table ${tablename} (
+            ${pk} SERIAL NOT NULL PRIMARY KEY,
+            CRUSER varchar(255),
+            CRTIME DATE,
+            CRNUMBER int8,
+            DOCCHANNELID int8,
+            DOCSTATUS int2 default '0',
+            SINGLETEMPKATE int8,
+            SITEID int8,
+            DOCVALID DATE,
+            DOCPUBTIME DATE,
+            OPERUSER varchar(255),
+            OPERTIME DATE,
+            DOCTITLE varchar(255),
+            DOCRELTIME DATE,
+            DOCPUBURL varchar(255),
+            LINKURL varchar(255),
+            CLASSINFOID int2,
+            STATUS int2 default 0,
+            COMPANYID int8,
+            WEBSITEID int8,
+            COLUMNID int8,
+            MODIFY_BY int8,
+            MODIFY_USER VARCHAR(255),
+            SEQENCING int2,
+            MODIFY_TIME DATE,
+            FLOW_ID varchar(255),
+            FLOW_USER varchar(255)
+        )
+    </update>
+
+    <update id="createComment">
+        COMMENT ON TABLE ${tablename} IS '${anothername}'
+    </update>
+
+    <select id="existsTable" resultType="String">
+        SELECT tablename FROM pg_tables where tablename = #{tablename}
+    </select>
+
+    <update id="dropTable">
+      DROP TABLE ${tablename}
+    </update>
+
+    <update id="updateTablename">
+        ALTER TABLE ${oldname} RENAME TO ${tablename}
+    </update>
+
+    <insert id="insertInfo" parameterType="java.util.List">
+        insert into ${tablename} (${fieldnames})
+        values (
+        <foreach collection="list" item="item" index="index" separator=",">
+            <choose>
+                <when test="item == ''">
+                    null
+                </when>
+                <otherwise>
+                    #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        )
+    </insert>
+
+    <update id="createView">
+        CREATE OR REPLACE VIEW ${ViewTable.viewname}  as select
+        <choose>
+            <when test="list != null and list.size > 0">
+                <foreach collection="list" item="item" index="index" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                *
+            </otherwise>
+        </choose>
+        FROM ${ViewTable.tablename}
+    </update>
+
+    <update id="totop">
+        UPDATE ${tablename} set SEQENCING = (SELECT NVL(MAX(SEQENCING),0)+1 topno FROM ${tablename}) where id = #{dataId}
+    </update>
+
+    <select id="getViewFields" resultType="com.jnetdata.msp.metadata.vo.TableField">
+        SELECT a.attname as field,b.typname as type
+        FROM pg_class as c,pg_attribute as a inner join pg_type b on b.oid = a.atttypid
+        where c.relname = lower(#{viewname}) and a.attrelid = c.oid and a.attnum>0
+    </select>
+</mapper>

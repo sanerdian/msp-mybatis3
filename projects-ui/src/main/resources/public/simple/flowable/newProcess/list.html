@@ -1,0 +1,199 @@
+<style>
+    .ztree li span.button.ico_close, .ztree li span.button.ico_open, .ztree li span.button.ico_docu {margin: 0;}
+    .processBox{
+        line-height: 20px;
+        border-color: rgba(208, 208, 208, 1);
+        border-width: 1px;
+        border-radius: 10px;
+        border-style: solid;
+        display: flex;
+        padding: 12px;
+        justify-content: space-between;
+    }
+    .processTitle{
+        margin: 20px 0;
+    }
+    .processTitle label{
+        padding-left: 10px;
+        border-left: #057ff8 solid 3px;
+    }
+    .border{
+        border-top: rgb(219, 219, 219) solid 1px;
+        margin: 10px 0 0 0;
+    }
+    .class-li{
+        display: flex;
+        line-height: 44px;
+        padding: 0px 0px 0px 25px;
+    }
+    .class-li img{
+        width: 19px;
+        height: 22px;
+        margin-top: 10px;
+    }
+    .class-li span{
+       font-size: 14px;
+       margin-left: 20px;
+    }
+    .click-this{
+        background-color: aliceblue;
+    }
+    .layui-card-body{
+        padding: 0px 15px 0px 0px;
+    }
+    .border-right{
+        border-right: rgb(218, 218, 218) solid 1px;
+    }
+    .layui-card-body span{
+        line-height: 40px;
+        margin-left: 15px;
+    }
+    .detail-box{
+        width: 255px;
+        height: 66px;
+        padding-right: 20px;
+    }
+    .detail-boxs{
+        display: flex;
+    }
+    .processBox img{
+        width: 26px;
+        height: 30px;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-card h100">
+        <!-- 搜索开始 -->
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="top_btn">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <div class="layui-input-block">
+                                <input type="text" name="title" autocomplete="off" placeholder="请输入工作名称" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline top_search_btn">
+                          <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                          </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <img class="icon" src="../../../common/img/process_Icon.png" alt="">
+            <span class="title">新建流程</span>
+        </div>
+        <!-- 搜索结束 -->
+        <div class="layui-card-body border">
+            <div class="layui-col-md2 border-right" style="height: 100vh;">
+                    <div>
+                        <span>全部数据：</span>
+                    </div>
+                    <div class="tree_left" style="height: 80%;">
+                        <ul class="class-ul" style="height: 100%;box-sizing: border-box;padding: 0;">
+                            <li class="class-li click-this">
+                                <img src="../../../common/img/u34.svg" alt="">
+                                <span>行政办公</span>
+                            </li>
+                            <li class="class-li">
+                                <img src="../../../common/img/u34.svg" alt="">
+                                <span>行政办公</span>
+                            </li>
+                        </ul>
+                    </div>
+            </div>
+            <div class="layui-col-md10" style="height: 100vh;">
+                <div class="layui-card" id="list" style="height: 100%;">
+                    <div class="layui-card-body" style="height: 100%;padding-left: 15px;">
+                        <div class="table-area" style="height: 100%;">
+                           <ul>
+                               <li>
+                                   <div class="processTitle">
+                                       <label>行政办公</label>
+                                   </div>
+                                    <div class="detail-boxs">
+                                        <div class="detail-box">
+                                            <div class="processBox">
+                                                <span>入职流程审批表</span>
+                                                <img src="../../../common/img/u34.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="detail-box">
+                                            <div class="processBox">
+                                                <span>人事合同流程审批表</span>
+                                                <img src="../../../common/img/u34.svg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                               </li>
+                               <li>
+                                <div class="processTitle">
+                                    <label>自行采购</label>
+                                </div>
+                                <div class="detail-boxs">
+                                    <div class="detail-box">
+                                        <div class="processBox">
+                                            <span>采购流程审批单</span>
+                                            <img src="../../../common/img/u34.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="processTitle">
+                                    <label>法务相关</label>
+                                </div>
+                                <div class="detail-boxs">
+                                    <div class="detail-box">
+                                        <div class="processBox">
+                                            <span>法务流程审批单</span>
+                                            <img src="../../../common/img/u34.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="processTitle">
+                                    <label>费用报销</label>
+                                </div>
+                                <div class="detail-boxs">
+                                    <div class="detail-box">
+                                        <div class="processBox">
+                                            <span>费用报销流程审批单</span>
+                                            <img src="../../../common/img/u34.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="processTitle">
+                                    <label>人事管理</label>
+                                </div>
+                                <div class="detail-boxs">
+                                    <div class="detail-box">
+                                        <div class="processBox">
+                                            <span>人事管理流程审批单</span>
+                                            <img src="../../../common/img/u34.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 表格操作按钮 -->
+<script type="text/html" id="operateTemplate">
+    <button class="layui-btn layui-btn-xs" lay-event="deploy">发布</button>
+</script>
+
+<script src="simple/flowable/newProcess/list.js"></script>

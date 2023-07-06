@@ -1,0 +1,38 @@
+
+<script type="text/html"  id="templateExportExcel">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">列选择：</label>
+                        <div class="layui-input-block">
+                            <div id="checks"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">行选择：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="range" value="thisCondition" title="当前条件" checked>
+                            <input type="radio" name="range" value="all" title="全部">
+                        </div>
+                    </div>
+                    <div class="button-bar">
+                        <button class="layui-btn" type="button" lay-submit lay-filter="LAY-exportExcel-back-add">确认</button>
+                        <button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="templateColumns">
+
+        {{#  layui.each(d, function(index, item){ }}
+
+            <input type="checkbox" name="column.{{item.field}}" title="{{item.title}}" checked>
+
+        {{#  }); }}
+</script>

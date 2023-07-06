@@ -1,0 +1,95 @@
+﻿<title>安全日志</title>
+<style>
+  #nav span,.right span{display: none;}
+  #nav a{display: inline-block;width: 40px;height: 56px;text-align: center;border: 1px solid #f5f5f5;}
+  #nav a:nth-of-type(3){display: inline-block;width: 170px;height: 52px; text-align: left;padding-left: 20px;border-top: 2px solid #000;font-weight: bold;}
+  .right{display: inline-block;position: absolute;top: 0;right: 0;}
+  .layui-breadcrumb a{color: #000!important;}
+  .layui-card .layui-table-view{margin: 60px 0 20px 0;}
+</style>
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+    <a><i class="layui-icon layui-icon-prev"></i></a>
+    <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+    <a>安全日志<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+    <div class="right">
+      <a><i class="layui-icon layui-icon-next"></i></a>
+      <a><i class="layui-icon layui-icon-down"></i></a>
+    </div>
+  </div>
+</div>
+<div class="layui-fluid">
+  <div class="layui-card" style="height: 760px;">
+    <div class="layui-card-body">
+
+      <form action="#" class="layui-form" style="float: right;margin-right:100px;">
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <input id="content" type="text" name="title" required  lay-verify="required" placeholder="内容" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </form>
+      <button onclick="getSafety(1)" class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>
+      <table class="layui-hide" id="test" style="margin-top: 100px;"></table>
+      <div id="demo8"></div>
+      <button class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>
+      <table class="layui-hide" id="test" style="margin-top: 100px;"></table>
+
+    </div>
+  </div>
+</div>
+<script>
+
+  var pageSize = 15;
+
+    $(function () {
+        getSafety(1);
+    })
+    function getSafety(pageNo) {
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":pageSize
+            },
+            "entity":{
+                "content":$("#content").val()
+            }
+        }
+        ajax(service_prefix.log,"/safety/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table
+                        ,laypage=layui.laypage;
+                    table.render({
+                        elem:'#test'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type:'numbers',title: '序号'}
+                            ,{field:'crUser', width:280, title: '用户名'}
+                            ,{field:'address', width:280, title: 'IP地址'}
+                            ,{field:'content',title:"原始消息",width:800}
+                            , {field: 'crUser', title: '创建人'}
+                            , {field: 'createTime', title: '创建时间'}
+                            , {field: 'modifyUser', title: '操作人'}
+                            , {field: 'modifyTime', title: '操作时间'}
+                        ]],
+                        limit: pageSize
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:pageSize
+                        ,layout:['count','prev','page','next','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                getSafety(obj.curr)
+                            }
+                        }
+                    })
+                })
+            }
+        })
+    }
+
+</script>

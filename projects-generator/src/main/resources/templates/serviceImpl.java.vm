@@ -1,0 +1,156 @@
+package ${package.ServiceImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.thenicesys.data.api.Pager;
+import org.thenicesys.mybatis.impl.PropertyWrapper;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.thenicesys.mybatis.impl.PropertyWrapperUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.function.Consumer;
+
+#foreach($field in ${table.fields})
+#if(${field.matchType} < 0)
+import ${package.parent}.${field.jointablePackage}.service.${field.capitalJointable}Service;
+import ${package.parent}.${field.jointablePackage}.model.${field.capitalJointable};
+#end
+#end
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+#foreach($field in ${table.fields})
+#if(${field.matchType}<0)
+    @Autowired
+    private ${field.capitalJointable}Service ${field.jointablePro}Service;
+#end
+#end
+
+    private String andOr = "and";
+    @Override
+    public PropertyWrapper<${table.entityName}> makeSearchWrapper(Map<String, Object> condition) {
+        if(condition.get("andOr")!=null) this.andOr = condition.get("andOr").toString();
+        PropertyWrapperUtil<${table.entityName}> pwu = createWrapperUtil(condition)
+#foreach($field in ${table.fields})
+#if(${field.propertyName} != "columnid" )
+#if(${field.keyIdentityFlag})
+                .eq("${field.propertyName}")
+#elseif(${field.matchType.equals(1)})
+                .eq("${field.propertyName}")
+#elseif(${field.matchType.equals(2)})
+                .ne("${field.propertyName}")
+#elseif(${field.matchType.equals(3)})
+                .gt("${field.propertyName}")
+#elseif(${field.matchType.equals(4)})
+                .ge("${field.propertyName}")
+#elseif(${field.matchType.equals(5)})
+                .lt("${field.propertyName}")
+#elseif(${field.matchType.equals(6)})
+                .le("${field.propertyName}")
+#elseif(${field.matchType.equals(7)})
+                .ge("${field.propertyName}")
+#elseif(${field.matchType.equals(8)} || ${field.matchType.equals("9")} || ${field.propertyType.equals("String")})
+#else
+                .eq("${field.propertyName}")
+#end
+#end
+#end
+                ;
+
+        PropertyWrapper<${table.entityName}> pw = setBasePw(pwu,condition);
+
+        if (condition.get("columnid") != null) {
+            pw.and(m -> m.eq("columnid",condition.get("columnid")).or().like("quotainfo",condition.get("columnid") + ":"));
+        }
+#foreach($field in ${table.fields})
+#if(${field.matchType.equals(7)})
+        pw.le(condition.get("${field.propertyName}BT2")!=null && !condition.get("${field.propertyName}BT2").equals(""),"${field.propertyName}",condition.get("${field.propertyName}BT2"));
+#end
+#if(${field.matchType.equals(9)})
+        pw.le(condition.get("${field.propertyName}BT2")!=null && !condition.get("${field.propertyName}BT2").equals(""),"${field.propertyName}",condition.get("${field.propertyName}BT2"));
+#end
+#end
+#foreach($field in ${table.fields})
+#if(${field.matchType.equals(8)} || (${field.matchType.equals(0)} && ${field.propertyType.equals("String")}))
+        andOr(condition,pw,"${field.propertyName}");
+#end
+#end
+
+        if(condition.get("pubIds")!=null){
+            List<Long> pubIds = (List<Long>)condition.get("pubIds");
+            pw.in(!pubIds.isEmpty(),"id",pubIds);
+        }
+
+        return pw;
+    }
+
+    @Override
+    public ${entity} getEntityAndJoinsById(Long id){
+        ${entity} entity = getById(id);
+        getJoin(entity, null);
+        return entity;
+    }
+
+    public void getJoin(${entity} entity, ${entity} vo) {
+        if(vo == null) vo = new ${entity}();
+#foreach($field in ${table.fields})
+#if(${field.matchType} < 0)
+#if(${field.FieldType} == 30)
+        ${field.capitalJointable} ${field.jointablePro}Entity = ${field.jointablePro}Service.get(new PropertyWrapper<>(${field.capitalJointable}.class).eq("${field.joinfield}", entity.getId()).eq("docstatus",0));
+        entity.set${field.capitalName}(${field.jointablePro}Entity);
+#end
+#if(${field.FieldType} == 31)
+        Pager<${field.capitalJointable}> ${field.jointablePro}Page = vo.get${field.capitalName}();
+        if(${field.jointablePro}Page == null) ${field.jointablePro}Page = new Pager<>();
+        Pager<${field.capitalJointable}> ${field.jointablePro}Result = new Pager<>();
+        ${field.jointablePro}Result.setSize(${field.jointablePro}Page.getSize()==null?10:${field.jointablePro}Page.getSize());
+        ${field.jointablePro}Result.setCurrent(${field.jointablePro}Page.getCurrent()==null?1:${field.jointablePro}Page.getCurrent());
+        ${field.jointablePro}Result = ${field.jointablePro}Service.list(${field.jointablePro}Result, new PropertyWrapper<>(${field.capitalJointable}.class).eq("${field.joinfield}",entity.getId()).eq("docstatus",0));
+        entity.set${field.capitalName}(${field.jointablePro}Result);
+#end
+#end
+#end
+    }
+
+    @Override
+    public void getListJoin(List<${entity}> list, ${entity} vo) {
+        for (${entity} entity : list) {
+            getJoin(entity, vo);
+        }
+    }
+
+    public void andOr(Map<String,Object>condition,PropertyWrapper pw,String proName){
+        if(condition.get(proName)!=null&&StringUtils.isNotEmpty(condition.get(proName).toString())){
+            Consumer<QueryWrapper<${entity}>> queryWrapperConsumer = w -> {
+                for(String str:condition.get(proName).toString().split(" ")){
+                    if(StringUtils.isNotEmpty(str)){
+                        if(andOr.equals("or" )) w.or();
+                        w.like(pw.getColumn(proName),str);
+                    }
+                }
+            };
+            pw.and(queryWrapperConsumer);
+        }
+    }
+}
+#end

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.cs1.middle.mapper.MiddleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jnetdata.msp.cs1.middle.model.Middle">
+        <id column="ID" property="id" />
+    <result column="CRUSER" property="cruser" />
+    <result column="CRTIME" property="crtime" />
+    <result column="CRNUMBER" property="crnumber" />
+    <result column="MODIFY_BY" property="modifyBy" />
+    <result column="MODIFY_USER" property="modifyUser" />
+    <result column="MODIFY_TIME" property="modifyTime" />
+        <result column="TITLE" property="title" />
+        <result column="XINWENNEIRONG2" property="xinwenneirong2" />
+        <result column="KEY_WORDS" property="keyWords" />
+        <result column="URL" property="url" />
+        <result column="IMAGE_URL" property="imageUrl" />
+        <result column="FLLJ" property="fllj" />
+        <result column="DATA_SOURCE" property="dataSource" />
+        <result column="PUBLISH_TIME" property="publishTime" />
+        <result column="CRAWLER_TIME" property="crawlerTime" />
+        <result column="READ_NUM" property="readNum" />
+        <result column="COMMENTS_NUM" property="commentsNum" />
+        <result column="NEIRONG_HTML2" property="neirongHtml2" />
+        <result column="ABSTRACT2" property="abstract2" />
+        <result column="PUBLISH_TIME_OLD" property="publishTimeOld" />
+        <result column="PDFURL" property="pdfurl" />
+        <result column="PDFNAME" property="pdfname" />
+        <result column="YUZHONG" property="yuzhong" />
+        <result column="TAG" property="tag" />
+        <result column="NEIRONG" property="neirong" />
+        <result column="DOCCHANNELID" property="docchannelid" />
+        <result column="DOCSTATUS" property="docstatus" />
+        <result column="SINGLETEMPKATE" property="singletempkate" />
+        <result column="SITEID" property="siteid" />
+        <result column="DOCVALID" property="docvalid" />
+        <result column="DOCPUBTIME" property="docpubtime" />
+        <result column="OPERUSER" property="operuser" />
+        <result column="OPERTIME" property="opertime" />
+        <result column="DOCTITLE" property="doctitle" />
+        <result column="DOCRELTIME" property="docreltime" />
+        <result column="DOCPUBURL" property="docpuburl" />
+        <result column="LINKURL" property="linkurl" />
+        <result column="CLASSINFOID" property="classinfoid" />
+        <result column="STATUS" property="status" />
+        <result column="COMPANYID" property="companyid" />
+        <result column="WEBSITEID" property="websiteid" />
+        <result column="COLUMNID" property="columnid" />
+        <result column="SEQENCING" property="seqencing" />
+        <result column="FLOW_ID" property="flowId" />
+        <result column="FLOW_USER" property="flowUser" />
+        <result column="QUOTAINFO" property="quotainfo" />
+        <result column="COPYFROMID" property="copyfromid" />
+    </resultMap>
+
+</mapper>

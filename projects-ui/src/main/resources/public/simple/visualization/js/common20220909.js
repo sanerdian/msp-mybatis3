@@ -1,0 +1,435 @@
+var laytpl = layui.laytpl;
+var layer = layui.layer;
+var form = layui.form;
+var laydate = layui.laydate;
+var element = layui.element;
+var laypage = layui.laypage;
+var table = layui.table;
+var upload = layui.upload;
+var transfer = layui.transfer;
+var util = layui.util;
+var tree = layui.tree;
+var slider = layui.slider;
+var rate = layui.rate;
+var carousel = layui.carousel;
+var flow = layui.flow;
+var colorpicker = layui.colorpicker;
+var $ = layui.jquery;
+
+function jsonSort(jsonArray, colId, isDesc) {
+    let asc = function(x,y)
+    {
+        if (x[colId] === undefined) {
+            return 1;
+        }
+        if (y[colId] === undefined) {
+            return -1;
+        }
+        return (x[colId] > y[colId]) ? 1 : -1;
+    }
+    let desc = function(x,y)
+    {
+        if (x[colId] === undefined) {
+            return -1;
+        }
+        if (y[colId] === undefined) {
+            return 1;
+        }
+        return (x[colId] < y[colId]) ? 1 : -1
+    }
+    if (isDesc) {
+        jsonArray.sort(desc);
+    } else {
+        jsonArray.sort(asc);
+    }
+}
+
+/**
+ * 初始化下拉树
+ * @param parentName 用于定位的父元素的选择器名称
+ * @param treeId 设置树编号
+ * @param callback 点击后回调返回选择项目
+ * @returns {string} 下拉树ID
+ */
+function loadPageTree(parentName, treeId, callback) {
+    let _this = this;
+    // let treeId = `tree_${_this.widgetId}`;
+    tree.render({
+        id: treeId,
+        elem: `${parentName} .classtree`,
+        text: {
+            defaultNodeName: '未命名',
+            none: '无数据'
+        },
+        onlyIconControl: true,
+        showLine: false,
+        isJump: false,
+        accordion: true,
+        data: [],
+        click: function (obj) {
+            let node = obj.data;
+            callback(node);
+            // _this.treeData = node;
+            console.log(`selectID:${node.id}`);
+            let $select = $($(this)[0].elem).parents(".layui-form-select");
+            $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.title).end().find("input[name='selectID']").val(node.id);
+        }
+    });
+    $(`${parentName} .downpanel`).on("click", ".layui-select-title", function (e) {
+        $(`${parentName} .downpanel .layui-form-select`).not($(this).parents(".layui-form-select")).removeClass("layui-form-selected");
+        $(this).parents(".downpanel").toggleClass("layui-form-selected");
+        layui.stope(e);
+    }).on("click", "dl i", function (e) {
+        layui.stope(e);
+    });
+    $(document).on("click", function (e) {
+        $(`${parentName} .downpanel .layui-form-select`).removeClass("layui-form-selected");
+    });
+    return treeId;
+}
+
+/**
+ * 加载下拉树数据
+ * @param treeId 下拉树ID
+ */
+function reloadPageTreeData(treeId) {
+    $.ajax({
+        type: 'get',
+        url: '/simple/visualization/json/page.json',
+        cache: false,
+        success: function (jsonData) {
+            console.log(jsonData);
+            tree.reload(treeId, {data: jsonData});
+        }
+    })
+}
+
+function select(child, parentId) {
+    return $("#" + parentId + " " + child);
+}
+
+function getDraggablePosition(widget) {
+    let style = widget.attr("style");
+    const regTop = /top: ([\d]*)px;/;
+    const regLeft = /left: ([\d]*)px;/;
+    regTop.test(style);
+    let top = parseInt(RegExp.$1);
+    regLeft.test(style);
+    let left = parseInt(RegExp.$1);
+    if (top >= 0 && left >= 0) {
+        return [left, top];
+    }
+    return undefined;
+}
+
+function initLinkAddressModule(parentId) {
+    form.on(`radio(${parentId}_filter)`, function (data) {
+        console.log('link')
+        if (data.value === "inside") {
+            select(".link_page", parentId).show();
+            select(".link_address", parentId).hide();
+        }
+        if (data.value === "outside") {
+            select(".link_page", parentId).hide();
+            select(".link_address", parentId).show();
+        }
+    });
+}
+
+function getFromLinkAddressModule(parentId, data) {
+    data.jumpType = 0;
+    console.log(select(".link_page", parentId).is(":hidden"))
+    if (select(".link_page", parentId).is(":hidden")) {
+        data.jumpType = 1;
+    }
+    try {
+        if (data.jumpType === 0) {
+            if (data.treeData && data.treeData.title.length > 0) {
+                data.jumpAddress = data.treeData.href;
+                data.jumpName = data.treeData.title;
+            } else if (!data.jumpAddress.length) {
+                layer.msg("请选择链接页面");
+                return false;
+            }
+            console.log(data.jumpAddress);
+        }
+    } catch (e) {
+        console.log(e)
+    }
+    if (data.jumpType === 1) {
+        let address = select(".address_text", parentId).val();
+        if (address.length > 0) {
+            data.jumpAddress = address;
+            data.jumpName = "";
+        } else {
+            layer.msg("请输入链接地址");
+            return false;
+        }
+        console.log(data.jumpAddress);
+    }
+    return true;
+}
+
+/**
+ * 加载下拉树数据
+ * @param treeId 下拉树ID
+ */
+function reloadPageTreeDataWithRoot(treeId) {
+    $.ajax({
+        type: 'get',
+        url: '/simple/visualization/json/page.json',
+        cache: false,
+        success: function (jsonData) {
+            jsonData.unshift({
+                "title": "根目录",
+                "id": 0,
+                "field": "root",
+            })
+            console.log(jsonData);
+            tree.reload(treeId, {data: jsonData});
+        }
+    })
+}
+
+function fullscreen() {
+    let ele = document.documentElement;
+    if (ele.requestFullscreen) {
+        ele.requestFullscreen();
+    } else if (ele.mozRequestFullScreen) {
+        ele.mozRequestFullScreen();
+    } else if (ele.webkitRequestFullscreen) {
+        ele.webkitRequestFullscreen();
+    } else if (ele.msRequestFullscreen) {
+        ele.msRequestFullscreen();
+    }
+}
+
+function exitFullscreen() {
+    if (document.exitFullScreen) {
+        document.exitFullScreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
+
+/**
+ * 获取最终提交地址
+ * @param {*} serviceId 微服务id(对应地址前缀)
+ * @param {*} url 请求地址
+ */
+function getAjaxUrl(serviceId,url) {
+    url = com.jnetdata.url_prefix + serviceId + url;
+    if( url.indexOf(0) != "/"){
+        url = "/" + url;
+    }
+    return url;
+}
+
+
+/**
+ * ajax请求
+ * 实际请求地址 = 全局地址前缀(url_prefix) + 微服务前缀(serviceId) + url
+ * @param {*} serviceId 微服务id, 示例 service_prefix.member
+ * @param {*} url url地址
+ * @param {*} type 请求类型 'get', 'post', 'put', 'delete'等
+ * @param {*} data 请求数据
+ */
+function ajax(serviceId, url, type, data) {
+    var index = layer.load();
+    return new Promise((resovle, reject) => {
+        $.ajax({
+            type: type,
+            // "async": para.async,
+            url: getAjaxUrl(serviceId, url),
+            contentType: 'application/json',
+            data: data,
+            dataType: 'json',
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (res) {
+                if (!res.success && res.msg == '登陆超时,请重新登陆') {
+                    layer.alert(res.msg, function () {
+                        window.location.href = '../../../pub/html/index/index.html';
+                    })
+                    return false;
+                }
+                layer.close(index);
+                resovle(res);
+            },
+            error: function (err) {
+                // layer.alert(err.responseText);
+                layer.close(index);
+                reject(err);
+            }
+        })
+    }).catch((e) => {
+        console.log(e);
+    });
+}
+
+
+// 渲染参数
+function setRender() {
+    layui.form.render();
+}
+
+// 跳转二级菜单
+function goTwoMenu(url, name, columnid) {
+    // arr.push(name);
+    // arr2.push(url);
+    loaddiv(url, name);
+    // $(".location span").text(name)
+    // $(".location span").attr("data-cid", columnid)
+}
+
+
+// 显示跳转的页面
+function loaddiv(url, name) {
+    $('#LAY_app_body div').html("");
+    $("#tabName").text(name);
+    if (url) {
+        $("#LAY_app_body").load(url);
+    } else {
+        $("#LAY_app_body").load("/reference/html/building.html");
+    }
+
+    // 渲染当前页面
+    setRender();
+}
+
+
+// table
+function myTable(tableId, cols, selectData) {
+    this.tableId = tableId
+    this.cols = cols
+    this.selectData = selectData
+}
+
+myTable.prototype.setTable = function (data) {
+    table.render({
+        elem: "#" + this.tableId
+        , cols: [this.cols]
+        , data: data
+        , limit: 20
+    });
+}
+myTable.prototype.setPage = function (boxId, total, limit, curr, callback) {
+    pages(boxId, total, limit, curr, callback)
+}
+
+// tab
+// methods  ->  function (index,selectData)
+function myTab(id, methods, selectData) {
+    $('#' + id + ' li').click(function () {
+        $('#' + id + ' li').removeClass("active")
+        $(this).addClass("active")
+        if (methods) {
+            methods($(this).index(), selectData);
+        }
+    })
+}
+
+//page
+function pages(boxId, total, limit, curr, callback) {
+    layui.use('laypage', function () {
+        var laypage = layui.laypage;
+        //执行一个laypage实例
+        laypage.render({
+            elem: boxId       //注意，这里的 放分页组件div的ID，不用加 # 号
+            , count: total    //数据总数，从服务端得到
+            , limit: limit       //每页显示的条数
+            , limits: [10, 15, 30, 50]  //出现每页条数的select选择框
+            , curr: curr      //页数
+            , groups: 7       //连续出现的页码个数
+            , prev: "<"       //上一页的样子
+            , next: ">"       //下一页的样子
+            //分页的布局 总数   上一页  页数    下一页  每页显示的条数  刷新  跳到第几页
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , theme: "ccc"    //theme: 'xxx' //将会生成 class="layui-laypage-xxx" 的CSS类
+            , jump: function (obj, first) {
+                //obj包含了当前分页的所有参数，比如：
+                console.log(obj)
+                //首次不执行
+                if (!first) {
+                    //do something
+                    console.log(obj)
+                    callback(obj.curr, obj.limit)
+
+                }
+            }
+        });
+    });
+}
+
+// 日期输入框渲染
+function dateInput(dom) {
+    laydate.render({
+        elem: dom
+        , type: 'datetime'
+    });
+}
+
+// btnMethods
+function btnMethods(methods) {
+    util.event('lay-demo', methods);
+}
+
+
+// from 提交表单
+function formCommit(btnFilter, fn, selectData) {
+    form.on(`submit(${btnFilter})`, function (data) {
+        fn(data, selectData)
+        return false
+    });
+}
+
+function alertMes(mes) {
+    layer.open({
+        type: 1,
+        title: `信息`,
+        skin: 'my-layer my-layer-mes',
+        content: mes,
+        area: ['240px', '140px'],
+        btn: ['确定'],
+        yes: function (index, layero) {
+            layer.close(index)
+        },
+    })
+}
+
+/**
+ * 表格数据
+ * @param {*} obj
+ * @param {*} data
+ * @param {*} columns
+ */
+ function setTableData(obj, data, columns) {
+    table.render({
+        elem: obj
+        , data: data.records
+        , limit: data.size
+        , cols: [columns]
+        // ,page: true
+    });
+}
+
+/**
+ * 数据模板
+ * @param {*} data
+ * @param {*} domTpl
+ * @param {*} dom
+ */
+ function getData(data, domTpl, dom) {
+    layui.use('laytpl', function() {
+        var laytpl = layui.laytpl;
+        laytpl($(domTpl).html()).render(data, function (html) {
+            $(dom).html(html);
+        });
+    })
+}

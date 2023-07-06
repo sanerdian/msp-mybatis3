@@ -1,0 +1,131 @@
+<style>
+	.app_bottom{position: absolute;bottom: 0;background-color: #f2f2f2;width: 100%;}
+	.app_bottom_btn{width: 95px;height: 41px; border-radius: 3px;border-top-left-radius: 0px;border-top-right-radius: 0px;font-size: 14px;margin-right: 20px;border: 1px solid #f2f2f2;background-color: #b2b2b2;text-align: center;line-height: 41px;float: left;color: #fff;}
+	.select{color: rgb(0, 150, 136);background-color: #fff;}
+	.table-area{height: 640px!important;}
+	.single{display: none;}
+</style>
+<div class="layui-fluid" id="list">
+	<div class="layui-card ">					
+		<!-- 搜索开始 -->
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<form class="layui-form" id="formSearch">
+				<div class="layui-form-item">
+					<div class="layui-inline checkname">
+						<label class="layui-form-label">应用名称</label>
+						<div class="layui-input-block">
+							<!-- <select name="name" class="groupOption" id="groupOption">
+								
+							</select> -->
+							<select name="name" id="groupOption">
+								<script type="text/html"  id="tableDataTemplate">
+								{{# layui.each(d, function(index, item){ }}
+								<option value="{{item.id}}">{{item.name}}</option>
+								{{# }); }}
+								</script>
+								
+							</select>
+							<!-- <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input"> -->
+						</div>
+					</div>
+					<div class="layui-inline checkstatus single" >
+						<label class="layui-form-label">审核状态</label>
+						<div class="layui-input-block">
+							<select name="status">
+								<option value=""></option>
+								<option value="未审核">未审核</option>
+								<option value="ok">已审核</option>
+								<option value="已驳回">已驳回</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline top_search_btn">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-data-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+			<div class="top_btn neisearch">
+				<button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="delapp">删除</button>
+			</div>
+			<div class="top_btn waisearch" hidden>
+				<button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del">删除</button>
+			</div>
+		</div>
+		<!-- 搜索结束 -->							
+		
+		<div class="layui-card-body">
+
+			<!-- 列表开始 -->
+			<div class="table-area" style="height: 640px;">
+				<div class="nei">
+					<table id="tableData" lay-filter="tableData"></table>
+					<div id="pageData"></div>
+				</div>
+				<div class="wai" hidden>
+					<table id="tableData1" lay-filter="tableData1"></table>
+					<div id="pageData1"></div>
+				</div>
+			</div>
+			
+			
+			<!-- 列表结束 -->
+		</div>
+
+	</div>
+	<div class="app_bottom">
+		<div class="app_bottom_btn internalapp select">应用审核</div>
+		<div class="app_bottom_btn externalapp">订阅审核</div>
+	</div>
+</div>
+
+<script type="text/html" id="apiname">
+    <a href="javascript:void(0)" style="color:#1A90FF">{{d.dict.apiName}}</a>
+</script>
+<script type="text/html" id="appname">
+    <a href="javascript:void(0)" style="color:#1A90FF">{{d.dict.appName}}</a>
+</script>
+<script type="text/html" id="msgbox">
+    <textarea name="msg" id="msg" cols="30" rows="10" placeholder="请输入驳回理由"></textarea>
+</script>
+<script src="simple/gateway/check/list.js"></script>
+<script src="simple/gateway/export/exportExcel.js"></script>
+<!-- 详情页 -->
+<div id="DetailDiv"></div>
+<div id="userSyncSettingDiv"></div>
+<div id="userSyncListDiv"></div>
+<div id="groupSyncSettingDiv"></div>
+<div id="groupSyncListDiv"></div>
+<!--操作 模板-->
+<script type="text/html" id="operateTemplate">
+	{{#if(d.statusName == "未审核"){}}
+	<a class="layui-btn layui-btn-xs" lay-event="apppass">审核通过</a>
+	<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="appnopass">审核不通过</a>
+	{{#}}}
+</script>
+<!-- <script type="text/html" id="operateTemplate1">
+	{{#if(d.statusName == "未审核"){}}
+	<a class="layui-btn layui-btn-xs" lay-event="pass">审核通过</a>
+	<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="nopass">审核不通过</a>
+	{{#}}}
+</script> -->
+<script>
+	$(".externalapp").click(function(){
+		doListok(1)
+		$(this).addClass("select").siblings().removeClass("select")
+		$(".wai").show()
+		$(".nei").hide()
+	})
+	$(".internalapp").click(function(){
+		doList(1)
+		$(this).addClass("select").siblings().removeClass("select")
+		$(".nei").show()
+		$(".wai").hide()
+	})
+
+
+	
+	
+</script>
+

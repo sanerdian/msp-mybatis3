@@ -1,0 +1,34 @@
+    <div class="layui-row">
+        <div class="layui-card h130 layui-col-md4">
+            <div class="layui-card-body list_borderr" style="height: 100%;">
+                <div class="layui-btn-container" style="height: 460px">
+                    <!-- <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>-->
+                    <ul  class="treeDemoq23 ztree"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md8 layui-card h130">
+            <form class="layui-form list_borderr" style="height: 491px;margin-top: 10px;margin-right: 10px">
+                <div class="layui-form-item" style="margin-top: 10px">
+                    <div class="layui-inline">
+                        <div class="layui-input-block">
+                            <input type="text" id="nameId" name="name" autocomplete="off" class="layui-input" placeholder="请输入">
+                        </div>
+                    </div>
+                    <div class="layui-inline top_search_btn">
+                        <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData11">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <!--     <button onclick="getUserLogin(1)" class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>-->
+                    <div class="table-area">
+                        <table id="test23" lay-filter="test23"></table>
+                    </div>
+                    <div id="demo9"></div>
+                </div>
+            </form>
+        </div>
+        <input type="hidden" name="id" />
+    </div>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.StatisticsMapper">
+
+	<!-- 新闻列表 -->
+	<select id="selectPageXinwen" resultType="com.jnetdata.msp.media.vo.xinwenVo">
+		SELECT t.*,
+		(select count(*) from jmeta_xinwen_comment c where c.docid=t.id) as commentcount,
+		(select count(*) from jmeta_xinwen_evaluate c where c.IDVALUE=t.id) as evaluatecount
+		FROM jmeta_xinwen020 t where t.status='21'
+
+		<if test="entity.title !=null">
+			and t.title like concat('%',#{entity.title},'%')
+		</if>
+		 order by t.crtime desc LIMIT #{min},#{max}
+	</select>
+
+	<!-- 新闻数量 -->
+	<select id="selectPageXinwenMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmeta_xinwen020 t where t.status='21'
+		<if test="entity.title !=null">
+			and t.title like concat('%',#{entity.title},'%')
+		</if>
+	</select>
+
+
+	<!-- 统计组织 -->
+	<select id="tjgroup" resultType="java.util.Map">
+		select i.groupname,count(*) as counts from groupinfo i
+		inner join GRP_USER g on g.groupid=i.groupid
+		inner join jmeta_xinwen_read r on g.userid=r.crnumber
+		where r.docid=#{entity.id}
+		group by i.groupname
+	</select>
+
+	<!--统计年龄-->
+	<select id="tjage" resultType="java.lang.Integer">
+		select count(*) as counts from (
+		SELECT ROUND(DATEDIFF(CURDATE(),u.BIRTHDATE)/365.2422) as age from userinfo u
+		where u.BIRTHDATE is not null and u.userid in (select DISTINCT r.crnumber from jmeta_xinwen_read r where r.docid=#{entity.id})
+		)t where t.age>=#{entity.min} and t.age&lt;#{entity.max}
+	</select>
+
+	<!-- 统计评论 -->
+	<select id="tjcomment" resultType="java.util.Map">
+		select DATE_FORMAT(c.crtime,'%Y-%m-%d') as crtime,count(c.crtime) as counts from jmeta_xinwen_comment c
+		where c.docid=#{entity.id}
+
+		<if test="entity.statrdate!=null">
+			and c.crtime >= #{entity.statrdate} and c.crtime &lt;= #{entity.enddate}
+		</if>
+
+		group by DATE_FORMAT(c.crtime,'%Y-%m-%d')
+	</select>
+
+	<!-- 统计点赞 -->
+	<select id="tjevaluate" resultType="java.util.Map">
+		select DATE_FORMAT(c.crtime,'%Y-%m-%d') as crtime,count(c.crtime) as counts from jmeta_xinwen_evaluate c
+		where c.idvalue=#{entity.id}
+
+		<if test="entity.statrdate!=null">
+			and c.crtime >= #{entity.statrdate} and c.crtime &lt;= #{entity.enddate}
+		</if>
+
+		group by DATE_FORMAT(c.crtime,'%Y-%m-%d')
+	</select>
+
+	<!-- 统计用户 -->
+	<select id="tjuser" resultType="java.util.Map">
+		select (select count(*) from userinfo u where u.status=0) as countall,
+		(select count(*) from userinfo u where u.status=0 and u.crtime between #{entity.statrdate} and #{entity.enddate}) as countnew ,
+		(select count(DISTINCT l.crnumber) from LOGININFO l where l.crtime between #{entity.statrdate} and #{entity.enddate}) as countlogin,
+		 (select count(*) from userinfo u where u.status=0 and u.userid not in (select DISTINCT l.crnumber from LOGININFO l where l.crtime between #{entity.statrdate} and #{entity.enddate})) as countnologin
+		 from dual
+	</select>
+
+	<!-- 统计活跃用户 -->
+	<select id="tjhyuser" resultType="java.util.Map">
+		select d.rcountlogin,CONCAT(ROUND(d.rcountlogin/d.countall*100,2),'%') as rbfb,
+			d.zcountlogin,CONCAT(ROUND(d.zcountlogin/d.countall*100,2),'%') as zbfb,
+			d.ycountlogin,CONCAT(ROUND(d.ycountlogin/d.countall*100,2),'%') as ybfb,
+			d.countnologin from (select (select count(*) from userinfo u where u.status=0) as countall,
+			(select count(DISTINCT l.crnumber) from LOGININFO l where l.crtime between #{entity.statrdate} and #{entity.enddate}) as rcountlogin,
+			(select count(DISTINCT l.crnumber) from LOGININFO l where l.crtime between #{entity.statrdatez} and #{entity.enddatez}) as zcountlogin,
+			(select count(DISTINCT l.crnumber) from LOGININFO l where l.crtime between #{entity.statrdatey} and #{entity.enddatey}) as ycountlogin,
+			(select count(*) from userinfo u where u.status=0 and u.userid not in (select DISTINCT l.crnumber from LOGININFO l)) as countnologin
+		from dual) d
+	</select>
+
+	<!-- 投票列表 -->
+	<select id="selectPageVote" resultType="com.jnetdata.msp.tlujy.vote.model.Vote">
+		SELECT *  FROM ( SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM
+		(
+		select ID AS id,DOCCHANNELID AS docchannelid,DOCSTATUS AS docstatus,SINGLETEMPKATE AS singletempkate,SITEID AS siteid,DOCVALID AS docvalid,DOCPUBTIME AS docpubtime,OPERUSER AS operuser,OPERTIME AS opertime,DOCTITLE AS doctitle,DOCRELTIME AS docreltime,DOCPUBURL AS docpuburl,LINKURL AS linkurl,CLASSINFOID AS classinfoid,STATUS AS status,COMPANYID AS companyid,WEBSITEID AS websiteid,COLUMNID AS columnid,MODIFY_USER AS modifyUser,SEQENCING AS seqencing,FLOW_ID AS flowId,FLOW_USER AS flowUser,TITLE AS title,STARTDATE AS startdate,ENDDATE AS enddate,LIMITTYPE AS limittype,LIMITCOUNT AS limitcount,REMARKS AS remarks,PHOTO AS photo,STATE AS state,CRUSER AS crUser,CRNUMBER AS createBy,CRTIME AS createTime,modify_by AS modifyBy,modify_time AS modifyTime from jmeta_vote v order by (select count(*) from jmeta_vote_user u where u.voteid=v.id) desc
+		) TMP_PAGE) WHERE ROW_ID &lt;= #{max} AND ROW_ID > #{min}
+	</select>
+
+	<!-- 投票数量 -->
+	<select id="selectPageVoteMaxCount" resultType="java.lang.Integer">
+		select count(*) from jmeta_vote t
+	</select>
+
+	<!-- 根据投票标题查询投票数量 -->
+	<select id="selectTpCounts" resultType="java.lang.Integer">
+		select count(1) from jmeta_vote_user j where j.voteid=#{voteid}
+	</select>
+
+	<!-- 根据投票标题查询投票人员 -->
+	<select id="selectTpUserCounts" resultType="java.lang.Integer">
+		select count(DISTINCT j.userid) from jmeta_vote_user j where j.voteid=#{voteid}
+	</select>
+
+	<!-- 获取给投票标题投票的部门 -->
+	<select id="votedepttj" resultType="java.util.Map">
+		select groupname,count(groupname) as counts from jmeta_vote_user j
+		inner join userinfo u on j.crnumber=u.userid
+		inner join grp_user gu on gu.userid=u.userid
+		inner join groupinfo g on u.groupid=gu.groupid
+		where j.voteid=#{entity.id} group by g.groupname
+	</select>
+
+	<!-- 投票标题部门统计 -->
+	<select id="votecommontj" resultType="java.util.Map">
+		select j.title,(select count(1) from jmeta_vote_user u where u.votecontentid=j.id) as counts from jmeta_vote_content j where j.voteid=#{entity.id}
+	</select>
+
+</mapper>

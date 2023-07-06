@@ -1,0 +1,93 @@
+<script type="text/html"  id="templateItem1">
+	<form id="appDetailForm" class="layui-form" lay-filter="editFormStep1">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">授权类型:</label>
+					<div class="layui-input-block">
+						<input type="radio" name="grantTimeType" value="long"  title="长期" lay-filter="LAY-app-step1-time-type">
+						<input type="radio" name="grantTimeType" value="short" title="短期" lay-filter="LAY-app-step1-time-type" checked>
+					</div>
+					<div class="grantTime">
+						<label class="layui-form-label">授权日期:</label>
+						<input type="text" name="grantTimeBegin"  id="grantTimeBegin" class="layui-input" style="width: 140px">
+						<label class="layui-form-mid">-</label>
+						<input type="text" name="grantTimeEnd"  id="grantTimeEnd" class="layui-input" height="layui-input" style="width: 140px">
+					</div>
+				</div>
+				<input hidden="hidden" name="id">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item1-step1-next">下一步</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div id="listNext" style="display:none;">
+		<div class="layui-card h100">
+			<!-- 搜索开始 -->
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-api-formlist">
+				<form class="layui-form" id="formSearchApi">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">Api名称</label>
+							<div class="layui-input-block">
+								<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-inline">
+							<label class="layui-form-label">http方法:</label>
+							<div class="layui-input-block">
+								<select name="reqMethod">
+									<option value=""></option>
+									<option value="GET">GET</option>
+									<option value="POST">POST</option>
+									<option value="PUT">PUT</option>
+									<option value="DELETE">DELETE</option>
+									<option value="HEAD">HEAD</option>
+									<option value="OPTIONS">OPTIONS</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">分组</label>
+							<div class="layui-input-block">
+								<select name="groupId" class="groupOption">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">请求路径</label>
+							<div class="layui-input-block">
+								<input type="text" name="reqUri" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline top_search_btn">
+							<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-api-back-search">
+								<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 搜索结束 -->
+
+			<div class="layui-card-body">
+				<!-- 列表开始 -->
+				<div >
+					<table id="tableDataApi" lay-filter="tableDataApi"></table>
+					<div id="page_tableDataApi"></div>
+				</div>
+				<!-- 列表结束 -->
+			</div>
+			<div class="button-bar">
+				<span class="layui-btn" id="goBack" onclick="appDetailGoBack()">上一步</span>
+				<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item1-back-add">确认</button>
+				<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+			</div>
+		</div>
+	</div>
+</script>

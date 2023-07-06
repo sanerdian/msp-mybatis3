@@ -1,0 +1,17 @@
+.visual_swiper_pic_more{border:1px solid #ccc;overflow:hidden;}
+.visual_swiper_pic_more .visual_swiper_container{width:100%;position:relative;padding:15px 0;}
+.visual_swiper_pic_more .visual_title{height:48px;line-height:48px;background-image:linear-gradient(#ecf2f9,#e0ebfc, #d8e7ff);border-top:2px solid #234eac;}
+.visual_swiper_pic_more .visual_title h3{float:left;height:48px;font-size:16px;color:#fff;background:#234eac;padding:0 20px;}
+.visual_swiper_pic_more .visual_title h3 a{color:#fff;}
+.visual_swiper_pic_more .visual_title h4{float:left;padding:5px 0 0 10px;}
+.visual_swiper_pic_more .visual_title h4 span{display:block;line-height:20px;font-size:14px;}
+.visual_swiper_pic_more .visual_title h4 .en{color:#999;font-size:12px;}
+.visual_swiper_pic_more .visual_title .more{float:right;margin:0 20px 0 0;}
+.visual_swiper_pic_more .visual_title .more a{color:#999;}
+.visual_swiper_pic_more .swiper-container{width:87%;}
+.visual_swiper_pic_more .swiper-slide img{width:100%;}
+.visual_swiper_pic_more .swiper-slide h3{height:30px;line-height:30px;font-size:14px;text-align:center;}
+.visual_swiper_pic_more .swiper-slide h3 a{color:#234eac;}
+.visual_swiper_pic_more .swiper-slide p{color:#999;text-align:center;}
+.visual_swiper_pic_more .swiper-button-prev{left:30px;}
+.visual_swiper_pic_more .swiper-button-next{right:30px;}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<head> 
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>内容页设置</title>
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <link rel="stylesheet" href="../../../../thirdparty/tree/css/metroStyle/metroStyle.css">
+    <!-- <link rel="stylesheet" href="../../../../thirdparty/swiper/swiper.min.css"> -->
+    <!-- <link rel="stylesheet" href="../../../../common/css/admin.css"> -->
+    <!-- <link rel="stylesheet" href="../../../../common/css/style.css"> -->
+    <!-- <link rel="stylesheet" href="../../css/common.css"> -->
+    <link rel="stylesheet" href="../../css/productEdit.css">
+    <link rel="stylesheet" href="../../css/moduleSet.css">
+    <script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+
+    <!-- <script src="../../../../common/js/tree/js/jquery.ztree.all.js"></script> -->
+    <script src="../../../../thirdparty/tree/js/jquery.ztree.core.js"></script>
+    <script src="../../../../thirdparty/tree/js/jquery.ztree.excheck.js"></script>
+
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+    <script src="../../js/getViewService.js"></script>
+    <script src="../../js/productEdit.js"></script>
+</head>
+<body>
+<link rel="stylesheet" href="../layoutContent/layoutContent.css">
+<div class="module_box">
+    <div class="visual_row canEdit"></div>
+    <div class="visual_main">
+        <div class="visual_row canEdit canEdied"></div>
+        <div class="visual_row canEdit"></div>
+        <div class="visual_row canEdit">
+            <link rel="stylesheet" href="../contentText/contentText.css">
+            <div class="module_box">
+                <!--内容页正文开始-->
+                <div id="widgetContentText" class="widget_box" data-module-type="detail">
+                    <div class="visual_content widget_border_content">
+                        <div class="visual_title">
+                            <h2>专利审查周期影响因素研究——以中国人工智能领域为例</h2>
+                        </div>
+                        <div class="visual_info">
+                            <ul>
+                                <li><span>摘要：</span><p>以德温特创新索引专利平台（Derwent Innovation Index,DII）收录的1963-2009年数控机床产业专利为研究对象,借助专利情报分析方法,对我国数控机床产业专利信息进行分析。通过对比日本、美国和德国的专利信息情况,分别从专利整体产出情况、重点研发技术领域和研发机构专利布局等角度揭示出我国数控产。</p></li>
+                                <li><span>地址：</span><p>日本东京都</p></li>
+                                <li><span>专辑：</span><p>工程科技专辑</p></li>
+                                <li><span>专题：</span><p>仪器仪表工业</p></li>
+                                <li><span>页数：</span><p>24</p></li>
+                                <li><span>申请人：</span><p>三菱电机珠饰会社会</p></li>
+                                <li><span>分类号：</span><p>10-04</p></li>
+                                <li><span>代理人：</span><p>谢辉：黄仑伟</p></li>
+                                <li><span>发明人：</span><p>张博</p></li>
+                                <li><span>申请日期：</span><p>2021-03-10</p></li>
+                                <li><span>专利类型：</span><p>外观设计</p></li>
+                                <li><span>代理机构：</span><p>北京三友知识产权代理有限公司</p></li>
+                                <li><span>国省代码：</span><p>JP</p></li>
+                                <li><span>授权公告日：</span><p>2021-07-27</p></li>
+                                <li><span>授权公布号：</span><p>CN306711574s</p></li>
+                                <li><span>申请（专利）号：</span><p>cn202130125840.1</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--设置按钮开始-->
+                    <div class="widget_menu">
+                        <div class="widget_icon widget_set"></div>
+                        <div class="widget_icon widget_delete"></div>
+                    </div>
+                    <!--设置按钮结束-->
+                    <!--设置弹出框开始-->
+                    <script type="text/html" class="widget_set_tpl">
+                        <div class="visual_module_set">
+                            <div class="layui-tab">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">文字样式</li>
+                                    <li>关联字段</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show">
+                                        <form class="layui-form" lay-filter="{{ d.widgetId }}StyleFrom">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">字体</label>
+                                                <div class="layui-input-block">                        
+                                                    <select name="fontFamily" lay-filter="">
+                                                        <option value="微软雅黑">微软雅黑</option>
+                                                        <option value="黑体">黑体</option>
+                                                        <option value="宋体">宋体</option>
+                                                        <option value="Arial">Arial</option>
+                                                        <option value="Helvetica">Helvetica</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">字体颜色</label>
+                                                <div class="layui-input-block">
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="fontColor" value="" placeholder="请选择颜色" class="layui-input" id="{{ d.widgetId }}ColorInput">
+                                                        <div id="{{ d.widgetId }}ColorPicker"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">字号</label>
+                                                <div class="layui-input-block">
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="fontSize" autocomplete="off" placeholder="请输入" class="layui-input"><span class="text">px</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--点击确定按钮时，获取表单设置的样式数据-->
+                                            <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormSubmit">提交</button>
+                                        </form>
+                                    </div>
+                                    <div class="layui-tab-item">
+                                        <form class="layui-form" lay-filter="{{ d.widgetId }}MetadataFrom">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">元数据表</label>
+                                                <div class="layui-input-block">                    
+                                                    <select name="dbTableId" lay-filter="{{ d.widgetId }}Metadata" id="{{ d.widgetId }}Metadata">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">关联字段</label>
+                                                <div class="layui-input-block visual_check">
+                                                    <ul id="{{ d.widgetId }}Fields">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!--点击确定按钮时，获取表单设置的元数据数据-->
+                                            <button class="layui-btn visual_submit_hide" lay-submit lay-filter="{{ d.widgetId }}FormTotalSubmit">提交</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+                    <!--设置弹出框结束-->
+                </div>
+                <!--内容页正文结束-->
+            </div>
+        </div>
+    </div>
+    <div class="visual_row canEdit"></div>
+</div>
+<link rel="stylesheet" href="../../css/publish.css">
+<script src="../../js/moduleSet.js"></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<title>草稿箱</title>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <img src="../../..//common/img/u27882.png" alt="">
+            <h3 style="font-weight: bolder;display: inline-block;margin-left: 8px">草稿箱</h3>
+        </div>
+        <div class="layui-card-body" style="height: 800px">
+            <table class="layui-hide layui-table" id="test" lay-filter="demo"></table>
+            
+        </div>
+        <div id="demo1" style="padding-left: 15px;"></div>
+        
+    </div>
+</div>
+
+<script>
+    // var url="/picture/list";
+
+    var data = {
+        "pager": {
+            "current": 1,
+            "size": 15
+        },
+        "picture": {
+            "processing": 1
+        }
+    }
+    var global = {
+        pageNo: 1
+    }
+    $(function () {
+        caogaoList(1)
+    }())
+
+    function caogaoList(pageNo) {
+        global.pageNo = pageNo;
+        data.pager.current = pageNo;
+        $.ajax({
+            url: '/kang/json/caogao.json',
+            type: 'GET',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function (res) {
+                console.log(res);
+                res.obj.records.forEach(function (item, index) {
+                    item.number = index + 1;
+                })
+                layui.use('table', function () {
+                    var table = layui.table;
+                    var laypage = layui.laypage,
+                        layer = layui.layer;
+                    table.render({
+                        elem: '#test',
+                        data: res.obj.records,
+                        cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            ,
+                        cols: [
+                            [{
+                                type: 'checkbox'
+                            }, {
+                                type: 'numbers',
+                                title: '序号'
+                            }, {
+                                field: 'projectName',
+                                title: '项目名称',
+                                align: "left"
+                            }, {
+                                field: 'belongType',
+                                title: '所属资源类型',
+                                align: "left"
+                            }, {
+                                field: 'operator',
+                                title: '操作人员',
+                                align: "left"
+                            }, {
+                                field: 'saveTime',
+                                title: '保存时间',
+                                align: "left"
+                            }, {
+                                field: 'operation',
+                                width: 170,
+                                align: "center",
+                                title: '操作',
+                                templet: "#operation",
+                                align: "left"
+                            }]
+                        ]
+                    });
+                    table.on('tool(demo)', function (obj) {
+                        var data = obj.data,
+                            layEvent = obj.event;
+                        console.log(data)
+                        if (obj.event === 'deletes') {
+                            layer.open({
+                                type: 1 //此处以iframe举例
+                                    ,
+                                title: '提示',
+                                area: ['380px', '221px'],
+                                shade: 0.3,
+                                maxmin: true,
+                                content: "<div style='text-align:center;line-height:120px;'>确认要删除？</div>",
+                                btn: ['确定', '取消'] //只是为了演示
+                                    ,
+                                btn2: function () {
+                                    layer.closeAll();
+                                },
+                                yes: function () {
+                                    // delDraft(data.id)
+                                    obj.del();
+                                    console.log(data)
+                                    layer.closeAll();
+                                }
+
+                            });
+                        } else if (layEvent === 'edit') {
+                            console.log(data);
+                            layui.layer.open({
+                                type: 1,
+                                title: "修改草稿箱",
+                                area: ['552px', '412px'],
+                                anim: 2,
+                                content: '<div id="table_data" class="open_layer_form""></div>',
+
+                            });
+                            layui.laytpl($("#fieldTemplate").html()).render(data, function (
+                                html) {
+                                $("#table_data").html(html)
+                                layui.form.val('editForm', data);
+                            });;
+
+                        }
+                    });
+                });
+                // layui.laypage.render({
+                //     elem: 'demo7',
+                //     count: res.obj.records.length,
+                //     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                //     jump: function (obj) {
+                //         console.log(obj)
+                //     }
+                // });
+
+                laypage.render({
+                    elem: 'demo1',
+                    count: res.obj.records.length,
+                    limit: 15,
+                    curr: pageNo ? pageNo : 0,
+                    limits: [10, 20, 50],
+                    layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                    jump: function (obj, first) {
+                        if (!first) {
+                            caogaoList(obj.curr)
+                        }
+                    }
+                });
+
+            }
+        })
+
+        layui.form.on("submit(addCompany)", function (data) {
+            editCompanyInfo(1)
+            return false;
+
+            function editCompanyInfo(pageNo) {
+
+                layer.closeAll();
+                caogaoList(1);
+            }
+        })
+
+
+
+
+        // ajax(service_prefix.resources, url, 'post', JSON.stringify(data)).then(function (res) {
+        //     if (res.success) {
+        //         console.log(res)
+        //         res.obj.records.forEach(function (item, index) {
+        //             item.number = index + 1;
+        //         })
+        //         layui.use('table', function () {
+        //             var table = layui.table;
+        //             table.render({
+        //                 elem: '#test'
+        //                 , data: res.obj.records
+        //                 , cols: [[
+        //                     { type: 'checkbox' }
+        //                     , { field: 'projectName', title: '项目名称', align: "left" }
+        //                     , { field: 'belongType', title: '所属资源类型', align: "left" }
+        //                     , { field: 'operator', title: '操作人员', align: "left" }
+        //                     , { field: 'saveTime', title: '保存时间', align: "right" }
+        //                     , { field: 'operation', width: 170, align: "center", title: '操作', templet: "#operation", align: "left" }
+        //                 ]]
+        //             });
+        //             table.on('tool(demo)', function (obj) {
+        //                 var data = obj.data;
+        //                 if (obj.event === 'deletes') {
+        //                     layer.open({
+        //                         type: 1 //此处以iframe举例
+        //                         , title: '提示'
+        //                         , area: ['380px', '221px']
+        //                         , shade: 0.3
+        //                         , maxmin: true
+        //                         , content: "<div style='text-align:center;line-height:120px;'>确认要删除？</div>"
+        //                         , btn: ['确定', '取消'] //只是为了演示
+        //                         , btn2: function () {
+        //                             layer.closeAll();
+        //                         },
+        //                         yes: function () {
+        //                             delDraft(data.id)
+        //                             layer.closeAll();
+        //                         }
+
+        //                     });
+        //                 }
+        //             });
+        //         });
+        // layui.use(['laypage', 'layer'], function () {
+        //     var laypage = layui.laypage
+        //         , layer = layui.layer;
+        //     laypage.render({
+        //         elem: 'demo1'
+        //         , count: res.obj.total
+        //         , curr: pageNo ? pageNo : 0
+        //         , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+        //         , jump: function (obj, first) {
+        //             if (!first) {
+        //                 caogaoList(obj.curr)
+        //             }
+        //         }
+        //     });
+        // })
+        //     }
+        // })
+    }
+
+    // function delDraft(id) { //批量删除
+    //     $.ajax({
+    //         url: 'http://127.0.0.1:5500/web_front/kang/json/caogao.json?id=' + id,
+    //         type: 'GET',
+    //         dataType: 'json',
+    //         success: function (res) {
+    //             if (res.success) {
+    //                 caogaoList(1)
+    //             }
+    //         }
+    //     })
+    // }
+
+
+
+    // var obj = [
+    //     { projectName: "苗族古歌", belongType: "基础数据", operator: "admin1", saveTime: "2019-07-01" },
+    //     { projectName: "苗族古歌", belongType: "基础数据", operator: "admin1", saveTime: "2019-07-01" },
+    //     { projectName: "苗族古歌", belongType: "基础数据", operator: "admin1", saveTime: "2019-07-01" },
+    //     { projectName: "苗族古歌", belongType: "基础数据", operator: "admin1", saveTime: "2019-07-01" },
+    //     { projectName: "苗族古歌", belongType: "基础数据", operator: "admin1", saveTime: "2019-07-01" },
+    //     { projectName: "苗族古歌", belongType: "基础数据", operator: "admin1", saveTime: "2019-07-01" },
+    //     { projectName: "苗族古歌", belongType: "基础数据", operator: "admin1", saveTime: "2019-07-01" }
+
+    // ]
+    // layui.use('table', function () {
+    //     var table = layui.table;
+
+    //     table.render({
+    //         elem: '#test'
+    //         , data: obj
+    //         , cols: [[
+    //             { type: 'checkbox' }
+    //             , { field: 'projectName', title: '项目名称', align: "left" }
+    //             , { field: 'belongType', title: '所属资源类型', align: "left" }
+    //             , { field: 'operator', title: '操作人员', align: "left" }
+    //             , { field: 'saveTime', title: '保存时间', align: "right" }
+    //             , { field: 'operation', width: 200, align: 'center', title: '操作', templet: "#operation", align: "left" }
+    //         ]]
+    //     });
+    // });
+    // layui.use(['laypage', 'layer'], function () {
+    //     var laypage = layui.laypage
+    //         , layer = layui.layer;
+    //     laypage.render({
+    //         elem: 'demo1'
+    //         , count: obj.length//数据总数
+    //         , jump: function (obj) {
+    //             console.log(obj)
+    //         }
+    //     });
+    // })
+</script>
+<!-- <script type="text/html" id="operation">
+<button class="layui-btn layui-btn-primary layui-btn-sm">继续编辑</button>
+<button class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+</script> -->
+
+<script type="text/html" id="operation">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit" type="button">编辑</button>
+        <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deletes" type="button">删除</button>
+    </div>
+</script>
+
+<script type="text/html" id="fieldTemplate">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>项目名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="projectName" lay-verify="required"
+                            autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>所属资源类型：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="belongType" lay-verify="required"
+                            autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>操作人员：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" lay-verify="required" name="operator" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input hidden="hidden" name="id">
+        <input type="hidden" name="status" value="1" />
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addCompany">确定</button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>

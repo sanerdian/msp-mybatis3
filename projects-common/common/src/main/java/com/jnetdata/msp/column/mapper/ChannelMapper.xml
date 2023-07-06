@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.column.mapper.ChannelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jnetdata.msp.column.model.Channel">
+        <id column="ID" property="id" />
+        <result column="SITEID" property="siteId" />
+        <result column="CRTIME" property="crtime" />
+        <result column="CHNLNAME" property="name" />
+        <result column="LISTTPL" property="listtpl" />
+        <result column="DETAILTPL" property="detailtpl" />
+        <result column="EDITTPL" property="edittpl" />
+        <result column="CHNLDESC" property="chnlDesc" />
+        <result column="PARENTID" property="parentId" />
+        <result column="QUOTAID" property="quotaid" />
+        <result column="QUOTANAME" property="quotaname" />
+        <result column="CHNLORDER" property="chnlOrder" />
+        <result column="CHNLDATAPATH" property="chnlDataPath" />
+        <result column="STATUS" property="status" />
+        <result column="STOP" property="stop" />
+        <result column="CHNLOUTLINETEMP" property="chnlOutlineTemp" />
+        <result column="CHNLDETAILTEMP" property="chnlDetailTemp" />
+        <result column="OPERUSER" property="operUser" />
+        <result column="OPERTIME" property="operTime" />
+        <result column="EDITPAGE" property="editPage" />
+        <result column="LISTPAGE" property="listPage" />
+        <result column="SHOWPAGE" property="showPage" />
+        <result column="STATICFILE" property="staticFile" />
+        <result column="TENTTYPE" property="tentType" />
+        <result column="ELSES" property="elses" />
+        <result column="SAVERULES" property="saveRlues" />
+        <result column="SITENAME" property="siteName" />
+        <result column="REMARK" property="remark" />
+        <result column="TABLEID" property="tableId" />
+        <result column="METADATATYPE" property="metadataType" />
+        <result column="IMGCOLUMN" property="imgColumn" />
+        <result column="FILECOLUMN" property="fileColumn" />
+        <result column="VIDEOCOLUMN" property="videoColumn" />
+        <result column="RADIOCOLUMN" property="audioColumn" />
+        <result column="LISTURL" property="listUrl" />
+        <result column="EDITURL" property="editUrl" />
+        <result column="DETAILURL" property="detailUrl" />
+        <result column="WORKFLOW" property="workFlow" />
+    </resultMap>
+
+    <!--<select id="selectChildChannel" resultType="com.jnetdata.msp.column.model.ColumnUtil">
+        SELECT T1.* FROM (SELECT C.* FROM CHANNELINFO C WHERE C.STATUS = 0 AND C.PARENTID =#{id} )T1 LEFT JOIN (SELECT A.CHANNELID,B.TABLENAME FROM CHANNELINFO A JOIN TABLEINFO B ON A.TABLEID=B.TABLEINFOID WHERE A.STATUS = 0 AND A.PARENTID =#{chnlIds} )T2 ON T1.CHANNELID=T2.CHANNELID ORDER BY T1.CHNLORDER DESC
+    </select>-->
+</mapper>

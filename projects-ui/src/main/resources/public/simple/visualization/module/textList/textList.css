@@ -1,0 +1,9 @@
+.visual_text_list{box-shadow:0 0 1px 1px #eee;overflow:hidden;}
+.visual_text_list .visual_title{height:49px;line-height:48px;border-bottom:1px solid #ccc;}
+.visual_text_list .visual_title h3{float:left;height:48px;line-height:48px;font-size:16px;font-weight:bold;color:#234eac;background:#fff;border-bottom:2px solid #234eac;padding:0 20px;}
+.visual_text_list .visual_title .more{float:right;margin:0 20px 0 0;}
+.visual_text_list .visual_title .more a{color:#999;}
+.visual_text_list .visual_con{padding:10px 20px;overflow:hidden;}
+.visual_text_list .visual_con ul li{height:30px;line-height:30px;background:url(img/ico_row.png) no-repeat 0 center;padding:0 0 0 30px;}
+.visual_text_list .visual_con ul li h4{float:left;}
+.visual_text_list .visual_con ul li span{float:right;color:#999;}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.YthMapper">
+
+    <select id="deptTree" resultType="com.jnetdata.msp.media.vo.TreeVo">
+        select c.dwbsm as id,c.fdwbsm as pId,c.dwmc as name from lz_dwjbxx c
+        start with c.fdwbsm='9999' connect by prior c.dwbsm=c.fdwbsm
+    </select>
+
+
+</mapper>

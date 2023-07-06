@@ -1,0 +1,31 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import org.thenicesys.data.api.Pager;
+import org.thenicesys.web.vo.PageVo1;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * <p>
+ * testt 服务类
+ * </p>
+ *
+ * @author zyj
+ * @since 2021-03-12
+ */
+public interface ${table.serviceName} {
+
+        Pager<${entity}> list(PageVo1 pager, ${entity} entity);
+
+        String insert(${entity} entity);
+
+        boolean delete(String id);
+
+        ${entity} getById(String id);
+
+        void updateById(String id,${entity} entity);
+
+        boolean deleteBatch(String[] ids);
+}

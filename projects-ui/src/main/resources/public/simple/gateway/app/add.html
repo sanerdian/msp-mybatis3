@@ -1,0 +1,74 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateData">
+	<form class="layui-form" lay-filter="formEditData">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">应用名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">应用URL:</label>
+					<div class="layui-input-block">
+						<input type="text" name="url" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">应用分类:</label>
+					<div class="layui-input-block">
+						<select name="type">
+							<option value=""></option>
+							<option value="major">专业应用</option>
+							<option value="other">其他应用</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">排序:</label>
+					<div class="layui-input-block">
+						<input type="number" name="sequcing" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">应用LOGO:</label>
+					<div class="layui-input-block">
+						<input type="hidden" id="logo" name="logo" placeholder="请输入" autocomplete="off" class="layui-input">
+						<div class="layui-upload-drag" id="divAppLogo">
+							<div class="needUpload">
+								<i class="layui-icon"></i>
+								<p>点击上传，或将文件拖拽到此处</p>
+							</div>
+							<div class="showView">
+								<img src="" alt="图片加载失败！" style="max-width: 100px;max-height: 100px;">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">描述:</label>
+					<div class="layui-input-block">
+						<textarea rows="3" name="description" placeholder="请输入" autocomplete="off" class="layui-input" style="min-height: 110px;"/>
+					</div>
+				</div>
+
+				<div class="layui-form-item" style="display: none">
+					<label class="layui-form-label">备注:</label>
+					<div class="layui-input-block">
+						<input type="text" name="remark" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<input hidden="hidden" name="id">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-data-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

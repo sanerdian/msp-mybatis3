@@ -1,0 +1,258 @@
+
+<link rel="stylesheet" href="../lib/layui/css/layui.css">
+<script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+<script src="../lib/layui/layui.all.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<style>
+    .widget_active{border:1px solid #1a90ff;}
+    .w_menu{display:none;position:fixed;z-index:9999;height:40px;background:#eeeff3;border-radius:2px;text-align:center;line-height:40px;padding:0 10px;}
+    .w_menu .menu_icon{width:40px;height:40px;cursor:pointer;float:left;}
+    .w_menu .set{background:url(../images/set.png) no-repeat center;}
+    .w_menu .link{background:url(../images/link.png) no-repeat center;}
+    .w_menu .delete{background:url(../images/delete.png) no-repeat center;}
+    .text_set_input{width: 60px;float: left;border: none;border-bottom: #aaaaaa 1px solid;text-align: center;}
+    .text_set_input_with_border{width: 73px;height: 22px;padding: 3px 2px;border: #dbdbdb 1px solid;text-align: center;}
+    .text_set_note{font-size: 12px;float: left;color: #7F7F7F;}
+    .img_picker{width: 98px;height: 98px;background: url(../images/bg_image_picker.png);background-size: contain;display: table-cell;vertical-align: middle;padding-top: 10px;cursor: pointer;}
+    .layui-form-item{margin:15px 0 0;}
+    .w_settings .contact_metadata .layui-form-item .layui-input-inline{width:150px;}
+    .w_settings .contact_metadata .fields .fields_list{width:380px;height:190px;border:#dbdbdb 1px solid;overflow-y:auto;}
+    .w_settings .contact_metadata .fields .fields_list .layui-form-item{margin:0 auto;}
+    .layui-layer-molv .layui-layer-title{background:#f8f8f8;color:#333;}
+    .layui-layer-molv .layui-layer-btn .layui-layer-btn1{background:none;color:#009f95;}
+    .layui-tab{padding:0 10px;}
+</style>
+<div id="widgetImage" class="w_box">
+    <div class="w_image">
+        <div class="content border_content">
+            <img class="img_content" src="../upload/images/person.png" style="width:100px;height:100px;">
+        </div>
+    </div>
+    <div class="w_menu">
+        <div class="menu_icon set"></div>
+        <div class="menu_icon link"></div>
+        <div class="menu_icon delete"></div>
+    </div>
+
+    <!--设置弹出框-->
+    <div class="w_settings" style="display:none;">
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">文字样式</li>
+                <li>关联字段</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form action="" class="layui-form content">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label" style="clear:left">位置尺寸：</label>
+                            <div class="layui-input-block" style="padding-top:10px">
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num" name="text_left" value="10">
+                                <span class="text_set_note">X</span>
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                        name="text_top"
+                                        value="10">
+                                <span class="text_set_note">Y</span>
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                        name="text_width"
+                                        value="100">
+                                <span class="text_set_note">W</span>
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                        name="text_height"
+                                        value="100">
+                                <span class="text_set_note">H</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label" style="clear:left">图片圆角：</label>
+                            <div class="layui-input-block" style="padding-top:10px">
+                                <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                        name="text_radius"
+                                        value="50">
+                            </div>                        
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label" style="clear:left">上传图片：</label>
+                            <div class="layui-input-block img_picker">
+                                <img id="uploadImg" src="../upload/images/person.png" style="width:100px;height:100px;">
+                            </div>                        
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">
+                    <form action="" class="layui-form contact_metadata">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">元数据表：</label>
+                            <div class="layui-input-block" style="width:380px">
+                                <select lay-verify="required" class="data_set_sel">
+                                    <option>用户注册表</option>
+                                    <option>用户注册表</option>
+                                    <option>用户注册表</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item fields">
+                            <label class="layui-form-label">关联字段：</label>
+                            <div class="layui-input-inline fields_list">
+                                <form class="layui-form">
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">姓名</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">工作年限</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">年龄</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">学历</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">头像照</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">性别</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">出生日期</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">民族</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">籍贯</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">邮箱</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">出生日期</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">民族</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">籍贯</label>
+                                        </div>
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="" lay-skin="primary">
+                                            <label class="layui-form-label">邮箱</label>
+                                        </div>                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var form = layui.form; 
+    form.render();
+    // var widget = $('#widgetImage');
+    var widgetId = 'widgetImage';
+
+    //取消边框
+    function removeAllWidgetBorder() {
+        $("div[class^='draggable']").find(".border_content").addClass("widget_inactive").removeClass("widget_active");
+    }
+
+    //添加边框
+    function activeWidgetBorder(widget) {
+        // console.log(widget)
+        removeAllWidgetBorder();
+        $('#'+ widgetId).find(".border_content:visible:first").addClass("widget_active").removeClass("widget_inactive");
+    }
+
+    //右键显示菜单
+    $('#'+ widgetId).on('contextmenu', function (e) {
+        console.log('e',e);
+        activeWidgetBorder(widgetId);
+        $('#'+ widgetId + ' .w_menu').show();
+        clickSet();
+        return false;
+    });
+    
+    //点击设置按钮弹出框
+    function clickSet(){
+        $('#'+ widgetId + ' .set').click(function () {
+            layer.open({
+                type: 1,
+                title: '图片设置',
+                scrollbar:false,
+                area: ['530px','420px'],
+                btnAlign: 'c',
+                skin: 'layui-layer-molv',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                content: $('#'+ widgetId + ' .w_settings'),
+                yes: function(index, layero){
+                    $('#'+ widgetId + ' .w_settings').hide();
+                    layer.closeAll();
+                },
+                btn1:function(){
+                    $('#'+ widgetId + ' .w_settings').hide();
+                    layer.closeAll();
+                },
+                btn2:function(){
+                    $('#'+ widgetId + ' .w_settings').hide();
+                    layer.closeAll();
+                },
+                cancel:function(){
+                    $('#'+ widgetId + ' .w_settings').hide();
+                    layer.closeAll();
+                }
+            });
+        })
+    }
+
+    //图片上传
+    function uploadImg(){
+        layui.upload.render({
+            elem: '#uploadImg'
+            // ,url: url+'/importHead'
+            ,url: getAjaxUrl(service_prefix.member,'/user/importHead')
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                console.log(obj);
+                obj.preview(function(index, file, result){
+                    $('#uploadImg').attr('src', result); //图片链接（base64）
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                // $("[name=headUrl]").val(res.obj.url)
+            }
+        });
+
+    }
+    uploadImg();
+
+    //点击删除
+    function deleteModule(){
+        $('#'+ widgetId + ' .delete').click(function () {
+            $(this).parent().parent().remove();
+        })
+    }
+    deleteModule();
+</script>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+    <script src="list.js"></script>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-card h100">
+            <!-- 搜索开始 -->
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <form class="layui-form" id="formSearch">
+                    <div class="layui-form-item">    
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="LAY-back-search">
+                                <i class="layui-icon layui-icon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 搜索结束 -->
+            <div class="layui-card-body">
+                <!-- 列表开始 -->
+                <div class="table-area">
+                    <table id="tableData" lay-filter="tableDataFilter"></table>
+                </div>
+                <!-- 列表结束 -->
+            </div>
+            <!-- 分页开始 -->
+            <div id="tablePage"></div>
+            <!-- 分页结束 -->
+        </div>
+    </div>
+    <!--操作模板开始-->
+    <script type="text/html" id="tableOperateBar">
+        <a class="layui-btn layui-btn-xs" href="content.html?id={{ d.id }}" target="_blank">查看</a>
+        <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="editFormClick('{{d.id}}')">编辑</button>
+        <button class="layui-btn layui-btn-xs layui-btn-danger" onclick="deleteFormClick('{{d.id}}')">删除</button>
+    </script>
+    <!--操作模板结束-->
+    <script>
+        //服务id service_prefix.member
+        var serviceId = "member";
+
+        //接口地址
+        var url = '/user';
+
+        //列表数据
+        var columns = [
+            {type: 'checkbox', fixed: 'left'}
+            , {type: 'numbers', title: '序号', fixed: 'left'}
+            , {field: 'name', title: '用户名', width: 140, fixed: 'left', templet: function(d){
+                return '<div data-id="'+ d.id+'">'+d.name+'</div>'
+            }}
+            , {field: 'trueName', title: '真实姓名', width: 100}
+            , {field: 'email', title: '电子邮箱'}
+            , {field: 'mobile', title: '手机号码', width: 120}
+            , {field: 'groupName', title: '所属组织'}
+            , {field: 'roleName', title: '所属角色'}
+            , {fixed: 'right', title:'操作', toolbar: '#tableOperateBar'}
+        ];
+
+
+        //新建或编辑
+        function editFormClick(id){
+            layer.open({
+                type: 2,
+                shadeClose: true,
+                area: ['50%', '50%'],
+                content: '../form/form2.html',
+                success: function(layero, index){
+                    var body = layer.getChildFrame('body', index);
+                    if(id){
+                        ajax("member", "/user/"+ id, "get", {}).then(function (data) {
+                            if (data.success) {
+                                console.log('data.obj',data.obj);
+                                body.find('[name="name"]').val(data.obj.name);//根据字段生成
+                                body.find('[name="trueName"]').val(data.obj.trueName);
+                            } else {
+                                console.log(data.msg);
+                            }
+                        });
+                    }            
+                }
+            });
+        }
+
+        //弹出提示框
+        //根据是否传load参数，判断是否需要页面刷新
+        function showWinTips(msg, fn, load) {
+            layer.open({
+                content: msg,
+                yes: function (index, layero) {
+                    if (fn) {
+                        fn();
+                    }
+                    layer.close(index);
+                    if (load) {
+                        return false;
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                cancel: function (index, layero) {
+                    layer.close(index);
+                    window.location.reload();
+                    return false;
+                }
+            });
+        }
+
+        //删除
+        function deleteFormClick(id){
+            layer.confirm(
+                '确认删除?',
+                { icon: 3, title: '提示' },
+                function (index) {
+                    layer.close(index);
+                    ajax("member", "/user/" + id, "delete").then(function (data) {
+                        var msg = data.msg;
+                        if (data.success) {
+                            msg = '删除成功';
+                            showWinTips(msg,null,1);
+                            setListData("member", "/user", 1, 10, {});
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    });
+                }
+            );
+        }
+
+        $(function(){
+            setListData(serviceId, url, curr, defaultPageSize,{});
+            getSearch(serviceId, url, curr, defaultPageSize);
+
+        });
+
+    </script>
+</body>
+</html>

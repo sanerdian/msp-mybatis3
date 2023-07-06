@@ -1,0 +1,83 @@
+﻿<title>流程设计</title>
+<style>
+    #stream iframe{
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10 h100">
+        <div class="h100">
+            <div class="layui-card h100" id='stream'>
+                <div class="layui-card-header layuiadmin-card-header-auto">
+                    <button onclick="toDesigner();" class="layui-btn">流程设计器</button>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="model" lay-filter="deploy_proc"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="operation">
+    <div class='layui-btn-container'>
+        <button class='layui-btn  layui-btn-sm' lay-event='deploy'>发布</button>
+    </div>
+</script>
+
+<script>
+
+    doList(1);
+
+    function doList(current,size) {
+        current = current?current : 1;
+        size = size?size : 15;
+        ajax(service_prefix.flowable, "/procModelList", "post",JSON.stringify({entity: {},pager:{current:current,size:size}})).then(function (res) {
+            showTable(res.obj);
+            // loadPage(res.obj,doList);
+        })
+    }
+
+    function showTable(data) {
+        layui.table.render({
+            elem: '#model'
+            , data: data
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , limit:10000
+            , cols: [[
+                {type: 'numbers', title: '序号', align: "center", width: 50}
+                , {field: 'name', width: 200, title: '名称'}
+                , {field: 'key', width: 150, title: 'key'}
+                , {field: 'description', width: 240, title: '描述'}
+                , {field: 'classify', title: '操作', width: 290, templet: '#operation'}
+            ]]
+        });
+    }
+
+    function toDesigner(){
+        go2Menu('simple/flowable/toDesigner.html', '流程编辑器')
+    }
+
+    layui.table.on('tool(deploy_proc)', function (obj) {
+        var data = obj.data;
+        if(obj.event == "deploy"){
+            deploy(data.id);
+        }
+    })
+
+    function deploy(id){
+        var param = {modelId:id}
+        ajax(service_prefix.flowable,"/deploy","post",JSON.stringify(param)).then(function(res){
+            if(res.success){
+                alert("发布成功");
+            }else{
+                alert("发布失败");
+            }
+            doList(1);
+        })
+    }
+</script>
+<script>
+    layui.form.render();
+</script>

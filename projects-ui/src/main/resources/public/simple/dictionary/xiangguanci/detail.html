@@ -1,0 +1,133 @@
+<!--弹出层模板 编辑-->
+<style>
+    .tableDetail {
+        width: 90%;
+        margin: 20px auto 0px;
+    }
+
+    .tableTR {
+        width: 100%;
+        height: 38px;
+        /* border: 1px solid #c2c2c4; */
+    }
+
+    .tableTD1 {
+        width: 180px;
+        /* border-right: 1px solid #c2c2c4; */
+    }
+
+    .tableTD2 {
+        width: 443px;
+    }
+</style>
+
+<script type="text/html" id="detailTemplate">
+    <table class="layui-table tableDetail" lay-even lay-skin="">
+        <tbody>
+            <tr class="tableTR">
+                <td class="tableTD1">主题词：</td>
+                <td class="tableTD2">{{d.wordname}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">主题词同义词：</td>
+                <td class="tableTD2">{{d.tongyici}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">主题词拼音：</td>
+                <td class="tableTD2">{{d.pinyin}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">主题同音词：</td>
+                <td class="tableTD2">{{d.tongyinci}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">属性词：</td>
+                <td class="tableTD2">{{d.shuxing}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">属性词相关词：</td>
+                <td class="tableTD2">{{d.relationword}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">属性词同义词：</td>
+                <td class="tableTD2">{{d.shuxingtongyici}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">属性词拼音：</td>
+                <td class="tableTD2">{{d.shuxingpinyin}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">停用词：</td>
+                <td class="tableTD2">{{d.zhutistopwordname}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">场景词：</td>
+                <td class="tableTD2">{{d.changjingci}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">相关词：</td>
+                <td class="tableTD2">{{d.relatedword}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">相关词同义词：</td>
+                <td class="tableTD2">{{d.relatedtongyici}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">相关词拼音：</td>
+                <td class="tableTD2">{{d.pinyinword}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">相关词同音词：</td>
+                <td class="tableTD2">{{d.relatedpinyin}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">相关帖：</td>
+                <td class="tableTD2">{{d.relatedforum}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">词条状态：</td>
+                <td class="tableTD2">
+                {{# if(d.status==-1){ }}
+                未生效
+                {{# }else if(d.status==0){ }}
+                已生效
+                {{# }else if(d.status==1){ }}
+                停用
+                {{# } }}
+                </td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">指标一级分类：</td>
+                <td class="tableTD2">{{d.t1}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">指标二级分类：</td>
+                <td class="tableTD2">{{d.t2}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">指标三级分类：</td>
+                <td class="tableTD2">{{d.t3}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">指标四级分类：</td>
+                <td class="tableTD2">{{d.t4}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">创建人：</td>
+                <td class="tableTD2">{{d.cruser}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">创建时间：</td>
+                <td class="tableTD2">{{d.crtime}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">修改人：</td>
+                <td class="tableTD2">{{d.operuser}}</td>
+            </tr>
+            <tr class="tableTR">
+                <td class="tableTD1">修改时间：</td>
+                <td class="tableTD2">{{d.opertime}}</td>
+            </tr>
+        </tbody>
+    </table>
+</script>

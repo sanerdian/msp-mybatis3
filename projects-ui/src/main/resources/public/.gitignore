@@ -1,0 +1,14 @@
+*.git
+*.jar
+*.log
+
+#common/js/config.js
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/

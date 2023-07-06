@@ -1,0 +1,599 @@
+﻿  <title>表单设计</title>
+  <style>
+      #nav span,.right span{display: none;}
+        #nav a{display: inline-block;width: 40px;height: 56px;text-align: center;border: 1px solid #f5f5f5;}
+        #nav a:nth-of-type(3){display: inline-block;width: 220px;height: 52px; text-align: left;padding-left: 20px;border-top: 2px solid #000;font-weight: bold;}
+        .right{display: inline-block;position: absolute;top: 0;right: 0;}
+        .layui-breadcrumb a{color: #000!important;}
+        .node_name{color: #000;line-height: 16px!important;}
+        .ztree li span.button.noline_open {
+    background-position: -110px -88px!important;
+}
+.ztree li span.button.noline_close {
+    background-position: -132px -86px!important;
+}
+.ztree li span.button.ico_docu{margin-top: 2px;}
+#right .layui-unselect{display: inline-block;width: 150px;}
+#table tr td:first-child{background: rgb(247,247,247)}
+.layui-tab-title .layui-this:after{border:0;border-bottom: 2px solid #379ff7;}
+.list li {height: 30px; text-align: center;line-height: 30px;}
+        .list li:hover{color: #fff;background: #379ff7;}
+
+      iframe{
+          width: 100%;
+          height: 100%;
+          border: none;
+      }
+  </style>
+    <div class="layui-card layadmin-header">
+        <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+            <a><i class="layui-icon layui-icon-prev"></i></a>
+            <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+            <a>表单设计<i class="layui-icon layui-icon-close" style="margin-left: 120px"></i></a>
+            <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="layui-fluid">
+      <div class="layui-row layui-col-space10">
+          <div class="layui-col-md3" style="width: 300px;">
+              <div class="layui-card"  style="height: 820px">
+                <div class="layui-card-header">表单分类</div>
+                <div class="layui-card-body">
+                    <ul id="treeDemo" class="ztree" style='height: 720px; overflow:auto;'></ul>
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-md9" style="width: 1360px;">
+                    <div class="layui-card" style="display: none;height: 820px;" id='history'>
+                            <div class="layui-card-header">
+                                    <span class="title">表单历史版本</span>
+                                    <button class="layui-btn  layui-btn-sm" style='display: inline-block;margin-left: 20px;' onclick="returnBack()">返回</button>
+                                </div>
+                            <div class="layui-card-body">
+                                    <div class="layui-form">
+                                            <table class="layui-table">
+                                              <colgroup>
+                                                <col width="150">
+                                                <col width="250">
+                                                <col width="150">
+                                                <col>
+                                              </colgroup>
+                                              <thead>
+                                                <tr>
+                                                  <th>版本号</th>
+                                                  <th>生成时间</th>
+                                                  <th>字段数量</th>
+                                                  <th>操作</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td>1</td>
+                                                  <td>2014-06-11 20:09:51</td>
+                                                  <td>16</td>
+                                                  <td style='color: red;'>当前版本</td>
+                                                </tr>
+
+                                              </tbody>
+                                            </table>
+                                          </div>
+                            </div>
+                        </div>
+                    <div class="layui-card"  style="height: 820px;display:none;" id='num2'>
+                            <div class="layui-card-body">
+                                <iframe src="/flowable-modeler/forms.html">
+                                </iframe>
+                            </div>
+                        </div>
+                    <div class="layui-card"  style="height: 820px;display:none;" id='num1'>
+                            <div class="layui-card-header">
+                                表单分类：<span id='title'></span>
+                                <div class="layui-btn-container" style="position: absolute;top:5px;right:10px;">
+                                    <button class="layui-btn layui-btn-sm create">新建表单</button>
+                                    <button class="layui-btn layui-btn-primary layui-btn-sm reload">刷新</button>
+                                </div>
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-hide" id="test"></table>
+                            </div>
+                        </div>
+                <div class="layui-card"  style="height: 820px" id="num" >
+                    <iframe src="/flowable-modeler/forms.html">
+                    </iframe>
+                </div>
+
+            </div>
+      </div>
+    </div>
+    <script>
+        layui.use('table', function(){
+                  var table = layui.table;
+
+                  table.render({
+                    elem: '#test'
+                    ,data:[
+                        {name:"测试表单00",binds:"自由流程测试,测试111,"},
+                        {name:"测试表单",binds:""},
+                        {name:"测试表单",binds:""},
+                        {name:"表单签章控件测试",binds:"签章测试流程,"},
+                        {name:"1111",binds:""}
+                    ]
+                    ,cols: [[
+                      {field:'name', width:465, title: '表单名称',templet:"#name"}
+                      ,{field:'binds', width:420, title: '已绑定流程'}
+                      ,{field:'operations', width:430, title: '操作',templet:"#manage"}
+
+                    ]]
+                  });
+                });
+        var settingss = {
+            data: {
+                simpleData: {
+                    enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                    idKey: "id", //节点数据中保存唯一标识的属性名称
+                    pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                    rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                },
+                key: {
+                    name: "menuName" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+                }
+            },
+            view: {
+                showLine: false,
+                showPlusMinus: false,
+                showIcon: true,
+                dblClickExpand: false,
+                fontCss: {
+                    'color': 'white',
+                    'font-weight': 'normal'
+                }
+            }
+        };
+
+        //数据
+        var zNodes = [
+            {
+                menuName: "默认分类",
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "自由流程测试",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "签章测试流程",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "测试111",
+                        open: true,
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            //注意，数据中的 menuName 必须与 settingss 中key 中定义的name一致，否则找不到
+            {
+                menuName: "人事类",
+                open: true,
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "员工外出申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "员工请假申请（业务）",
+                        open: true,
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "员工出差申请（业务）",
+                        open: true,
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "员工加班申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            {
+                menuName: "项目类",
+                open: true,
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "立项申请流程",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "立项审批流程",
+                        open: true,
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            {
+                menuName: "行政类",
+                open: true,
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "办公用品出库（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "公司用印申请",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "通知公告审批流程（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "新闻发布审批流程（业务）",
+                        icon: "common/img/wf_node2.png"
+                    },
+                    {
+                        menuName: "资产购置申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "资产调拨申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "公司资质借用申请",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "资产领用申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    },
+                    {
+                        menuName: "资产归还申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "资产报废申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "资产报修申请（业务））",
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            {
+                menuName: "库存类",
+                open: true,
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "货品入库（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "货品出库（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            {
+                menuName: "绩效类",
+                open: true,
+                icon: "common/img/wf_node1.png"
+            },
+            {
+                menuName: "公文类",
+                open: true,
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "办公室发文",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "办公室收文",
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            {
+                menuName: "采购类",
+                open: true,
+                icon: "common/img/wf_node1.png"
+            }
+            ,
+            {
+                menuName: "合同类",
+                open: true,
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "合同审批申请",
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            {
+                menuName: "费用类",
+                open: true,
+                icon: "common/img/wf_node1.png",
+                children: [{
+                        menuName: "费用预算申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "差旅费用报销",
+                        icon: "common/img/wf_node2.png"
+                    },
+                    {
+                        menuName: "部门年度费用计划申请",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "个人年度费用计划申请",
+                        icon: "common/img/wf_node2.png"
+                    },
+                    {
+                        menuName: "借支单",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "费用报销申请（业务）",
+                        icon: "common/img/wf_node2.png"
+                    },
+                    {
+                        menuName: "费用借款单",
+                        icon: "common/img/wf_node2.png"
+                    }, {
+                        menuName: "常用费用报销单",
+                        icon: "common/img/wf_node2.png"
+                    }
+                ]
+            },
+            {
+                menuName: "后勤类",
+                open: true,
+                icon: "common/img/wf_node1.png"
+            }
+        ];
+
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, zNodes); //初始化树
+        layui.use('form', function(){
+  var form = layui.form;
+
+  //监听提交
+  form.on('submit(formDemo)', function(data){
+    layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+});
+ $(".level0>.node_name").click(function(){
+     $('#num').hide();
+     $("#num1").show();
+     $("#num2").hide();
+     $("#title").text($(this).text())
+ })
+ $(".level1>.node_name").click(function(){
+     $('#num').hide();
+     $("#num1").hide();
+     $("#num2").show();
+ })
+ $('.create').click(function(){
+    $('#num2').hide();
+     $("#num1").hide();
+     $("#num").show();
+ })
+ $('.reload').click(function(){
+    location.reload();
+ })
+ layui.use('layer', function(){ //独立版的layer无需执行这一句
+            var $ = layui.jquery, layer = layui.layer;
+            var active={
+                import:function(){
+                    var that = this;
+                    layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '表单导入'
+                    ,area: ['620px', '306px']
+                    ,shade: 0.3
+                    ,maxmin: false
+                    ,id:"_add1"
+                    ,content: "<div id='form2'></div>"
+                    })
+                    layui.laytpl($("#import").html()).render({}, function(html){
+                        $("#form2").html(html);
+                        layui.form.render();
+            })
+                }
+            }
+            $(document).on('click','.layui-btn',function(){
+                var othis = $(this), method = othis.data('method');
+                active[method] ? active[method].call(this, othis) : '';
+            });
+            $('.layui-btn').click(function(){
+                var othis = $(this), method = othis.data('method');
+                active[method] ? active[method].call(this, othis) : '';
+            });
+
+         })
+ layui.use('layer', function(){ //独立版的layer无需执行这一句
+            var  layer = layui.layer;
+            var active={
+                add: function(){
+                var that = this;
+                layer.open({
+                type: 1 //此处以iframe举例
+                ,title: '选择人员'
+                ,area: ['565px', '460px']
+                ,shade: 0.3
+                ,maxmin: true
+                ,id:"_add"
+                ,content: "<div id='form1'></div>"
+
+            });
+            layui.laytpl($("#add").html()).render({}, function(html){
+                $("#form1").html(html);
+                layui.form.render();
+            })
+            $("li").click(function (e) {
+                var others = $(this).siblings();
+                if ($(this).hasClass('unselect')) {
+                    $(this).removeClass('unselect');
+                    $(this).addClass('select');
+                    others.addClass('unselect');
+                    $('#createStream').hide();
+                }
+            })
+            var settingss = {
+                check: {
+            enable: true
+        },
+            data: {
+                simpleData: {
+                    enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                    idKey: "id", //节点数据中保存唯一标识的属性名称
+                    pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                    rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                },
+                key: {
+                    name: "menuName" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+                }
+            },
+            view: {
+                showLine: false,
+                showPlusMinus: false,
+                showIcon: true,
+                dblClickExpand: false,
+                fontCss: {
+                    'color': 'white',
+                    'font-weight': 'normal'
+                }
+            }
+        };
+
+        //数据
+        var zNodes = [
+            //注意，数据中的 menuName 必须与 settingss 中key 中定义的name一致，否则找不到
+            {
+                menuName: "中国通信建设第四工程局有限公司",
+                icon: "common/img/1_open.png",
+                open:true,
+                children:[
+                    {
+                        menuName: "系统管理部",
+                        icon: "common/img/node_dept.gif",
+                    },
+                    {
+                        menuName: "信息部",
+                        icon: "common/img/node_dept.gif",
+                        open: true,
+                        children:[
+                        {
+                            menuName: "信息一部",
+                            icon: "common/img/node_dept.gif"
+                        }
+                        ]
+                    }
+                ]
+            }
+
+        ];
+
+        zTreeObj = $.fn.zTree.init($("#treeDemo1"), settingss, zNodes); //初始化树
+
+
+
+
+
+                }
+            }
+            $('.select').click(function(){
+                var othis = $(this), method = othis.data('method');
+                active[method] ? active[method].call(this, othis) : '';
+            });
+            $('.layui-btn').click(function(){
+                var othis = $(this), method = othis.data('method');
+                active[method] ? active[method].call(this, othis) : '';
+            });
+
+         })
+         function change(event){
+                     var val=event.target.innerHTML;
+                     document.querySelector('#head').innerHTML=val;
+                   }
+        function goToHistory(){
+            $('#num2').hide();
+            $("#num1").hide();
+            $("#num").hide();
+            $("#history").show();
+        }
+        function returnBack(){
+            $('#num2').hide();
+            $("#num1").show();
+            $("#num").hide();
+            $("#history").hide();
+        }
+    </script>
+    <script type="text/html" id='name'>
+        <a href="#" style='color:#126DBA'>
+            {{d.name}}
+        </a>
+    </script>
+    <script type="text/html" id='import'>
+        <div class='box' style='width:620px;height:200px;border-bottom:1px solid #ccc;'>
+            <p style='color:red;margin-left:40px;line-height:80px;'>请上传HTML格式的文件</p>
+            <form class='layui-form'>
+                <div class='layui-form-item'>
+                    <div class='layui-input-block' style='margin-left:30px;'>
+                        <input type="file" name="file" id="file" class='layui-input' style='border:0'>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class='layui-btn-container' style='position:absolute;right:10px;bottom:5px;'>
+            <button class='layui-btn layui-btn-primary layui-btn-sm' onclick='layer.closeAll();'>关闭</button>
+            <button class='layui-btn layui-btn-normal layui-btn-sm'>上传</button>
+        </div>
+    </script>
+    <script type="text/html" id='manage'>
+        <div class='layui-btn-container'>
+            <button class='layui-btn layui-btn-container layui-btn-sm'>设计</button>
+            <button class='layui-btn layui-btn-container layui-btn-sm'>预览</button>
+            <button class='layui-btn layui-btn-container layui-btn-sm'>导出</button>
+            <button class='layui-btn layui-btn-container layui-btn-sm' data-method='import'>导入</button>
+            <button class='layui-btn layui-btn-container layui-btn-sm' onclick='goToHistory()'>历史版本</button>
+            <button class='layui-btn layui-btn-container layui-btn-sm'>删除</button>
+        </div>
+    </script>
+    <script id="add" type="text/html">
+        <div class='layui-fluid'>
+            <div class='layui-row layui-col-space10'>
+                <div class='layui-col-md7' style='height:390px;margin-left:15px;width:300px;margin-right:10px'>
+                    <div class='layui-card'>
+                        <div class='layui-card-body'>
+                                <div class="layui-tab" id='select'>
+                                        <ul class="layui-tab-title" >
+                                          <li class="layui-this select" style='border:0;'>按部门选择</li>
+                                        </ul>
+                                        <div class="layui-tab-content" style='border:1px solid #ccc;height:275px;overflow-Y:auto;padding:0;'>
+                                          <div class="layui-tab-item layui-show">
+                                                <ul id="treeDemo1" class="ztree"></ul>
+                                          </div>
+                                        </div>
+                                      </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='layui-col-md5' style='height:380px;width:204px;'>
+                    <form class='layui-form'>
+                        <div class='layui-form-item'>
+                            <div class='layui-input-block'style='margin-left:0;width:100%'>
+                                <input type="text" class='layui-input' style="display:inline-block;width:130px!important;" placeholder='按部门名称搜索...'>
+                                <button class='layui-btn layui-btn-normal'style='display:inline-block;position:absolute;top:0;right:0;'>搜索</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class='content' style='width:100%;height:275px;border:1px solid #ccc;margin-top:10px;'>
+                        <div class='head' style='width:194px;height:40px;background:#f5f5f5;border-bottom:1px solid #ccc;'>
+                            <form class='layui-form' style='width:165px;'>
+                              <div class='layui-form-item' style='margin-bottom:0;'>
+                                <div class='layui-input-block' style='margin-left:30px;width:30px;float:left'>
+                                  <input type="checkbox" lay-skin='primary'>
+                                </div>
+                                <label class='layui-form-label' style='display:inline-block;padding:9px 0;text-align:left;width:100px;' id='head'>系统管理部</label>
+                              </div>
+                            </form>
+                            <ul class='list'>
+                               <li>系统管理员</li>
+                               <li>123</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class='layui-btn layui-btn-normal' style="margin:10px 0 0 70px;">确定</button>
+                </div>
+            </div>
+        </div>
+        </script>
+  <script>
+      layui.form.render();
+  </script>

@@ -1,0 +1,595 @@
+﻿<title>消息源配置</title>
+<style>
+  .layui-form-label {padding: 10px 0;}
+  #fieldForm {width: 400px;margin: 0 auto;margin-top: 10px;}
+
+</style>
+<div>
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+    <a><i class="layui-icon layui-icon-prev"></i></a>
+    <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+    <a>消息源配置<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+    <div class="right">
+      <a><i class="layui-icon layui-icon-next"></i></a>
+      <a><i class="layui-icon layui-icon-down"></i></a>
+    </div>
+  </div>
+</div>
+<div class="layui-fluid">
+  <div class="layui-card h100"  id="index">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto"> 
+      <div class="top_btn">   
+        <button type="button" class="layui-btn" data-type='offset'>新建消息源配置</button>
+        <button type="button" class="layui-btn" data-type='edit'>修改消息源配置</button>
+        <button type="button" class="layui-btn" data-type="del">删除消息源配置</button>
+      </div>
+      <form class="layui-form">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+              <input type="text" id="nameId" name="name" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline top_search_btn">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+      </div>
+    <div class="layui-card-body">
+      <div class="table-area" style="height: 800px">
+        <table id="test" lay-filter="test"></table>
+      </div>
+      <div id="page"></div>
+    </div>
+    </div>
+  </div>
+  <div class="layui-card" style="display:none" id="detail">
+    <div class="layui-card-header" style="height: 60px;line-height: 15px;padding-top: 10px;">
+      <p style="color: #333333">你好新朋友，感谢使用集约化快速开发平台</p>
+      <p style="color: #999;font-size:14px;">2019-03-06 15:57:00</p>
+    </div>
+    <div class="layui-card-body">
+      <p style="margin-left:10px;line-height:40px;">公司成立于2011年，注册资金1050万元，致力于政府、企业、科研等客户提供稳定可靠的产品和IT信息服务。<br>
+
+        公司背靠院校、科研院所、在北京、郑州设立研发中心、面向全国市场。<br>
+
+        发展目标：品质第一，客户至上。<br>
+
+        工作标准：严谨敬业、诚信负责、开拓进取。</p>
+      <button class="layui-btn layui-btn-primary" style="margin-top: 20px; margin-left: 10px;" onclick="returnBack()">返回上一级</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/html" id="titleTpl">
+  <a href="javascript:void(0);" class="layui-table-link" style="color:#000" onclick="go()">{{d.content}}</a>
+</script>
+<script type="text/html" id="fieldTemplate">
+  <form class='layui-form' lay-filter="editForm">
+    <div class="layui-card">
+        <div class="layui-card-body">
+        <div class="layui-form-item">
+          <label class="layui-form-label" style="padding:5px 0"><span class="sign_required">*</span>名称</label>
+          <div class="layui-input-block">
+            <input type="text"  name="name" required lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label" style="padding:5px 0">消息类型</label>
+          <div class="layui-input-block" id='select'>
+            <select name="msgType" id="msgTypes" lay-filter="msgType">
+              <option value="" selected>请选择消息类型</option>
+            </select>
+          </div>
+        </div>
+        <!--<div class="layui-form-item" style='margin-top:10px;'>
+          <label class="layui-form-label">组织</label>
+          <div class="layui-input-block" id='select'>
+            <select name="groupId" id="groups">
+              <option value="" selected>请选择组织机构</option>
+            </select>
+          </div>
+        </div>-->
+        <div class="layui-form-item">
+          <label class="layui-form-label">是否加密</label>
+          <div class="layui-input-block">
+            <input type="radio" name="ifEncrypt" value="1" title="是" checked="checked">
+            <input type="radio" name="ifEncrypt" value="0" title="否">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label" style="padding:5px 0">内容 </label>
+          <div class="layui-input-block">
+            <input type="text" name="value"  value=""  autocomplete="off" placeholder="请输入" class="layui-input">
+          </div>
+        </div>
+<!--          添加邮件账号-->
+          <div class="layui-form-item field_class" id="youjian">
+            <label class="layui-form-label" style="padding:5px 0">邮件账号 </label>
+            <div class="layui-input-block">
+              <input type="text" name="mail_account"  value=""  autocomplete="off" placeholder="请输入账号" class="layui-input">
+            </div>
+          </div>
+<!--          配置授权码不是邮箱密码-->
+          <div class="layui-form-item field_class" id="password">
+            <label class="layui-form-label" style="padding:5px 0">密码 </label>
+            <div class="layui-input-block">
+              <input type="text" name="mail_password"  value=""  autocomplete="off" placeholder="请输入密码" class="layui-input">
+            </div>
+            </div>
+
+<!--            是否SSL-->
+            <div class="layui-form-item field_class" id="ssl">
+              <label class="layui-form-label">SSL</label>
+              <div class="layui-input-block">
+                <input type="radio" name="ifSLL" value="1" title="是" >
+                <input type="radio" name="ifSLL" value="0" title="否" checked="checked">
+              </div>
+            </div>
+
+
+          <div class="layui-form-item" id="baiduorzhutong1">
+            <label class="layui-form-label" style="padding:5px 0">第三方短信服务</label>
+            <div class="layui-input-block" id='select2'>
+              <select name="threepartType" id="baiduorzhutong" lay-filter="zrb">
+                <option value="" selected>请选择第三方短信服务</option>
+                <option value="百度" >百度</option>
+                <option value="助通">助通</option>
+              </select>
+            </div>
+          </div>
+          <!--            选择百度还是助通-->
+<!--          <div class="layui-form-item field_class" id="baiduorzhutong">-->
+<!--            <label class="layui-form-label">第三方短信服务</label>-->
+<!--            <div class="layui-input-block">-->
+<!--              <input type="radio" name="zrb" value="1" title="助通" checked="checked">-->
+<!--              <input type="radio" name="zrb" value="0" title="百度" >-->
+<!--            </div>-->
+<!--          </div>-->
+            <div class="layui-form-item field_class" id="duankou">
+              <label class="layui-form-label" style="padding:5px 0">端口号</label>
+              <div class="layui-input-block">
+                <input type="text" name="mail_port"  value=""  autocomplete="off" placeholder="请输入端口号" class="layui-input">
+              </div>
+            </div>
+<!--          短信服务用户名账号-->
+          <div class="layui-form-item field_class" id="loginName">
+            <label class="layui-form-label" style="padding:5px 0">用户名</label>
+            <div class="layui-input-block">
+              <input type="text" name="loginName"  value=""  autocomplete="off" placeholder="请输入用户名" class="layui-input">
+            </div>
+          </div>
+<!--          短信服务密码-->
+          <div class="layui-form-item field_class" id="dxpassword">
+            <label class="layui-form-label" style="padding:5px 0">密码</label>
+            <div class="layui-input-block">
+              <input type="text" name="password"  value=""  autocomplete="off" placeholder="请输入密码" class="layui-input">
+            </div>
+          </div>
+<!--          短信服务企业编号-->
+          <div class="layui-form-item field_class" id="dxcorpId">
+            <label class="layui-form-label" style="padding:5px 0">企业编号</label>
+            <div class="layui-input-block">
+              <input type="text" name="corpId"  value=""  autocomplete="off" placeholder="请输入企业编号" class="layui-input">
+            </div>
+          </div>
+<!--秘钥百度-->
+          <div class="layui-form-item field_class" id="accessKeyId">
+            <label class="layui-form-label" style="padding:5px 0">accessKeyId</label>
+            <div class="layui-input-block">
+              <input type="password" name="accessKeyId"  value=""  autocomplete="off" placeholder="请输入accessKeyId" class="layui-input">
+            </div>
+          </div>
+          <!--秘钥-->
+          <div class="layui-form-item field_class" id="secretAccessKey">
+            <label class="layui-form-label" style="padding:5px 0">secretAccessKey</label>
+            <div class="layui-input-block">
+              <input type="password" name="secretAccessKey"  value=""  autocomplete="off" placeholder="请输入secretAccessKey" class="layui-input">
+            </div>
+          </div>
+          <!--signendpointatureId-->
+          <div class="layui-form-item field_class" id="signendpointatureId">
+            <label class="layui-form-label" style="padding:5px 0">签名</label>
+            <div class="layui-input-block">
+              <input type="text" name="signendpointatureId"  value=""  autocomplete="off" placeholder="请输入签名" class="layui-input">
+            </div>
+          </div>
+          <!--templateId-->
+          <div class="layui-form-item field_class" id="templateId">
+            <label class="layui-form-label" style="padding:5px 0">模板ID</label>
+            <div class="layui-input-block">
+              <input type="text" name="templateId"  value=""  autocomplete="off" placeholder="请输入模板ID" class="layui-input">
+            </div>
+          </div>
+
+
+          <div class="layui-form-item" id="msgtype">
+            <label class="layui-form-label" style="padding:5px 0">邮件类型</label>
+            <div class="layui-input-block" id='select1'>
+              <select name="mail_type" id="mail_type" lay-filter="bdsmtp">
+                <option value="" selected>请选择邮件类型</option>
+                <option value="smtp.qq.com" >QQ电子邮箱</option>
+                <option value="smtp.exmail.qq.com" >腾讯企业邮箱</option>
+                <option value="smtp.163.com">网易电子邮箱</option>
+                <option value="smtp.souhu.com">搜狐电子邮箱</option>
+                <option value="smtp.sina.com">新浪电子邮箱</option>
+              </select>
+            </div>
+          </div>
+          <!--            配置smtp协议-->
+          <div class="layui-form-item field_class" id="smtp">
+            <label class="layui-form-label" style="padding:5px 0">SMTP协议</label>
+            <div class="layui-input-block">
+              <input id="smtp1" type="text" name="mail_smtp"  value=""  autocomplete="off" placeholder="请输入SMTP" class="layui-input">
+            </div>
+          </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">说明</label>
+          <div class="layui-input-block">
+            <textarea name="cdesc" placeholder="请输入描述" class="layui-textarea"></textarea>
+          </div>
+        </div>
+      </div>
+  </div>
+    <div class="button-bar">
+      <button  type="button" class='layui-btn' lay-submit lay-filter="addMsg">确定</button>
+      <button  type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+    </div>
+    <input type="hidden" id="mark" name="mark" value="9">
+    <input hidden="hidden" name="id">
+  </form>
+</script>
+
+
+<script type="text/html" id="typeDemo">
+{{#if(d.ifEncrypt===1){ }}
+  是
+{{#}else{ }}
+  否
+{{#} }}
+</script>
+
+<script>
+  var url = "/config";
+  var msgIndex;
+  //获取列表数据
+  var defaultPageSize = 15;
+  var sheet;
+  //监听选择第三方服务
+  layui.form.on("select(zrb)", function (data) {
+    console.log("打印结果为",data.value)
+    liandong(data.value);
+  })
+  //监听消息类型
+  layui.form.on("select(msgType)", function (data) {
+    console.log("打印结果为",data.value)
+    liandong(data.value);
+  })
+  //监听邮件类型
+  layui.form.on("select(bdsmtp)", function (data) {
+    console.log("smtp绑定",data.value)
+    document.getElementById("smtp1").value=data.value;
+    console.log("看看smtp框里的东西",document.getElementById("smtp1").value);
+  })
+  $(function () {
+      doList(1);
+  })
+  layui.form.on("submit(searchData)",function(data){
+        var params = urlEncode(data.field);
+        doList(1);
+        return false;
+    })
+  layui.use('table', function() {
+      var $ = layui.$
+          , layer = layui.layer
+          , table = layui.table
+          , form = layui.form;
+      form.on('submit(addMsg)', function(data){
+          if (data.field.id){
+              doEditMsg(data.field)
+          }else{
+              doAddMsg(data.field)
+          }
+      })
+  })
+  function doAddMsg(data) {
+      ajax(service_prefix.message,url,"post",JSON.stringify(data)).then(function (data){
+          if(data.success){
+              layer.alert("新建成功")
+              layer.close(msgIndex);
+              doList(1);
+          }
+      })
+  }
+  function doEditMsg(data) {
+      // console.log(id)
+      var thisUrl = url+"/"+data.id;
+      var msg = "修改成功";
+      var method = "put";
+      ajax(service_prefix.message,thisUrl,method,JSON.stringify(data)).then(res=>{
+          if(res.success){
+          res.msg = msg;
+      }
+      layer.alert(res.msg,function(){
+          layer.closeAll();
+          doList(1);
+      })
+  }).catch(res=>{
+
+      })
+      return false;
+  }
+  function doList(pageNo) {
+      var jsondata = {
+          "pager": {
+              "current": pageNo,
+              "size": defaultPageSize,
+                "sortProps": {
+                    key: "createTime",
+                    value: false
+                }
+          }
+          ,"entity": {
+              "mark":9,
+              "name": $('#nameId').val()
+          }
+      }
+      ajax(service_prefix.message,url + "/list","post",JSON.stringify(jsondata)).then(data => {
+          if(data.success){
+              console.log("成功，打印数据",data);
+            layui.use(['table', 'laypage'], function () {
+              var table = layui.table,
+                      laypage = layui.laypage;
+              table.render({
+                  elem: '#test'
+                  , data: data.obj.records
+                  ,limit:defaultPageSize
+                  , cols: [[
+                      {type: 'checkbox',fixed: 'left'}
+                      , {type: 'numbers', width: 50, title: '序号',align: 'right',fixed: 'left'}
+                      , {field: 'name', title: '名称', width: 100}
+                      , {field: 'value',title: '内容' ,align: 'left' ,width: 180}
+                      , {field: 'cdesc', title: '描述' ,align: 'left', width: 180}
+                      , {field: 'msgType', width: 90, title: '消息类型'}
+                      , {field: 'mail_account', width: 160, title: '邮件账号'}
+                      , {field: 'mail_type', width: 120, title: '邮件类型'}
+                      , {field: 'mail_password', width: 100, title: '邮件密码'}
+                      , {field: 'ifEncrypt', width: 80, title: '是否加密'}
+                      , {field: 'crUser', width: 90, title: '创建人'}
+                      , {field: 'createTime', width: 170, title: '创建时间'}
+                      , {field: 'modifyUser', width: 90, title: '操作人'}
+                      , {field: 'modifyTime', width: 170, title: '操作时间'}
+                  ]]
+              });
+              page(data.obj.total,data.obj.current,defaultPageSize);
+            })
+          }
+      })
+  }
+  function go(){
+    document.getElementById('index').style.display='none';
+    document.getElementById('detail').style.display='block';
+  }
+  function returnBack(){
+    document.getElementById('index').style.display='block';
+    document.getElementById('detail').style.display='none';
+  }
+  layui.use('table', function(){
+    var table = layui.table;
+  });
+
+
+      //新建
+      active.offset = function offset(othis){
+
+          msgIndex=layer.open({
+            height: '900px',
+          type: 1,
+          area: ['502px', '1150px'],
+          title:'新建消息源配置',
+          maxmin: true,
+          content: '<div id="fieldForm"></div>'
+        });
+        layui.laytpl($("#fieldTemplate").html()).render({}, function(html){
+
+          //定义类型
+          var type;
+          $("#fieldForm").html(html);
+            //查询类型
+            ajax(service_prefix.message,"/system/getSys","post",JSON.stringify({entity:{ctype:22}})).then(res=>{
+              var records = res.obj;
+              var types;
+              for(var i in records){
+                  types += '<option value="'+records[i].value+'">'+records[i].value+'</option>'
+              }
+              $("#msgTypes").append(types);
+              $("#msgTypes").append(type);
+              layui.form.render();
+            })
+          //如果消息类型为短信 隐藏邮件账号 密码 smtp ssl 端口号 邮件类型
+            //查询组织
+//            ajax(service_prefix.message,"/group/list","post",JSON.stringify({pager:{current:1,size:10}})).then(res=>{
+//              var records = res.obj.records;
+//              var groups;
+//              for(var i in records){
+//                  groups += '<option value="'+records[i].id+'">'+records[i].name+'</option>'
+//              }
+//              $("#groups").append(groups);
+//              layui.form.render();
+//            })
+
+        layui.form.render();
+        })
+      }
+
+      //编辑
+      function edit() {
+          var check =layui.table.checkStatus('test').data;
+          if(check.length===0){
+              layer.alert("请选择数据")
+              return false;
+          }
+        if(check.length>1){
+          layer.alert("不支持多项修改，请选择一项数据！")
+          return false;
+        }
+          var id=check[0].id;
+         // console.log(id)
+          ajax(service_prefix.message,url+"/"+id,"get").then(function (data){
+              if(data.success){
+                  msgIndex=layer.open({
+                      type: 1,
+                      area: ['502px', '1150px'],
+                      title: '修改消息配置',
+                      maxmin: true,
+                      content: '<div id="fieldForm"></div>'
+                  });
+                  layui.laytpl($("#fieldTemplate").html()).render({}, function(html) {
+                      $("#fieldForm").html(html);
+                      //查询类型
+                      ajax(service_prefix.message,"/system/getSys","post",JSON.stringify({entity:{ctype:22}})).then(res=>{
+                          var records = res.obj;
+                      console.log(records);
+                      var types;
+                      for(var i in records){
+                          types += '<option value="'+records[i].value+'">'+records[i].value+'</option>'
+                      }
+                      $("#msgTypes").append(types);
+                      layui.form.val("editForm",data.obj);
+                      layui.form.render();
+                  })
+
+                      //查询组织
+                      ajax(service_prefix.message,"/group/list","post",JSON.stringify({pager:{current:1,size:10}})).then(res=>{
+                          var records = res.obj.records;
+                      var groups;
+                      for(var i in records){
+                          groups += '<option value="'+records[i].id+'">'+records[i].name+'</option>'
+                      }
+                      $("#groups").append(groups);
+                      layui.form.val("editForm",data.obj);
+                      layui.form.render();
+                  })
+                      // layui.form.val("editForm",data.obj);
+                      // layui.form.render()
+                  })
+              }
+          })
+
+      }
+
+      //绑定smtp
+  function liandongsmtp(){
+
+  }
+
+      //联动菜单
+  function liandong(data) {
+        if(data=="百度"){
+          $("#accessKeyId").show();
+          $("#secretAccessKey").show();
+          $("#signendpointatureId").show();
+          $("#templateId").show();
+          $("#loginName").hide();
+          $("#dxpassword").hide();
+          $("#dxcorpId").hide();
+        }
+        if(data=="助通"){
+          $("#loginName").show();
+          $("#dxpassword").show();
+          $("#dxcorpId").show();
+          $("#accessKeyId").hide();
+          $("#secretAccessKey").hide();
+          $("#signendpointatureId").hide();
+          $("#templateId").hide();
+
+        }
+        if(data=="短信"||"APP消息"){
+          $("#youjian").hide();
+          $("#password").hide();
+          $("#smtp").hide();
+          $("#ssl").hide();
+          $("#duankou").hide();
+          $("#type").hide();
+          $("#msgtype").hide();
+          $("#baiduorzhutong1").show();
+
+        }
+
+        if (data=="微信"){
+
+          $("#baiduorzhutong1").show();
+          $("#loginName").show();
+          $("#dxpassword").show();
+          $("#dxcorpId").show();
+          $("#accessKeyId").show();
+          $("#secretAccessKey").show();
+          $("#signendpointatureId").show();
+          $("#templateId").show();
+
+          $("#type").hide();
+          $("#msgtype").hide();
+          $("#youjian").hide();
+          $("#smtp").hide();
+          $("#ssl").hide();
+          $("#duankou").hide();
+        }
+
+      if(data=="邮件"){
+        $("#youjian").show();
+        $("#password").show();
+        $("#smtp").show();
+        $("#ssl").show();
+        $("#duankou").show();
+        $("#type").show();
+        $("#msgtype").show();
+        $("#loginName").hide();
+        $("#dxpassword").hide();
+        $("#dxcorpId").hide();
+        $("#baiduorzhutong1").hide();
+        $("#accessKeyId").hide();
+        $("#secretAccessKey").hide();
+        $("#signendpointatureId").hide();
+        $("#templateId").hide();
+      }
+    layui.form.render();
+  }
+
+      //删除
+      function del() {
+          var data =layui.table.checkStatus('test').data;
+          var str=""
+          for(var i in data){
+              str+=data[i].id;
+              if(i<data.length-1){
+                  str+=","
+              }
+          }
+          // console.log(str)
+          if(str===""){
+              layer.alert("请选择删除的数据")
+              return false;
+          }
+          layer.confirm("是否确定删除",function () {
+              ajax(service_prefix.message,url+"/delByIds?ids="+str,"get").then(function (data){
+                  if(data.success){
+                      layer.alert(data.msg)
+                      doList(1);
+                  }
+              })
+          })
+      }
+
+    // $(document).on('click', '.layui-btn',function(){
+    //   var othis = $(this), method = othis.data('method');
+    //   active[method] ? active[method].call(this, othis) : '';
+    // });
+
+
+  layui.form.render();
+</script>

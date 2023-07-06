@@ -1,0 +1,219 @@
+$(function () {    
+    getFieldsData(); //获取接口字段
+
+    //获取接口字段
+    function getFieldsData(){
+        var tableFields = []; //表格字段
+        // 表头字段接口
+        var jsonData = {
+            "entity": {
+                "tableid":"1648203598313783297"
+            },
+            "pager": {
+                "current": 1,
+                "size": 10,
+                "sortProps": [
+                    {"key": "fieldorder", "value": true},
+                    {"key": "id", "value": true}
+                ]
+            }
+        }
+        ajax('', '/metadata/fieldinfo/list', 'post', JSON.stringify(jsonData)).then(function (data) {
+            if (data.success) {
+                var dataArr = data.obj.records;
+                for(var i = 0; i < dataArr.length; i++){
+                    var tableFieldObj = {
+                        title: dataArr[i].anothername,
+                        field: dataArr[i].proName
+                    }
+                    tableFields.push(tableFieldObj); //表格字段          
+                }
+                // console.log('tableFields',tableFields);
+                // console.log('tableFields',JSON.stringify(tableFields));
+                getChartListData(tableFields); //获取图表数据
+            }
+        })
+    }
+
+    /*
+    * 获取表格和图表数据
+    * @param tableFields 表格字段
+    */
+    function getChartListData(tableFields){
+        var jsonData2 = {
+            "entity": {},
+            "pager": {
+                "current": 1,
+                "size": 10
+            }
+        }
+        ajax('', '/tonghang/chartshow/listing', 'post', JSON.stringify(jsonData2)).then(function (data) {
+            if (data.success) {
+                setTableData('#chartBarTable', data.obj, tableFields); //生成表格数据
+                chartProcessData(tableFields, data.obj.records); //图表数据处理
+            }
+        })
+    }
+
+    /*
+    * 图表数据处理
+    * @param tableFields 表格字段
+    * @param dataArr 元数据表的数据
+    */
+    function chartProcessData(tableFields, dataArr){
+        var newDataArr = [];
+        var newDataObj = {};    
+        //按字段顺序整理返回的数据格式
+        for(var i = 0; i < tableFields.length; i++){
+            // console.log('field',tableFields[i].field);
+            for(var j = 0; j < dataArr.length; j++){
+                (function(num){
+                    newDataObj ={
+                        "title": dataArr[num].title,
+                        "addNum": dataArr[num].addNum,
+                        "changeNum": dataArr[num].changeNum,
+                        "changeRate": dataArr[num].changeRate,
+                    }
+                })(i)
+            }
+            newDataArr.push(newDataObj);
+        }
+        // console.log('newDataArr',newDataArr);
+
+        var chartData = []; //图表数据
+        var chartSeriesData = []; //图表系列数据
+        //图表数据汇总各个字段的数据
+        for(var k = 0; k < newDataArr.length; k++){
+            var metadataTableEnglishField = tableFields[k].field; //每个字段英文名
+            var metadataTableField = tableFields[k].title;//字段中文名
+            var filedValArr = []; //存放每个字段所有数量的值
+            for(var m = 0; m < 4; m++){
+               var filedValObj = newDataArr[m][metadataTableEnglishField]; //每个字段值
+               filedValArr.push(filedValObj);
+            }
+            var chartDataObj = {
+                "filedName":[metadataTableField].toString(),
+                "filedVal":filedValArr
+            };
+            chartData.push(chartDataObj);
+        }
+        // console.log('chartData',chartData);
+
+        var filedsArr = []; //字段数组
+        var titleArr = []; //标题数组
+        var chartSeriesObj = {};
+        //图表展示系统数据
+        for(var key in chartData){
+            // console.log('key',key,chartData[key].filedName)
+            // console.log('val',key,chartData[key].filedVal)
+            if(key > 0){
+                titleArr = chartData[0].filedVal;
+                chartSeriesObj = {
+                    name: chartData[key].filedName,
+                    type: "bar",
+                    data: chartData[key].filedVal,
+                    markPoint: {
+                        data: [
+                            { type: "max", name: "Max" },
+                            { type: "min", name: "Min" },
+                        ],
+                    },
+                    markLine: {
+                        data: [{ type: "average", name: "Avg" }],
+                    }
+                }
+                if(key == (chartData.length - 1)){
+                    chartSeriesObj = {
+                        name: chartData[key].filedName,
+                        type: "line",
+                        data: chartData[key].filedVal,
+                        tooltip: {
+                            valueFormatter: function (value) {
+                                return value + " %";
+                            },
+                        }
+                    }
+                }
+
+                chartSeriesData.push(chartSeriesObj);
+                filedsArr.push(chartData[key].filedName);
+            }
+        }
+        // console.log('filedsArr',filedsArr)
+        createChart(filedsArr, titleArr, chartSeriesData); //创建图表
+
+    }
+
+    /*
+    * 创建图表
+    * @param legendFiledsArr 图例字段数据
+    * @param xAxisTitleArr x轴标题数据
+    * @param chartSeriesData 图表系列数据
+    */
+    function createChart(legendFiledsArr, xAxisTitleArr, chartSeriesData) {
+        var dom = document.getElementById("chartBar");
+        var myChart = echarts.init(dom, null, {
+            renderer: "canvas",
+            useDirtyRect: false,
+        });
+        var option = {
+            tooltip: {
+                trigger: "axis",
+            },
+            legend: {
+                // data: ["新增线索", "已转化线索", "线索转化率"],
+                data: legendFiledsArr,
+                bottom: 0,
+                textStyle: {
+                    fontSize: 11,
+                },
+            },
+            color: ['#5E8CFF', '#5BCEBA', '#fac858'],
+            toolbox: {
+                show: true,
+                feature: {
+                    saveAsImage: { show: true, title: "保存为图片" },
+                },
+                right: "10%",
+            },
+            // 区域缩放轴
+            dataZoom: [
+                {
+                    type: "inside",
+                    filterMode: "filter",
+                    height: 15,
+                },
+                {
+                    type: "slider",
+                    height: 15,
+                },
+            ],
+            calculable: true,
+            xAxis: [
+                {
+                    type: "category",
+                    // data: ['内部自拓', '名片', '外部介绍', '官网', '展会'],
+                    data: xAxisTitleArr,
+                },
+            ],
+            yAxis: [
+                {
+                    type: "value",
+                    name: "(个)",
+                },
+                {
+                    type: "value",
+                    name: "(%)",
+                    axisLabel: {
+                        formatter: "{value} %",
+                    },
+                },
+            ],
+            series: chartSeriesData
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option);
+        }
+        window.addEventListener("resize", myChart.resize);
+    }
+})

@@ -1,0 +1,66 @@
+package ${package.Entity};
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+
+@Data
+public class ${entity} {
+    public ${entity}(){}
+
+    public ${entity}(Map<String,Object> map){
+        this.id = (String)map.get("id");
+#foreach($field in ${table.fields})
+        this.${field.propertyName} = (${field.propertyType})map.get("${field.name}");
+#end
+        this._score = (String)map.get("_score");
+    }
+
+    private static final long serialVersionUID=1L;
+
+
+    private String id;
+    private String _score;
+
+#foreach($field in ${table.fields})
+#if("$!field.comment" != "")
+    @ExcelProperty(value = "${field.comment}")
+#if(${swagger2})
+    @ApiModelProperty(value = "${field.comment}")
+#else
+    /**
+    *   ${field.comment}
+    */
+#end
+#end
+
+    private ${field.propertyType} ${field.propertyName};
+#if("$!field.type" == "date")
+    private ${field.propertyType} ${field.propertyName}Bt2;
+#end
+#end
+
+
+    @ApiModelProperty("检索多个字段")
+    private String commonKey;
+    private int searchType;
+    @ApiModelProperty("要检索的字段,不传为检索所有字段")
+    private String[] searchFields;
+    private List<String> highlightInfos;
+    @ApiModelProperty("高亮字段")
+    private Map<String,Object> hightlightFields;
+
+    @ApiModelProperty(hidden = true)
+    public Map<String,Object> getEsMap(){
+        Map<String,Object> map = new HashMap<String,Object>();
+#foreach($field in ${table.fields})
+        if(StringUtils.isNotEmpty(this.${field.propertyName}))  map.put("${field.name}", this.${field.propertyName});
+#end
+        return map;
+    }
+}

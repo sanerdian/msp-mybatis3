@@ -1,0 +1,1689 @@
+<style>
+    .list_borderr{
+        border-style: solid;
+        border-width: 1px;
+        margin-top: 10px;
+        margin-left: 10px
+    }
+    #AddNewReference .ztree li a span {
+        font-size: 15px;
+    }
+
+</style>
+<div class="layui-card" style="padding-left: 15px">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="padding-right: 20px">是否置顶</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="1" title="置顶" checked="checked">
+            <input type="radio" name="sex" value="0" title="不置顶">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="padding-left: 11px">是否定时发布</label>
+        <div class="layui-input-block" >
+            <input type="radio" name="redr" value="1" title="是" checked="checked">
+            <input type="radio" name="redr" value="0" title="否">
+        </div>
+    </div>
+</div>
+<div class="layui-form" style="padding-left: 11px">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">请选择时间</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="test14" placeholder="H点m分s秒">
+            </div>
+        </div>
+       <!-- <div class="layui-inline">
+            <label class="layui-form-label">请选择范围</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="test15" placeholder=" ~ ">
+            </div>
+        </div>-->
+    </div>
+</div>
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label" style="padding-left: 15px">是否定时发布:</label>
+        <div class="layui-input-block" style="display: flex">
+
+           &lt;!&ndash; <input type="checkbox" name="ck[]" title="写作" value="写作" lay-skin="primary" checked>
+            <input type="checkbox" name="ck[]" title="发呆" value="发呆" lay-skin="primary">
+            <input type="checkbox" name="ck[]" title="禁用" value="禁用" lay-skin="primary" disabled>&ndash;&gt;
+
+            是：<input type="radio" name="powerState" value="是" title="是" style="display: block">
+            否：<input type="radio" name="powerState" value="否" title="否" checked="checked" style="display: block">
+        </div>
+    </div>-->
+<!--<div id="tjyy">-->
+<!--    <div>-->
+<!--        <div class="layui-card h120">-->
+<!--            <div class="legst-ba"><h3 class="legst-bb">组织管理</h3></div>-->
+<!--            <div class="layui-card-body" style="height: 100%;">-->
+<!--                <div class="layui-btn-container" style="height: 460px">-->
+<!--                    &lt;!&ndash; <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>&ndash;&gt;-->
+<!--                    <ul  class="ztree treeDemoq1 "></ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="layui-card" style="padding-left: 15px">
+    <div class="layui-row" style="padding-left: 15px" >
+        相关元数据
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" onclick="tjyinyong()" >添加元数据</button>
+    </div>
+    <div class="layui-card-body">
+        <div class="table-area">
+            <table id="test44" lay-submit lay-filter="test44"></table>
+        </div>
+        <div id="page3"></div>
+    </div>
+    <div class="layui-row" style="padding-left: 15px" >
+        推送到的栏目
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" data-type="ysjfz">添加推送</button>
+    </div>
+    <div class="layui-card-body">
+        <div class="table-area">
+            <table id="test3" lay-filter="test11"></table>
+        </div>
+        <div id="page1"></div>
+    </div>
+    <div class="layui-row" style="padding-left: 15px" >
+        引用到的栏目
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" data-type="addyy">添加引用</button>
+    </div>
+    <div class="layui-card-body">
+        <div class="table-area">
+            <table id="testeee" lay-filter="testeee"></table>
+        </div>
+        <div id="page133"></div>
+    </div>
+    <div class="layui-row" style="padding-left: 15px ;padding-top: 10px">
+        推送到的分类法
+    </div>
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding-top: 10px">
+        <button type="button" class="layui-btn" data-type="addclass1">添加推送</button>
+    </div>
+
+    <div class="layui-card-body">
+        <div class="table-area">
+            <table id="testpush1" lay-filter="testpush2"></table>
+        </div>
+        <div id="pagepush"></div>
+    </div>
+</div>
+<script>
+    active.addyy = function () {
+        var datas = getTableCheckDataidd13("metadataTable");
+        if (datas) {
+            showColumnTree13(datas, copyMetadata, "元数据引用", "checkbox");
+        }
+    }
+    function getTableCheckDataidd13(table){
+        var data = getTableCheck23(table);
+        console.log(data);
+        if(data.length<=0){
+            layer.alert("请选择数据");
+            return false;
+        }
+        return data;
+    }
+    var openZTreeObj;
+    function showColumnTree13(datas, fn, title, checkType, checks, noChecks, checked) {
+        columnTreeIndex = layer.open({
+            title: title
+            , area: ['540px', '700px']
+           /* , content: '<ul id="ydTree" class="ztree openTree"></ul>'*/
+            , content: '<div id="AddNewReference" ></div>'
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                /*console.log(".........................../refere")
+                console.log("选中的数据",$('input:radio[name="referenceType"]:checked').val())*/
+                // console.log(openZTreeObj.getSelectedNodes()[0].id)
+                /*var nodes = getCheckNodesIdss(openZTreeObj);
+                var ids = nodes.ids;
+                console.log("...............ids")
+                console.log(ids)
+                if (!ids || ids.length <= 0) {
+                    layer.alert("请选择栏目");
+                    return null;
+                }
+                if(fn){
+                    fn(ids, datas, nodes.names);
+                    layer.close(columnTreeIndex);
+                }*/
+                /*tuis();
+                layer.closeAll();*/
+
+                yinyong();
+               /* layer.closeAll();*/
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+        })
+        layui.laytpl($("#pushcalssTemplate2").html()).render({edit: true}, function (html) {
+            $("#AddNewReference").html(html)
+        });
+        layui.form.render();
+
+        getColumnTreeData13(1).then(function (res) {
+            function ajaxTreeDataFilter1(treeId, parentNode, responseData) {
+                if (responseData) {
+                    for(var o of responseData){
+                        var flag = false;
+                        for(var k in checks){
+                            if (o[k] != checks[k]){
+                                flag = true;
+                            }
+                        }
+                        for(var k in noChecks){
+                            if (o[k] == noChecks[k]){
+                                flag = true;
+                            }
+                        }
+                        o.nocheck = flag;
+
+                        /*if(checked.indexOf(o.id) >= 0) o.checked = true;*/
+                    }
+                }
+                responseData.forEach(e=>{
+                    switch (e.isSite) {
+                        case 0 :  e.icon = "common/img/u5548.png"; break;
+                        case 1 :  e.icon = "common/img/u5554.png"; break;
+                        case 2 :  e.icon = "common/img/u2615.png"; break;
+                    }
+                })
+
+                return responseData;
+            }
+            var flag = getColumnTreeAsync();
+            var settingss = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    }
+                },
+                async: {
+                    enable: flag,
+                    autoParam: ["id"],
+                    type: "get",
+                    url: getAjaxUrl('',"/manage/programa/asyncTree"),
+                    dataFilter: ajaxTreeDataFilter1,
+                    xhrFields: {withCredentials: true}
+                },
+                view: {
+                    showLine: false
+                },
+                check: {                    //表示tree的节点在点击时的相关设置
+                    enable: false,           //是否显示radio/checkbox
+                    autoCheckTrigger: true,
+                    chkStyle: checkType,      //值为checkbox或者radio表示
+                    // radioType:"all",
+                    chkboxType: {"Y": "", "N": ""},  //表示父子节点的联动效果，不联动
+                    nocheckInherit: false
+                },
+                callback: {
+                    onClick:ztreetime1l
+                },
+            }
+            openZTreeObjjj = $.fn.zTree.init($("#ydTree"), settingss, res);
+            if (!flag) {
+                openZTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+            }else{
+                var pnodes = openZTreeObj.getNodesByFilter(function (node) {
+                    return node.isSite == 0
+                });
+                pnodes.forEach(function (res) {
+                    openZTreeObj.expandNode(res, true);
+                })
+            }
+        })
+    }
+    function setTreeIcon12(data) {
+        if(data){
+            data.forEach(function(res) {
+                switch (res.isSite) {
+                    case 0 :  res.icon = "common/img/u5548.png"; break;
+                    case 1 :  res.icon = "common/img/u5554.png"; break;
+                    case 2 :  res.icon = "common/img/u2615.png"; break;
+                }
+                if(res.sites.length != 0){
+                    setTreeIcon12(res.sites);
+                    res.children = res.sites;
+                }
+            })
+        }
+    }
+    function getColumnTreeData13(webclass,async) {
+        return new Promise(function (resovle, reject) {
+            var flag;
+            if(async>=0){
+                flag = async == 1;
+            }else{
+                flag = getColumnTreeAsync();
+            }
+            if (flag) {
+                ajax2(service_prefix.manage, "/site/getSiteTree", "get", {webclass: webclass}).then(function (data) {
+                    setTreeIcon12(data.obj);
+                    resovle(data.obj);
+                })
+            } else {
+                ajax2(service_prefix.manage, "/programa/getTreeData", "post", {webclass: webclass}).then(function (data) {
+                    for (var i in data.obj) {
+                        switch (data.obj[i].isSite) {
+                            case 0 :
+                                data.obj[i].icon = "common/img/u5548.png";
+                                break;
+                            case 1 :
+                                data.obj[i].icon = "common/img/u5554.png";
+                                break;
+                            case 2 :
+                                data.obj[i].icon = "common/img/u2615.png";
+                                break;
+                        }
+                    }
+                    resovle(data.obj);
+                })
+            }
+        })
+    }
+
+    function yinyong() {
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        var currNode111 = global.zTreeObj.getSelectedNodes()[0]
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        var crunode=openZTreeObjjj.getSelectedNodes()[0];
+        var pageNo=1;
+        var cruser =localStorage.getItem("username")
+        var referenceType=$('input:radio[name="referenceType"]:checked').val();
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": pageSize,
+            },
+            "entity": {
+                "xwid": datasss.id,
+                "name": crunode.name,
+                "nameid": crunode.id,
+                "pushtableid": crunode.tableId,
+                "tableid": datas,
+                "cruser": cruser,
+                "lanmid": currNode111.id,
+                "lanmname": currNode111.name
+                ,"referenceType": referenceType,
+            }
+        }
+        ajax("","/trtable/push/add","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                /*identifyym();*/
+                layer.closeAll();
+                /* $("#classid").html(html2);
+                 layui.form.render("select")
+                 var val1 = document.getElementById("classid").value;*/
+            }else {
+                layer.alert("请选择相同表的栏目")
+            }
+        })
+
+    }
+    $(function () {
+
+        getUserLogin13(1);
+    })
+
+    function getUserLogin13(pageNo1) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo1,
+                "size": pageSize,
+                /* "sortProps":{
+                 key:"loginTime",
+                 value:false
+             }*/
+            },
+            "entity": {
+            }
+        }
+        ajax("", "/trtable/push/listing", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                layui.use(['table', 'laypage'], function () {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#testeee'
+                        //elem:'#subscribeTabel'
+                        , data: data.obj.records
+                        , cols: [[
+                            /* {type: 'checkbox', fixed: 'left'},*/
+                            {type: 'numbers', title: '序号', fixed: 'left'}
+                            , {field: 'xwid', title: 'id', fixed: 'left'}
+                            , {field: 'name', width: 400, title: '推送名'}
+                            , {field: 'lanmname', title: '被推送名'}
+                            , {field: 'cruser', width: 400,title: '创建人'}
+                            , {field: 'crtime', width: 400,title: '时间'}
+                            ,{field:'', title: '操作',toolbar: '#barDemoee'}
+                            /*, {field: 'createTime', title: '创建时间'}
+                        , {field: 'modifyUser', title: '操作人'}
+                        , {field: 'modifyTime', title: '操作时间'}*/
+                        ]],
+                        id: "testeee"
+                        , limit: 10
+                    });
+                    laypage.render({
+                        elem: 'page133'
+                        , count: data.obj.total
+                        , curr: data.obj.current
+                        , limit: pageSize
+                        , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                getUserLogin13(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+
+    layui.table.on('tool(testeee)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if(layEvent === 'delsann'){ //删除
+            layer.alert("确定删除:["+data.name+"]",function(){
+                doDeleteByIds133(data.id);
+            })}
+    });
+    function doDeleteByIds133(id) {
+            ajax("","/trtable/push/dele/"+id,"get",{}).then(res=>{
+                if(res.success){
+                    /*doList(1,{});*/
+                    layer.closeAll();
+                }
+            }).catch(res=>{
+                layer.closeAll();
+            })
+    }
+
+</script>
+<script type="text/html" id="barDemoee">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delsann">删除</a>
+</script>
+<script type="text/html" id="barDemopush">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delpush">删除</a>
+</script>
+<script>
+    active.ysjfz = function () {
+        var datas = getTableCheckDataidd("metadataTable");
+        if (datas) {
+            showColumnTree1(datas, copyMetadata, "元数据复制", "checkbox");
+        }
+    }
+    function getTableCheckDataidd(table){
+        var data = getTableCheck23(table);
+        console.log(data);
+        if(data.length<=0){
+            layer.alert("请选择数据");
+            return false;
+        }
+        return data;
+    }
+    function getColumnTreeData1(webclass,async) {
+        return new Promise(function (resovle, reject) {
+            var flag;
+            if(async>=0){
+                flag = async == 1;
+            }else{
+                flag = getColumnTreeAsync();
+            }
+            if (flag) {
+                ajax2(service_prefix.manage, "/site/getSiteTree", "get", {webclass: webclass}).then(function (data) {
+                    resovle(data.obj);
+                })
+            } else {
+                ajax2(service_prefix.manage, "/programa/getTreeData", "post", {webclass: webclass}).then(function (data) {
+                    for (var i in data.obj) {
+                        switch (data.obj[i].isSite) {
+                            case 0 :
+                                data.obj[i].icon = "common/img/u5548.png";
+                                break;
+                            case 1 :
+                                data.obj[i].icon = "common/img/u5554.png";
+                                break;
+                            case 2 :
+                                data.obj[i].icon = "common/img/u2615.png";
+                                break;
+                        }
+                    }
+                    resovle(data.obj);
+                })
+            }
+        })
+    }
+
+    function showColumnTree1(datas, fn, title, checkType, checks, noChecks, checked) {
+        columnTreeIndex = layer.open({
+            title: title
+            , area: ['355px', '500px']
+            , content: '<ul id="ydTree" class="ztree openTree"></ul>'
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                // console.log(openZTreeObj.getSelectedNodes()[0].id)
+                /*var nodes = getCheckNodesIdss(openZTreeObj);
+                var ids = nodes.ids;
+                console.log("...............ids")
+                console.log(ids)
+                if (!ids || ids.length <= 0) {
+                    layer.alert("请选择栏目");
+                    return null;
+                }
+                if(fn){
+                    fn(ids, datas, nodes.names);
+                    layer.close(columnTreeIndex);
+                }*/
+
+                tuissss()
+                /*layer.closeAll();*/
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+        })
+        getColumnTreeData1(1).then(function (res) {
+            function ajaxTreeDataFilter1(treeId, parentNode, responseData) {
+                if (responseData) {
+                    for(var o of responseData){
+                        var flag = false;
+                        for(var k in checks){
+                            if (o[k] != checks[k]){
+                                flag = true;
+                            }
+                        }
+                        for(var k in noChecks){
+                            if (o[k] == noChecks[k]){
+                                flag = true;
+                            }
+                        }
+                        o.nocheck = flag;
+
+                        /*if(checked.indexOf(o.id) >= 0) o.checked = true;*/
+                    }
+                }
+                responseData.forEach(e=>{
+                    switch (e.isSite) {
+                        case 0 :  e.icon = "common/img/u5548.png"; break;
+                        case 1 :  e.icon = "common/img/u5554.png"; break;
+                        case 2 :  e.icon = "common/img/u2615.png"; break;
+                    }
+                })
+                return responseData;
+            }
+            var flag = getColumnTreeAsync();
+            var settingss = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    }
+                },
+                async: {
+                    enable: flag,
+                    autoParam: ["id"],
+                    type: "get",
+                    url: getAjaxUrl('',"/manage/programa/asyncTree"),
+                    dataFilter: ajaxTreeDataFilter1,
+                    xhrFields: {withCredentials: true}
+                },
+                view: {
+                    showLine: false,
+                    showIcon: true
+                },
+              /*  check: {                    //表示tree的节点在点击时的相关设置
+                    enable: true,           //是否显示radio/checkbox
+                    autoCheckTrigger: false,
+                    chkStyle: checkType,      //值为checkbox或者radio表示
+                    // radioType:"all",
+                    chkboxType: {"Y": "", "N": ""},  //表示父子节点的联动效果，不联动
+                    nocheckInherit: false
+                },*/
+              /*  callback: {
+                    onClick:ztreetime1l
+                }*/
+            }
+            openZTreeObj = $.fn.zTree.init($("#ydTree"), settingss, res);
+            if (!flag) {
+                openZTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+            }else{
+                var pnodes = openZTreeObj.getNodesByFilter(function (node) {
+                    return node.isSite == 0
+                });
+                pnodes.forEach(function (res) {
+                    openZTreeObj.expandNode(res, true);
+                })
+            }
+        })
+    }
+    function getCheckNodesIdss(treeObj) {
+        var nodes = getCheckNodes(treeObj);
+        var ids = [];
+        var names = [];
+        for(var o of nodes){
+            ids.push(o.id);
+            names.push(o.name)
+        }
+        if(ids.length <= 0){
+            layer.alert("请选择数据");
+            return false;
+        }
+        return {ids:ids,names:names}
+    }
+
+
+
+    function tuissss() {
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        console.log(global.zTreeObj)
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        var crunode=openZTreeObj.getSelectedNodes()[0];
+        var pageNo=1;
+        var cruser =localStorage.getItem("username")
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": pageSize,
+            },
+            "entity": {
+                "xwid": datasss.id,
+                "pushname": crunode.name,
+                "pushid": crunode.id,
+                "pushtableid": crunode.tableId,
+                "tableid": datas,
+                "cruser": cruser
+            }
+        }
+        ajax("","/tstable/push/add","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                identifyym();
+                layer.closeAll();
+                /* $("#classid").html(html2);
+                 layui.form.render("select")
+                 var val1 = document.getElementById("classid").value;*/
+            }else {
+                layer.alert("请选择相同的表")
+            }
+        })
+
+    }
+    function identifyym() {
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        var crunode=openZTreeObj.getSelectedNodes()[0];
+        var pageNo=1;
+        var cruser =localStorage.getItem("username")
+        /*var imgColumn=currnode.imgColumn*/
+        var imgColumn=currnode.id
+        ajax("","/manage/programa/"+imgColumn,"get",{}).then(data=>{
+            if(data.success){
+                var url=data.obj.metadataUri
+
+                /*/!*fuction2(currnode,crunode,url)*!/
+                console.log("..........//url")
+                console.log(data)
+                console.log(data.obj)
+                console.log(url)
+                /!*fuction3(currnode,crunode,url,datasss)*!/*/
+                fuction4(url,datasss,crunode)
+            }else {
+                layer.alert("失败")
+            }
+        })
+        /* var jsondata = {
+            /!* "pager": {
+                 "current": pageNo,
+                 "size": pageSize,
+             },*!/
+            /!* "entity": {
+                 "xwid": datasss.id,
+                 "xwname": datasss.cstext,
+                 "name": crunode.name,
+                 "nameid": crunode.id,
+                 "tableid": datas,
+                 "cruser": cruser
+             }*!/
+
+                 "cs1": datasss.cs1,
+                 "cstext": datasss.cstext,
+                 "csdate": datasss.csdate,
+                 /!*"csclass": datasss.csclass,*!/
+                 "csdouble": datasss.csdouble,
+                 "cseditor": datasss.cseditor,
+                 "columnid": crunode.id,
+                 "docchannelid": datasss.docchannelid,
+                 "docstatus": datasss.docstatus,
+                 "file": datasss.file,
+                 // "id": datasss.id,
+                 "docstatus": datasss.docstatus,
+                 "seqencing": datasss.seqencing,
+                 "testtp": datasss.testtp,
+                 "wj": datasss.wj
+         }
+         ajax("","/cs1/cs","post",JSON.stringify(jsondata)).then(data=>{
+             if(data.success){
+                 layer.closeAll();
+                 /!* $("#classid").html(html2);
+                  layui.form.render("select")
+                  var val1 = document.getElementById("classid").value;*!/
+             }else {
+                 layer.alert(res.msg)
+             }
+         })*/
+
+    }
+</script>
+<script>
+  /*  function fuction3(currnode,crunode,url,datasss) {
+        var tableInfoId= currnode.tableId;
+        ajax(service_prefix.metadata, "/fieldinfo/all", "get", {tableId: tableInfoId}).then(function (res2) {
+            if(res2.success){
+                var data= res2.obj.测试1
+                console.log("..........................data")
+                console.log(res2)
+                console.log(res2.obj)
+                console.log(data)
+                fuction4(url,datasss,crunode)
+            }else {
+                layer.alert(res.msg)
+            }
+
+          /!*  var data= res2.obj.测试1
+            fuction4(dada,currnode,crunode,url)*!/
+        });
+    }*/
+    function fuction4(url,datasss,crunode) {
+        datasss.id=""
+        datasss.columnid=crunode.id
+        var jsondata = {
+       /* "cs1": datasss.cs1,
+            "cstext": datasss.cstext,
+            "csdate": datasss.csdate,
+        "csdouble": datasss.csdouble,
+            "cseditor": datasss.cseditor,
+            "columnid": crunode.id,
+            "docchannelid": datasss.docchannelid,
+            "docstatus": datasss.docstatus,
+            "file": datasss.file,
+            // "id": datasss.id,
+            "docstatus": datasss.docstatus,
+            "seqencing": datasss.seqencing,
+            "testtp": datasss.testtp,
+            "wj": datasss.wj*/
+              }
+        ajax("",url,"post",JSON.stringify(datasss)).then(data=>{
+            if(data.success){
+                layer.alert("成功")
+                layer.closeAll();
+            }else {
+                layer.alert(res.msg)
+            }
+        })
+    }
+</script>
+<script type="text/html" id="pushcalssTemplate1">
+    <form class="layui-form" lay-filter="pushclassForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标签分类:</label>
+                    <div class="layui-input-block">
+                        <select name = "parentid" id = "classid" lay-filter = "classid1" >
+                        </select>
+                    </div>
+                </div>
+                <div >
+                    选择要推送的标签
+                </div>
+                <div style="overflow: hidden;">
+                    <ul id="treeDemo1w" class="ztree"></ul>
+                </div>
+              <!--  <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 200px;">
+                        <button type="button" class="layui-btn" lay-submit lay-filter="addpushclass1">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+                        </button>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="pushcalssTemplate2">
+    <form class="layui-form" lay-filter="AddNewReference">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <ul id="ydTree" class="ztree" style="width: 473px;height: 445px;"></ul>
+                </div>
+               <!-- <input type="radio" name="sex" value="1" title="置顶" checked="checked" class="layui-col-md6">
+                <input type="radio" name="sex" value="0" title="不置顶" class="layui-col-md6">-->
+                <div>
+                    <input type="radio" name="referenceType" value="1" title="链接型引用（仅仅产生一个链接，文档表现形式保持完全一致）" checked="checked">
+                </div>
+                <div>
+                    <input type="radio" name="referenceType" value="2" title="镜像型引用（在目标栏目产生文档的镜像）">
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+<script>
+    $('input[name="sex"]:checked').val()
+    if($('input[name="redr"]').attr("checked",true)){
+    $("#test14").attr("disable",true)
+    }
+    //自定义格式
+    laydate.render({
+        elem: '#test14'
+        ,type: 'time'
+        ,format: 'H点m分s秒'
+    });
+
+    layui.form.render();
+    active.addclass1 = function(){
+        addclass()
+    }
+    //获取分类法树
+    function addclass() {
+        //多窗口模式，层叠置顶
+        openindex1 = layer.open({
+            type: 1,
+            title: "推送到标签",
+            area: ['500px', '600px'],
+            maxmin: true,
+            content: '<div id="pushclassForm"></div>',
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var nodes=zTreeObj.getSelectedNodes()[0];
+                var ids = nodes.id;
+                var compid=nodes.parentid;
+                if (!ids || ids.length <= 0) {
+                    layer.alert("请选择栏目");
+                }else {
+                    addpushclassJan()
+                }
+            }
+        });
+        layui.laytpl($("#pushcalssTemplate1").html()).render({edit: true}, function (html) {
+            $("#pushclassForm").html(html)
+        });
+        getParentTree()
+    }
+
+    //获取父类分类法
+    function getParentTree(){
+        var jsondata = {
+            'parentId': 0
+        }
+        ajax(service_prefix.metadata,"/class/all","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                var html2 = "";
+                for(var i in data.obj) {
+                    var s = data.obj[i];
+                    html2 += '<option value="'+s.id+'" data-name="'+s.className+'">' + s.className + '</option>';
+                }
+                $("#classid").html(html2);
+                layui.form.render("select")
+                var val1 = document.getElementById("classid").value;
+                getChildTree23(val1);
+
+            }
+        })
+    }
+    form.on('select(classid1)', function (data) {
+        getChildTree23(data.value)
+    });
+    //获得子树
+    function getChildTree23(id) {
+        var jsondata = {
+            "parentId": id
+        }
+        ajax(service_prefix.metadata,"/class/tree","post",JSON.stringify(jsondata)).then(data=>{
+            var res = data.obj;
+            for (var i in res) {
+                if (res[i].parentId == id) {
+                    res[i].icon = "common/img/icon/u3383.png";
+                } else {
+                    res[i].icon = "common/img/u2628.png";
+                }
+
+            }
+            showTree(res);
+        })
+    }
+    
+   /* function addPushCategory() {
+
+    }*/
+</script>
+<script>
+    $(function () {
+        getUserLoginpush(1);
+    })
+
+    function getUserLoginpush(pageNo1) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo1,
+                "size": pageSize,
+                /* "sortProps":{
+                 key:"loginTime",
+                 value:false
+             }*/
+            },
+            "entity": {
+                /*"bmname":document.getElementById("bmname"),*/
+                /*"address":document.getElementById("address").value,
+            "loginTime":startTime,
+            "endTime":endTime,
+            "logoutTime":startTime1,
+            "endTime1":endTime1*/
+            }
+        }
+        ajax("", "/addpushcotegory/push/listing", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                layui.use(['table', 'laypage'], function () {
+                    var table = layui.table;
+                    /*,laypage=layui.laypage;*/
+                    table.render({
+                        elem: '#testpush1'
+                        //elem:'#subscribeTabel'
+                        , data: data.obj.records
+                        , cols: [[
+                            /* {type: 'checkbox', fixed: 'left'},*/
+                            {type: 'numbers', title: '序号', fixed: 'left'}
+                            , {field: 'pushname', width: 400, title: '标签分类'}
+                            , {field: 'classname', title: '标签名称'}
+                            , {field: 'cruser', width: 400,title: '创建人'}
+                            , {field: 'crtime', width: 400,title: '时间'}
+                            ,{field:'', title: '操作',toolbar: '#barDemopush'}
+                            /*, {field: 'createTime', title: '创建时间'}
+                        , {field: 'modifyUser', title: '操作人'}
+                        , {field: 'modifyTime', title: '操作时间'}*/
+                        ]],
+                        id: "testpush1"
+                        , limit: 10
+                    });
+                    laypage.render({
+                        elem: 'pagepush'
+                        , count: data.obj.total
+                        , curr: data.obj.current
+                        , limit: pageSize
+                        , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                getUserLoginpush(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+
+    /*layui.form.on("submit(addpushclass1)",function(){*/
+    function addpushclassJan() {
+        var pageNo=1;
+        var currnode=zTreeObj.getSelectedNodes()[0];
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        var currNode111 = global.zTreeObj.getSelectedNodes()[0]
+        var id=currNode111.id;
+        var names=currNode111.name;
+        var cruser =localStorage.getItem("username")
+        var crtime = Date.parse(new  Date());
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": pageSize,
+            },
+            "entity": {
+                "classid": currnode.id,
+                "classname": currnode.className,
+                "pushname": names,
+                "cruser": cruser,
+                "crtime": crtime,
+                "pushid": id,
+                "xwid": datasss.id,
+                "tableid" :currNode111.tableId
+            }
+        }
+        ajax("", "/addpushcotegory/push/add", "post", JSON.stringify(jsondata)).then(function (data){
+            if (data.success) {
+                if (data.success) {
+                    layer.closeAll();
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        })
+        //}
+        /*   let param=data.field;*/
+    };
+    layui.table.on('tool(testpush2)', function(obj){//注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        console.log(".....................test[s")
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if(layEvent === 'delpush'){ //删除
+            layer.alert("确定删除:["+data.classname+"]",function(){
+                doDeleteByIdspush(data.id);
+            })}
+    });
+    function doDeleteByIdspush(id) {
+            ajax("","/addpushcotegory/push/dele/"+id,"get",{}).then(res=>{
+                if(res.success){
+                    /*doList(1,{});*/
+                    layer.closeAll();
+                }
+            }).catch(res=>{
+                layer.closeAll();
+            })
+    }
+</script>
+<script>
+    /*active.addyy = function(){
+        getSiteTreeData1();
+    }*/
+    function initTreett(data, id) {
+        global.treeData = data;
+        global.zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, data); //初始化树
+        var flag = getColumnTreeAsync();
+        if (!flag) {
+            global.zTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+        }else{
+            var pnodes = global.zTreeObj.getNodesByFilter(function (node) {
+                return node.isSite == 0
+            });
+            pnodes.forEach(function (res) {
+                global.zTreeObj.expandNode(res, true);
+            })
+        }
+        var node;
+        if (id) {
+            node = global.zTreeObj.getNodeByParam("id", id);
+        } else {
+            node = global.zTreeObj.getNodeByTId("treeDemo_3");
+        }
+        // global.zTreeObj.selectNode(node);
+        setTimeout(function () {
+            var container = $('#treeDemo'),
+                scrollTo = $('#' + node.tId);
+
+            container.scrollTop(
+                scrollTo.offset().top - container.offset().top + container.scrollTop() - container.height() / 2
+            );
+
+            container.animate({
+                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - container.height() / 2
+            })
+        }, 500)
+        // node.scrollIntoView();
+        // settingss.callback.onClick(null, global.zTreeObj.setting.treeId, node);
+    }
+</script>
+
+<script>
+    var zTreeObj;
+    var zTreeObjj1
+    //ztree
+    var settings = {
+        edit: {
+            enable: true,
+            drag: {
+                isCopy: false,
+                isMove: true,
+                prev: true,
+                next: true,
+                inner: false
+            },
+            showRemoveBtn: false,
+            showRenameBtn: false
+        },
+        data: {
+            keep: {
+                leaf: true,
+                parent: true
+            },
+            simpleData: {
+                enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id", //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: 0 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            },
+            key: {
+                name: "className"
+            }
+        },
+        view: {
+            showLine: false,
+            showIcon: true
+        },
+       /* check: {
+            enable: true,            //true / false 分别表示 显示 / 不显示 复选框或单选框
+            autoCheckTrigger: true,   //true / false 分别表示 触发 / 不触发 事件回调函数
+            chkStyle: "checkbox",     //勾选框类型(checkbox 或 radio）
+            chkboxType: {"Y":"","N":""}
+        },*/
+        callback: {
+        },
+
+    };
+    //渲染树结构
+    function showTree(data) {
+        zTreeObj = $.fn.zTree.init($("#treeDemo1w"), settings, data); //初始化树
+        // zTreeObj.expandAll(false);    //true 节点全部展开、false节点收缩、
+    }
+
+    $(function(){
+        layui.form.render();
+    })
+</script>
+<script>
+    function tjyinyong(){
+        layer.open({
+            type: 1,
+            title:"添加引用",
+            area:['1100px', '700px']
+            // ,offset: type //具体配置参考：http://doc/modules/layer.html#offset
+            ,id: 'layerDemo' //防止重复弹出
+            /*,content: '<div style="padding: 20px 100px;">'+ 1111 +'</div>'*/
+            ,content:'<div id="ttttt"></div>'
+            ,btn: ['确定','取消']
+            ,btnAlign: 'c' //按钮居中
+            ,shade: 0 //不显示遮罩
+            ,yes: function(){
+                identify();
+                layer.closeAll();
+            },
+            done:function(){
+                layui.form.render();
+            },
+            success: function(layero){
+                $("#ttttt").load("simple\\manage\\column\\tjyy.html");
+                layer.setTop(layero); //重点2
+                treer23();
+            },
+            zIndex: layer.zIndex
+
+        })
+    }
+
+    /*$(
+        function () {
+            treer23();
+        }
+    )*/
+    // 弹出层列表
+    $(document).on("click",".list .kuang-r",function () {
+        $(this).addClass("list-bg").siblings().removeClass("list-bg");
+        $(".lists>div").eq($(this).index()).addClass("show").siblings().removeClass("show");
+        treer23();
+    })
+    var settingssll = {
+        edit: {
+            enable: true,
+            showRemoveBtn: false,
+            showRenameBtn: false,
+            drag: {
+                isCopy: false,//所有操作都是move
+                isMove: true,
+                prev: true,
+                next: true,
+                inner: false
+            }
+        },
+        data: {
+            simpleData: {
+                enable: true,  //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id",  //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId",    //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: -1  //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            }
+        },
+      /*  check: {
+            enable: true,            //true / false 分别表示 显示 / 不显示 复选框或单选框
+            autoCheckTrigger: true,   //true / false 分别表示 触发 / 不触发 事件回调函数
+            chkStyle: "checkbox",     //勾选框类型(checkbox 或 radio）
+            chkboxType: {"Y":"","N":""}
+        },*/
+        view: { showLine: false,showIcon:true },
+        /* callback: {
+            // onClick: zTreeOnClick,
+             beforeDrop: beforeDrop,
+             onDrop: onDrop
+         }*/
+        callback: {
+            onClick:ztreetime1
+        }
+    };
+
+    function showTreer23(data,selectedId) {
+        zTreeObjj1 = $.fn.zTree.init($(".treeDemoq23"), settingssll, data); //初始化树
+        zTreeObjj1.expandAll(true);    //true 节点全部展开、false节点收缩
+        if(selectedId){
+            var node = zTreeObjj1.getNodesByParam("id", selectedId, null)[0];
+            // $("#"+node.tId + "_a").trigger("click")
+        }else{
+            // $("#treeDemo_2_a").trigger("click");
+        }
+    }
+    var url = "/group";
+    function treer23(selectedId){
+        ajax(service_prefix.member,"/group/tree","post",{}).then(res=>{
+            treeNode = res.obj;
+            for(var i in res.obj){
+                if(res.obj[i].treeType == 0){
+                    res.obj[i].icon = "common/img/u5548.png";
+                }else{
+                    res.obj[i].icon = "common/img/u5554.png";
+                }
+            }
+            showTreer23(res.obj,selectedId);
+        }).catch(function(res){
+
+        })
+    }
+
+    $(function () {
+        getUserLogin(1);
+    })
+
+    var pageSize = 10;
+    layui.form.on("submit(searchData11",function(data){
+        var params = urlEncode(data.field);
+        Login(1);
+        return false;
+    })
+    var nameid;
+    function ztreetime1(event,treeid,treeNode) {
+        if(treeNode.treeType>0){
+                nameid=treeNode.id;
+                doListt(1);
+
+        }
+    }
+    function doListt(current) {
+        var jsondata={
+            "pager":{
+                "current":1,
+                "size":pageSize,
+            },
+            "entity":{
+                "nameid": nameid
+            }
+        }
+        ajax("","/addreference/pushg/listing","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table;
+                    /*,laypage=layui.laypage;*/
+                    table.render({
+                        elem:'#test23'
+                        //elem:'#subscribeTabel'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type: 'checkbox', fixed: 'left'},
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                            ,{field:'xwid', width: 276, title: 'id',fixed: 'left'}
+                            ,{field:'crtime', width: 170, title: '创建时间'}
+                            ,{field:'cruser', width: 141, title: '创建人'}
+                        ]],
+                        id: "id"
+                        ,limit: 10
+                    })
+                    laypage.render({
+                        elem:'demo9'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:pageSize
+                        ,layout:['count','prev','page','next','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                getUserLogin(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+    /*//页面显示
+        $("#test44").submit(test44),function(data) {
+            doListt1(1);
+        }
+        layui.form.on("submit(test44)", function (data) {
+            /!*var params = urlEncode(data.field);*!/
+            doListt1(1);
+            return false;
+        })*/
+    $(function () {
+        doListt1(1);
+    })
+
+        function doListt1(current) {
+            var jsondata = {
+                "pager": {
+                    "current": 1,
+                    "size": pageSize,
+                },
+                "entity": {}
+            }
+            ajax("", "/addreference/pushg/listing", "post", JSON.stringify(jsondata)).then(function (data) {
+                if (data.success) {
+                    layui.use(['table', 'laypage'], function () {
+                        var table = layui.table;
+                        /*,laypage=layui.laypage;*/
+                        table.render({
+                            elem: '#test44'
+                            //elem:'#subscribeTabel'
+                            , data: data.obj.records
+                            , cols: [[
+                                {type: 'checkbox', fixed: 'left'},
+                                {type: 'numbers', title: '序号', fixed: 'left'}
+                                , {field: 'xwid', title: '文档名称', fixed: 'left'},
+                                {field:'name', width: 300, title: '元数据栏目'}
+                                , {field: 'crtime', width: 330, title: '创建时间'}
+                                , {field: 'cruser', width: 320, title: '创建人'}
+                                ,{field:'', width: 230,title: '操作',toolbar: '#barDemoo'}
+                            ]],
+                            id: "test44"
+                            , limit: 10
+                        })
+                        laypage.render({
+                            elem: 'page3'
+                            , count: data.obj.total
+                            , curr: data.obj.current
+                            , limit: pageSize
+                            , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                            , jump: function (obj, first) {
+                                if (!first) {
+                                    doListt1(obj.curr)
+                                }
+                            }
+                        })
+                    })
+
+                }
+            })
+        }
+        //删除操作
+    layui.table.on('tool(test44)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if(layEvent === 'delll'){
+            layer.alert("确定删除:["+data.name+"]",function(){
+                doDeleteByIdss([data.id]);
+            })
+        }
+    });
+    function doDeleteByIdss(id) {
+            ajax("","/addreference/pushg/dele/"+id,"get",{}).then(res=>{
+                if(res.success){
+                    doListt1(1);
+                    layer.closeAll();
+                }
+            }).catch(res=>{
+                layer.closeAll()
+            })
+    }
+
+</script>
+<script type="text/html" id="barDemoo">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delll">删除</a>
+</script>
+
+<script>
+    function identify() {
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        var crunode=zTreeObjj1.getSelectedNodes()[0];
+        var pageNo=1;
+        var cruser =localStorage.getItem("username")
+        console.log(datas)
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": pageSize,
+            },
+            "entity": {
+                "xwid": datasss.id,
+                "xwname": datasss.cstext,
+                "name": crunode.name,
+                "nameid": crunode.id,
+                "pushid": currnode.id,
+                "pushname": currnode.name,
+                "tableid": datas,
+                "cruser": cruser
+            }
+        }
+        ajax("","/addreference/pushg/add","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                layer.closeAll();
+               /* $("#classid").html(html2);
+                layui.form.render("select")
+                var val1 = document.getElementById("classid").value;*/
+            }else {
+                layer.alert(res.msg)
+            }
+        })
+
+    }
+</script>
+
+<script>
+
+    function ztreetime1l(event,treeid,treeNode) {
+        if(treeNode.treeType>0){
+            nameid=treeNode.id;
+           /* showTreer231(treeNode,nameid)*/
+            tuissss();
+
+        }
+    }
+    function showTreer231(data,selectedId) {
+        zTreeObjjj1 = $.fn.zTree.init($(".treeDemoq231"), settingss, data); //初始化树
+        zTreeObjjj1.expandAll(true);    //true 节点全部展开、false节点收缩
+        if(selectedId){
+            var node = zTreeObjjj1.getNodesByParam("id", selectedId, null)[0];
+        }else{
+        }
+    }
+
+   /* function tuissss() {
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        console.log(global.zTreeObj)
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        var crunode=openZTreeObj.getSelectedNodes()[0];
+        var pageNo=1;
+        var cruser =localStorage.getItem("username")
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": pageSize,
+            },
+            "entity": {
+                "xwid": datasss.id,
+                "pushname": crunode.name,
+                "pushid": crunode.id,
+                "pushtableid": crunode.tableId,
+                "tableid": datas,
+                "cruser": cruser
+            }
+        }
+        ajax("","/tstable/push/add","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                console.log("............................///")
+                identifyym();
+                layer.closeAll();
+                /!* $("#classid").html(html2);
+                 layui.form.render("select")
+                 var val1 = document.getElementById("classid").value;*!/
+            }else {
+                layer.alert(res.msg)
+            }
+        })
+
+    }*/
+
+
+    /*function identifyym() {
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        var crunode=openZTreeObj.getSelectedNodes()[0];
+        var pageNo=1;
+        var cruser =localStorage.getItem("username")
+        console.log(datas)
+        var imgColumn=currnode.imgColumn
+        ajax("","/manage/programa"+imgColumn,"get",{}).then(data=>{
+            if(data.success){
+                var url=data.obj.metadataUrl
+                /!*fuction2(currnode,crunode,url)*!/
+                console.log("..........//url")
+                console.log(url)
+                fuction3(currnode,crunode,url)
+            }else {
+                layer.alert(res.msg)
+            }
+        })
+
+       /!* var jsondata = {
+           /!* "pager": {
+                "current": pageNo,
+                "size": pageSize,
+            },*!/
+           /!* "entity": {
+                "xwid": datasss.id,
+                "xwname": datasss.cstext,
+                "name": crunode.name,
+                "nameid": crunode.id,
+                "tableid": datas,
+                "cruser": cruser
+            }*!/
+
+                "cs1": datasss.cs1,
+                "cstext": datasss.cstext,
+                "csdate": datasss.csdate,
+                /!*"csclass": datasss.csclass,*!/
+                "csdouble": datasss.csdouble,
+                "cseditor": datasss.cseditor,
+                "columnid": crunode.id,
+                "docchannelid": datasss.docchannelid,
+                "docstatus": datasss.docstatus,
+                "file": datasss.file,
+                // "id": datasss.id,
+                "docstatus": datasss.docstatus,
+                "seqencing": datasss.seqencing,
+                "testtp": datasss.testtp,
+                "wj": datasss.wj
+        }
+        ajax("","/cs1/cs","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                layer.closeAll();
+                /!* $("#classid").html(html2);
+                 layui.form.render("select")
+                 var val1 = document.getElementById("classid").value;*!/
+            }else {
+                layer.alert(res.msg)
+            }
+        })*!/
+
+    }*/
+    function fuction2(currnode,crunode,url) {
+
+    }
+    /*function fuction3(currnode,crunode,url) {
+       var tableInfoId= currnode.id;
+        ajax(service_prefix.metadata, "/fieldinfo/all", "get", {tableId: tableInfoId}).then(function (res2) {
+            if(data.success){
+                var data= res2.obj.测试1
+                console.log("..........................data")
+                console.log(data)
+                fuction4(dada,currnode,crunode,url)
+            }else {
+                layer.alert(res.msg)
+            }
+
+          var data= res2.obj.测试1
+            fuction4(dada,currnode,crunode,url)
+        });
+    }
+    function fuction4(dada,currnode,crunode,url) {
+        var jsondata = {
+            /!* "pager": {
+                 "current": pageNo,
+                 "size": pageSize,
+             },*!/
+
+            "cs1": datasss.cs1,
+            "cstext": datasss.cstext,
+            "csdate": datasss.csdate,
+            /!*"csclass": datasss.csclass,*!/
+            "csdouble": datasss.csdouble,
+            "cseditor": datasss.cseditor,
+            "columnid": crunode.id,
+            "docchannelid": datasss.docchannelid,
+            "docstatus": datasss.docstatus,
+            "file": datasss.file,
+            // "id": datasss.id,
+            "docstatus": datasss.docstatus,
+            "seqencing": datasss.seqencing,
+            "testtp": datasss.testtp,
+            "wj": datasss.wj
+        }
+
+
+
+        ajax("","url","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                layer.closeAll();
+                /!* $("#classid").html(html2);
+                layui.form.render("select")
+                var val1 = document.getElementById("classid").value;*!/
+            }else {
+                layer.alert(res.msg)
+            }
+        })
+    }
+
+    function fuction() {
+        var datasss = getTableCheckDataid("metadataTable")[0];
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        var crunode=openZTreeObj.getSelectedNodes()[0];
+        var pageNo=1;
+        var cruser =localStorage.getItem("username")
+        console.log(datas)
+        var imgColumn=currnode.imgColumn
+        var url=identifyym(currnode)
+
+
+    }*/
+</script>
+<script>
+  /*  active.addclass1 = function () {
+        var currnode=global.zTreeObj.getSelectedNodes()[0];
+        var datas=currnode.tableId;
+        if (datas) {
+            addclass()
+        }
+    }*/
+</script>
+
+<!--表格中的设置-->
+<!--
+<script>
+    /*layui.use('laydate', function() {  //日期显示组件
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#t12'
+            // ,range: true
+            // ,done:function (value) {
+            //     startTime=value.split(' -')[0]
+            //     endTime =value.split('- ')[1]
+            // }
+        });
+
+    })*/
+    /* var startTime1='',endTime1=""
+     layui.use('laydate', function() {  //日期显示组件
+         var laydate = layui.laydate;
+         laydate.render({
+             elem: '#t13'
+             // ,range: true
+             // ,done:function (value) {
+             //     startTime1=value.split(' -')[0]
+             //     endTime1 =value.split('- ')[1]
+             // }
+         });
+
+     })*/
+
+   /* function getUserLogin(pageNo) {
+        var crunode=zTreeObjj1.getSelectedNodes()[0];
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":pageSize,
+                /!* "sortProps":{
+                     key:"loginTime",
+                     value:false
+                 }*!/
+            },
+            "entity":{
+                "nameid": crunode.id
+                /!*"address":document.getElementById("address").value,
+                "loginTime":startTime,
+                "endTime":endTime,
+                "logoutTime":startTime1,
+                "endTime1":endTime1*!/
+            }
+        }
+        ajax("","/addreference/pushg/listing","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table;
+                    /!*,laypage=layui.laypage;*!/
+                    table.render({
+                        elem:'#test'
+                        //elem:'#subscribeTabel'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type: 'checkbox', fixed: 'left'},
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                            ,{field:'xwname', width: 100, title: '文档名称',fixed: 'left'}
+                            ,{field:'crtime', width:170, title: '创建时间'}
+                            ,{field:'cruser', width:120, title: '创建人',templet:'#subtype'}
+                        ]],
+                        id: "id"
+                        ,limit: 10
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:pageSize
+                        ,layout:['count','prev','page','next','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                getUserLogin(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })*/
+    }
+
+</script>
+-->

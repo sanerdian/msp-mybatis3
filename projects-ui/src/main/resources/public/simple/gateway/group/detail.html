@@ -1,0 +1,220 @@
+<div class="layui-fluid" id="detail">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="tool_btn_box">
+                <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="returnBack()">返回上一级</button>
+                <button class="layui-btn" onclick="doEditGroup()">编辑</button>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div id="baseInfoView"></div>
+            <div>
+                <blockquote class="layui-elem-quote" title='对当前时刻本分组下的所有api都执行的操作'>分组聚合操作</blockquote>
+                <table class="layui-table">
+                    <tbody>
+                    <tr>
+                        <th class="td_bg" width="10%">操作对象</th>
+                        <th width="40%">操作类别</th>
+                        <th class="td_bg" width="10%">操作对象</th>
+                        <th width="40%">操作类别</th>
+                    </tr>
+                    <tr>
+                        <td class="td_bg" >限流策略</td>
+                        <td>
+                            <a class="layui-btn layuiadmin-btn-admin"
+                               data-type="add" data-layer-html="bindingRateLimit.html"
+                              title='为当前时刻本分组下的所有Api都绑定指定的限流策略'>绑定指定</a>
+                        </td>
+                        <td class="td_bg" >ip策略</td>
+                        <td>
+                            <a class="layui-btn layuiadmin-btn-admin"
+                               data-type="add" data-layer-html="bindingIpRule.html"
+                              title='为当前时刻本分组下的所有Api都绑定指定的ip策略'>绑定指定</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_bg" >应用</td>
+                        <td>
+                            <a class="layui-btn layuiadmin-btn-admin"
+                               data-type="add" data-layer-html="bindingApp.html"
+                              title='为当前时刻本分组下的所有Api都授权指定的应用'>授权指定</a>
+                        </td>
+                        <td class="td_bg" >签名密钥</td>
+                        <td>
+                            <a class="layui-btn layuiadmin-btn-admin"
+                               data-type="add" data-layer-html="bindingSignature.html"
+                              title='为当前时刻本分组下的所有Api都绑定指定的签名密钥'>绑定指定</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_bg" >Api</td>
+                        <td>
+                            <a class="layui-btn layuiadmin-btn-admin"
+                               data-type="add" data-layer-html="swaggerImport.html"
+                              title='读取swagger信息，为分组批量导入Api'>swagger导入</a>
+                            <a class="layui-btn layuiadmin-btn-admin"
+                               data-type="runType" data-layer-html="bindingApiRunType.html"
+                              title='将当前时刻本分组下的所有Api的运行状态都更改为指定值'>运行状态</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">分组-参数</li>
+                <li>分组-模型项</li>
+            </ul>
+            <div class="layui-tab-content">
+                <!-- 标签内容开始 -->
+                <div class="layui-tab-item layui-show">
+                    <!-- 搜索开始 -->
+                    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-item1-formlist">
+                        <form class="layui-form" id="formSearchItem1">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">参数中文名</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">运行状态</label>
+                                    <div class="layui-input-block">
+                                        <select name="runType">
+                                            <option value=""></option>
+                                            <option value="dev">开发</option>
+                                            <option value="test">测试</option>
+                                            <option value="pre">预运行</option>
+                                            <option value="pro">生产</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">参数名称</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="argName" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline top_search_btn">
+                                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-item1-back-search">
+                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                        <div class="top_btn" >
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="exportExcel" export-type="groupArg" data-layer-html="exportExcel.html" data-layer-path="simple/gateway/export/">Excel导出</button>
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="addItem1.html">新建</button>
+                            <button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del" data-layer-html="addItem1.html">删除</button>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- 列表开始 -->
+                        <div class="table-area">
+                            <table id="tableItem1" lay-filter="tableItem1"></table>
+                        </div>
+                        <div id="page_tableItem1"></div>
+                        <!-- 列表结束 -->
+                    </div>
+                </div>
+                <!-- 标签内容结束 -->
+                <!-- 标签内容开始 -->
+                <div class="layui-tab-item">
+                    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-item2-formlist">
+                        <form class="layui-form" id="formSearchItem2">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">模型id</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="modelId" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">模型项名称</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="columnName" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">数据类型</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="datatype" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">是否必填项</label>
+                                    <div class="layui-input-block">
+                                        <select name="isRequired" lay-verify="required">
+                                            <option value=""></option>
+                                            <option value="true">是</option>
+                                            <option value="false">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline top_search_btn">
+                                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-item2-back-search">
+                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="top_btn">
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="exportExcel"  export-type="groupModelItem" data-layer-html="exportExcel.html" data-layer-path="simple/gateway/export/">Excel导出</button>
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="addItem2.html" >新建</button>
+                            <button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del" data-layer-html="addItem2.html" >删除</button>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- 列表开始 -->
+                        <div class="table-area">
+                            <table id="tableItem2" lay-filter="tableItem2"></table>
+                        </div>
+                        <div id="page_tableItem2"></div>
+                        <!-- 列表结束 -->
+                    </div>
+                </div>
+                <!-- 标签内容结束 -->
+            </div>
+        </div>
+        <!-- 标签切换结束 -->
+		
+    </div>
+</div>
+
+<!-- 基本信息 -->
+<script type="text/html" id="baseInfoTemplate">
+    <form class="layui-form" lay-filter="formDetail">
+        <blockquote class="layui-elem-quote">分组信息</blockquote>
+        <table class="layui-table">
+            <tbody>
+            <tr>
+                <td class="td_bg" width="10%">id</td>
+                <td width="40%">{{d.id}}</td>
+                <td class="td_bg" width="10%">分组名称</td>
+                <td width="40%">{{d.name}}</td>
+            </tr>
+            <tr>
+                <td class="td_bg" width="10%">实例id</td>
+                <td width="40%">{{d.caseId}}</td>
+                <td class="td_bg" width="10%">备注</td>
+                <td width="40%">{{d.remark}}</td>
+            </tr>
+            <tr>
+                <td class="td_bg" width="10%">Api数量</td>
+                <td width="40%">{{d.dict.apiCount}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</script>
+
+<script src="simple/gateway/group/detail.js"></script>
+
+<!--操作 模板-->
+<script type="text/html" id="operateTemplate">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>

@@ -1,0 +1,1370 @@
+﻿<title>元数据模块管理</title>
+
+<style>
+
+</style>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>应用</cite></a>
+        <a><cite>分类管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 jnet-left left-list">
+        <div class="layui-card h100">
+            <div class="layui-card-header">
+                <div class="layui-col-md2">模块</div>
+                <div class="icon-btn-bar layui-col-md10">
+                    <span>
+                        <button type="button" title="新建模块" class="layui-btn" data-type="add">
+                            <img src="common/img/u20039.svg">
+                        </button>
+                        <button type="button" title="修改模块" class="layui-btn" data-type="edit">
+                            <img src="common/img/u20041.svg">
+                        </button>
+                        <button type="button" title="删除模块" class="layui-btn" data-type="del">
+                            <img src="common/img/u20040.svg">
+                        </button>
+                        <button type="button" title="绑定git资源" class="layui-btn" data-type="setGitAccount">
+                            <img src="common/img/u20774.svg">
+                        </button>
+                        <button type="button" id="sortBtn" title="根据创建时间倒叙" class="layui-btn" data-type="setSortType">
+                            <img class="rotateX" src="common/img/u20785.svg">
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="layui-card-header jnet-search-left">
+                <div class="layui-col-md11">
+                    <input type="text" id="moduleinfoinput" placeholder="请输入中文或英文名称" class="layui-input">
+                </div>
+                <div class="layui-col-md1">
+                    <button class="layui-btn layui-btn-sm" onclick="getModuleinfos()"><img src="common/img/u11881.svg"></button>
+                </div>
+            </div>
+            <div class="layui-card-body jnet-left-body">
+                <form class="layui-form" id="listForm">
+                </form>
+            </div>
+            <div class="jnet-left-page" id="pageleft"></div>
+        </div>
+    </div>
+    <div class="layui-col-md9 jnet-right">
+        <div class="layui-card h100">
+            <div class="layui-tab layui-tab-card h100" lay-filter="demo">
+                <div class="layui-tab-content jnet-tab-content">
+                    <div id="main" class="layui-tab-item layui-show layui-card" style="position: relative">
+                        <div class="layui-card-header">
+                            <div class="layui-col-md5">模块元数据表<img style="margin-left: 10px;" src="common/img/u20575.svg" onclick='showDesc(this)'></div>
+                            <div class="layui-col-md7 moduleCreateBar" style="text-align: right"></div>
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-btn-container layui-col-md5">
+                                    <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="selectTableinfo">引入元数据表</button>
+                                    <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="removeTableinfo">移除元数据表</button>
+                                </div>
+                                <div class="jnet-search-right layui-col-md7">
+                                    <form>
+                                        <div class="layui-inline">
+                                            <input type="text" id="searchTableInput" placeholder="请输入中文或英文名称" class="layui-input">
+                                        </div>
+                                        <button type="button" onclick="searchTableByName()"  class="layui-btn layui-btn-sm layui-inline"><img src="common/img/u11881.svg"></button>
+                                        <button type="button" class="layui-btn layui-btn-sm layui-inline layui-btn-primary" onclick="showSearchBody()"><img src="common/img/u11999.svg"></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <table class="layui-hide" id="fieldTabel"></table>
+                            <div id="tablepage" class="jnet-left-page"></div>
+                        </div>
+                        <div class="layui-card jnet-search-body">
+                            <div class="layui-card-header"><div class="layui-col-md5">筛选</div><div class="layui-col-md7"><img onclick="closeSearchBody()" src="common/img/u11915.svg" style="float: right; margin-top: 15px;cursor: pointer;"></div></div>
+                            <div class="layui-card-body">
+                                <form class="layui-form">
+                                    <div class="layui-row">
+                                        中文名称
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input" type="text" name="anothername">
+                                    </div>
+                                    <div class="layui-row-item">
+                                        英文名称
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input" type="text" name="tablename">
+                                    </div>
+                                    <div class="layui-row-item">
+                                        引入人
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input" type="text" name="introduceuser">
+                                    </div>
+                                    <div class="layui-row-item">
+                                        引入时间
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input jnet-search-crtime" type="text" name="introducetime">
+                                    </div>
+                                    <div class="jnet-submit-bar">
+                                        <button class="layui-btn layui-btn-sm" lay-submit lay-filter="searchTable">确定</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="layui-card-header">
+                            <div class="layui-col-md5">模块元数据视图<img style="margin-left: 10px;" src="common/img/u20575.svg" onclick='showDesc(this)'></div>
+                            <div class="layui-col-md7 moduleCreateBar" style="text-align: right"></div>
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="layui-btn-container">
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="selectViewinfo">引入元数据视图</button>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="removeViewinfo">移除元数据视图</button>
+                            </div>
+                            <table class="layui-hide" id="fieldTabel1"></table>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="layui-card-header">
+                            <div class="layui-col-md5">模块物化视图<img style="margin-left: 10px;" src="common/img/u20575.svg" onclick='showDesc(this)'></div>
+                            <div class="layui-col-md7 moduleCreateBar" style="text-align: right"></div>
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="layui-btn-container">
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="selectTViewinfo">引入物化视图</button>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="removeTViewinfo">移除物化视图</button>
+                            </div>
+                            <table class="layui-hide" id="fieldTabel3"></table>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="layui-card-header">
+                            <div class="layui-col-md5">es<img style="margin-left: 10px;" src="common/img/u20575.svg" onclick='showDesc(this)'></div>
+                            <div class="layui-col-md7 moduleCreateBar" style="text-align: right"></div>
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="layui-btn-container">
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="selectEsinfo">引入es</button>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="removeEsinfo">移除es</button>
+                            </div>
+                            <table class="layui-hide" id="fieldTabel4"></table>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="layui-card-header">
+                            <div class="layui-col-md5">元数据位置设置<img style="margin-left: 10px;" src="common/img/u20575.svg" onclick='showDesc(this)'></div>
+                            <div class="layui-col-md7 moduleCreateBar" style="text-align: right"></div>
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="layui-btn-container">
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="addLocation">新建</button>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="editLocation">修改</button>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="delLocation">删除</button>
+                            </div>
+                            <table class="layui-hide" id="fieldTabel2"></table>
+                            <div id="fieldPage2"></div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="layui-card-header">
+                            <div class="layui-col-md5">git推送时间记录<img style="margin-left: 10px;" src="common/img/u20575.svg" onclick='showDesc(this)'></div>
+                            <div class="layui-col-md7 moduleCreateBar" style="text-align: right"></div>
+                        </div>
+                        <div class="layui-card-body">
+                            <table class="" id="fieldTable4"></table>
+                            <div id="fieldPage4"></div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="layui-tab-title jnet-tab-title" id="manage">
+                    <li class="layui-this" id="first">模块元数据表</li>
+                    <li lay-id="baseInfo">模块元数据视图</li>
+                    <li lay-id="baseInfo">模块物化视图</li>
+                    <li lay-id="baseInfo">es</li>
+                    <li>元数据位置设置</li>
+<!--                    <li>git推送时间记录</li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--git账号弹出层模块（新增，查看，编辑）-->
+<script type="text/html" id="gitAccountTemplate">
+    <form class="layui-form" lay-filter="addGitAccount" id="gitMess">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">git账号:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="account" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">email:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="email" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">本地git路径:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="gitpath" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码:</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">ssh密钥:</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" name="sshkey" id="sshkey" value=""
+                                  placeholder="请输入" autocomplete="off" style="margin-top: 0px; margin-bottom: 0px; height: 230px;"></textarea>
+<!--
+                        <button class="layui-btn" lay-submit lay-filter="createSSHKey">生成</button>
+-->
+                        <i class="layui-icon layui-icon-tips" style="font-size: 20px; margin-top: 20px;" lay-submit lay-filter="confirmTrans"></i>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 175px;">
+                        <button class="layui-btn" lay-submit lay-filter="addGitAccount">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id"/>
+    </form>
+</script>
+
+<!--弹出层模块（新增，查看，编辑）-->
+<script type="text/html"  id="moduleinfoTemplate">
+    <form class="layui-form" lay-filter="moduleinfoForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">英文名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="englishname" value="" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">模块名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="modulename" value="" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">模块描述:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="moduledesc" value="" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 175px;">
+                        <button class="layui-btn" lay-submit lay-filter="addModuleinfo">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id"/>
+    </form>
+</script>
+<!--弹出层模块（新增，查看，编辑）-->
+<script type="text/html"  id="fieldTemplate">
+    <div class='layui-fluid'>
+        <div class='layui-card'>
+            <div class='layui-card-body'>
+                <!--<div style='display:inline-block;margin-left:205px;position:absolute;top:20px;font-weight:700px;'>
+                    已选中列表
+                </div>-->
+                <div id="test1"></div>
+            </div>
+            <div class='layui-btn-container' style='margin:20px 0 0 380px;'>
+                <button class='layui-btn' data-type="getSelects">确定</button>
+                <button class='layui-btn' onclick="layer.closeAll()">取消</button>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html"  id="fieldTemplate1">
+    <div class='layui-fluid'>
+        <div class='layui-card'>
+            <div class='layui-card-body'>
+                <!--<div style='display:inline-block;margin-left:205px;position:absolute;top:20px;font-weight:700px;'>
+                    已选中列表
+                </div>-->
+                <div id="test2"></div>
+            </div>
+            <div class='layui-btn-container' style='margin:20px 0 0 380px;'>
+                <button class='layui-btn' data-type="getSelectsV">确定</button>
+                <button class='layui-btn' onclick="layer.closeAll()">取消</button>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html"  id="fieldTemplate4">
+    <div class='layui-fluid'>
+        <div class='layui-card'>
+            <div class='layui-card-body'>
+                <div id="test4"></div>
+            </div>
+            <div class='layui-btn-container' style='margin:20px 0 0 380px;'>
+                <button class='layui-btn' data-type="getSelectEs">确定</button>
+                <button class='layui-btn' onclick="layer.closeAll()">取消</button>
+            </div>
+        </div>
+    </div>
+</script>
+<!--弹出层模块（新增，查看，编辑）-->
+<script type="text/html" id="componentTemplate">
+    <form class="layui-form" lay-filter="addComponent">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作系统:</label>
+                    <div class="layui-input-block">
+                        <select name="osname" id="osname">
+                            <option value="linux">linux</option>
+                            <option value="win">win</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">部署位置:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="componentdpath" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">生成位置:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="componentcpath" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">访问地址:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="componenturl" value="" required lay-verify="required" placeholder="请输入"
+                               autocomplete="off" class="layui-input" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="remark" value="" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 175px;">
+                        <button class="layui-btn" lay-submit lay-filter="addCompon">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id"/>
+    </form>
+</script>
+<script type="text/html" id="toGitHistory">
+    <a href="http://47.93.246.70/fastdevplatform/web/commit/{{d.id}}" style="color:blue;text-decoration:underline;cusor:pointer;" target="_blank">{{d.title}}</a>
+</script>
+<script type="text/html" id="moduleinfoItemTpl">
+    {{#layui.each(d, function(index, item){}}
+    <div class="layui-row jnet-left-item  {{index==0?'active':''}}" id = "{{item.id}}" data_id="{{item.id}}" data_name="{{item.modulename}}" data_time="{{item.crtime}}" data_user="{{item.cruser}}" order="{{item.moduleorder}}" data_desc="{{item.moduledesc}}">
+        <div class="layui-col-md1"><input type="radio" name="listidm" value="{{item.id}}" lay-skin="primary" {{index==0?'checked':''}}></div>
+        <div class="layui-col-md11"><p>{{item.modulename}} [{{item.englishname}}]</p></div>
+    </div>
+    {{# }) }}
+</script>
+<script>
+    searchModuleinfoObj = {isasc:false};
+    searchTablesObj = {};
+    var columnSortabel;
+    function getModuleinfos(pageNo,size,fn){
+        if(!pageNo) pageNo = $("#pageleft .layui-laypage-curr").text();
+        if(!pageNo) pageNo = 1;
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": 15,
+                sortProps :[{key: "moduleorder", value: true}, {key: "crtime", value: searchModuleinfoObj.isasc}]
+                /* {
+                    key: "crtime",
+                    value: searchModuleinfoObj.isasc
+                }*/
+            },
+            entity:{
+                searchName:$("#moduleinfoinput").val()
+            }
+        }
+        ajax(service_prefix.metadata,"/moduleinfo/list","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                lodTpl("moduleinfoItemTpl","listForm",data.obj.records);
+                loadPageLeft('pageleft',data.obj,getModuleinfos);
+                layui.form.render();
+                $(".left-list .jnet-left-item:first").trigger("click");
+                if(fn){
+                    fn();
+                }
+            }
+
+            columnSortabel = Sortable.create(document.getElementById('listForm'), {
+                animation: 150,
+                onUpdate: function (/**Event*/evt) {
+                    var id = evt.item.getAttribute("data_id");
+                    var order;
+                    if (evt.item.previousElementSibling) {
+                        var others = $(evt.item).prev();
+                        order = others.attr("order");
+                    } else {
+                        order = "-1";
+                    }
+                    var url = "/moduleinfo/sort/" + id + "/" + (Number(order) + 1);
+                    ajax(service_prefix.metadata, url, "get").then(function (res) {
+                        if (res.success) {
+                            getModuleinfos();
+                        }
+                    })
+                },
+            });
+        })
+    }
+    function getTables(pageNo,size){
+        if(!size) size=15;
+        searchTablesObj.ownerid = getCurrObjId();
+        var jsondata = {
+            "entity": searchTablesObj,
+            "pager": {
+                "current": pageNo?pageNo:1,
+                "size": size
+            }
+        }
+        ajax(service_prefix.metadata,"/list","post",JSON.stringify(jsondata)).then(function(data){
+            var cols = [
+                {type:'checkbox'}
+                ,{type:'numbers',title: '序号'}
+                ,{field:'anothername', title: '中文名称'}
+                ,{field:'tablename',  title: '英文名称'}
+                ,{field:'introduceuser',  title: '引入人'}
+                ,{field:'introducetime', title: '引入时间', sort: true}
+            ];
+            loadTable("#fieldTabel",cols,data.obj.records,100);
+            loadPage2('tablepage',data.obj,getTables);
+        })
+    }
+    function showDesc(obj){
+        var desc = $(".jnet-left-item.active").attr("data_desc");
+        layer.tips(desc, obj,{tips: [2], time: 5000});
+    }
+    function showSearchBody(){
+        $(".jnet-search-body").show();
+    }
+    function closeSearchBody(){
+        $(".jnet-search-body").hide();
+    }
+    layui.laydate.render({
+        elem: '.jnet-search-crtime'
+        , range: true
+    });
+    function getCurrObj(){
+        return $(".jnet-left-item.active");
+    }
+    function getCurrObjId(){
+        return $(getCurrObj()).attr("data_id");
+    }
+    active.setSortType = function(){
+        searchModuleinfoObj.isasc = !searchModuleinfoObj.isasc;
+        $("#sortBtn img").toggleClass("rotateX")
+        $("#sortBtn").attr("title","根据创建时间"+(searchModuleinfoObj.isasc?"正序":"倒叙"));
+        getModuleinfos();
+    }
+    function searchTableByName(){
+        searchTablesObj = {searchName:$("#searchTableInput").val()}
+        getTables();
+    }
+    layui.form.on("submit(searchTable)",function(data){
+        var time = data.field.introducetime;
+        if(time){
+            var times = time.split(" - ");
+            data.field.introducetimeto = times[1];
+            data.field.introducetime = times[0];
+            searchTablesObj = data.field;
+        }else {
+            searchTablesObj = data.field;
+        }
+        getTables();
+        return false;
+    })
+</script>
+<script>
+    // layui
+    layui.use('table', function(){
+        var $ = layui.$
+            ,layer = layui.layer
+            ,table = layui.table
+            ,form = layui.form;
+
+        form.on('submit(confirmTrans)', function(data){
+            //配置一个透明的询问框
+            layer.msg('1、复制ssh密钥；<br>' +
+                '2、打开git网址，点自己头像>>settings（设置）>>SSH and GPG keys（SSH密钥）>>New SSH key（增加SSH密钥）<br>' +
+                '3、将ssh密钥复制在此处，点击Add key即可。', {
+                time: 20000, //20s后自动关闭
+                btn: ['明白了'],
+                shade: 0
+            });
+            return false;
+        });
+
+        form.on('submit(addModuleinfo)', function(data){
+            if(data.field.id){
+                doEditModuleinfo(data.field);
+            }else{
+                doAddModuleinfo(data.field);
+            }
+            return false;
+        });
+
+        form.on('submit(addGitAccount)', function (data) {
+            docreateSSHKey(data.field);
+            if(data.field.id) {
+                doEditGitAccount(data.field);
+            } else {
+                doAddGitAccount(data.field);
+            }
+            return false;
+        });
+
+        form.on('submit(createSSHKey)', function (data) {
+            docreateSSHKey(data.field);
+            return false;
+        });
+
+        form.on('submit(addCompon)', function (data) {
+            if (data.field.id) {
+                doEditCompon(data.field);
+            } else {
+                doAddCompon(data.field);
+            }
+            return false;
+        });
+    });
+    function doAddModuleinfo(data){
+        ajax(service_prefix.metadata,"/moduleinfo/add","post",JSON.stringify(data)).then(res=>{
+            if(res.success){
+                layer.closeAll();
+                getModuleinfos(1);
+            }else{
+                layer.alert(res.msg,function(){
+                    layer.closeAll();
+                });
+            }
+        })
+    }
+    function doEditModuleinfo(data){
+        ajax(service_prefix.metadata,"/moduleinfo/"+data.id,"put",JSON.stringify(data)).then(res=>{
+            if(res.success){
+                layer.closeAll();
+                getModuleinfos("","",function(){
+                    $(".left-list .jnet-left-item[data_id='"+data.id+"']").trigger("click");
+                });
+            }else{
+                layer.alert(res.msg,function(){
+                    layer.closeAll();
+                });
+            }
+        })
+    }
+
+    function doAddGitAccount(data) {
+        ajax(service_prefix.metadata,"/gitaccount/add", "post", JSON.stringify(data)).then(res => {
+            if(res.success){
+                layer.closeAll();
+                getModuleinfos();
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        });
+    }
+
+    function doEditGitAccount(data) {
+        ajax(service_prefix.metadata,"/gitaccount/" + data.id, "put", JSON.stringify(data)).then(res => {
+            if (res.success) {
+                layer.closeAll();
+                getModuleinfos();
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        });
+    }
+
+    function docreateSSHKey(data) {
+        ajax(service_prefix.metadata,"/gitaccount/createSSHKey", "post", JSON.stringify(data)).then(res => {
+            if (res.success) {
+                $("#sshkey").val(res.msg);
+            } else {
+            }
+        });
+    }
+
+    function doAddCompon(data) {
+        data.moduleinfoid = moduleinfoObj.id;
+        ajax(service_prefix.metadata,"/Component/add", "post", JSON.stringify(data)).then(res => {
+            if (res.success) {
+                layer.closeAll();
+                getModuleinfos();
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        })
+    }
+
+    function doEditCompon(data) {
+        data.moduleinfoid = moduleinfoObj.id;
+        ajax(service_prefix.metadata,"/Component/" + data.id, "put", JSON.stringify(data)).then(res => {
+            if (res.success) {
+                layer.closeAll();
+                getModuleinfos();
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        })
+    }
+
+    active.getSelects = function(){
+        dogetSelects();
+    };
+    function dogetSelects(){
+        var data = layui.transfer.getData('demo1');
+        var ids = [];
+        for(var i=0;i< data.length;i++){
+            ids.push(data[i].value);
+        }
+        if(data) {
+
+            ajax(service_prefix.metadata,"/moduleinfo/addTable/"+moduleinfoObj.id,"POST",JSON.stringify(ids)).then(res=>{
+                getTables();
+                layer.closeAll();
+            })
+        }
+    }
+    active.getSelectsV = function(){
+        dogetSelectsV();
+    };
+    function dogetSelectsV(){
+        var data = layui.transfer.getData('demo4');
+        var ids = [];
+        for(var i=0;i< data.length;i++){
+            ids.push(data[i].value);
+        }
+        if(data) {
+
+            ajax(service_prefix.metadata,"/moduleinfo/addTable/"+moduleinfoObj.id,"POST",JSON.stringify(ids)).then(res=>{
+                getViews(moduleinfoObj.id);
+                layer.closeAll();
+            })
+        }
+    }
+    active.getSelectEs = function(){
+        var data = layui.transfer.getData('demo4');
+        var ids = [];
+        for(var i=0;i< data.length;i++){
+            ids.push(data[i].value);
+        }
+        if(data) {
+            ajax(service_prefix.metadata,"/moduleinfo/addEsTable/"+moduleinfoObj.id,"POST",JSON.stringify(ids)).then(res=>{
+                getViews(moduleinfoObj.id);
+                layer.closeAll();
+            })
+        }
+    };
+    //绑定git账号
+    active.setGitAccount = function () {
+        var jsondata = {
+            "entity": {
+                "id": "1175970143352573953"
+            },
+            "pager": {
+                "current": 1,
+                "size": 15
+            }
+        }
+        ajax(service_prefix.metadata,"/gitaccount/list", "post", JSON.stringify(jsondata)).then(data => {
+            if (data.success) {
+                //多窗口模式，层叠置顶
+                layer.open({
+                    type: 1,
+                    title: "设置",
+                    area: ['550px', '616px'],
+                    maxmin: true,
+                    content: '<div id="addGitAccount" style="overflow: auto;"></div>',
+                });
+                layui.laytpl($("#gitAccountTemplate").html()).render({}, function (html) {
+                    $("#addGitAccount").html(html);
+                    layui.form.val("addGitAccount", data.obj.records[0])
+                    layui.form.render();
+                });
+            } else {
+                layer.alert(data.msg);
+            }
+        })
+    }
+
+    active.selectTableinfo = function(){
+        selectPsersonIndex = layer.open({
+            type: 1,
+            area: ['950px', '522px'],
+            title:'选择元数据表',
+            maxmin: true,
+            content: '<div id="fieldForm1"></div>'
+        });
+
+        var jsondata={
+        };
+
+        //查询数据
+        ajax(service_prefix.metadata,"/listNoChoose","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.laytpl($("#fieldTemplate").html()).render({}, function(html){
+                    $("#fieldForm1").html(html);
+                    layui.form.render();
+                    layui.use('transfer', function(){
+                        var transfer = layui.transfer;
+                        //渲染
+                        var result=[];
+                        for (var i=0;i<data.obj.length;i++){
+                            result.push({"value":data.obj[i].id,"title":"<div><span>"+data.obj[i].tablename+"</span><span>"+data.obj[i].anothername+"</span></div>","disabled": "", "checked": ""})
+                        }
+                        transfer.render({
+                            elem: '#test1'  //绑定元素
+                            ,title:['<div><span>表名</span><span>中文名称</span></div>','<div><span>表名</span><span>中文名称</span></div>']
+                            ,data:result
+                            ,width: '395px'
+                            ,id:"demo1"
+                        });
+
+                    });
+                })
+            }
+        })
+    }
+    active.removeTableinfo = function(){
+        removeTable();
+    };
+    function removeTable(){
+        var data2 = layui.table.checkStatus('fieldTabel');
+        var ids = [];
+        for(var i=0;i< data2.data.length;i++){
+            ids.push(data2.data[i].id);
+        }
+        if(ids.length<=0){
+            layer.alert("请选择元数据表！");
+            return false;
+        }
+        if(data2) {
+            layer.open({
+                content: "确认移除元数据表吗？"
+                ,btn: ['确认',"取消"]
+                ,yes: function(index, layero){
+                    ajax(service_prefix.metadata,"/moduleinfo/removeTable","POST",JSON.stringify(ids)).then(res=>{
+                        if (res.success) {
+//          res.msg = "删除成功";
+                            getTables();
+                            layer.closeAll();
+                        }else{
+                            layer.alert("删除失败");
+                            layer.closeAll();
+                        }
+
+                    }).catch(function(res){
+
+                    })
+                }
+                ,btn2: function(index, layero){
+                    layer.closeAll();
+                }
+            });
+
+        }
+    }
+    //引入元数据视图
+    active.selectViewinfo = function(){
+        selectPsersonIndex = layer.open({
+            type: 1,
+            area: ['950px', '522px'],
+            title:'选择元数据视图',
+            maxmin: true,
+            content: '<div id="fieldForm1"></div>'
+        });
+
+        var jsondata={
+        };
+
+        //查询数据
+        ajax(service_prefix.metadata,"/view/all","post",{}).then(function (data){
+            if(data.success){
+                layui.laytpl($("#fieldTemplate1").html()).render({}, function(html){
+                    $("#fieldForm1").html(html);
+                    layui.form.render();
+                    layui.use('transfer', function(){
+                        var transfer = layui.transfer;
+                        //渲染
+                        var result=[];
+                        for (var i=0;i<data.obj.length;i++){
+                            result.push({"value":data.obj[i].id,"title":"<div><span>"+data.obj[i].tablename+"</span><span>"+data.obj[i].anothername+"</span></div>","disabled": "", "checked": ""})
+                        }
+                        transfer.render({
+                            elem: '#test2'  //绑定元素
+                            ,title:['<div><span>视图名</span><span>中文名称</span></div>','<div><span>视图名</span><span>中文名称</span></div>']
+                            ,data:result
+                            ,width: '395px'
+                            ,id:"demo4"
+                        });
+
+                    });
+                })
+            }
+        })
+    }
+    //移除元数据视图
+    active.removeViewinfo = function(){
+        removeView();
+    };
+    function removeView(){
+        var data3 = layui.table.checkStatus('demo3');
+        var ids = [];
+        for(var i=0;i< data3.data.length;i++){
+            ids.push(data3.data[i].id);
+        }
+        if(ids.length<=0){
+            layer.alert("请选择元数据视图！");
+            return false;
+        }
+        if(data3) {
+            layer.open({
+                content: "确认移除元数据视图吗？"
+                ,btn: ['确认',"取消"]
+                ,yes: function(index, layero){
+                    ajax(service_prefix.metadata,"/moduleview/removeView","POST",JSON.stringify(ids)).then(res=>{
+                        if (res.success) {
+//          res.msg = "删除成功";
+                            getViews(moduleinfoObj.id);
+                            layer.closeAll();
+                        }else{
+                            layer.alert("删除失败");
+                            layer.closeAll();
+                        }
+
+                    }).catch(function(res){
+
+                    })
+                }
+                ,btn2: function(index, layero){
+                    layer.closeAll();
+                }
+            });
+
+        }
+    }
+    //引入元数据视图
+    active.selectTViewinfo = function(){
+        selectPsersonIndex = layer.open({
+            type: 1,
+            area: ['950px', '522px'],
+            title:'选择元数据视图',
+            maxmin: true,
+            content: '<div id="fieldForm3"></div>'
+        });
+
+        var jsondata={
+        };
+
+        //查询数据
+        ajax(service_prefix.metadata,"/tview/all","post",{}).then(function (data){
+            if(data.success){
+                layui.laytpl($("#fieldTemplate1").html()).render({}, function(html){
+                    $("#fieldForm3").html(html);
+                    layui.form.render();
+                    layui.use('transfer', function(){
+                        var transfer = layui.transfer;
+                        //渲染
+                        var result=[];
+                        for (var i=0;i<data.obj.length;i++){
+                            result.push({"value":data.obj[i].id,"title":"<div><span>"+data.obj[i].tablename+"</span><span>"+data.obj[i].anothername+"</span></div>","disabled": "", "checked": ""})
+                        }
+                        transfer.render({
+                            elem: '#test2'  //绑定元素
+                            ,title:['<div><span>视图名</span><span>中文名称</span></div>','<div><span>视图名</span><span>中文名称</span></div>']
+                            ,data:result
+                            ,width: '395px'
+                            ,id:"demo4"
+                        });
+
+                    });
+                })
+            }
+        })
+    }
+    //引入元数据视图
+    active.selectEsinfo = function(){
+        selectEsIndex = layer.open({
+            type: 1,
+            area: ['950px', '522px'],
+            title:'选择ES',
+            maxmin: true,
+            content: '<div id="fieldForm4"></div>'
+        });
+
+        ajaxGet("metadata/es/tree",function(data) {
+            if(data.success){
+                layui.laytpl($("#fieldTemplate4").html()).render({}, function(html){
+                    $("#fieldForm4").html(html);
+                    layui.form.render();
+                    layui.use('transfer', function(){
+                        var transfer = layui.transfer;
+                        //渲染
+                        var result=[];
+                        for (var i of data.obj){
+                            for(var o of i.list){
+                                result.push({"value":o.dbSourceId+":"+o.index,"title":"<div><span>"+o.index+"</span><span>"+i.name+"</span></div>","disabled": "", "checked": ""})
+                            }
+                        }
+                        transfer.render({
+                            elem: '#test4'  //绑定元素
+                            ,title:['<div><span>es</span><span>数据源</span></div>','<div><span>es</span><span>数据源</span></div>']
+                            ,data:result
+                            ,width: '395px'
+                            ,id:"demo4"
+                        });
+
+                    });
+                })
+            }
+        })
+    }
+    //移除元数据视图
+    active.removeTViewinfo = function(){
+        removeTView();
+    };
+    function removeTView(){
+        var data3 = layui.table.checkStatus('fieldTabel3');
+        var ids = [];
+        for(var i=0;i< data3.data.length;i++){
+            ids.push(data3.data[i].id);
+        }
+        if(ids.length<=0){
+            layer.alert("请选择元数据视图！");
+            return false;
+        }
+        if(data3) {
+            layer.open({
+                content: "确认移除元数据视图吗？"
+                ,btn: ['确认',"取消"]
+                ,yes: function(index, layero){
+                    ajax(service_prefix.metadata,"/moduleview/removeView","POST",JSON.stringify(ids)).then(res=>{
+                        if (res.success) {
+//          res.msg = "删除成功";
+                            getViews(moduleinfoObj.id);
+                            layer.closeAll();
+                        }else{
+                            layer.alert("删除失败");
+                            layer.closeAll();
+                        }
+
+                    }).catch(function(res){
+
+                    })
+                }
+                ,btn2: function(index, layero){
+                    layer.closeAll();
+                }
+            });
+
+        }
+    }
+
+
+</script>
+
+<script>
+    var moduleinfoObj = {};
+
+
+    //获取模块相关视图
+    function getView(){
+        getViews(moduleinfoObj.id);
+    }
+
+    function getTView() {
+        var jsondata = {
+            "entity": {
+                "ownerid": moduleinfoObj.id
+            },
+            "pager": {
+                "current": 1,
+                "size": 10
+            }
+        }
+        ajax(service_prefix.metadata,"/tview/list","post",JSON.stringify(jsondata)).then(data=>{
+            layui.use('table', function(){
+                var table = layui.table;
+                table.render({
+                    elem: '#fieldTabel3'
+                    ,data:data.obj.records
+                    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    ,cols: [[
+                        {type:'checkbox'}
+                        ,{type:'numbers',title: '序号'}
+                        ,{field:'anothername', title: '中文名称', sort: true}
+                        ,{field:'tablename',  title: '英文名称'}
+                        ,{field:'crtime', title: '创建时间', sort: true}
+                    ]],
+                    id: "demo5"
+                });
+            });
+        })
+    }
+
+    function getViews(id){
+        var jsondata = {
+            "entity": {
+                "ownerid": id
+            },
+            "pager": {
+                "current": 1,
+                "size": 10
+            }
+        }
+        ajax(service_prefix.metadata,"/view/list","post",JSON.stringify(jsondata)).then(data=>{
+            layui.use('table', function(){
+                var table = layui.table;
+                table.render({
+                    elem: '#fieldTabel1'
+                    ,data:data.obj.records
+                    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    ,cols: [[
+                        {type:'checkbox'}
+                        ,{type:'numbers',title: '序号'}
+                        ,{field:'anothername', title: '中文名称', sort: true}
+                        ,{field:'tablename',  title: '英文名称'}
+                        ,{field:'crtime', title: '创建时间', sort: true}
+                    ]],
+                    id: "demo3"
+                });
+            });
+        })
+    }
+
+    function getEsTables(){
+        var jsondata = {
+            "entity": {
+                "ownerid": moduleinfoObj.id
+            },
+            "pager": {
+                "current": 1,
+                "size": 1000
+            }
+        }
+        ajax(service_prefix.metadata,"/module/es","post",JSON.stringify(jsondata)).then(data=>{
+            layui.use('table', function(){
+                var table = layui.table;
+                table.render({
+                    elem: '#fieldTabel4'
+                    ,data:data.obj.records
+                    ,cols: [[
+                        {type:'checkbox'}
+                        ,{type:'numbers',title: '序号'}
+                        ,{field:'tablename', title: '索引名称', sort: true}
+                        ,{field:'crtime', title: '创建时间', sort: true}
+                    ]],
+                    id: "demo3"
+                });
+            });
+        })
+    }
+
+    //获取模块相关视图
+    function getComp(){
+        getComponent(moduleinfoObj.id);
+    }
+    function getComponent(id) {
+        var jsondata = {
+            "entity": {
+                "moduleinfoid": id
+            },
+            "pager": {
+                "current": 1,
+                "size": 15
+            }
+        }
+        ajax(service_prefix.metadata,"/Component/list", "post", JSON.stringify(jsondata)).then(data => {
+            // ajax("http://47.93.246.70/api/v4/projects/17/repository/commits?private_token=HUvSgtfu6tresYAc9zga&page=1&per_page=1" , "get", {}).then(res => {
+            //     if(res){
+            //         for (var i in data.obj.records) {
+            //             data.obj.records[i].commit_date = timeFormat(res[0].committed_date);
+            //             data.obj.records[i].commit_name = res[0].committer_name;
+            //         }
+                // }
+                layui.use('table', function () {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#fieldTabel2'
+                        , data: data.obj.records
+                        , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        , cols: [[
+                            {type: 'checkbox'}
+                            , {type: 'numbers', title: '序号'}
+                            , {field: 'osname', title: '操作系统'}
+                            , {field: 'componentdpath', title: '部署位置'}
+                            , {field: 'componentcpath', title: '生成位置'}
+                            , {field: 'componenturl', title: '访问地址'}
+                            , {field: 'commit_date', title: 'git最近提交时间'}
+                            , {field: 'commit_name', title: 'git最近提交人'}
+                            , {field: 'remark', title: '备注'}
+                        ]]
+                        , limit: 15
+                    });
+                });
+                loadPage2('fieldPage2',data.obj,getComponent)
+            });
+        // })
+    }
+
+//新建模块
+    function add(){
+        //多窗口模式，层叠置顶
+        layer.open({
+            type: 1,
+            title: "新建模块",
+            area: ['550px', '290px'],
+            maxmin: true,
+            content: '<div id="addModuleinfo"></div>',
+        });
+        layui.laytpl($("#moduleinfoTemplate").html()).render({}, function(html){
+            $("#addModuleinfo").html(html);
+        });
+/*
+        layui.form.val("moduleinfoForm");
+*/
+    }
+    function checkChoice(){
+        if(!moduleinfoObj.id){
+            layer.alert("请选择模块");
+            return false;
+        }
+        return true;
+    }
+    //修改模块
+    function edit(){
+        if(checkChoice()){
+            ajax(service_prefix.metadata,"/moduleinfo/"+moduleinfoObj.id,"get",{}).then(data=>{
+                layer.open({
+                    type: 1,
+                    title: "修改模块",
+                    area: ['550px', '290px'],
+                    maxmin: true,
+                    content: '<div id="addModuleinfo"></div>',
+                });
+                layui.laytpl($("#moduleinfoTemplate").html()).render({}, function(html){
+                    $("#addModuleinfo").html(html)
+                });
+                layui.form.val("moduleinfoForm",data.obj);
+            })
+        }
+    }
+    function del(){
+        var ids = [];
+        $("input[name='listidm']:checked").each(function(){
+            ids.push($(this).val());
+        })
+        if(ids.length<=0){
+            layer.alert("请选择模块");
+            return false;
+        }
+        layer.open({
+            content: "确认删除模块吗？"
+            ,btn: ['确认',"取消"]
+            ,yes: function(index, layero){
+                ajax(service_prefix.metadata,"/moduleinfo/delByIds","post",JSON.stringify(ids)).then(data=>{
+                    if(data.success){
+                        getModuleinfos();
+                        layer.close(index);
+                    }else{
+                        layer.alert(data.msg);
+                    }
+                }).catch(function(res){
+
+                })
+            }
+            ,btn2: function(index, layero){
+                layer.closeAll();
+            }
+        });
+
+    }
+
+
+    //新建模块
+    active.addLocation = function () {
+        //多窗口模式，层叠置顶
+        layer.open({
+            type: 1,
+            title: "新建",
+            area: ['550px', '365px'],
+            maxmin: true,
+            content: '<div id="addComponent"></div>',
+        });
+        layui.laytpl($("#componentTemplate").html()).render({}, function (html) {
+            $("#addComponent").html(html);
+            layui.form.render();
+        });
+        /*
+                layui.form.val("moduleinfoForm");
+        */
+    }
+
+    //修改模块
+    active.editLocation = function () {
+        var checkStatus = layui.table.checkStatus("fieldTabel2")
+            , data = checkStatus.data;
+        if (data.length != 0) {
+            layer.open({
+                type: 1,
+                title: "修改",
+                area: ['550px', '365px'],
+                maxmin: true,
+                content: '<div id="addComponent"></div>',
+            });
+            layui.laytpl($("#componentTemplate").html()).render({}, function (html) {
+                $("#addComponent").html(html)
+            });
+            layui.form.val("addComponent", data[0]);
+            layui.form.render();
+        } else {
+            layer.alert("请选择数据");
+            return false;
+        }
+    }
+
+    active.delLocation = function () {
+        var data1 = checkChecked('fieldTabel2');
+        if (data1) {
+            layer.open({
+                content: "确认删除吗？"
+                , btn: ['确认', "取消"]
+                , yes: function (index, layero) {
+                    ajax(service_prefix.metadata,"/Component/delByIds", "post", JSON.stringify(data1)).then(data => {
+                        if (data.success) {
+                            getModuleinfos();
+                            layer.close(index);
+                        } else {
+                            layer.alert(data.msg);
+                        }
+                    }).catch(function(res) {
+
+                    })
+                }
+                , btn2: function (index, layero) {
+                    layer.closeAll();
+                }
+            });
+        }
+    }
+
+    // function getPush(pageNo){
+    //     pageNo = pageNo;
+    //     // ajax("http://47.93.246.70/api/v4/projects/17/repository/commits?private_token=HUvSgtfu6tresYAc9zga","get",{}).then(function(data){
+    //         var html = "";
+    //         for(var i in data) {
+    //             data[i].committed_date = timeFormat(data[i].committed_date);
+    //         }
+    //         layui.use('table', function () {
+    //             var table = layui.table;
+    //             table.render({
+    //                 elem: '#fieldTable4'
+    //                 , data: data
+    //                 , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+    //                 , cols: [[
+    //                     {type: 'numbers', title: '序号'}
+    //                     , {field: 'title', title: 'git信息', sort: true,templet:"#toGitHistory"}
+    //                     , {field: 'committer_email', title: '提交名称', sort: true}
+    //                     , {field: 'committed_date', title: '提交时间'}
+    //                     , {field: 'short_id', title: 'git提交id', sort: true}
+    //                 ]]
+    //                 ,limit: 100
+    //             });
+    //         });
+    //         /*for(var i in data){
+    //             html += '<div class="layui-form-item" style="position: relative;border-bottom: 1px solid #cccccc">' +
+    //                 '       <div class="layui-form-block">' +
+    //                 '           <p>'+data[i].title+'</p>' +
+    //                 '           <p>由'+data[i].committer_email+'提交于'+timeFormat(data[i].committed_date)+'</p>' +
+    //                 '           <div style="position: absolute;right: 50px;bottom: 10px;font-weight: bold">'+data[i].short_id+'</div>' +
+    //                 '       </div>' +
+    //                 '    </div>';
+    //         }
+    //         $("#fieldTable4").html(html);*/
+    //     // })
+    // }
+
+
+
+</script>
+
+<script>
+    $(function(){
+        /*layui.form.verify({
+            enCode: [
+                /^[a-zA-Z]+$/,
+                '请输入英文'
+            ]
+        });*/
+        $(".left-list").on("mouseover",".jnet-left-item",function(){
+            $(this).addClass("active2").siblings().removeClass("active2");
+        })
+        $(".left-list").on("mouseleave",".jnet-left-item",function(){
+            $(this).removeClass("active2");
+        })
+        $(".left-list").on("click",".jnet-left-item",function(){
+            $(".left-list input").prop("checked",false);
+            $(this).find("input").prop("checked",true);
+            layui.form.render();
+            $(this).addClass("active").siblings().removeClass("active");
+            moduleinfoObj.id = $(this).attr("data_id");
+            $(".moduleCreateBar").html("创建人:{0} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 创建时间:{1}".format($(this).attr("data_user"),$(this).attr("data_time")));
+            getTables();
+            getView();
+            getComp();
+            getTView();
+            getEsTables();
+        })
+        layui.form.render();
+        getModuleinfos();
+    })
+</script>

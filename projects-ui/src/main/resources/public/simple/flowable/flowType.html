@@ -1,0 +1,119 @@
+﻿<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+    <a><i class="layui-icon layui-icon-prev"></i></a>
+    <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+    <a>权限操作<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+    <div class="right">
+      <a><i class="layui-icon layui-icon-next"></i></a>
+      <a><i class="layui-icon layui-icon-down"></i></a>
+    </div>
+  </div>
+</div>
+<div class="layui-fluid">
+  <div class="layui-card h100" id="index">
+    <div class="layui-card-body">
+      <div class="layui-btn-container">
+        <button type="button" class="layui-btn layui-btn-sm" data-type="add"><i class="layui-icon">&#xe608;</i> 新建流程分类</button>
+        <button type="button" class="layui-btn layui-btn-sm" data-type="edit"><i class="layui-icon">&#xe642;</i> 修改流程分类</button>
+        <button type="button" class="layui-btn layui-btn-sm" data-type="del"><i class="layui-icon">&#xe640;</i> 删除流程分类</button>
+      </div>
+      <table id="dataTable" lay-filter="dataTable"></table>
+      <div id="page"></div>
+    </div>
+  </div>
+</div>
+<script type="text/html" id="editTpl">
+  <form class="layui-form" lay-filter="editForm">
+    <div class='layui-form-item'>
+      <label class='layui-form-label'>流程名称：</label>
+      <div class='layui-input-block'>
+        <input type="text" class="layui-input" name="name">
+      </div>
+    </div>
+    <div class="button-bar">
+      <button class="layui-btn" lay-submit type="button" lay-filter="addBtn">提交</button>
+      <button class="layui-btn" type="button" data-type="close">关闭</button>
+    </div>
+    <input type="hidden" name="id">
+  </form>
+</script>
+<script>
+  var defaultSize = 15;
+  layui.table.render({
+    elem: '#dataTable'
+    ,limit:defaultSize
+    ,data:[]
+    ,cols: [[
+      {type:'checkbox'}
+      ,{field:'id', title: '流程分类id'}
+      ,{field:'name', title: '流程分类名称'}
+    ]]
+  });
+  function add(){
+    layer.open({
+      type: 1 //此处以iframe举例
+      ,title: '创建流程分类'
+      ,area: ['400px', '348px']
+      ,maxmin: false
+      ,content: "<div id='editFormDiv'></div>"
+    });
+    layui.laytpl($("#editTpl").html()).render({}, function(html){
+      $("#editFormDiv").html(html);
+    })
+  }
+  function edit(){
+    var data = getTableEdit("dataTable");
+    layer.open({
+      type: 1 //此处以iframe举例
+      ,title: '修改流程分类'
+      ,area: ['400px', '348px']
+      ,maxmin: false
+      ,content: "<div id='editFormDiv'></div>"
+    });
+    layui.laytpl($("#editTpl").html()).render({}, function(html){
+      $("#editFormDiv").html(html);
+      layui.form.val("editForm",data);
+    })
+  }
+  layui.form.on("submit(addBtn)",function(data){
+    if(data.field.id){
+      ajax(service_prefix.flowable,"/flow/type/"+data.field.id,"put",JSON.stringify(data.field)).then(res=>{
+        doList(1);
+        layer.closeAll();
+      })
+    }else{
+      ajax(service_prefix.flowable,"/flow/type","post",JSON.stringify(data.field)).then(res=>{
+        doList(1);
+        layer.closeAll();
+      })
+    }
+    return false;
+  })
+  function doList(pageNo){
+    var param = {};
+    param.current = pageNo;
+    param.size = defaultSize;
+    ajax(service_prefix.flowable,"/flow/type/list","post",JSON.stringify(param)).then(res=>{
+      showList(res.obj);
+    })
+  }
+  function showList(data) {
+    layui.table.reload("dataTable",{
+      data:data.records
+    })
+    page(data.total,data.current,defaultSize);
+  }
+  function del() {
+    var ids = checkChecked("dataTable");
+    if(ids){
+      ajax(service_prefix.flowable,"/flow/type/"+ids.join(",")+"/batch","delete",{}).then(res => {
+        doList(1);
+      })
+    }
+  }
+</script>
+<script>
+  $(function(){
+    doList(1);
+  })
+</script>

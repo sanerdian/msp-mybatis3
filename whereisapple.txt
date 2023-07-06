@@ -1,0 +1,6 @@
+ftp
+  123.57.7.118
+ user 
+  ftpuser
+  pwd
+   zkjw123

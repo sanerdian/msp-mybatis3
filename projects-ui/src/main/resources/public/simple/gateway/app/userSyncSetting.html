@@ -1,0 +1,211 @@
+<div class="layui-fluid" id="userSyncSetting">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="tool_btn_box">
+                <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="goBack()">返回</button>
+            </div>
+        </div>
+        <div class="layui-card-body" >
+            <form class="layui-form" id="setUserForm" lay-filter="setUserForm">
+                <div>
+                    <blockquote class="layui-elem-quote" id="idUserSyncSetting">
+                        用户同步设置</blockquote>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">同步方式</label>
+                        <div class="layui-input-block">
+                            <select name="syncType" lay-verify="required" lay-filter="LAY-set-user-select-syncType">
+                                <option value="http">通过Http请求同步到应用</option>
+                                <!--<option value="sql">通过SQL语句同步到应用数据库</option>
+                                <option value="agent">通过Agent/Actor同步到应用</option>
+                                <option value="ldap">LDAP</option>
+                                <option value="ad">AD</option>
+                                <option value="jms">标准JMS</option>-->
+                                <option value="no" selected>不同步</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="syncType-http" style="display: none">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">响应同步操作</label>
+                            <div class="layui-input-block">
+                                <div>
+                                    <input type="checkbox" name="flagAdd" title="开通用户访问权限" lay-skin="primary">
+                                    <input type="radio" name="syncAdd" value="add" title="同步添加用户">
+                                    <input type="radio" name="syncAdd" value="enable" title="同步启用用户">
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="flagDelete" title="取消用户访问权限" lay-skin="primary">
+                                    <input type="radio" name="syncDelete" value="delete" title="同步删除用户">
+                                    <input type="radio" name="syncDelete" value="prohibit" title="同步停用用户">
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="flagUpdate" title="更新用户/修改密码" lay-skin="primary">
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="flagChangeGroup" title="机构变更" lay-skin="primary">
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="flagAccess" title="同步用户登录/登出" lay-skin="primary">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">添加的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlAdd" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">同步添加机构时，通知应用的url</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">删除的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlDelete" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">同步删除用户时, 通知应用的URL</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">更新的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlUpdate" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">同步更新用户时, 通知应用的URL</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">分配机构的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlSetGroup" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">移除机构的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlClearGroup" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">开通用户访问权限（同步登录）时通知应用的URL</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlEnableAccess" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">取消用户访问权限（同步登出）时通知应用的URL</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlProhibitAccess" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">提交方式</label>
+                            <div class="layui-input-block">
+                                <select name="httpMethod" lay-verify="required">
+                                    <option value="POST">POST</option>
+                                    <option value="GET" disabled>GET</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">数据构造类路径</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="pathForDataConstructor" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">用于构造同步数据的类路径，暂时未启用</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">发送模式</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="sendFormType" placeholder="请输入" autocomplete="off" class="layui-input" value="application/json">
+                                <span class="bitianspan">发送模式，目前只支持application/json; charset=UTF-8</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">内容编码</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="charset" placeholder="请输入" autocomplete="off" class="layui-input" value="UTF-8">
+                                <span class="bitianspan">发送内容的编码，如UTF-8，GBK等，默认为UTF-8</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">验证密码(authPwd)</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="authPwd" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">以&authPwd=???的格式附加到请求的参数（目前未启用）</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码加密算法</label>
+                            <div class="layui-input-block">
+                                <select name="pwdEncryption" lay-verify="required">
+                                    <option value="no">不加密</option>
+                                    <option value="base64">BASE64加密</option>
+                                    <option value="des">DES加密</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input hidden="hidden" name="id">
+                    </div>
+                    <blockquote class="layui-elem-quote">基本属性同步参数参考</blockquote>
+                    <table class="layui-table">
+                        <tr>
+                            <td class="td_bg" width="10%">用户编号</td>
+                            <td width="10%">id</td>
+                            <td class="td_bg" width="10%">登录名</td>
+                            <td width="10%">name</td>
+                            <td class="td_bg" width="10%">用户昵称</td>
+                            <td width="10%">nickName</td>
+                            <td class="td_bg" width="10%">真实姓名</td>
+                            <td width="10%">trueName</td>
+                            <td class="td_bg" width="10%">密码（未加密）</td>
+                            <td width="10%">passWord</td>
+                        </tr>
+                        <tr>
+                            <td class="td_bg" width="10%">用户地址</td>
+                            <td width="10%">address</td>
+                            <td class="td_bg" width="10%">电话</td>
+                            <td width="10%">tellPhone</td>
+                            <td class="td_bg" width="10%">手机</td>
+                            <td width="10%">mobile</td>
+                            <td class="td_bg" width="10%">邮箱</td>
+                            <td width="10%">email</td>
+                            <td class="td_bg" width="10%">用户状态</td>
+                            <td width="10%">status</td>
+                        </tr>
+                        <tr>
+                            <td class="td_bg" width="10%">身份证号</td>
+                            <td width="10%">cardId</td>
+                            <td class="td_bg" width="10%">性别</td>
+                            <td width="10%">sex</td>
+                            <td class="td_bg" width="10%">民族</td>
+                            <td width="10%">nation</td>
+                            <td class="td_bg" width="10%">组织id</td>
+                            <td width="10%">groupId</td>
+                            <td class="td_bg" width="10%">出生日期</td>
+                            <td width="10%">birthDate</td>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="button-bar">
+                    <button class="layui-btn" type="button" onclick="checkUserLink()">验证链接</button>
+                    <button class="layui-btn" type="button" lay-submit lay-filter="LAY-set-user-submit">应用</button>
+                    <button class="layui-btn" type="button" onclick="goBack()">返回</button>
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<script  src="simple/gateway/app/userSyncSetting.js"></script>
+<style>
+    #userSyncSetting .layui-input{width:500px;display: inline}
+    #userSyncSetting .layui-unselect.layui-form-select{width: 500px;}
+    #userSyncSetting .layui-form-label{background-color: #F2F4F1;padding-right: 10px;}
+    #userSyncSetting .layui-input-block{padding-left: 10px;}
+    #userSyncSetting #setUserForm{max-height: 650px;overflow-y: auto}
+    #userSyncSetting .td_bg{background-color: #F2F4F1;}
+</style>

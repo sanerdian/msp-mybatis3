@@ -1,0 +1,1653 @@
+
+.rightSide .panelView {
+  padding: 10px;
+}
+.panelView > div.editPanel {
+  background: #fff;
+}
+.panelView > div {
+  display: none;
+  width: 100%;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+.panelView > div.active {
+  display: block;
+}
+
+.editPanel .editBtn {
+  border: 1px solid #C9C9C9;
+  background-color: #fff;
+  color: #555;
+  height: 38px;
+  line-height: 38px;
+  padding: 0 18px;
+  cursor: pointer;
+}
+.editPanel .canEdied,
+.editPanel .editBox.canEdied {
+  border: 1px solid blue;
+}
+.editPanel .editBox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed #aaa;
+}
+.firstEdit {
+  position: relative!important;
+  left:0!important;
+  top:0!important;
+}
+.firstEdit .absPos {
+  position: absolute;
+}
+.editPanel {
+  position: relative;
+}
+.editPanel .canEdit {
+  box-sizing: border-box;
+}
+.editPanel .first .absPos {
+  position: absolute;
+}
+.editPanel .editBox .layoutSize,
+.editPanel .layoutBox .layoutSize {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  cursor: nw-resize;
+}
+.leftSide .txt {
+  border: 1px solid #ddd;
+  line-height: 30px;
+}
+.panelView .editDesign {
+  display: none;
+  position: absolute;
+  font-size: 0;
+  z-index: 6;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 0 10px #aaa;
+  border-radius: 10px;
+}
+.panelView .editDesign i {
+  font-style: normal;
+}
+.panelView .editDesign .layui-icon {
+  /* color: #fff; */
+  color: #333;
+  font-size: 24px;
+}
+.editDesign > span {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1px;
+  color: #333;
+  font-size: 14px;
+  padding: 0 10px;
+  position: relative;
+  cursor: pointer;
+}
+.editDesign > span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 1px;
+  border-right: 1px solid #ddd;
+  height: 12px;
+  margin-top: -6px;
+}
+.editDesign > span:last-child::after {
+  display: none;
+}
+#designEditWin,
+#designEditDataWin,
+#chooseFirstModesWin,
+#designFildData {
+  position: fixed;
+  display: none;
+  left: 50%;
+  width: 750px;
+  margin-left: -375px;
+  z-index: 10;
+}
+#designFildData {
+  width: 700px;
+  margin-left: -350px;
+}
+/* #designEditDataWin {
+  display: block;
+} 
+#groupFrom .layui-input-inline {
+  width: 160px;
+}*/
+#groupListDom .layui-nav-child a {
+  position: relative;
+}
+#groupListDom .dragleIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -10px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  background-image:url(../img/dragIcon.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.domBodyBox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+}
+
+/*导航切换的公共样式*/
+.layoutBox {
+  min-height: 100px;
+  height: auto;
+}
+.me_ui_nav_label {
+  width: 100%;
+  line-height: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 0;
+  white-space: nowrap;
+  display: flex;
+}
+.me_ui_nav_label > span {
+  display: inline-block;
+  font-size: 14px;
+  text-align: center;
+  width: 50%;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+}
+.me_ui_nav_label i {
+  font-style: normal;
+}
+.me_ui_nav_label > span.active,
+.me_ui_nav_label.style3 > span.active {
+  background: #009688;
+  color: #fff;
+}
+.me_ui_nav_label.style6,
+.me_ui_nav_label.style6 > span.active {
+  background: #009688;
+}
+.me_ui_nav_label.style6 i {
+  background: #4eccc0;
+  box-sizing: border-box;
+  border-top-width: 8px;
+  border-bottom-width: 8px;
+  border-left-width: 4px;
+  border-right-width: 4px;
+  border-color: #009688;
+  border-style: solid;
+}
+
+.colorChange > span.bgColor0,
+.me_ui_nav_label.bgColor0 > .active,
+.me_ui_nav_label.style3.bgColor0 > span.active,
+.me_ui_nav_label.style6.bgColor0 > span.active,
+.me_ui_nav_label.style10.bgColor0 > span.active i,
+.me_ui_nav_label.style11.bgColor0 > span.active i,
+.me_ui_nav_label.style12.bgColor0 > span.active i,
+.me_ui_nav_label.style13.bgColor0 > span.active i,
+.me_ui_nav_label.style9.bgColor0 > span.active,
+.me_ui_nav_ul.bgColor0,
+.me_nav_style1.bgColor0 .me_ui_nav_li_active,
+.me_nav_style4.bgColor0 .me_ui_nav_li_active,
+.me_nav_style6.bgColor0 .me_ui_nav_li_active,
+.me_nav_style7.bgColor0 .me_ui_nav_li_active,
+.me_nav_style11.bgColor0 .me_ui_nav_li_active,
+.me_nav_style12.bgColor0 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor0 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor0 {
+  background: #f33;
+}
+.me_ui_nav_label.style5.bgColor0 > span.active i,
+.me_ui_nav_label.style8.bgColor0 > span.active i,
+.me_nav_style2.bgColor0 .me_ui_nav_li_active,
+.me_nav_style3.bgColor0 .me_ui_nav_li_active,
+.me_nav_style5.bgColor0 .me_ui_nav_li_active,
+.me_nav_style8.bgColor0 .me_ui_nav_li_active,
+.me_nav_style9.bgColor0 .me_ui_nav_li_active,
+.me_nav_style10.bgColor0 .me_ui_nav_li_active,
+.me_nav_style14.bgColor0 .me_ui_nav_li_active {
+  color: #f33;
+}
+.me_ui_nav_label.style1.bgColor0 > .active:after {
+  border-top: 10px solid #f33;
+}
+.me_ui_nav_label.style4.bgColor0 {
+  border-top: 2px solid #f33;
+}
+.me_ui_nav_label.style5.bgColor0 > span.active::after {
+  border-bottom: 2px solid #f33;
+}
+.me_ui_nav_label.style6.bgColor0 i,
+.me_ui_nav_label.style7.bgColor0,
+.me_ui_nav_label.style7.bgColor0 .active,
+.me_ui_nav_label.style9.bgColor0,
+.me_ui_nav_label.style8.bgColor0,
+.me_nav_style4.me_ui_nav_ul.bgColor0,
+.me_nav_style5.bgColor0 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor0 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor0 .me_ui_nav_li_active:before {
+  border-color: #f33;
+}
+.me_ui_nav_label.style6.bgColor0 > span i,
+.me_nav_style6.bgColor0 {
+  background: #e67777;
+}
+
+.colorChange > span.bgColor1,
+.me_ui_nav_label.bgColor1 > .active,
+.me_ui_nav_label.style3.bgColor1 > span.active,
+.me_ui_nav_label.style10.bgColor1 > span.active i,
+.me_ui_nav_label.style11.bgColor1 > span.active i,
+.me_ui_nav_label.style12.bgColor1 > span.active i,
+.me_ui_nav_label.style13.bgColor1 > span.active i,
+.me_ui_nav_label.style9.bgColor1 > span.active,
+.me_ui_nav_label.style6.bgColor1 > span.active,
+.me_ui_nav_ul.bgColor1,
+.me_nav_style1.bgColor1 .me_ui_nav_li_active,
+.me_nav_style4.bgColor1 .me_ui_nav_li_active,
+.me_nav_style6.bgColor1 .me_ui_nav_li_active,
+.me_nav_style7.bgColor1 .me_ui_nav_li_active,
+.me_nav_style11.bgColor1 .me_ui_nav_li_active,
+.me_nav_style12.bgColor1 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor1 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor1 {
+  background: #ec3ea0;
+}
+.me_ui_nav_label.style5.bgColor1 > span.active i,
+.me_ui_nav_label.style8.bgColor1 > span.active i,
+.me_nav_style2.bgColor1 .me_ui_nav_li_active,
+.me_nav_style3.bgColor1 .me_ui_nav_li_active,
+.me_nav_style5.bgColor1 .me_ui_nav_li_active,
+.me_nav_style8.bgColor1 .me_ui_nav_li_active,
+.me_nav_style9.bgColor1 .me_ui_nav_li_active,
+.me_nav_style10.bgColor1 .me_ui_nav_li_active,
+.me_nav_style14.bgColor1 .me_ui_nav_li_active {
+  color: #ec3ea0;
+}
+.me_ui_nav_label.style1.bgColor1 > .active:after {
+  border-top: 10px solid #ec3ea0;
+}
+.me_ui_nav_label.style4.bgColor1 {
+  border-top: 2px solid #ec3ea0;
+}
+.me_ui_nav_label.style5.bgColor1 > span.active::after {
+  border-bottom: 2px solid #ec3ea0;
+}
+.me_ui_nav_label.style6.bgColor1 i,
+.me_ui_nav_label.style7.bgColor1,
+.me_ui_nav_label.style8.bgColor1,
+.me_ui_nav_label.style9.bgColor1,
+.me_ui_nav_label.style7.bgColor1 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor1,
+.me_nav_style5.bgColor1 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor1 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor1 .me_ui_nav_li_active:before {
+  border-color: #ec3ea0;
+}
+.me_ui_nav_label.style6.bgColor1 > span i,
+.me_nav_style6.bgColor1 {
+  background: #ea6cb3;
+}
+
+.colorChange > span.bgColor2,
+.me_ui_nav_label.bgColor2 > .active,
+.me_ui_nav_label.style3.bgColor2 > span.active,
+.me_ui_nav_label.style9.bgColor2 > span.active,
+.me_ui_nav_label.style10.bgColor2 > span.active i,
+.me_ui_nav_label.style11.bgColor2 > span.active i,
+.me_ui_nav_label.style12.bgColor2 > span.active i,
+.me_ui_nav_label.style13.bgColor2 > span.active i,
+.me_ui_nav_label.style6.bgColor2 > span.active,
+.me_ui_nav_ul.bgColor2,
+.me_nav_style1.bgColor2 .me_ui_nav_li_active,
+.me_nav_style4.bgColor2 .me_ui_nav_li_active,
+.me_nav_style6.bgColor2 .me_ui_nav_li_active,
+.me_nav_style7.bgColor2 .me_ui_nav_li_active,
+.me_nav_style11.bgColor2 .me_ui_nav_li_active,
+.me_nav_style12.bgColor2 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor2 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor2 {
+  background: #c30201;
+}
+.me_ui_nav_label.style5.bgColor2 > span.active i,
+.me_ui_nav_label.style8.bgColor2 > span.active i,
+.me_nav_style2.bgColor2 .me_ui_nav_li_active,
+.me_nav_style3.bgColor2 .me_ui_nav_li_active,
+.me_nav_style5.bgColor2 .me_ui_nav_li_active,
+.me_nav_style8.bgColor2 .me_ui_nav_li_active,
+.me_nav_style9.bgColor2 .me_ui_nav_li_active,
+.me_nav_style10.bgColor2 .me_ui_nav_li_active,
+.me_nav_style14.bgColor2 .me_ui_nav_li_active {
+  color: #c30201;
+}
+.me_ui_nav_label.style1.bgColor2 > .active:after {
+  border-top: 10px solid #c30201;
+}
+.me_ui_nav_label.style4.bgColor2 {
+  border-top: 2px solid #c30201;
+}
+.me_ui_nav_label.style5.bgColor2 > span.active::after {
+  border-bottom: 2px solid #c30201;
+}
+.me_ui_nav_label.style6.bgColor2 i,
+.me_ui_nav_label.style7.bgColor2,
+.me_ui_nav_label.style8.bgColor2,
+.me_ui_nav_label.style9.bgColor2,
+.me_ui_nav_label.style7.bgColor2 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor2,
+.me_nav_style5.bgColor2 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor2 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor2 .me_ui_nav_li_active:before {
+  border-color: #c30201;
+}
+.me_ui_nav_label.style6.bgColor2 > span i,
+.me_nav_style6.bgColor2 {
+  background: #de4645;
+}
+
+.colorChange > span.bgColor3,
+.me_ui_nav_label.bgColor3 > .active,
+.me_ui_nav_label.style3.bgColor3 > span.active,
+.me_ui_nav_label.style9.bgColor3 > span.active,
+.me_ui_nav_label.style10.bgColor3 > span.active i,
+.me_ui_nav_label.style11.bgColor3 > span.active i,
+.me_ui_nav_label.style12.bgColor3 > span.active i,
+.me_ui_nav_label.style13.bgColor3 > span.active i,
+.me_ui_nav_label.style6.bgColor3 > span.active,
+.me_ui_nav_ul.bgColor3,
+.me_nav_style1.bgColor3 .me_ui_nav_li_active,
+.me_nav_style4.bgColor3 .me_ui_nav_li_active,
+.me_nav_style6.bgColor3 .me_ui_nav_li_active,
+.me_nav_style7.bgColor3 .me_ui_nav_li_active,
+.me_nav_style11.bgColor3 .me_ui_nav_li_active,
+.me_nav_style12.bgColor3 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor3 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor3 {
+  background: #fe6437;
+}
+.me_ui_nav_label.style5.bgColor3 > span.active i,
+.me_ui_nav_label.style8.bgColor3 > span.active i,
+.me_nav_style2.bgColor3 .me_ui_nav_li_active,
+.me_nav_style3.bgColor3 .me_ui_nav_li_active,
+.me_nav_style5.bgColor3 .me_ui_nav_li_active,
+.me_nav_style8.bgColor3 .me_ui_nav_li_active,
+.me_nav_style9.bgColor3 .me_ui_nav_li_active,
+.me_nav_style10.bgColor3 .me_ui_nav_li_active,
+.me_nav_style14.bgColor3 .me_ui_nav_li_active {
+  color: #fe6437;
+}
+.me_ui_nav_label.style1.bgColor3 > .active:after {
+  border-top: 10px solid #fe6437;
+}
+.me_ui_nav_label.style4.bgColor3 {
+  border-top: 2px solid #fe6437;
+}
+.me_ui_nav_label.style5.bgColor3 > span.active::after {
+  border-bottom: 2px solid #fe6437;
+}
+.me_ui_nav_label.style6.bgColor3 i,
+.me_ui_nav_label.style7.bgColor3,
+.me_ui_nav_label.style8.bgColor3,
+.me_ui_nav_label.style9.bgColor3,
+.me_ui_nav_label.style7.bgColor3 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor3,
+.me_nav_style5.bgColor3 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor3 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor3 .me_ui_nav_li_active:before {
+  border-color: #fe6437;
+}
+.me_ui_nav_label.style6.bgColor3 > span i,
+.me_nav_style6.bgColor3 {
+  background: #f78766;
+}
+
+.colorChange > span.bgColor4,
+.me_ui_nav_label.bgColor4 > .active,
+.me_ui_nav_label.style3.bgColor4 > span.active,
+.me_ui_nav_label.style9.bgColor4 > span.active,
+.me_ui_nav_label.style10.bgColor4 > span.active i,
+.me_ui_nav_label.style11.bgColor4 > span.active i,
+.me_ui_nav_label.style12.bgColor4 > span.active i,
+.me_ui_nav_label.style13.bgColor4 > span.active i,
+.me_ui_nav_label.style6.bgColor4 > span.active,
+.me_ui_nav_ul.bgColor4,
+.me_nav_style1.bgColor4 .me_ui_nav_li_active,
+.me_nav_style4.bgColor4 .me_ui_nav_li_active,
+.me_nav_style6.bgColor4 .me_ui_nav_li_active,
+.me_nav_style7.bgColor4 .me_ui_nav_li_active,
+.me_nav_style11.bgColor4 .me_ui_nav_li_active,
+.me_nav_style12.bgColor4 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor4 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor4 {
+  background: #febf15;
+}
+.me_ui_nav_label.style5.bgColor4 > span.active i,
+.me_ui_nav_label.style8.bgColor4 > span.active i,
+.me_nav_style2.bgColor4 .me_ui_nav_li_active,
+.me_nav_style3.bgColor4 .me_ui_nav_li_active,
+.me_nav_style5.bgColor4 .me_ui_nav_li_active,
+.me_nav_style8.bgColor4 .me_ui_nav_li_active,
+.me_nav_style9.bgColor4 .me_ui_nav_li_active,
+.me_nav_style10.bgColor4 .me_ui_nav_li_active,
+.me_nav_style14.bgColor4 .me_ui_nav_li_active {
+  color: #febf15;
+}
+.me_ui_nav_label.style1.bgColor4 > .active:after {
+  border-top: 10px solid #febf15;
+}
+.me_ui_nav_label.style4.bgColor4 {
+  border-top: 2px solid #febf15;
+}
+.me_ui_nav_label.style5.bgColor4 > span.active::after {
+  border-bottom: 2px solid #febf15;
+}
+.me_ui_nav_label.style6.bgColor4 i,
+.me_ui_nav_label.style7.bgColor4,
+.me_ui_nav_label.style8.bgColor4,
+.me_ui_nav_label.style9.bgColor4,
+.me_ui_nav_label.style7.bgColor4 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor4,
+.me_nav_style5.bgColor4 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor4 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor4 .me_ui_nav_li_active:before {
+  border-color: #febf15;
+}
+.me_ui_nav_label.style6.bgColor4 > span i,
+.me_nav_style6.bgColor4 {
+  background: #f5d274;
+}
+
+.colorChange > span.bgColor5,
+.me_ui_nav_label.bgColor5 > .active,
+.me_ui_nav_label.style3.bgColor5 > span.active,
+.me_ui_nav_label.style10.bgColor5 > span.active i,
+.me_ui_nav_label.style11.bgColor5 > span.active i,
+.me_ui_nav_label.style12.bgColor5 > span.active i,
+.me_ui_nav_label.style13.bgColor5 > span.active i,
+.me_ui_nav_label.style9.bgColor5 > span.active,
+.me_ui_nav_label.style6.bgColor5 > span.active,
+.me_ui_nav_ul.bgColor5,
+.me_nav_style1.bgColor5 .me_ui_nav_li_active,
+.me_nav_style4.bgColor5 .me_ui_nav_li_active,
+.me_nav_style6.bgColor5 .me_ui_nav_li_active,
+.me_nav_style7.bgColor5 .me_ui_nav_li_active,
+.me_nav_style11.bgColor5 .me_ui_nav_li_active,
+.me_nav_style12.bgColor5 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor5 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor5 {
+  background: #48b246;
+}
+.me_ui_nav_label.style5.bgColor5 > span.active i,
+.me_ui_nav_label.style8.bgColor5 > span.active i,
+.me_nav_style2.bgColor5 .me_ui_nav_li_active,
+.me_nav_style3.bgColor5 .me_ui_nav_li_active,
+.me_nav_style5.bgColor5 .me_ui_nav_li_active,
+.me_nav_style8.bgColor5 .me_ui_nav_li_active,
+.me_nav_style9.bgColor5 .me_ui_nav_li_active,
+.me_nav_style10.bgColor5 .me_ui_nav_li_active,
+.me_nav_style14.bgColor5 .me_ui_nav_li_active {
+  color: #48b246;
+}
+.me_ui_nav_label.style1.bgColor5 > .active:after {
+  border-top: 10px solid #48b246;
+}
+.me_ui_nav_label.style4.bgColor5 {
+  border-top: 2px solid #48b246;
+}
+.me_ui_nav_label.style5.bgColor5 > span.active::after {
+  border-bottom: 2px solid #48b246;
+}
+.me_ui_nav_label.style6.bgColor5 i,
+.me_ui_nav_label.style7.bgColor5,
+.me_ui_nav_label.style8.bgColor5,
+.me_ui_nav_label.style9.bgColor5,
+.me_ui_nav_label.style7.bgColor5 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor5,
+.me_nav_style5.bgColor5 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor5 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor5 .me_ui_nav_li_active:before {
+  border-color: #48b246;
+}
+.me_ui_nav_label.style6.bgColor5 > span i,
+.me_nav_style6.bgColor5 {
+  background: #84de82;
+}
+
+.colorChange > span.bgColor6,
+.me_ui_nav_label.bgColor6 > .active,
+.me_ui_nav_label.style3.bgColor6 > span.active,
+.me_ui_nav_label.style10.bgColor6 > span.active i,
+.me_ui_nav_label.style11.bgColor6 > span.active i,
+.me_ui_nav_label.style12.bgColor6 > span.active i,
+.me_ui_nav_label.style13.bgColor6 > span.active i,
+.me_ui_nav_label.style9.bgColor6 > span.active,
+.me_ui_nav_label.style6.bgColor6 > span.active,
+.me_ui_nav_ul.bgColor6,
+.me_nav_style1.bgColor6 .me_ui_nav_li_active,
+.me_nav_style4.bgColor6 .me_ui_nav_li_active,
+.me_nav_style6.bgColor6 .me_ui_nav_li_active,
+.me_nav_style7.bgColor6 .me_ui_nav_li_active,
+.me_nav_style11.bgColor5 .me_ui_nav_li_active,
+.me_nav_style12.bgColor5 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor5 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor5 {
+  background: #02b1b4;
+}
+.me_ui_nav_label.style5.bgColor6 > span.active i,
+.me_ui_nav_label.style8.bgColor6 > span.active i,
+.me_nav_style2.bgColor6 .me_ui_nav_li_active,
+.me_nav_style3.bgColor6 .me_ui_nav_li_active,
+.me_nav_style5.bgColor6 .me_ui_nav_li_active,
+.me_nav_style8.bgColor6 .me_ui_nav_li_active,
+.me_nav_style9.bgColor6 .me_ui_nav_li_active,
+.me_nav_style10.bgColor6 .me_ui_nav_li_active,
+.me_nav_style14.bgColor6 .me_ui_nav_li_active {
+  color: #02b1b4;
+}
+.me_ui_nav_label.style1.bgColor6 > .active:after {
+  border-top: 10px solid #02b1b4;
+}
+.me_ui_nav_label.style4.bgColor6 {
+  border-top: 2px solid #02b1b4;
+}
+.me_ui_nav_label.style5.bgColor6 > span.active::after {
+  border-bottom: 2px solid #02b1b4;
+}
+.me_ui_nav_label.style6.bgColor6 i,
+.me_ui_nav_label.style7.bgColor6,
+.me_ui_nav_label.style8.bgColor6,
+.me_ui_nav_label.style9.bgColor6,
+.me_ui_nav_label.style7.bgColor6 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor6,
+.me_nav_style5.bgColor6 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor6 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor6 .me_ui_nav_li_active:before {
+  border-color: #02b1b4;
+}
+.me_ui_nav_label.style6.bgColor6 > span i,
+.me_nav_style6.bgColor6 {
+  background: #62ced0;
+}
+
+.colorChange > span.bgColor7,
+.me_ui_nav_label.bgColor7 > .active,
+.me_ui_nav_label.style3.bgColor7 > span.active,
+.me_ui_nav_label.style10.bgColor7 > span.active i,
+.me_ui_nav_label.style11.bgColor7 > span.active i,
+.me_ui_nav_label.style12.bgColor7 > span.active i,
+.me_ui_nav_label.style13.bgColor7 > span.active i,
+.me_ui_nav_label.style9.bgColor7 > span.active,
+.me_ui_nav_label.style6.bgColor7 > span.active,
+.me_ui_nav_ul.bgColor7,
+.me_nav_style1.bgColor7 .me_ui_nav_li_active,
+.me_nav_style4.bgColor7 .me_ui_nav_li_active,
+.me_nav_style6.bgColor7 .me_ui_nav_li_active,
+.me_nav_style7.bgColor7 .me_ui_nav_li_active,
+.me_nav_style11.bgColor7 .me_ui_nav_li_active,
+.me_nav_style12.bgColor7 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor7 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor7 {
+  background: #116cde;
+}
+.me_ui_nav_label.style5.bgColor7 > span.active i,
+.me_ui_nav_label.style8.bgColor7 > span.active i,
+.me_nav_style2.bgColor7 .me_ui_nav_li_active,
+.me_nav_style3.bgColor7 .me_ui_nav_li_active,
+.me_nav_style5.bgColor7 .me_ui_nav_li_active,
+.me_nav_style8.bgColor7 .me_ui_nav_li_active,
+.me_nav_style9.bgColor7 .me_ui_nav_li_active,
+.me_nav_style10.bgColor7 .me_ui_nav_li_active,
+.me_nav_style14.bgColor7 .me_ui_nav_li_active {
+  color: #116cde;
+}
+.me_ui_nav_label.style1.bgColor7 > .active:after {
+  border-top: 10px solid #116cde;
+}
+.me_ui_nav_label.style4.bgColor7 {
+  border-top: 2px solid #116cde;
+}
+.me_ui_nav_label.style5.bgColor7 > span.active::after {
+  border-bottom: 2px solid #116cde;
+}
+.me_ui_nav_label.style6.bgColor7 i,
+.me_ui_nav_label.style7.bgColor7,
+.me_ui_nav_label.style8.bgColor7,
+.me_ui_nav_label.style9.bgColor7,
+.me_ui_nav_label.style7.bgColor7 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor7,
+.me_nav_style5.bgColor7 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor7 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor7 .me_ui_nav_li_active:before {
+  border-color: #116cde;
+}
+.me_ui_nav_label.style6.bgColor7 > span i,
+.me_nav_style6.bgColor7 {
+  background: #709cd2;
+}
+
+.colorChange > span.bgColor8,
+.me_ui_nav_label.bgColor8 > .active,
+.me_ui_nav_label.style3.bgColor8 > span.active,
+.me_ui_nav_label.style5.bgColor8 > span.active i,
+.me_ui_nav_label.style8.bgColor8 > span.active i,
+.me_ui_nav_label.style10.bgColor8 > span.active i,
+.me_ui_nav_label.style11.bgColor8 > span.active i,
+.me_ui_nav_label.style12.bgColor8 > span.active i,
+.me_ui_nav_label.style13.bgColor8 > span.active i,
+.me_ui_nav_label.style9.bgColor8 > span.active,
+.me_ui_nav_label.style6.bgColor8 > span.active,
+.me_ui_nav_ul.bgColor8,
+.me_nav_style1.bgColor8 .me_ui_nav_li_active,
+.me_nav_style4.bgColor8 .me_ui_nav_li_active,
+.me_nav_style6.bgColor8 .me_ui_nav_li_active,
+.me_nav_style7.bgColor8 .me_ui_nav_li_active,
+.me_nav_style11.bgColor8 .me_ui_nav_li_active,
+.me_nav_style12.bgColor8 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor8 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor8 {
+  background: #2050ac;
+}
+.me_ui_nav_label.style5.bgColor8 > span.active i,
+.me_ui_nav_label.style8.bgColor8 > span.active i,
+.me_nav_style2.bgColor8 .me_ui_nav_li_active,
+.me_nav_style3.bgColor8 .me_ui_nav_li_active,
+.me_nav_style5.bgColor8 .me_ui_nav_li_active,
+.me_nav_style8.bgColor8 .me_ui_nav_li_active,
+.me_nav_style9.bgColor8 .me_ui_nav_li_active,
+.me_nav_style10.bgColor8 .me_ui_nav_li_active,
+.me_nav_style14.bgColor8 .me_ui_nav_li_active {
+  color: #2050ac;
+}
+.me_ui_nav_label.style1.bgColor8 > .active:after {
+  border-top: 10px solid #2050ac;
+}
+.me_ui_nav_label.style4.bgColor8 {
+  border-top: 2px solid #2050ac;
+}
+.me_ui_nav_label.style5.bgColor8 > span.active::after {
+  border-bottom: 2px solid #2050ac;
+}
+.me_ui_nav_label.style6.bgColor8 i,
+.me_ui_nav_label.style7.bgColor8,
+.me_ui_nav_label.style8.bgColor8,
+.me_ui_nav_label.style9.bgColor8,
+.me_ui_nav_label.style7.bgColor8 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor8,
+.me_nav_style5.bgColor8 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor8 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor8 .me_ui_nav_li_active:before {
+  border-color: #2050ac;
+}
+.me_ui_nav_label.style6.bgColor8 > span i,
+.me_nav_style6.bgColor8 {
+  background: #657fb1;
+}
+
+/* .colorChange > span.bgColor9,
+.me_ui_nav_label.bgColor9 > .active,
+.me_ui_nav_label.style3.bgColor9 > span.active,
+.me_ui_nav_label.style10.bgColor9 > span.active i,
+.me_ui_nav_label.style11.bgColor9 > span.active i,
+.me_ui_nav_label.style12.bgColor9 > span.active i,
+.me_ui_nav_label.style13.bgColor9 > span.active i,
+.me_ui_nav_label.style9.bgColor9 > span.active,
+.me_ui_nav_label.style6.bgColor9 > span.active {
+  background: #2a2a2a;
+}
+.me_ui_nav_label.style5.bgColor9 > span.active i,
+.me_ui_nav_label.style8.bgColor9 > span.active i {
+  color: #2a2a2a;
+}
+.me_ui_nav_label.style1.bgColor9 > .active:after {
+  border-top: 10px solid #2a2a2a;
+}
+.me_ui_nav_label.style4.bgColor9 {
+  border-top: 2px solid #2a2a2a;
+}
+.me_ui_nav_label.style5.bgColor9 > span.active::after {
+  border-bottom: 2px solid #2a2a2a;
+}
+.me_ui_nav_label.style6.bgColor9 i,
+.me_ui_nav_label.style7.bgColor9,
+.me_ui_nav_label.style8.bgColor9,
+.me_ui_nav_label.style9.bgColor9,
+.me_ui_nav_label.style7.bgColor9 .active {
+  border-color: #2a2a2a;
+}
+.me_ui_nav_label.style6.bgColor9 > span i {
+  background: #716c6c;
+} */
+
+.colorChange > span.bgColor10,
+.me_ui_nav_label.bgColor10 > .active,
+.me_ui_nav_label.style3.bgColor10 > span.active,
+.me_ui_nav_label.style10.bgColor10 > span.active i,
+.me_ui_nav_label.style11.bgColor10 > span.active i,
+.me_ui_nav_label.style12.bgColor10 > span.active i,
+.me_ui_nav_label.style13.bgColor10 > span.active i,
+.me_ui_nav_label.style9.bgColor10 > span.active,
+.me_ui_nav_label.style6.bgColor10 > span.active,
+.me_ui_nav_ul.bgColor10,
+.me_nav_style1.bgColor10 .me_ui_nav_li_active,
+.me_nav_style4.bgColor10 .me_ui_nav_li_active,
+.me_nav_style6.bgColor10 .me_ui_nav_li_active,
+.me_nav_style7.bgColor10 .me_ui_nav_li_active,
+.me_nav_style11.bgColor10 .me_ui_nav_li_active,
+.me_nav_style12.bgColor10 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor10 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor10 {
+  background: #09a0e7;
+}
+.me_ui_nav_label.style5.bgColor10 > span.active i,
+.me_ui_nav_label.style8.bgColor10 > span.active i,
+.me_nav_style2.bgColor10 .me_ui_nav_li_active,
+.me_nav_style3.bgColor10 .me_ui_nav_li_active,
+.me_nav_style5.bgColor10 .me_ui_nav_li_active,
+.me_nav_style8.bgColor10 .me_ui_nav_li_active,
+.me_nav_style9.bgColor10 .me_ui_nav_li_active,
+.me_nav_style10.bgColor10 .me_ui_nav_li_active,
+.me_nav_style14.bgColor10 .me_ui_nav_li_active {
+  color: #09a0e7;
+}
+.me_ui_nav_label.style1.bgColor10 > .active:after {
+  border-top: 10px solid #09a0e7;
+}
+.me_ui_nav_label.style4.bgColor10 {
+  border-top: 2px solid #09a0e7;
+}
+.me_ui_nav_label.style5.bgColor10 > span.active::after {
+  border-bottom: 2px solid #09a0e7;
+}
+.me_ui_nav_label.style6.bgColor10 i,
+.me_ui_nav_label.style7.bgColor10,
+.me_ui_nav_label.style8.bgColor10,
+.me_ui_nav_label.style9.bgColor10,
+.me_ui_nav_label.style7.bgColor10 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor10,
+.me_nav_style5.bgColor10 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor10 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor10 .me_ui_nav_li_active:before {
+  border-color: #09a0e7;
+}
+.me_ui_nav_label.style6.bgColor10 > span i,
+.me_nav_style6.bgColor10 {
+  background: #8fbed4;
+}
+
+.colorChange > span.bgColor11,
+.me_ui_nav_label.bgColor11 > .active,
+.me_ui_nav_label.style3.bgColor11 > span.active,
+.me_ui_nav_label.style10.bgColor11 > span.active i,
+.me_ui_nav_label.style11.bgColor11 > span.active i,
+.me_ui_nav_label.style12.bgColor11 > span.active i,
+.me_ui_nav_label.style13.bgColor11 > span.active i,
+.me_ui_nav_label.style9.bgColor11 > span.active,
+.me_ui_nav_label.style6.bgColor11 > span.active,
+.me_ui_nav_ul.bgColor11,
+.me_nav_style1.bgColor11 .me_ui_nav_li_active,
+.me_nav_style4.bgColor11 .me_ui_nav_li_active,
+.me_nav_style6.bgColor11 .me_ui_nav_li_active,
+.me_nav_style7.bgColor11 .me_ui_nav_li_active,
+.me_nav_style11.bgColor11 .me_ui_nav_li_active,
+.me_nav_style12.bgColor11 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor11 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor11 {
+  background: #8c17e8;
+}
+.me_ui_nav_label.style5.bgColor11 > span.active i,
+.me_ui_nav_label.style8.bgColor11 > span.active i,
+.me_nav_style2.bgColor11 .me_ui_nav_li_active,
+.me_nav_style3.bgColor11 .me_ui_nav_li_active,
+.me_nav_style5.bgColor11 .me_ui_nav_li_active,
+.me_nav_style8.bgColor11 .me_ui_nav_li_active,
+.me_nav_style9.bgColor11 .me_ui_nav_li_active,
+.me_nav_style10.bgColor11 .me_ui_nav_li_active,
+.me_nav_style14.bgColor11 .me_ui_nav_li_active {
+  color: #8c17e8;
+}
+.me_ui_nav_label.style1.bgColor11 > .active:after {
+  border-top: 10px solid #8c17e8;
+}
+.me_ui_nav_label.style4.bgColor11 {
+  border-top: 2px solid #8c17e8;
+}
+.me_ui_nav_label.style5.bgColor11 > span.active::after {
+  border-bottom: 2px solid #8c17e8;
+}
+.me_ui_nav_label.style6.bgColor11 i,
+.me_ui_nav_label.style7.bgColor11,
+.me_ui_nav_label.style8.bgColor11,
+.me_ui_nav_label.style9.bgColor11,
+.me_ui_nav_label.style7.bgColor11 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor11,
+.me_nav_style5.bgColor11 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor11 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor11 .me_ui_nav_li_active:before {
+  border-color: #8c17e8;
+}
+.me_ui_nav_label.style6.bgColor11 > span i,
+.me_nav_style6.bgColor11 {
+  background: #af77dc;
+}
+
+.colorChange > span.bgColor12,
+.me_ui_nav_label.bgColor12 > .active,
+.me_ui_nav_label.style3.bgColor12 > span.active,
+.me_ui_nav_label.style10.bgColor12 > span.active i,
+.me_ui_nav_label.style11.bgColor12 > span.active i,
+.me_ui_nav_label.style12.bgColor12 > span.active i,
+.me_ui_nav_label.style13.bgColor12 > span.active i,
+.me_ui_nav_label.style9.bgColor12 > span.active,
+.me_ui_nav_label.style6.bgColor12 > span.active,
+.me_ui_nav_ul.bgColor12,
+.me_nav_style1.bgColor12 .me_ui_nav_li_active,
+.me_nav_style4.bgColor12 .me_ui_nav_li_active,
+.me_nav_style6.bgColor12 .me_ui_nav_li_active,
+.me_nav_style7.bgColor12 .me_ui_nav_li_active,
+.me_nav_style11.bgColor12 .me_ui_nav_li_active,
+.me_nav_style12.bgColor12 .me_ui_nav_li_active, 
+.me_nav_style13.bgColor12 .me_ui_nav_li_active,
+.me_nav_style14.me_ui_nav_ul.bgColor12 {
+  background: #2a2a2a;
+}
+.me_ui_nav_label.style5.bgColor12 > span.active i,
+.me_ui_nav_label.style8.bgColor12 > span.active i,
+.me_nav_style2.bgColor12 .me_ui_nav_li_active,
+.me_nav_style3.bgColor12 .me_ui_nav_li_active,
+.me_nav_style5.bgColor12 .me_ui_nav_li_active,
+.me_nav_style8.bgColor12 .me_ui_nav_li_active,
+.me_nav_style9.bgColor12 .me_ui_nav_li_active,
+.me_nav_style10.bgColor12 .me_ui_nav_li_active,
+.me_nav_style14.bgColor12 .me_ui_nav_li_active {
+  color: #2a2a2a;
+}
+.me_ui_nav_label.style1.bgColor12 > .active:after {
+  border-top: 10px solid #2a2a2a;
+}
+.me_ui_nav_label.style4.bgColor12 {
+  border-top: 2px solid #2a2a2a;
+}
+.me_ui_nav_label.style5.bgColor12 > span.active::after {
+  border-bottom: 2px solid #2a2a2a;
+}
+.me_ui_nav_label.style6.bgColor12 i,
+.me_ui_nav_label.style7.bgColor12,
+.me_ui_nav_label.style8.bgColor12,
+.me_ui_nav_label.style9.bgColor12,
+.me_ui_nav_label.style7.bgColor12 .active,
+.me_nav_style4.me_ui_nav_ul.bgColor12,
+.me_nav_style5.bgColor12 .me_ui_nav_li_active:before,
+.me_nav_style9.bgColor12 .me_ui_nav_li_active:before,
+.me_nav_style10.bgColor12 .me_ui_nav_li_active:before {
+  border-color: #2a2a2a;
+}
+.me_ui_nav_label.style6.bgColor12 > span i,
+.me_nav_style6.bgColor12 {
+  background: #716e6e;
+}
+
+.me_ui_nav_label.style1 {
+  border-radius: 2px;
+} 
+.me_ui_nav_label.style1 > .active:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  margin-left: -5px;
+  border: 10px solid transparent;
+  border-top: 10px solid #009688;
+}
+.me_ui_nav_label.style1 > span {
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+.me_ui_nav_label.style2 > span.active {
+  background: #fff;
+  font-weight: bold;
+  color: inherit;
+}
+.me_ui_nav_label.style4 {
+  border-top: 2px solid #009688;
+}
+.me_ui_nav_label.style5 > span.active,
+.me_ui_nav_label.style8 > span.active {
+  background: inherit;
+  color: inherit;
+}
+.me_ui_nav_label.style5 > span:before,
+.me_ui_nav_label.style8 > span:before {
+  content: '';
+  border-right: 1px solid #ddd;
+  position: absolute;
+  right: 0;
+  height: 20px;
+  top: 50%;
+  margin-top: -10px;
+}
+.me_ui_nav_label.style5 > span:last-child:before,
+.me_ui_nav_label.style8 > span:last-child:before {
+  display: none;
+}
+.me_ui_nav_label.style5 > span.active:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  border-bottom: 2px solid #009688;
+}
+.me_ui_nav_label.style5 > span.active i,
+.me_ui_nav_label.style8 > span.active i  {
+  color: #009688;
+  line-height: 1.4;
+}
+.me_ui_nav_label.style6 > span {
+  box-sizing: border-box;
+}
+.me_ui_nav_label.style6 > span {
+  color: #fff;
+}
+.me_ui_nav_label.style6 > span i {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.6;
+}
+.me_ui_nav_label.style6 > span.active i {
+  box-sizing: border-box;
+  color: #333;
+  background: #fff;
+  position: relative;
+}
+.me_ui_nav_label.style6 > span.active i:before {
+  content: '';
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -8px;
+  height: 8px;
+  background: #fff;
+}
+.me_ui_nav_label.style7 {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+.me_ui_nav_label.style7,
+.me_ui_nav_label.style7 .active {
+  border-color: #009688;
+}
+
+.me_ui_nav_label.style7 .active {
+  border-width: 1px;
+  border-style: solid;
+  border-bottom-color: #fff;
+  background: #fff;
+  color: inherit;
+}
+.me_ui_nav_label.style7.bgColor0 .active,
+.me_ui_nav_label.style7.bgColor1 .active,
+.me_ui_nav_label.style7.bgColor2 .active,
+.me_ui_nav_label.style7.bgColor3 .active,
+.me_ui_nav_label.style7.bgColor4 .active,
+.me_ui_nav_label.style7.bgColor5 .active,
+.me_ui_nav_label.style7.bgColor6 .active,
+.me_ui_nav_label.style7.bgColor7 .active,
+.me_ui_nav_label.style7.bgColor8 .active,
+.me_ui_nav_label.style7.bgColor9 .active,
+.me_ui_nav_label.style7.bgColor10 .active,
+.me_ui_nav_label.style7.bgColor11 .active,
+.me_ui_nav_label.style7.bgColor12 .active {
+  border-bottom-color: #fff;
+}
+.me_ui_nav_label.style8 {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: #009688;
+}
+.me_ui_nav_label.style9 {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: #009688;
+}
+.me_ui_nav_label.style9 .active {
+  background: #009688;
+}
+.me_ui_nav_label.style10 span {
+  background: initial;
+  color: initial;
+}
+.me_ui_nav_label.style10 span.active,
+.me_ui_nav_label.style11 span.active,
+.me_ui_nav_label.style12 span.active,
+.me_ui_nav_label.style13 span.active {
+  background: initial;
+}
+.me_ui_nav_label.style10 span i,
+.me_ui_nav_label.style11 span i,
+.me_ui_nav_label.style12 span i,
+.me_ui_nav_label.style13 span i {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  width: 80%;
+}
+.me_ui_nav_label.style12 span i {
+  border: none;
+  border-radius: 4px;
+}
+.me_ui_nav_label.style13 span i {
+  border-radius: 0;
+}
+.me_ui_nav_label.style11 span i {
+  background: #ddd;
+}
+.me_ui_nav_label.style10 span.active i,
+.me_ui_nav_label.style11 span.active i,
+.me_ui_nav_label.style12 span.active i,
+.me_ui_nav_label.style13 span.active i {
+  background: #009688;
+  color: #fff;
+}
+/*内置样式导航栏设置*/
+.me_ui_nav_ul {
+  margin: 0 auto;
+  line-height: 30px;
+  background: #06c;
+  color: #fff;
+  font-size: 14px;
+}
+.me_ui_nav_li {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+}
+.me_ui_nav_li_active {
+  background: #fff;
+  color:#333;
+}
+.me_ui_nav_txt {
+  font-style: normal;
+}
+.me_nav_style1.me_ui_nav_ul {
+  background: #333;
+  color: #fff;
+}
+.me_nav_style1 .me_ui_nav_li_active {
+  background: #06c;
+  color: #fff;
+}
+.me_nav_style2.me_ui_nav_ul,
+.me_nav_style3.me_ui_nav_ul {
+  background: inherit;
+  color: #333;
+}
+.me_nav_style2 .me_ui_nav_li_active,
+.me_nav_style3 .me_ui_nav_li_active {
+  border: 1px solid #ddd;
+  color: #06c;
+  border-radius: 20px;
+}
+.me_nav_style3 .me_ui_nav_li_active {
+  border-radius: 4px;
+}
+.me_nav_style4.me_ui_nav_ul {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #06c;
+  border-radius: 20px;
+  background: inherit;
+  overflow: hidden;
+  color: #333;
+}
+.me_nav_style4 .me_ui_nav_li_active {
+  background: #06c;
+  color: #fff;
+}
+.me_nav_style5.me_ui_nav_ul {
+  background: inherit;
+  color: #333;
+}
+.me_nav_style5 .me_ui_nav_li_active {
+  color: #06c;
+}
+.me_nav_style5 .me_ui_nav_li_active:before,
+.me_nav_style9 .me_ui_nav_li_active:before,
+.me_nav_style10 .me_ui_nav_li_active:before {
+  box-sizing: border-box;
+  content: '';
+  position: absolute;
+  border-bottom-width: 2px;
+  border-style: solid;
+  border-color: #06c;
+  width: 90%;
+  left: 5%;
+}
+.me_nav_style5 .me_ui_nav_li_active:before,
+.me_nav_style10 .me_ui_nav_li_active:before {
+  bottom: 0;
+}
+.me_nav_style5 .me_ui_nav_li:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -8px;
+  height: 16px;
+  border: 1px solid #ddd;
+}
+.me_nav_style5 .me_ui_nav_li:last-child:after{
+  display: none;
+}
+.me_nav_style5.me_ui_nav_ul {
+  background: inherit;
+  color: #333;
+}
+.me_nav_style6 .me_ui_nav_li_active {
+  background: #0e3f6f;
+  color: #fff;
+}
+.me_nav_style7.me_ui_nav_ul,
+.me_nav_style11.me_ui_nav_ul,
+.me_nav_style12.me_ui_nav_ul {
+  background: inherit;
+  color: #333;
+}
+.me_nav_style7 .me_ui_nav_li_active,
+.me_nav_style11 .me_ui_nav_li_active,
+.me_nav_style12 .me_ui_nav_li_active {
+  background: #06c;
+  color: #fff;
+}
+.me_nav_style7 .me_ui_nav_li_active {
+  border-radius: 6px;
+}
+.me_nav_style8.me_ui_nav_ul {
+  background: inherit;
+  color: #333;
+}
+.me_nav_style8 .me_ui_nav_li_active {
+  color: #06c;
+}
+.me_nav_style9.me_ui_nav_ul,
+.me_nav_style10.me_ui_nav_ul {
+  background: inherit;
+  color: #333;
+}
+.me_nav_style9 .me_ui_nav_li_active,
+.me_nav_style10 .me_ui_nav_li_active {
+  color: #06c;
+}
+.me_nav_style9 .me_ui_nav_li_active::before {
+  top: 0;
+}
+.me_nav_style12 .me_ui_nav_li_active {
+  border-radius: 22px;
+}
+.me_nav_style13.me_ui_nav_ul {
+  background: #333;
+}
+.me_nav_style13 .me_ui_nav_li_active {
+  background: #06c;
+  color: #fff;
+}
+.me_nav_style14.me_ui_nav_ul {
+  background: #06c;
+}
+.me_nav_style14 .me_ui_nav_li_active {
+  background: #fff;
+  color: #06c;
+}
+/*内置样式导航栏设置*/
+
+/*设计弹框*/
+#designEditWinForm {
+  border-bottom: 1px solid #ddd;
+}
+#designEditWinForm > div.divRight,
+#designEditWinForm > div.divLeft {
+  display: inline-block;
+  vertical-align: top;
+}
+#designEditWinForm > div.divLeft {
+  width: 94px;
+  height: 424px;
+  border-right: 1px solid #ddd;
+}
+#designEditWinForm > div.divRight {
+  width: 620px;
+  padding-top: 6px;
+}
+#designEditWinForm div.divRight > div{
+  display: none;
+}
+#designEditWin .layui-layer-content {
+  padding: 0
+}
+#designEditWinForm > div.divLeft li {
+  display: block;
+  line-height: 40px;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 6px solid #fff;
+  position: relative;
+  right: -1px;
+  cursor: pointer;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+#designEditWinForm > div.divLeft li.active {
+  border-right: 1px solid #fff;
+  border-left: 6px solid #0066cc;
+}
+.desiginHead {
+  background: #f2f2f2;
+}
+.colorChange > span.bgDefault {
+  border:1px solid #09a0e7;
+  color: #09a0e7;
+}
+.colorChange > span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 8px;
+  margin-right: 5px;
+  box-sizing: content-box;
+  cursor: pointer;
+}
+.colorChange > span.selected {
+  border: 2px solid #3283e9;
+  border-radius: 10px;
+}
+#designEditWin .styleChange {
+  height: 394px;
+  overflow: auto;
+}
+.styleChange > div,
+.desgin_nav_styleChange > div {
+  display: inline-block;
+  vertical-align: middle;
+  width: 162px;
+  height: 102px;
+  border: 1px solid #ddd;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 10px;
+  font-size: 22px;
+  text-align: center;
+  line-height: 102px;
+  cursor: pointer;
+}
+.styleChange > div.selected,
+.desgin_nav_styleChange > div.selected {
+  border: 1px solid #3283e9;
+}
+.styleChange > div.style1 {
+  background: url(../img/s1.png) no-repeat center center;
+}
+.styleChange > div.style2 {
+  background: url(../img/s2.png) no-repeat center center;
+}
+.styleChange > div.style3 {
+  background: url(../img/s3.png) no-repeat center center;
+}
+.styleChange > div.style4 {
+  background: url(../img/s4.png) no-repeat center center;
+}
+.styleChange > div.style5 {
+  background: url(../img/s5.png) no-repeat center center;
+}
+.styleChange > div.style6 {
+  background: url(../img/s6.png) no-repeat center center;
+}
+.styleChange > div.style7 {
+  background: url(../img/s7.png) no-repeat center center;
+}
+.styleChange > div.style8 {
+  background: url(../img/s8.png) no-repeat center center;
+}
+.styleChange > div.style9 {
+  background: url(../img/s9.png) no-repeat center center;
+}
+.styleChange > div.style10 {
+  background: url(../img/s10.png) no-repeat center center;
+}
+.styleChange > div.style11 {
+  background: url(../img/s11.png) no-repeat center center;
+}
+.styleChange > div.style12 {
+  background: url(../img/s12.png) no-repeat center center;
+}
+.styleChange > div.style13 {
+  background: url(../img/s13.png) no-repeat center center;
+}
+#desgin_nav_carousel {
+  background: #fff;
+  position: relative;
+}
+.desgin_carousel_item .desgin_carousel_move {
+  white-space: nowrap;
+  background: #fff;
+}
+.desgin_carousel_item {
+  width: 560px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.desgin_nav_styleChange {
+  text-align: center;
+  background: #fff;
+  display: inline-block;
+  vertical-align: top;
+  white-space: normal;
+  height: 230px;
+  overflow: auto;
+}
+.desgin_carousel_nav {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 50%;
+  margin-top: -25px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+}
+.desgin_carousel_move {
+  position: relative;
+}
+.desgin_carousel_left {
+  background-image: url(../img/left_carousel.png);
+  left: 0;
+}
+.desgin_carousel_right {
+  background-image: url(../img/right_carousel.png);
+  right: 0;
+}
+.desgin_nav_style1 {
+  background: url(../img/nav1.png) no-repeat center center;
+}
+.desgin_nav_style2 {
+  background: url(../img/nav2.png) no-repeat center center;
+}
+.desgin_nav_style3 {
+  background: url(../img/nav3.png) no-repeat center center;
+}
+.desgin_nav_style4 {
+  background: url(../img/nav4.png) no-repeat center center;
+}
+.desgin_nav_style5 {
+  background: url(../img/nav5.png) no-repeat center center;
+}
+.desgin_nav_style6 {
+  background: url(../img/nav6.png) no-repeat center center;
+}
+.desgin_nav_style7 {
+  background: url(../img/nav7.png) no-repeat center center;
+}
+.desgin_nav_style8 {
+  background: url(../img/nav8.png) no-repeat center center;
+}
+.desgin_nav_style9 {
+  background: url(../img/nav9.png) no-repeat center center;
+}
+.desgin_nav_style10 {
+  background: url(../img/nav10.png) no-repeat center center;
+}
+.desgin_nav_style11 {
+  background: url(../img/nav11.png) no-repeat center center;
+}
+.desgin_nav_style12 {
+  background: url(../img/nav12.png) no-repeat center center;
+}
+.desgin_nav_style13 {
+  background: url(../img/nav13.png) no-repeat center center;
+}
+.desgin_nav_style14 {
+  background: url(../img/nav14.png) no-repeat center center;
+}
+.desgin_nav_style15 {
+  background: url(../img/nav15.png) no-repeat center center;
+}
+
+#changLabelForm label {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+#changLabelForm input[type=text] {
+  padding: 8px 4px;
+  width: 80px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+#changLabelForm .layui-form-label {
+  width: 76px;
+}
+#changLabelForm .layui-input-block {
+  margin-left: 76px;
+  line-height: 36px;
+}
+#changLabelForm .layui-input-inline {
+  width: 110px;
+  float: none;
+}
+#changLabelForm .layui-select-title input[type=text] {
+  width: 100%;
+}
+#bgColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 9px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+#bgColor .layui-colorpicker-trigger-span {
+  position: absolute;
+  left: 50%;
+  margin-left: -30px;
+  width: 60px;
+  height: 60px;
+  top: 50%;
+  margin-top: -30px;
+}
+#designEditDataWin .dataList td {
+  text-align: left;
+}
+.labelDatas {
+  width: 100%;
+  /* text-align: center; */
+}
+.labelDatas th {
+  /* text-align: center; */
+}
+.labelDatas td {
+  padding: 10px 6px;
+  min-width: 100px;
+}
+.labelDatas input {
+  min-width: 160px;
+}
+.labelDatas .dataSort {
+  width: 25%;
+}
+.labelDatas .dataOpra {
+  width: 25%;
+}
+/* .dataOpra > span {
+  cursor: pointer;
+} */
+#designEditDataWin .dataList {
+  width: 100%;
+  height: 380px;
+  overflow: auto;
+}
+#designEditDataWin .label-check {
+  margin: 10px 20px 0 20px;
+  border-bottom: 1px solid #ddd;
+}
+.label-check > span {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  bottom: -1px;
+  cursor: pointer;
+}
+.label-check > .label-check-active {
+  border-bottom-color: #fff;
+}
+#designEditDataWin .layui-form-item {
+  margin-bottom: 4px;
+}
+/* #desiginDataTbodyDom .eidtThisTr, */
+#desiginFildCheckDom td.dataSort > span {
+/* #desiginDataTbodyDom .delThisTr, */
+/* #desiginDataTbodyDom .saveThisTr, */
+/* #desiginDataTbodyDom .saveListTr { */
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  width: 20px;
+  height: 30px;
+  cursor: pointer;
+}
+/* #desiginDataTbodyDom .eidtThisTr {
+  background-image: url(../img/edit.png);
+} */
+#desiginFildCheckDom td.dataSort > span:nth-child(1) {
+  background-image: url(../img/up.png);
+}
+#desiginFildCheckDom td.dataSort > span:nth-child(2) {
+  background-image: url(../img/down.png);
+}
+/* #desiginDataTbodyDom .delThisTr {
+  background-image: url(../img/delete.png);
+}
+#desiginDataTbodyDom .saveThisTr {
+  background-image: url(../img/save.svg);
+  margin-right: 10px;
+} */
+.rightCodeView > div {
+  display: none;
+}
+.rightCodeView {font-size:14px;position:absolute;top:0;left:10%;right:0;bottom:0;}
+.leftCodeView{width:10%;position:absolute;top:0;left:0;}
+.leftCodeView > div {
+  line-height: 40px;
+  border-left: 4px solid transparent;
+  padding-left: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+}
+.leftCodeView > div.active,
+.leftCodeView > div:hover {
+  border-left: 4px solid #009688;
+}
+.rightCodeView {
+  width: 90%;
+  overflow: auto;
+}
+.rightCodeView > div {
+  position: relative;
+}
+.rightCodeView .codeLine {
+  position: absolute;
+  padding: 6px 2px;
+  z-index: 10;
+  border-right: 1px solid #ddd;
+}
+.rightCodeView .codeLine > span {
+  display: block;
+  color: #333;
+}
+.rightCodeView .codeLine {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.rightCodeView textarea,
+.rightCodeView .codeLine {
+  line-height: 20px;
+}
+.rightCodeView textarea {
+  padding-left: 30px;
+}
+/* .ztree li {
+  margin-top: 10px;
+  padding: 0;
+}
+
+.ztree li span.button.noline_open {
+  background-position: -110px -88px;
+}
+.ztree li span.button.noline_close {
+  background-position: -130px -88px;
+} */
+.ztree li span.button.ico_close,
+.ztree li span.button.ico_open,
+.ztree li span.button.ico_docu {
+  display: none;
+}
+#fildTree,
+.designTableFildBox {
+  height: 450px;
+  overflow: auto;
+}
+.level1 > .button.chk,
+.level0 > .button.chk {
+  display: none;
+}
+#designFildData .layui-layer-content {
+  font-size: 0;;
+}
+.leftFild,
+.rightFild {
+  display: inline-block;
+  font-size: 14px;
+  vertical-align: top;
+}
+.leftFild {
+  width: 30%;
+}
+.rightFild {
+  width: 70%;
+}
+
+.codeBodyBox{position:absolute;top:80px;left:10px;right:0;bottom:10px;}

@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <script type="text/javascript" src="thirdparty/jquery/jquery-2.2.2.min.js"></script>
+    <script type="text/javascript" src="common/js/config.js"></script>
+</head>
+
+<body>
+<div style="width: 400px;height: 360px;background: #fff;">
+<img src="" height="360px" width="360px" id="qrcodeimg">
+</div>
+<script>
+    var qrid = getQueryVariable("qrid");
+    showQRLogin();
+    function showQRLogin(){
+        $.ajax({
+            type: "get",
+            url: com.jnetdata.url_prefix + "/member/home/getLoginQRById/"+qrid,
+            contentType: 'application/json',
+            dataType: 'json',
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(res) {
+                $("#qrcodeimg").attr("src",res.obj.img);
+            },
+            error: function(err) {
+                layer.close(index);
+            }
+        })
+    }
+    function getQueryVariable(variable){
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+</script>
+</body>
+</html>

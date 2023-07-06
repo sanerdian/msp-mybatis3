@@ -1,0 +1,83 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <link rel="stylesheet" href="headerMenu.css">
+    <script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+</head>
+<body>
+<!--头部菜单开始-->
+<div class="widget_box">
+    <div class="visual_menu widget_border_content">
+        <ul id="widgetHeaderMenuView">
+        </ul>
+    </div>
+</div>
+<!--头部菜单结束-->
+</body>
+<script>
+/*
+* 获取元数据栏目的站点一级栏目
+*/
+function getMetadataColumn(){
+    var params = {
+        "entity": {
+            "stop": 0,//栏目启用
+            "status": 0,
+            "parentId": 0,            
+            "siteId":"1549310008678813698"
+        },
+        "pager": {
+            "current": 1,
+            "size": 9,
+            "sortProps": [
+                {"key": "parentId", "value": true},
+                {"key": "chnlOrder", "value": true}
+            ]
+        }
+    };
+	ajax(service_prefix.manage,"/programa/list", "post", JSON.stringify(params)).then(function(data){
+        if(data.success){
+            var html = '';
+            var dataArr = data.obj.records;
+            for(var i = 0; i < dataArr.length; i++){
+                html += '<li><a href="' + dataArr[i].listUrl + '">' + dataArr[i].name + '</a></li>';
+            }
+            $('#widgetHeaderMenuView').html(html);
+        }else{
+            console.log(data.msg);
+        }
+	});
+}
+
+/*
+* 获取中台菜单的一级栏目
+*/
+function getMenuColumn(){
+    var id = "1607200587903057922";
+	ajax(service_prefix.member,"/menu/tree?type=2", "get", {}).then(function(data){
+        if(data.success){
+            var dataArr = data.obj;
+            var html = '';
+            for(var i = 0; i < dataArr.length; i++){
+                if(dataArr[i].id == id){
+                    var dataChildrenArr = dataArr[i].children;
+                    for(var j = 0; j < dataChildrenArr.length; j++){
+                        html += '<li><a href="' + dataChildrenArr[j].url + '">' + dataChildrenArr[j].name + '</a></li>';
+                    }
+                }
+            }
+            $('#widgetHeaderMenuView').html(html);
+        }else{
+            console.log(data.msg);
+        }
+	});
+}
+getMetadataColumn();
+// getMenuColumn();
+</script>
+</html>

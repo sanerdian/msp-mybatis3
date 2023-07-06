@@ -1,0 +1,494 @@
+﻿<title>应用组件管理</title>
+
+<style>
+    .addColor {
+        background: rgba(218, 250, 162, 1)
+    }
+
+    .left-list .layui-form-label {
+        padding: 0px;
+        width: auto;
+    }
+
+    .left-list .layui-input-block {
+        margin-left: 28px;
+    }
+
+    .left-list .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+        margin-top: 5px;
+    }
+
+    .left-list .active {
+        background: rgba(218, 250, 162, 1)
+    }
+
+    .left-list .active2 {
+        background: rgba(218, 250, 162, 1)
+    }
+
+    .left-list .layui-card-body {
+        height: 85%;
+    }
+
+    .left-list .layui-form-item {
+        padding: 8px 15px;
+        margin-bottom: 0px;
+        cursor: pointer;
+    }
+
+    .left-list .layui-btn-container {
+        padding-left: 25px;
+    }
+
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(1) {
+        width: 150px;
+    }
+
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(2) {
+        width: 200px;
+    }
+</style>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>应用</cite></a>
+        <a><cite>应用组件管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space12 h100">
+        <div class="layui-col-md3 left-list h100" style="width: 23%;">
+            <div class="layui-card h100">
+                <div class="layui-card-header">应用组件管理
+                    <button type="button" class="layui-btn layui-btn-sm" data-type="setGitAccount" style="float: right; margin-top: 8px; ">
+                        <i class="layui-icon">&#xe608;</i> 绑定git资源
+                    </button>
+                </div>
+                <div class="layui-card-body">
+                    <!--<div class="layui-btn-container">
+                        <button type="button" class="layui-btn layui-btn-sm" data-type="add"><i class="layui-icon">&#xe608;</i> 新建模板</button>
+                        <button type="button" class="layui-btn layui-btn-sm" data-type="edit"><i class="layui-icon">&#xe642;</i> 修改模板</button>
+                        <button type="button" class="layui-btn layui-btn-sm" data-type="del"><i class="layui-icon">&#xe640;</i> 删除模板</button>
+                    </div>-->
+                    <form class="layui-form" action="" id="listForm" style='position: relative;'>
+                    </form>
+                </div>
+                <div class="" id="pageleft" style="padding-left: 10px"></div>
+            </div>
+        </div>
+        <div class="layui-col-md9" style="width: 77%">
+            <div class="layui-card h100">
+                <div class="h100">
+                    <div class="layui-tab" lay-filter="demo">
+                        <div class="layui-tab-content" style="height: 787px">
+                            <div id="main" class="layui-tab-item layui-show" style="position: relative">
+                                <div class="layui-card-header">
+                                    <div class="layui-btn-container">
+                                        <button type="button" class="layui-btn layui-btn-sm" data-type="add" style="margin-top: 8px">新建</button>
+                                        <button type="button" class="layui-btn layui-btn-sm" data-type="edit" style="margin-top: 8px">修改</button>
+                                        <button type="button" class="layui-btn layui-btn-sm" data-type="del" style="margin-top: 8px">删除</button>
+                                    </div>
+                                </div>
+                                <div class="layui-card-body">
+                                    <table id="fieldTable"></table>
+                                    <div id="fieldPage"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--git账号弹出层模板（新增，查看，编辑）-->
+<script type="text/html" id="gitAccountTemplate">
+    <form class="layui-form" lay-filter="addGitAccount">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">git账号:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="account" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码:</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 175px;">
+                        <button class="layui-btn" lay-submit lay-filter="addGitAccount">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id"/>
+    </form>
+</script>
+
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html" id="componentTemplate">
+    <form class="layui-form" lay-filter="addComponent">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作系统:</label>
+                    <div class="layui-input-block">
+                        <select name="osname" id="osname">
+                            <option value="linux">linux</option>
+                            <option value="win">win</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">部署位置:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="componentdpath" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">生成位置:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="componentcpath" value="" required lay-verify="required"
+                               placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">访问地址:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="componenturl" value="" required lay-verify="required" placeholder="请输入"
+                               autocomplete="off" class="layui-input" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 175px;">
+                        <button class="layui-btn" lay-submit lay-filter="addModuleinfo">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id"/>
+    </form>
+</script>
+<script>
+    // layui
+    layui.use('table', function () {
+        var $ = layui.$
+            , layer = layui.layer
+            , table = layui.table
+            , form = layui.form;
+
+        form.on('submit(addGitAccount)', function (data) {
+            console.log(data);
+            if(data.field.id) {
+                doEditGitAccount(data.field);
+            } else {
+                doAddGitAccount(data.field);
+            }
+            return false;
+        });
+
+        form.on('submit(addModuleinfo)', function (data) {
+            if (data.field.id) {
+                doEditModuleinfo(data.field);
+            } else {
+                doAddModuleinfo(data.field);
+            }
+            return false;
+        });
+    });
+
+    function doAddGitAccount(data) {
+        console.log(data);
+        ajax("/gitaccount/add", "post", JSON.stringify(data)).then(res => {
+            if(res.success){
+                layer.closeAll();
+                getModuleinfos(1);
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        });
+    }
+
+    function doEditGitAccount(data) {
+        ajax("/gitaccount/" + data.id, "put", JSON.stringify(data)).then(res => {
+            if (res.success) {
+                layer.closeAll();
+                getModuleinfos(1);
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        });
+    }
+
+    function doAddModuleinfo(data) {
+        data.moduleinfoid = moduleinfoObj.id;
+        console.log(data);
+        ajax("/Component/add", "post", JSON.stringify(data)).then(res => {
+            if (res.success) {
+                layer.closeAll();
+                getModuleinfos(1);
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        })
+    }
+
+    function doEditModuleinfo(data) {
+        data.moduleinfoid = moduleinfoObj.id;
+        console.log(data);
+        ajax("/Component/" + data.id, "put", JSON.stringify(data)).then(res => {
+            if (res.success) {
+                layer.closeAll();
+                getModuleinfos(1);
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        })
+    }
+
+
+</script>
+
+<script>
+    var moduleinfoObj = {};
+
+    function getModuleinfos(pageNo) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": 10
+            }
+        }
+        ajax("/moduleinfo/list", "post", JSON.stringify(jsondata)).then(data => {
+            console.log(data);
+            if (data.success) {
+                if (data.obj.records.length > 0) {
+                    moduleinfoObj.id = data.obj.records[0].id;
+                    moduleinfoObj.name = data.obj.records[0].modulename;
+                    getComponent(1);
+                }
+                var html = "";
+                for (var i in data.obj.records) {
+                    var obj = data.obj.records[i];
+                    var activeClass = "";
+                    if (i == 0) {
+                        activeClass = "active";
+                    }
+                    html += '<div class="layui-form-item ' + activeClass + '" data_id="' + obj.id + '" data_name="' + obj.modulename + '" pane="">' +
+                        '              <div class="layui-form-label"><input type="checkbox" name="listidm" value="' + obj.id + '" lay-skin="primary"></div>' +
+                        '              <div class="layui-input-block">' +
+                        '                <p>' + obj.englishname + ' [' + obj.modulename + ']</p>' +
+                        '                <p>创建时间:' + obj.crtime + '</p>' +
+                        '              </div>' +
+                        '            </div>';
+                }
+                $("#listForm").html(html);
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                layui.use(['laypage', 'layer'], function () {
+                    laypage.render({
+                        elem: 'pageleft'
+                        , count: data.obj.total //数据总数
+                        , curr: data.obj.current
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                getModuleinfos(obj.curr)
+                            }
+                        }
+                    });
+                });
+
+                layui.form.render();
+            }
+        })
+    }
+
+    function getComponent(pageNo) {
+        var jsondata = {
+            "entity": {
+                "moduleinfoid": moduleinfoObj.id
+            },
+            "pager": {
+                "current": pageNo,
+                "size": 15
+            }
+        }
+        console.log(jsondata);
+        ajax("/Component/list", "post", JSON.stringify(jsondata)).then(data => {
+            console.log(data);
+            layui.use('table', function () {
+                var table = layui.table;
+                table.render({
+                    elem: '#fieldTable'
+                    , data: data.obj.records
+                    , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    , cols: [[
+                        {type: 'checkbox'}
+                        , {type: 'numbers', title: '序号'}
+                        , {field: 'osname', title: '操作系统', sort: true}
+                        , {field: 'componentdpath', title: '部署位置', sort: true}
+                        , {field: 'componentcpath', title: '生成位置'}
+                        , {field: 'componenturl', title: '访问地址', sort: true}
+                    ]]
+                    , limit: 15
+                });
+            });
+            layui.laypage.render({
+                elem: 'fieldPage'
+                , count: data.obj.total //数据总数
+                , curr: data.obj.current
+                , limit: 15
+                , jump: function (obj, first) {
+                    if (!first) {
+                        getComponent(obj.curr);
+                    }
+                }
+            });
+        })
+    }
+    //绑定git账号
+    active.setGitAccount = function () {
+        var jsondata = {
+            "entity": {
+                "id": "1175970143352573953"
+            },
+            "pager": {
+                "current": 1,
+                "size": 15
+            }
+        }
+        console.log(JSON.stringify(jsondata));
+        ajax("/gitaccount/list", "post", JSON.stringify(jsondata)).then(data => {
+            if (data.success) {
+                //多窗口模式，层叠置顶
+                layer.open({
+                    type: 1,
+                    title: "设置",
+                    area: ['550px', '230px'],
+                    maxmin: true,
+                    content: '<div id="addGitAccount"></div>',
+                });
+                layui.laytpl($("#gitAccountTemplate").html()).render({}, function (html) {
+                    $("#addGitAccount").html(html);
+                    console.log(data);
+                    layui.form.val("addGitAccount", data.obj.records[0])
+                    layui.form.render();
+                });
+            } else {
+                layer.alert(data.msg);
+            }
+        })
+    }
+
+    //新建模板
+    function add() {
+        //多窗口模式，层叠置顶
+        layer.open({
+            type: 1,
+            title: "新建",
+            area: ['550px', '310px'],
+            maxmin: true,
+            content: '<div id="addComponent"></div>',
+        });
+        layui.laytpl($("#componentTemplate").html()).render({}, function (html) {
+            $("#addComponent").html(html);
+            layui.form.render();
+        });
+        /*
+                layui.form.val("moduleinfoForm");
+        */
+    }
+
+    //修改模板
+    function edit() {
+        var checkStatus = layui.table.checkStatus("fieldTable")
+            , data = checkStatus.data;
+        if (data.length != 0) {
+            layer.open({
+                type: 1,
+                title: "修改",
+                area: ['550px', '310px'],
+                maxmin: true,
+                content: '<div id="addComponent"></div>',
+            });
+            layui.laytpl($("#componentTemplate").html()).render({}, function (html) {
+                $("#addComponent").html(html)
+            });
+            layui.form.val("addComponent", data[0]);
+            layui.form.render();
+        } else {
+            layer.alert("请选择数据");
+            return false;
+        }
+    }
+
+    function del() {
+        var data1 = checkChecked('fieldTable');
+        if (data1) {
+            layer.open({
+                content: "确认删除吗？"
+                , btn: ['确认', "取消"]
+                , yes: function (index, layero) {
+                    ajax("/Component/delByIds", "post", JSON.stringify(data1)).then(data => {
+                        if (data.success) {
+                            getModuleinfos(1);
+                            layer.close(index);
+                        } else {
+                            layer.alert(data.msg);
+                        }
+                    }).catch(res => {
+
+                    })
+                }
+                , btn2: function (index, layero) {
+                    layer.closeAll();
+                }
+            });
+        }
+    }
+
+</script>
+
+<script>
+    $(function () {
+        $(".left-list").on("mouseover", ".layui-form-item", function () {
+            $(this).addClass("active2").siblings().removeClass("active2");
+        })
+        $(".left-list").on("mouseleave", ".layui-form-item", function () {
+            $(this).removeClass("active2");
+        })
+        $(".left-list").on("click", ".layui-input-block", function () {
+            $(".left-list input").prop("checked", false);
+            $(this).parent().find("input").prop("checked", true);
+            layui.form.render();
+            $(this).parent().addClass("active").siblings().removeClass("active");
+            moduleinfoObj.id = $(this).parent().attr("data_id");
+            moduleinfoObj.name = $(this).parent().attr("data_name");
+            getComponent(1);
+        })
+        layui.form.render();
+        getModuleinfos(1);
+    })
+
+</script>

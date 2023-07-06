@@ -1,0 +1,118 @@
+<title>转码管理</title>
+<style>
+    #test11 i{
+        display: none;
+    }
+    th .layui-table-cell{
+        text-align: center;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" style="overflow: hidden;height: 820px;position: relative">
+             <div class="layui-btn-container" style="margin: 20px">
+                 <button class="layui-btn" onclick="deleteCodes()">删除</button>
+             </div>
+            <table class="layui-hide" id="test" lay-filter="demo"></table>
+            <div id="demo7" style="margin-left: 20px"></div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="codeState">
+    {{d.processing == 1?"转码中":"转码完成"}}
+</script>
+<script>
+    var url="/picture/list";
+    var data={
+        "pager": {
+            "current": 1,
+            "size": 10
+        },
+        "picture": {
+            "processing": 1
+        }
+    }
+    var global = {
+        pageNo : 1
+    }
+    $(function () {
+        getCodeList(1)
+    }())
+    function deleteCodes() {
+        var checkStatus = layui.table.checkStatus('idTest');
+        if(checkStatus.data.length===0){
+            layer.alert("请先选择删除的资源");
+            return;
+        }
+        var ids="",count=0;
+        for(var i in checkStatus.data){
+
+            if(count!=0){
+                ids+=",";
+            }
+            count++;
+            ids+=checkStatus.data[i].id
+        };
+    layer.confirm("确认删除？",function () {
+        ajax(service_prefix.resources,"/picture/delByIds?ids="+ids,'get').then(function (res) {
+            if(res.success){
+                getCodeList(global.pageNo);
+                layer.closeAll();
+
+            }
+        })
+
+    })
+
+
+
+    }
+    function getCodeList(pageNo) {
+        global.pageNo = pageNo;
+        data.pager.current = pageNo;
+        ajax(service_prefix.resources,url,'post',JSON.stringify(data)).then(function (res){
+             if(res.success){
+                res.obj.records.forEach(function (item,index) {
+                    item.number=index+1;
+                })
+            layui.use('table', function(){
+                var table = layui.table;
+                table.render({
+                    elem: '#test'
+                    ,data:res.obj.records
+                    ,id:"idTest"
+                    ,cols: [[
+                        {type:'checkbox'}
+                        ,{field:'number', title: '序号',width:80}
+                        ,{field:'name', title: '资源名称'}
+                        ,{field:'form', title: '转换格式',width:150}
+                        ,{field:'createTime', title: '上传时间',width:180}
+//                        ,{field:'size', title: '大小',width:150}
+//                        ,{field:'', title: '转码进度',width:300}
+                        ,{field:'processing', title: '转码状态',width:350, templet:"#codeState"}
+                    ]]
+                });
+            });
+            layui.use(['laypage', 'layer'], function() {
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                laypage.render({
+                    elem: 'demo7'
+                    ,count: res.obj.total
+                    , curr: pageNo ? pageNo : 0
+                    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                    ,jump: function(obj,first){
+                        if(!first){
+                            getCodeList(obj.curr)
+                        }
+                    }
+                });
+            })
+             }
+        })
+
+
+    }
+</script>
+
+

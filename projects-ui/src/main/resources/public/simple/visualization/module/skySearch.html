@@ -1,0 +1,95 @@
+<script type="text/html" id="module_skySearch">
+    <style>
+        *{      
+          border-style: none;
+        }
+       .sky_select {
+          float: right;
+          margin: 20px;
+          height: 40px;
+          border: 1px solid #ccc;
+          border-radius: 2px;
+      }
+      .sky_select div {
+          float: left;
+          height: 40px ;
+          line-height: 40px;
+      }
+      .sky_input_block {
+          width: 20%;
+          margin-left: 0;
+          
+      }
+      .sky_input_block select
+      ,.layui-input{
+          height: 100%;
+          font-size: 16px;
+      }
+      select {
+          padding-left: 5px;
+          outline: none;
+          width: 100%;
+          border-right: 1px solid #ccc;
+      }
+      .sky_select_input {
+          width: 60%;
+      }
+      .sky_select_input .layui-input {
+          border-style: none;
+          padding-left: 5px;
+          width: 100%;
+      }
+      .sky_select .sky_select_index {
+          margin: 0.5px;
+          width: 19.7%;
+          height: 39px;
+          background: rgb(16, 121, 186);
+          font-size: 16px;
+          color: #fff;
+          border-radius: 0 2px 2px 0;
+          box-shadow: #fff;
+      }
+    </style>
+    <div id="{{ d.widgetId }}" class="draggable-search ui-draggable ui-draggable-handle w_search"
+         style="position: absolute">
+        <div class="content border_content">
+            <form>
+                <div class="layui-text sky_select">
+                    <div class="layui-input-block sky_input_block">
+                        <select name="city" lay-verify="required">
+                            <option value="">全部</option>
+                            <option value="0">北京首都++++</option>
+                            <option value="1">上海</option>
+                            <option value="2">广州</option>
+                            <option value="3">深圳</option>
+                            <option value="4">杭州</option>
+                        </select>
+                    </div>
+                    <div class="sky_select_input">
+                        <input type="text" name="title" required="" lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input"> 
+                    </div>
+                    <button class="layui-index sky_select_index">
+                        <i class="layui-icon layui-icon-search" style=" padding:0 4px 0 2px"></i>搜索
+                    </button>
+                </div>
+        </form>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_skySearch_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_skySearch_set">
+ 
+</script>
+
+

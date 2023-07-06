@@ -1,0 +1,65 @@
+.addColor {
+    background: rgba(218, 250, 162, 1);
+}
+
+.layui-layer-content {
+    overflow: auto;
+}
+
+.left-list .layui-form-label {
+    padding: 0px;
+    width: auto;
+}
+
+.left-list .layui-input-block {
+    margin-left: 28px;
+}
+
+.left-list .layui-form-item .layui-form-radio {
+    margin: 6px -12px 0 0;
+}
+
+.left-list .active {
+    background: rgba(218, 250, 162, 1);
+    width: 380px !important;
+}
+
+.left-list .active2 {
+    background: rgba(218, 250, 162, 1);
+    width: 380px !important;
+}
+
+.left-list .layui-card-body {
+    padding: 10px 0;
+    height: 85%;
+}
+
+.left-list .layui-form-item {
+    padding: 7px 15px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+.left-list .layui-btn-container {
+    padding-left: 25px;
+}
+
+.ztree {
+    height: 475px;
+}
+
+#manage {
+    position: absolute;
+    bottom: 0;
+}
+
+.guanlian {
+    display: none;
+}
+
+.verfyLength{
+    display: none;
+}
+.regularStr{
+    display: none;
+}

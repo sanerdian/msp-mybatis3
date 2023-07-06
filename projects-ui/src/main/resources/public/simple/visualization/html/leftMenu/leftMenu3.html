@@ -1,0 +1,709 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <link rel="stylesheet" href="leftMenu.css">
+    <script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.all.js"></script>
+    <script src="../../../../common/js/config.js"></script>
+    <script src="../../js/commonVisual.js"></script>
+</head>
+<body>
+<!--左侧栏目开始-->
+<div class="widget_box">
+    <div class="visual_left_menu widget_border_content">
+        <div id="widgetLeftMenuView">
+        </div>
+    </div>
+</div>
+    <!--左侧栏目模板渲染开始-->
+    <script type="text/html" id="widgetLeftMenuTpl">
+        {{#  layui.each(d.children1, function(index, item){ }} 
+            <h4>{{ item.name }}</h4>
+            {{#  layui.each(item.children1, function(index, item){ }} 
+            <ul>
+                <li>
+                    <a href="{{ item.listUrl }}">{{ item.name }}</a>
+                </li>
+            </ul>
+            {{#  }); }}
+        {{#  }); }}
+    </script>
+<!--左侧栏目模板渲染结束-->
+<!--左侧栏目结束-->
+<script>
+/*
+* 获取子栏目
+*/
+function getMenuSubColumn(){
+    // var data = {
+    //     "msg":"成功",
+    //     "obj":{
+    //         "current":1,
+    //         "pages":1,
+    //         "records":[
+    //             {
+    //                 "audioColumn":"",
+    //                 "children1":[
+
+    //                 ],
+    //                 "chnlDataPath":"/visualStyle/wxqb/paper",
+    //                 "chnlDesc":"",
+    //                 "chnlDetailTemp":"",
+    //                 "chnlOrder":0,
+    //                 "chnlOutlineTemp":"",
+    //                 "conditionIds":[
+
+    //                 ],
+    //                 "crUser":"admin",
+    //                 "createBy":"1167324599977414658",
+    //                 "createTime":"2022-11-03 16:55:51",
+    //                 "detailUrl":"",
+    //                 "detailtpl":"-1",
+    //                 "detailtplName":"",
+    //                 "editPage":"",
+    //                 "editUrl":"",
+    //                 "edittpl":"-1",
+    //                 "edittplName":"",
+    //                 "elses":"",
+    //                 "fields":[
+
+    //                 ],
+    //                 "fileColumn":"",
+    //                 "id":"1549311829208076290",
+    //                 "imgColumn":"",
+    //                 "isParent":false,
+    //                 "isSite":2,
+    //                 "listPage":"",
+    //                 "listUrl":"/pub/html/visualStyle/wxqb/paper/index.html",
+    //                 "listtpl":"-1",
+    //                 "listtplName":"",
+    //                 "menuid":"",
+    //                 "menuname":"",
+    //                 "metadataType":"table",
+    //                 "metadataUri":"",
+    //                 "modifyBy":"1167324599977414658",
+    //                 "modifyTime":"2022-11-04  00:55:52",
+    //                 "modifyUser":"admin",
+    //                 "name":"论文",
+    //                 "operTime":"2022-11-03 16:55:51",
+    //                 "operUser":"",
+    //                 "parentId":"1549311770349408258",
+    //                 "parentName":"",
+    //                 "quotaid":"",
+    //                 "quotaname":"",
+    //                 "remark":"",
+    //                 "saveRlues":"",
+    //                 "showPage":"",
+    //                 "siteId":"1549310008678813698",
+    //                 "siteName":"",
+    //                 "skuNumber":"paper",
+    //                 "staticFile":"",
+    //                 "status":0,
+    //                 "stop":0,
+    //                 "tableId":"1544486414933209089",
+    //                 "tentType":"",
+    //                 "videoColumn":"",
+    //                 "workFlow":""
+    //             },
+    //             {
+    //                 "audioColumn":"",
+    //                 "children1":[
+
+    //                 ],
+    //                 "chnlDataPath":"/visualStyle/wxqb/patent",
+    //                 "chnlDesc":"",
+    //                 "chnlDetailTemp":"",
+    //                 "chnlOrder":1,
+    //                 "chnlOutlineTemp":"",
+    //                 "conditionIds":[
+
+    //                 ],
+    //                 "crUser":"admin",
+    //                 "createBy":"1167324599977414658",
+    //                 "createTime":"2022-11-28 06:01:37",
+    //                 "detailUrl":"",
+    //                 "detailtpl":"",
+    //                 "detailtplName":"",
+    //                 "editPage":"",
+    //                 "editUrl":"",
+    //                 "edittpl":"",
+    //                 "edittplName":"",
+    //                 "elses":"",
+    //                 "fields":[
+
+    //                 ],
+    //                 "fileColumn":"",
+    //                 "id":"1597108427602157570",
+    //                 "imgColumn":"",
+    //                 "isParent":false,
+    //                 "isSite":2,
+    //                 "listPage":"",
+    //                 "listUrl":"",
+    //                 "listtpl":"",
+    //                 "listtplName":"",
+    //                 "menuid":"",
+    //                 "menuname":"",
+    //                 "metadataType":"table",
+    //                 "metadataUri":"",
+    //                 "modifyBy":null,
+    //                 "modifyTime":null,
+    //                 "modifyUser":"",
+    //                 "name":"专利",
+    //                 "operTime":"",
+    //                 "operUser":"",
+    //                 "parentId":"1549311770349408258",
+    //                 "parentName":"",
+    //                 "quotaid":"",
+    //                 "quotaname":"",
+    //                 "remark":"",
+    //                 "saveRlues":"",
+    //                 "showPage":"",
+    //                 "siteId":"1549310008678813698",
+    //                 "siteName":"",
+    //                 "skuNumber":"patent",
+    //                 "staticFile":"",
+    //                 "status":0,
+    //                 "stop":0,
+    //                 "tableId":"",
+    //                 "tentType":"",
+    //                 "videoColumn":"",
+    //                 "workFlow":""
+    //             },
+    //             {
+    //                 "audioColumn":"",
+    //                 "children1":[
+
+    //                 ],
+    //                 "chnlDataPath":"/visualStyle/wxqb/standard",
+    //                 "chnlDesc":"",
+    //                 "chnlDetailTemp":"",
+    //                 "chnlOrder":2,
+    //                 "chnlOutlineTemp":"",
+    //                 "conditionIds":[
+
+    //                 ],
+    //                 "crUser":"admin",
+    //                 "createBy":"1167324599977414658",
+    //                 "createTime":"2022-11-28 06:02:42",
+    //                 "detailUrl":"",
+    //                 "detailtpl":"",
+    //                 "detailtplName":"",
+    //                 "editPage":"",
+    //                 "editUrl":"",
+    //                 "edittpl":"",
+    //                 "edittplName":"",
+    //                 "elses":"",
+    //                 "fields":[
+
+    //                 ],
+    //                 "fileColumn":"",
+    //                 "id":"1597108701737672705",
+    //                 "imgColumn":"",
+    //                 "isParent":false,
+    //                 "isSite":2,
+    //                 "listPage":"",
+    //                 "listUrl":"",
+    //                 "listtpl":"",
+    //                 "listtplName":"",
+    //                 "menuid":"",
+    //                 "menuname":"",
+    //                 "metadataType":"table",
+    //                 "metadataUri":"",
+    //                 "modifyBy":null,
+    //                 "modifyTime":null,
+    //                 "modifyUser":"",
+    //                 "name":"标准",
+    //                 "operTime":"",
+    //                 "operUser":"",
+    //                 "parentId":"1549311770349408258",
+    //                 "parentName":"",
+    //                 "quotaid":"",
+    //                 "quotaname":"",
+    //                 "remark":"",
+    //                 "saveRlues":"",
+    //                 "showPage":"",
+    //                 "siteId":"1549310008678813698",
+    //                 "siteName":"",
+    //                 "skuNumber":"standard",
+    //                 "staticFile":"",
+    //                 "status":0,
+    //                 "stop":0,
+    //                 "tableId":"",
+    //                 "tentType":"",
+    //                 "videoColumn":"",
+    //                 "workFlow":""
+    //             }
+    //         ],
+    //         "size":10,
+    //         "sortProps":[
+
+    //         ],
+    //         "total":3
+    //     },
+    //     "status":"200",
+    //     "success":true,
+    //     "timestamp":1671695790216
+    // }
+    var data = {
+        "msg":"成功",
+        "obj":{
+            "audioColumn":"",
+            "children1":[
+                {
+                    "audioColumn":"",
+                    "children1":[
+                        {
+                            "audioColumn":"",
+                            "children1":[
+
+                            ],
+                            "chnlDataPath":"/nqijggl/jggljgxx/frdw/jzsa",
+                            "chnlDesc":"",
+                            "chnlDetailTemp":"",
+                            "chnlOrder":0,
+                            "chnlOutlineTemp":"1608389554920960001",
+                            "conditionIds":[
+
+                            ],
+                            "crUser":"admin",
+                            "createBy":"1",
+                            "createTime":"2022-12-29 01:36:55",
+                            "detailUrl":"",
+                            "detailtpl":"",
+                            "detailtplName":"",
+                            "editPage":"",
+                            "editUrl":"",
+                            "edittpl":"",
+                            "edittplName":"",
+                            "elses":"",
+                            "fields":[
+
+                            ],
+                            "fileColumn":"",
+                            "id":"1608390312861052930",
+                            "imgColumn":"",
+                            "isParent":false,
+                            "isSite":2,
+                            "listPage":"",
+                            "listUrl":"/pub/html/nqijggl/jggljgxx/frdw/jzsa/jbxxfrdw.html",
+                            "listtpl":"1608389554920960001",
+                            "listtplName":"",
+                            "menuid":"",
+                            "menuname":"",
+                            "metadataType":"table",
+                            "metadataUri":"",
+                            "modifyBy":"1",
+                            "modifyTime":"2022-12-29  09:36:57",
+                            "modifyUser":"admin",
+                            "name":"晋中市产品质量监督检验...",
+                            "operTime":"2022-12-29 01:36:55",
+                            "operUser":"",
+                            "parentId":"1600771280032968705",
+                            "parentName":"",
+                            "quotaid":"",
+                            "quotaname":"",
+                            "remark":"",
+                            "saveRlues":"",
+                            "showPage":"",
+                            "siteId":"1600672216981385217",
+                            "siteName":"",
+                            "skuNumber":"jzsa",
+                            "staticFile":"",
+                            "status":0,
+                            "stop":0,
+                            "tableId":"",
+                            "tentType":"",
+                            "videoColumn":"",
+                            "workFlow":""
+                        }
+                    ],
+                    "chnlDataPath":"/nqijggl/jggljgxx/frdw",
+                    "chnlDesc":"",
+                    "chnlDetailTemp":"",
+                    "chnlOrder":0,
+                    "chnlOutlineTemp":"1608389554920960001",
+                    "conditionIds":[
+
+                    ],
+                    "crUser":"admin",
+                    "createBy":"1167324599977414658",
+                    "createTime":"2022-12-29 01:08:48",
+                    "detailUrl":"",
+                    "detailtpl":"",
+                    "detailtplName":"",
+                    "editPage":"",
+                    "editUrl":"",
+                    "edittpl":"",
+                    "edittplName":"",
+                    "elses":"",
+                    "fields":[
+
+                    ],
+                    "fileColumn":"",
+                    "id":"1600771280032968705",
+                    "imgColumn":"",
+                    "isParent":false,
+                    "isSite":2,
+                    "listPage":"",
+                    "listUrl":"/pub/html/nqijggl/jggljgxx/frdw/jbxxfrdw.html",
+                    "listtpl":"1608389554920960001",
+                    "listtplName":"",
+                    "menuid":"",
+                    "menuname":"",
+                    "metadataType":"table",
+                    "metadataUri":"",
+                    "modifyBy":"1",
+                    "modifyTime":"2022-12-29  09:35:12",
+                    "modifyUser":"admin",
+                    "name":"法人单位",
+                    "operTime":"2022-12-29 01:08:48",
+                    "operUser":"",
+                    "parentId":"1600672439040421889",
+                    "parentName":"",
+                    "quotaid":"",
+                    "quotaname":"",
+                    "remark":"",
+                    "saveRlues":"",
+                    "showPage":"",
+                    "siteId":"1600672216981385217",
+                    "siteName":"",
+                    "skuNumber":"frdw",
+                    "staticFile":"",
+                    "status":0,
+                    "stop":0,
+                    "tableId":"",
+                    "tentType":"",
+                    "videoColumn":"",
+                    "workFlow":""
+                },
+                {
+                    "audioColumn":"",
+                    "children1":[
+                        {
+                            "audioColumn":"",
+                            "children1":[
+
+                            ],
+                            "chnlDataPath":"/nqijggl/jggljgxx/nsjg/jgbma",
+                            "chnlDesc":"",
+                            "chnlDetailTemp":"",
+                            "chnlOrder":0,
+                            "chnlOutlineTemp":"",
+                            "conditionIds":[
+
+                            ],
+                            "crUser":"admin",
+                            "createBy":"1",
+                            "createTime":"2022-12-29 09:12:10",
+                            "detailUrl":"",
+                            "detailtpl":"",
+                            "detailtplName":"",
+                            "editPage":"",
+                            "editUrl":"",
+                            "edittpl":"",
+                            "edittplName":"",
+                            "elses":"",
+                            "fields":[
+
+                            ],
+                            "fileColumn":"",
+                            "id":"1608390405441925121",
+                            "imgColumn":"",
+                            "isParent":false,
+                            "isSite":2,
+                            "listPage":"",
+                            "listUrl":"",
+                            "listtpl":"",
+                            "listtplName":"",
+                            "menuid":"",
+                            "menuname":"",
+                            "metadataType":"table",
+                            "metadataUri":"",
+                            "modifyBy":"1",
+                            "modifyTime":"2022-12-29  09:12:10",
+                            "modifyUser":"admin",
+                            "name":"国家体育用品质量监督...",
+                            "operTime":"",
+                            "operUser":"",
+                            "parentId":"1608390155943751681",
+                            "parentName":"",
+                            "quotaid":"",
+                            "quotaname":"",
+                            "remark":"",
+                            "saveRlues":"",
+                            "showPage":"",
+                            "siteId":"1600672216981385217",
+                            "siteName":"",
+                            "skuNumber":"jgbma",
+                            "staticFile":"",
+                            "status":0,
+                            "stop":0,
+                            "tableId":"",
+                            "tentType":"",
+                            "videoColumn":"",
+                            "workFlow":""
+                        }
+                    ],
+                    "chnlDataPath":"/nqijggl/jggljgxx/nsjg",
+                    "chnlDesc":"",
+                    "chnlDetailTemp":"",
+                    "chnlOrder":1,
+                    "chnlOutlineTemp":"",
+                    "conditionIds":[
+
+                    ],
+                    "crUser":"admin",
+                    "createBy":"1",
+                    "createTime":"2022-12-29 09:11:10",
+                    "detailUrl":"",
+                    "detailtpl":"",
+                    "detailtplName":"",
+                    "editPage":"",
+                    "editUrl":"",
+                    "edittpl":"",
+                    "edittplName":"",
+                    "elses":"",
+                    "fields":[
+
+                    ],
+                    "fileColumn":"",
+                    "id":"1608390155943751681",
+                    "imgColumn":"",
+                    "isParent":false,
+                    "isSite":2,
+                    "listPage":"",
+                    "listUrl":"",
+                    "listtpl":"",
+                    "listtplName":"",
+                    "menuid":"",
+                    "menuname":"",
+                    "metadataType":"table",
+                    "metadataUri":"",
+                    "modifyBy":"1",
+                    "modifyTime":"2022-12-29  09:11:12",
+                    "modifyUser":"admin",
+                    "name":"内设机构",
+                    "operTime":"2022-12-29 01:11:12",
+                    "operUser":"",
+                    "parentId":"1600672439040421889",
+                    "parentName":"",
+                    "quotaid":"",
+                    "quotaname":"",
+                    "remark":"",
+                    "saveRlues":"",
+                    "showPage":"",
+                    "siteId":"1600672216981385217",
+                    "siteName":"",
+                    "skuNumber":"nsjg",
+                    "staticFile":"",
+                    "status":0,
+                    "stop":0,
+                    "tableId":"",
+                    "tentType":"",
+                    "videoColumn":"",
+                    "workFlow":""
+                },
+                {
+                    "audioColumn":"",
+                    "children1":[
+
+                    ],
+                    "chnlDataPath":"/nqijggl/jggljgxx/jgglfj",
+                    "chnlDesc":"",
+                    "chnlDetailTemp":"",
+                    "chnlOrder":2,
+                    "chnlOutlineTemp":"",
+                    "conditionIds":[
+
+                    ],
+                    "crUser":"admin",
+                    "createBy":"1167324599977414658",
+                    "createTime":"2022-12-08 18:55:00",
+                    "detailUrl":"",
+                    "detailtpl":"",
+                    "detailtplName":"",
+                    "editPage":"",
+                    "editUrl":"",
+                    "edittpl":"",
+                    "edittplName":"",
+                    "elses":"",
+                    "fields":[
+
+                    ],
+                    "fileColumn":"",
+                    "id":"1601021776031330305",
+                    "imgColumn":"",
+                    "isParent":false,
+                    "isSite":2,
+                    "listPage":"",
+                    "listUrl":"/pub/html/nqijggl/jggljgxx/jgglfj/jgglfj.html",
+                    "listtpl":"1601047733207248897",
+                    "listtplName":"",
+                    "menuid":"",
+                    "menuname":"",
+                    "metadataType":"table",
+                    "metadataUri":"",
+                    "modifyBy":"1",
+                    "modifyTime":"2022-12-29  09:11:19",
+                    "modifyUser":"admin",
+                    "name":"附件",
+                    "operTime":"2022-12-08 18:55:00",
+                    "operUser":"",
+                    "parentId":"1600672439040421889",
+                    "parentName":"",
+                    "quotaid":"",
+                    "quotaname":"",
+                    "remark":"",
+                    "saveRlues":"",
+                    "showPage":"",
+                    "siteId":"1600672216981385217",
+                    "siteName":"",
+                    "skuNumber":"jgglfj",
+                    "staticFile":"",
+                    "status":0,
+                    "stop":0,
+                    "tableId":"",
+                    "tentType":"",
+                    "videoColumn":"",
+                    "workFlow":""
+                },
+                {
+                    "audioColumn":"",
+                    "children1":[
+
+                    ],
+                    "chnlDataPath":"/nqijggl/jggljgxx/jgglzhgl",
+                    "chnlDesc":"",
+                    "chnlDetailTemp":"",
+                    "chnlOrder":3,
+                    "chnlOutlineTemp":"",
+                    "conditionIds":[
+
+                    ],
+                    "crUser":"admin",
+                    "createBy":"1167324599977414658",
+                    "createTime":"2022-12-08 18:46:08",
+                    "detailUrl":"",
+                    "detailtpl":"",
+                    "detailtplName":"",
+                    "editPage":"",
+                    "editUrl":"",
+                    "edittpl":"",
+                    "edittplName":"",
+                    "elses":"",
+                    "fields":[
+
+                    ],
+                    "fileColumn":"",
+                    "id":"1601045424536498177",
+                    "imgColumn":"",
+                    "isParent":false,
+                    "isSite":2,
+                    "listPage":"",
+                    "listUrl":"/pub/html/nqijggl/jggljgxx/jgglzhgl/zhgl.html",
+                    "listtpl":"1601045499446767617",
+                    "listtplName":"",
+                    "menuid":"",
+                    "menuname":"",
+                    "metadataType":"table",
+                    "metadataUri":"",
+                    "modifyBy":"1",
+                    "modifyTime":"2022-12-29  09:11:19",
+                    "modifyUser":"admin",
+                    "name":"账号管理",
+                    "operTime":"2022-12-08 18:46:08",
+                    "operUser":"",
+                    "parentId":"1600672439040421889",
+                    "parentName":"",
+                    "quotaid":"",
+                    "quotaname":"",
+                    "remark":"",
+                    "saveRlues":"",
+                    "showPage":"",
+                    "siteId":"1600672216981385217",
+                    "siteName":"",
+                    "skuNumber":"jgglzhgl",
+                    "staticFile":"",
+                    "status":0,
+                    "stop":0,
+                    "tableId":"",
+                    "tentType":"",
+                    "videoColumn":"",
+                    "workFlow":""
+                }
+            ],
+            "chnlDataPath":"/nqijggl/jggljgxx",
+            "chnlDesc":"",
+            "chnlDetailTemp":"",
+            "chnlOrder":0,
+            "chnlOutlineTemp":"",
+            "conditionIds":[
+
+            ],
+            "crUser":"admin",
+            "createBy":"1167324599977414658",
+            "createTime":"2022-12-29 00:08:06",
+            "detailUrl":"",
+            "detailtpl":"",
+            "detailtplName":"",
+            "editPage":"",
+            "editUrl":"",
+            "edittpl":"",
+            "edittplName":"",
+            "elses":"",
+            "fields":[
+
+            ],
+            "fileColumn":"",
+            "id":"1600672439040421889",
+            "imgColumn":"",
+            "isParent":false,
+            "isSite":2,
+            "listPage":"",
+            "listUrl":"/pub/html/nqijggl/jggljgxx/jbxxfrdw.html",
+            "listtpl":"1600778025010671617",
+            "listtplName":"",
+            "menuid":"",
+            "menuname":"",
+            "metadataType":"table",
+            "metadataUri":"",
+            "modifyBy":"1",
+            "modifyTime":"2022-12-29  08:08:52",
+            "modifyUser":"admin",
+            "name":"机构信息",
+            "operTime":"2022-12-29 00:08:06",
+            "operUser":"",
+            "parentId":"0",
+            "parentName":"",
+            "quotaid":"",
+            "quotaname":"",
+            "remark":"",
+            "saveRlues":"",
+            "showPage":"",
+            "siteId":"1600672216981385217",
+            "siteName":"",
+            "skuNumber":"jggljgxx",
+            "staticFile":"",
+            "status":0,
+            "stop":0,
+            "tableId":"",
+            "tentType":"",
+            "videoColumn":"",
+            "workFlow":""
+        },
+        "status":"200",
+        "success":true,
+        "timestamp":1672306617663
+    }
+    // ajax(service_prefix.manage,"/programa/getTreeData1/" + columnId, "get").then(function(data){
+        // getData(data.obj.records, '#widgetLeftMenuTpl', '#widgetLeftMenuView');
+        getData(data.obj, '#widgetLeftMenuTpl', '#widgetLeftMenuView');
+
+    // });
+}
+getMenuSubColumn();
+</script>
+</body>
+</html>

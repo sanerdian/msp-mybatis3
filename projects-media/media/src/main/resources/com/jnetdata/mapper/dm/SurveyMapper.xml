@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.SurveyMapper">
+
+
+	<!-- 按回收状况统计 -->
+	<select id="countByRecoverstatus" resultType="java.util.Map">
+		select investigateid,recoverstatus,count(1) as counts
+		 from jmeta_investigate_user
+		 where investigateid in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		group by investigateid,recoverstatus
+	</select>
+	<select id="countRecoverByGroup" resultType="java.util.Map">
+		select groupid,groupname,
+			   count(1) as countPush,
+			   sum(case when recoverstatus = 1 then 1 else 0 end) as countHs,
+			   sum(case when recoverstatus = 0 then 1 else 0 end) as countWhs
+		  from jmeta_investigate_user
+		 where investigateid = #{investigateId}
+		 group by groupid,groupname
+	</select>
+	<select id="countByAnswer" resultType="java.util.Map">
+		select answerchoose, count(1) as counts
+		  from jmeta_answer_user
+		 where investigateid = #{investigateId}
+		 	and answerchoose is not null
+		 group by answerchoose
+	</select>
+	<select id="countAnsweredTopicByInvest" resultType="java.util.Map">
+		select t.investigateid as id, count(distinct(t.topicid)) as counts,max(t.crtime) as dtlast
+		  from JMETA_ANSWER_USER t
+		 where t.crnumber = #{userid}
+		 group by t.investigateid
+	</select>
+	<select id="countTopicByInvest" resultType="java.util.Map">
+		select t.investigateid id,count(1) counts
+		  from jmeta_topic t
+		where t.investigateid in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		group by t.investigateid
+	</select>
+</mapper>

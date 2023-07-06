@@ -1,0 +1,64 @@
+<script type="text/html" id="module_search">
+    <div id="{{ d.widgetId }}" class="draggable-search ui-draggable ui-draggable-handle w_search"
+         style="position: absolute">
+        <div class="content border_content">
+            <ul>
+                {{# layui.each(d.dbField, function(index, item){ }}
+                <li>
+                    <label class="layui-form-label">{{ item.title }}</label>
+                    <input type="text" name="{{ item.field }}" class="layui-input" style="" placeholder="请输入">
+                </li>
+                {{# }); }}
+            </ul>
+            <button class="layui-btn search_btn"><i class="layui-icon layui-icon-search"></i></button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_search_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_search_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings">
+        <form action="" class="layui-form content">
+            <div style="margin: 10px auto">
+                <label for="" class="layui-form-label">元数据表：</label>
+                <div class="layui-input-block" style="width: 380px">
+                    <select lay-verify="required" class="data_set_sel">
+                        <option>无</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin: 10px auto">
+                <label for="" class="layui-form-label">关联字段：</label>
+                <div class="layui-input-block"
+                     style="width: 380px;height: 216px;border: #dbdbdb 1px solid;">
+                    <i style="color: #AAAAAA; font-size: 14px;position: absolute;top: 50%;left: 150px">请选择元数据表</i>
+                </div>
+            </div>
+            <div style="margin: 10px auto">
+                <label for="" class="layui-form-label">搜索关系：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="field_logic" lay-filter="{{ d.widgetId }}_field_logic"
+                           title="and" value="and" checked>
+                    <input type="radio" name="field_logic" lay-filter="{{ d.widgetId }}_field_logic"
+                           title="or" value="or">
+                </div>
+            </div>
+        </form>
+        <div class="layui-input-block w_settings_btn" style="margin: 20px">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+    </div>
+</script>
+
+

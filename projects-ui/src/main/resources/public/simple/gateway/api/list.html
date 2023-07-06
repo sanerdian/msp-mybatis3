@@ -1,0 +1,141 @@
+<style>
+	.td_bg{background-color: #f2f2f2;text-align: right!important;}
+	.layui-tree-entry .layui-tree-txt {background: url(common/img/u5554.png) no-repeat left center;background-size: 13px 12px;}
+	.layui-tree-txt {padding-left: 17px!important;margin-left: 10px;}
+	.layui-tree-showLine .layui-tree-txt{background: url(undefinedcommon/img/u2615.png) no-repeat left center;background-size: 13px 12px;}
+	.layui-tree-entry{margin-top: 10px;}
+	.layui-card-header .layui-inline {
+    margin: 0 15px 0 0;
+    float: left;
+}
+	.layui-api-xs{color:#1A90FF;background: none;text-align: center;}
+</style>
+<div class="layui-col-md3 jnet-left left-list">
+	<div class="layui-card h100">
+		<div class="layui-card-header">
+			<div class="layui-col-md2" style="width: 17.666667%;">分组列表</div>
+		</div>
+		<div class="layui-card-header jnet-search-left">
+			<div class="layui-col-md11">
+				<input type="text" id="moduleinfoinput" placeholder="请输入分组名称" class="layui-input">
+			</div>
+			<div class="layui-col-md1">
+				<button class="layui-btn layui-btn-sm" onclick="getModuleinfos()"><img src="common/img/u11881.svg"></button>
+			</div>
+		</div>
+		<div class="layui-card-body">
+			<div style="overflow: hidden;">
+				<ul id="treeDemo1" class="ztree"></ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class=" layui-col-md9 jnet-right h100"  id="list">
+	<!-- layui-fluid -->
+	<div class="layui-card h100">
+		<!-- 搜索开始 -->
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-data-formlist">
+			<form class="layui-form" id="formSearchData">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">Api名称</label>
+						<div class="layui-input-block">
+							<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">http方法:</label>
+						<div class="layui-input-block">
+							<select name="reqMethod">
+								<option value=""></option>
+								<option value="GET">GET</option>
+								<option value="POST">POST</option>
+								<option value="PUT">PUT</option>
+								<option value="DELETE">DELETE</option>
+								<option value="HEAD">HEAD</option>
+								<option value="OPTIONS">OPTIONS</option>
+							</select>
+						</div>
+					</div>
+					<!-- <div class="layui-inline">
+						<label class="layui-form-label">分组</label>
+						<div class="layui-input-block">
+							<select name="groupId" class="groupOption">
+								<option value=""></option>
+							</select>
+						</div>
+					</div> -->
+					<div class="layui-inline">
+						<label class="layui-form-label">请求路径</label>
+						<div class="layui-input-block">
+							<input type="text" name="reqUri" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline top_search_btn">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-data-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+			<div class="top_btn">
+				<button class="layui-btn layuiadmin-btn-admin" data-type="swaggerImport" data-layer-html="swaggerImport.html" >Swagger导入</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="exportExcel" data-layer-html="exportExcel.html" data-layer-path="simple/gateway/export/">Excel导出</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html" id="btnAdd">新建</button>
+				<button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del" id="btnDel">删除</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="putapi" data-layer-html="putgroupid.html">批量修改api分组</button>
+			</div>
+		</div>
+		<!-- 搜索结束 -->
+
+		<div class="layui-card-body">
+
+			<!-- 列表开始 -->
+			<div class="table-area">
+				<table id="tableData" lay-filter="tableData"></table>
+			</div>
+			<div id="page_tableData"></div>
+			<!-- 列表结束 -->
+		</div>
+
+	</div>
+</div>
+
+
+<script src="simple/gateway/api/list.js"></script>
+<script src="simple/gateway/export/exportExcel.js"></script>
+
+
+
+<!-- 详情页 -->
+<div id="DetailDiv"></div>
+<div id="runApi"></div>
+
+<!--  -->
+<script type="text/html" id="opendetail">
+    <a href="javascript:void(0)" style="color:#1A90FF"  lay-event="detail">{{d.name}}</a>
+</script>
+
+<!--操作 模板-->
+<script type="text/html" id="operateTemplate">
+    <a class="layui-btn layui-btn-xs layui-api-xs" lay-event="run">调试</a>
+    <!-- <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a> -->
+	<!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+	<!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+</script>
+<script>
+	layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#tableData3'
+            ,url: '/common/js/uri.json' 
+            , cols: [[
+                { type: 'checkbox' }
+                , { field: 'method', width: 80, title: 'Method', sort: true }
+                , { field: 'uri', width: 80, title: '地址' }
+                , { field: 'title', width: 80, title: '说明' }
+			]]
+		})
+	})
+</script>
+

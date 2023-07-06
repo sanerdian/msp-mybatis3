@@ -1,0 +1,426 @@
+﻿<title>机构管理</title>
+
+<style> .layui-table-view .layui-form-checkbox[lay-skin=primary] i {
+    margin-top: 5px;
+}
+
+.white {
+    background: #ffffff;
+    color: green;
+}
+
+.black {
+    background: #B2B2B2;
+    color: #fff;
+}
+
+.node_name {
+    font-size: 18px;
+    color: rgb(102, 102, 102);
+}
+
+.ztree li {
+    margin-top: 10px;
+}
+</style>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>用户</cite></a>
+        <a><cite>后台管理员</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" style="height: 780px;">
+    <div class="layui-row layui-col-space12">
+        <div class="layui-col-md3" style="width: 21%;">
+            <div class="layui-card" style="height: 100% ">
+                <div class="layui-card-header">机构管理</div>
+                <div class="layui-card-body">
+                    <div style="width: 300px;overflow: hidden">
+                        <ul id="treeDemo" class="ztree"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9" style="width:79%;position: relative;">
+            <div class="layui-card" style="height: 100% ">
+                <div class="layui-card-body">
+                    <div style="padding-bottom: 10px; display: inline-block;">
+                        <button class="layui-btn layuiadmin-btn-admin"><i
+                                class="layui-icon layui-icon-add-circlbuttone-fine"></i>新建子组织
+                        </button>
+                        <button class="layui-btn layuiadmin-btn-admin"><i class="layui-icon layui-icon-edit"></i>修改子组织
+                        </button>
+                        <button class="layui-btn layuiadmin-btn-admin" data-type="del"><i
+                                class="layui-icon layui-icon-delete"></i>删除子组织
+                        </button>
+                    </div>
+                    <form class="layui-form" action="#" style="display: inline-block">
+                        <div class="layui-form-item" style="display: inline-block;margin-left: 100px">
+                            <div class="layui-input-block"
+                                 style="display: inline-block;width: 80px;margin-right: -115px;">
+                                <select name="city" lay-verify="required">
+                                    <option value="" disabled>全部</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-block" style="display: inline-block">
+                                <input type="text" name="title" required lay-verify="required" placeholder="请输入"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <button class="layui-btn" style="display: inline-block;margin: -5px 0 0 -4px;"><i
+                                class="layui-icon layui-icon-search"></i></button>
+                    </form>
+                    <div class="layui-tab">
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <table class="layui-hide" id="test"></table>
+                            </div>
+                            <div class="layui-tab-item">
+                                <table class="layui-hide" id="test1"></table>
+                            </div>
+                        </div>
+                        <ul class="layui-tab-title" style="position: fixed;bottom:50px;left: 645px;">
+                            <li class="layui-this white">子组织</li>
+                            <li class="black">数据资源</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        getTreeData();
+        getCompanyInfo(1);
+    })
+
+    var zNodes;
+
+    function getTreeData() {
+        ajax(service_prefix.member,"/company/getCompanyTree","get").then(function (data){
+            if(data.success){
+                zNodes = data.obj;
+            }
+        })
+    }
+
+    var settingss = {
+        data: {
+            simpleData: {
+                enable: true,  //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id",  //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId",    //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: -1  //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            },
+            key: {
+                name: "name"  //zTree 节点数据保存节点名称的属性名称  默认值："name"
+            }
+        },
+        view: {showLine: false, showIcon: true},
+        check: {
+            enable: true,  //true 、 false 分别表示 显示 、不显示 复选框或单选框
+            nocheckInherit: true  //当父节点设置 nocheck = true 时，设置子节点是否自动继承 nocheck = true
+        }
+    };
+
+    zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, zNodes); //初始化树
+    zTreeObj.expandAll(true);    //true 节点全部展开、false节点收缩
+    layui.use('element', function () {
+        var $ = layui.jquery
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //触发事件
+        var active = {
+            tabAdd: function () {
+                //新增一个Tab项
+                element.tabAdd('demo', {
+                    title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                    , content: '内容' + (Math.random() * 1000 | 0)
+                    , id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+            }
+            , tabDelete: function (othis) {
+                //删除指定Tab项
+                element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+                othis.addClass('layui-btn-disabled');
+            }
+            , tabChange: function () {
+                //切换到指定Tab项
+                element.tabChange('demo', '22'); //切换到：用户管理
+            }
+        };
+
+        $('.site-demo-active').on('click', function () {
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+        $("li").on('click', function (e) {
+            var others = $(this).siblings();
+
+            if ($(this).hasClass('black')) {
+
+                $(this).removeClass('black');
+                $(this).addClass('white');
+                others.addClass('black');
+            }
+        })
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#test=/, '');
+        element.tabChange('test', layid);
+
+        element.on('tab(test)', function (elem) {
+            location.hash = 'test=' + $(this).attr('lay-id');
+        });
+
+    });
+
+
+    var $ = layui.$, active = {
+        //批量删除
+        del: function () {
+            var checkStatus = layui.table.checkStatus("test")
+                , data = checkStatus.data;
+            var ids = [];
+            for (var i in data) {
+                ids.push(data[i].id)
+            }
+            if (ids.length == 0) {
+                layer.alert("请选择要删除的数据")
+                return;
+            }
+            if (confirm("确定删除")) {
+                ajax(service_prefix.member,"/company/delByIds","post",JSON.stringify(ids)).then(function (data){
+                    if(data.success){
+                        layer.alert("删除成功", function (index) {
+                            getCompanyInfo(1);
+                            layer.close(index)
+                        })
+                    }
+                })
+            }
+
+        }
+    }
+    $('.layuiadmin-btn-admin').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+
+    function getCompanyInfo(pageNo) {
+        var jsonData = {
+            "pager": {
+                "current": pageNo,
+                "size": 10
+            }
+        }
+        ajax(service_prefix.member,"/company/list","post",JSON.stringify(jsonData)).then(function (data){
+            if(data.success){
+                if (data.obj.records.length > 0) {
+                    layui.use(['laypage', 'table'], function () {
+                        var table = layui.table;
+                        table.render({
+                            elem: '#test'
+                            , data: data.obj.records
+                            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            , cols: [[
+                                {type: 'checkbox'}
+                                , {type: 'numbers', width: 100, title: '序号'}
+                                , {field: 'name', width: 200, title: '公司名称'}
+                                , {field: 'regtime', width: 230, title: '注册日期'}
+                                , {field: 'principal', width: 200, title: '负责人'}
+                                , {field: 'crtime', width: 230, title: '创建时间'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                                , {field: 'cpytel', width: 260, title: '企业电话'}
+                            ]]
+                        });
+                        table.on('row(LAY-app-content-tags)', function (obj) {
+                            var data = obj.data;
+                            //标注选中样式
+                            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                        });
+                    })
+                }
+            }
+        })
+    }
+
+    /* layui.use('table', function(){
+       var table = layui.table;
+
+       table.render({
+         elem: '#test'
+         ,data: [{
+           "number": "1"
+           ,"username": "总经办"
+           ,"descriptions": "总经办"
+           ,"creators": "121f11",
+           "types":"院级非法人单元",
+           "state":"正常",
+           "create": "admin",
+           "time":"2018-09-05"
+
+         }, {
+           "number": "2"
+           ,"username": "市场营销部"
+           ,"descriptions": "市场营销部"
+           ,"creators": "121f11",
+           "types":"院级非法人单元",
+           "state":"正常",
+           "create": "admin",
+           "time":"2018-09-05"
+         }, {
+           "number": "3"
+           ,"username": "业务规划部"
+           ,"descriptions": "业务规划部"
+           ,"creators": "121f11",
+           "types":"院级非法人单元",
+           "state":"正常",
+           "create": "admin",
+           "time":"2018-09-05"
+         }, {
+           "number": "4"
+           ,"username": "业务运营部"
+           ,"descriptions": "业务运营部"
+           ,"creators": "121f11",
+           "types":"院级非法人单元",
+           "state":"正常",
+           "create": "admin",
+           "time":"2018-09-05"
+         }, {
+           "number": "5"
+           ,"username": "系统开发部"
+           ,"descriptions": "系统开发部"
+           ,"creators": "zhangshuangming"
+           ,"creators": "121f11",
+           "types":"院级非法人单元",
+           "state":"正常",
+           "create": "admin",
+           "time":"2018-09-05"
+         }]
+         ,cols: [[
+           {type:'checkbox'}
+           ,{field:'number', width:90, title: '序号'}
+           ,{field:'username', width:150, title: '单位名称'}
+           ,{field:'descriptions', width:150, title: '单位简称'}
+           ,{field:'creators', width:150, title: '单位代码'},
+           {field:'types', width:150, title: '单位类别'},
+           {field:'state', width:150, title: '状态'},
+           {field:'create', width:150, title: '创建用户'},
+           {field:'time', width:150, title: '创建时间'}
+         ]]
+       });
+     });*/
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#test1'
+            , data: [{
+                "number": "1"
+                , "username": "5028162"
+                , "descriptions": "招生招聘"
+                , "state": "已发布",
+                "time": "2018-09-05",
+                "create": "admin",
+                "publish": "2018-09-05",
+                "time2": "admin"
+
+            }, {
+                "number": "2"
+                , "username": "5028162"
+                , "descriptions": "招生招聘"
+                , "state": "已发布",
+                "time": "2018-09-05",
+                "create": "admin",
+                "publish": "2018-09-05",
+                "time2": "admin"
+
+            },
+                {
+                    "number": "3"
+                    , "username": "5028162"
+                    , "descriptions": "招生招聘"
+                    , "state": "已发布",
+                    "time": "2018-09-05",
+                    "create": "admin",
+                    "publish": "2018-09-05",
+                    "time2": "admin"
+
+                },
+                {
+                    "number": "4"
+                    , "username": "5028162"
+                    , "descriptions": "招生招聘"
+                    , "state": "已发布",
+                    "time": "2018-09-05",
+                    "create": "admin",
+                    "publish": "2018-09-05",
+                    "time2": "admin"
+
+                },
+                {
+                    "number": "5"
+                    , "username": "5028162"
+                    , "descriptions": "招生招聘"
+                    , "state": "已发布",
+                    "time": "2018-09-05",
+                    "create": "admin",
+                    "publish": "2018-09-05",
+                    "time2": "admin"
+
+                },
+                {
+                    "number": "6"
+                    , "username": "5028162"
+                    , "descriptions": "招生招聘"
+                    , "state": "已发布",
+                    "time": "2018-09-05",
+                    "create": "admin",
+                    "publish": "2018-09-05",
+                    "time2": "admin"
+
+                },
+                {
+                    "number": "7"
+                    , "username": "5028162"
+                    , "descriptions": "招生招聘"
+                    , "state": "已发布",
+                    "time": "2018-09-05",
+                    "create": "admin",
+                    "publish": "2018-09-05",
+                    "time2": "admin"
+
+                },
+                {
+                    "number": "8"
+                    , "username": "5028162"
+                    , "descriptions": "招生招聘"
+                    , "state": "已发布",
+                    "time": "2018-09-05",
+                    "create": "admin",
+                    "publish": "2018-09-05",
+                    "time2": "admin"
+
+                }]
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'number', width: 80, title: '序号'}
+                , {field: 'username', width: 120, title: '文档ID'}
+                , {field: 'descriptions', width: 120, title: '文档标题'}
+                , {field: 'creators', width: 110, title: '所属系统'},
+                {field: 'state', width: 120, title: '文档状态'},
+                {field: 'origin', width: 120, title: '文档来源'}
+                , {field: 'time', width: 120, title: '创建时间'}
+                , {field: 'create', width: 110, title: '创建用户'},
+                {field: 'publish', width: 120, title: '发布时间'},
+                {field: 'time2', width: 120, title: '创建时间'},
+            ]]
+        });
+    });
+</script>

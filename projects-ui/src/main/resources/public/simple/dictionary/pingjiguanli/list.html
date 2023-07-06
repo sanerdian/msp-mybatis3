@@ -1,0 +1,180 @@
+<link rel="stylesheet" href="../simple/dictionary/css/style.css">
+<div class="layui-fluid">
+	<div class="layui-card h100">
+		<!-- 搜索开始 -->
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="top_btn">
+                <button class="layui-btn layuiadmin-btn-admin" data-type="">本系统发布</button>
+                <button class="layui-btn layuiadmin-btn-admin" data-type="">发布并推送到kfk</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">新建</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="">审核</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="">停用</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="del">删除</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="disp">显示列名</button>
+			</div>
+			<!--			<div class="top_btn">
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">新建</button>
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="">审核</button>
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="">停用</button>
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="del">删除</button>
+                        </div>-->
+			<form class="layui-form" id="formSearch">
+				<div class="layui-form-item">
+
+					<div class="layui-inline">
+						<label class="layui-form-label">创建时间：</label>
+						<div class="layui-input-block">
+							<select name="timeSlot" lay-filter="timeSlot">
+								<!-- <option value="" selected>未生效</option>-->
+								<option value="全部">全部</option>
+								<option value="近一天">近一天</option>
+								<option value="近三天">近三天</option>
+								<option value="近一周">近一周</option>
+							</select>
+						</div>
+					</div>
+					<!--					<div class="layui-inline">
+                                            <label class="layui-form-label">订单状态</label>
+                                            <div class="layui-input-block">
+                                                <select name="status">
+                                                    <option value="" selected>请选择</option>
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                </select>
+                                            </div>
+                                        </div>-->
+					<div class="layui-inline">
+						<label class="layui-form-label">词条状态：</label>
+						<div class="layui-input-block">
+							<select name="status" lay-filter="status">
+								<option value="全部" selected>全部</option>
+								<option value="已生效">已生效</option>
+								<option value="未生效">未生效</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">词条来源</label>
+						<div class="layui-input-block">
+							<select name="ctly" lay-filter="ctly">
+								<option value="全部" selected>全部</option>
+								<option value="手工录入">手工录入</option>
+								<option value="检索日志">检索日志</option>
+								<option value="外部数据">外部数据</option>
+								<option value="ckm分析">ckm分析</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">词条采集</label>
+						<div class="layui-input-block">
+							<select name="ctcj" lay-filter="ctcj">
+								<option value="全部" selected>全部</option>
+								<option value="手工录入">手工录入</option>
+								<option value="批量导入">批量导入</option>
+								<option value="词条导出">词条导出</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">搜索</label>
+						<div class="layui-input-block">
+							<input type="text" name="naturalId" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- 搜索结束 -->
+		<div class="layui-card-body" >
+			<!-- 列表开始 -->
+			<!--            <div class="table-area"  style="overflow-x:auto;width:4000px;height:1000px">-->
+			<div class="table-area">
+				<table id="tableData" lay-filter="tableData"></table>
+			</div>
+			<div id="page"></div>
+			<!-- 列表结束 -->
+		</div>
+
+	</div>
+</div>
+
+<div id="editOpenDiv"></div>
+<div id="deatilOpenDiv"></div>
+
+<script type="text/html" id="operateTemplate">
+	<button class="layui-btn layui-btn-xs" lay-event="detail">详情</button>
+	<button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+	<button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+</script>
+<script src="/common/js/list.js"></script>
+<script src="/simple/dictionary/js/dictionary.js"></script>
+<script src="/simple/dictionary/pingjiguanli/list.js"></script>
+<!--<div class="layui-fluid">
+	<div class="layui-card h100">
+		&lt;!&ndash; 搜索开始 &ndash;&gt;
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="top_btn">
+				<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">新建</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">审核</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">停用</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html">删除</button>
+			</div>
+			<form class="layui-form" id="formSearch">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">订单号</label>
+						<div class="layui-input-block">
+							<input type="text" name="naturalId" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">订单状态</label>
+						<div class="layui-input-block">
+							<select name="status">
+								<option value="" selected>请选择</option>
+								<option value="0">0</option>
+								<option value="1">1</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		&lt;!&ndash; 搜索结束 &ndash;&gt;
+		<div class="layui-card-body">
+			&lt;!&ndash; 列表开始 &ndash;&gt;
+			<div class="table-area">
+				<table id="tableData" lay-filter="tableData"></table>
+			</div>
+			<div id="page"></div>
+			&lt;!&ndash; 列表结束 &ndash;&gt;
+		</div>
+
+	</div>
+</div>
+
+<div id="editOpenDiv"></div>
+<div id="deatilOpenDiv"></div>
+
+<script type="text/html" id="operateTemplate">
+	<button class="layui-btn layui-btn-xs" lay-event="detail">详情</button>
+	<button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+</script>-->
+
+
+
+
+
+

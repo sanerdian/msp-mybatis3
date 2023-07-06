@@ -1,0 +1,53 @@
+<!--弹出层模板 新增-->
+<script type="text/html" id="addTemplate">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="addForm">
+            <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>形容词：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="xingrongci" id="xingrongci" lay-verify="required">
+                    </div>
+<!--                    <div class="layui-input-block">-->
+<!--                        <select  class="layui-input" name="xingrongci" id="xingrongciKey">-->
+<!--                            {{#  layui.each(d.obj, function(index, item){ }}-->
+<!--                                <option value="{{item.wordname}}">{{ item.wordname }}</option>-->
+<!--                            {{#  }); }}-->
+<!--                        </select>-->
+<!--                    </div>-->
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="sign_required">*</span>反义词：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="fanyici" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">属性级别：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="category" id="category">
+                </div>
+<!--                <div class="layui-input-block">-->
+<!--                    <select  class="layui-input" name="category">-->
+<!--                        {{#  layui.each(d, function(index, item){ }}-->
+<!--                        <option value="{{item.manyidu}}">{{ item.manyidu }}</option>-->
+<!--                        {{#  }); }}-->
+<!--                    </select>-->
+<!--                </div>-->
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">词条状态：</label>
+                <div class="layui-input-block">
+                    <select name="status">
+                        <option value="-1" selected>未生效</option>
+                        <option value="0">已生效</option>
+                        <option value="1">停用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="button-bar">
+                <button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+                <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+            </div>
+        </form>
+    </div>
+</script>

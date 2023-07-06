@@ -1,0 +1,66 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../../thirdparty/layui/css/layui.css">
+    <link rel="stylesheet" href="../../../../thirdparty/swiper/swiper.min.css">
+    <link rel="stylesheet" href="carouselPic.css">
+</head>
+<body>
+<!--单个图片轮播开始-->
+<div class="widget_box">
+    <div class="visual_swiper_pic widget_border_content">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="img/01.png" /></a>
+                    <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                    <div class="visual_bg"></div>            
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="img/01.png" /></a>
+                    <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                    <div class="visual_bg"></div>            
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="img/01.png" /></a>
+                    <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                    <div class="visual_bg"></div>            
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="img/01.png" /></a>
+                    <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                    <div class="visual_bg"></div>            
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="img/01.png" /></a>
+                    <h3><a href="#">通用技术大连机床赴大船集团拜访交流</a></h3>
+                    <div class="visual_bg"></div>            
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</div>
+<!--单个图片轮播结束-->
+<script src="../../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+<script src="../../../../thirdparty/layui/layui.all.js"></script>
+<script src="../../../../thirdparty/swiper/swiper.min.js"></script>
+<script>
+$(function(){
+    var swiper = new Swiper('.visual_swiper_pic .swiper-container', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        speed: 500,
+        autoplay : 5000,
+        slidesPerView: 1,
+        paginationClickable: true,
+        loop: true
+    });
+})
+</script>
+</body>
+</html>

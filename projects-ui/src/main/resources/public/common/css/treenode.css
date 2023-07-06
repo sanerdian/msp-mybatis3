@@ -1,0 +1,43 @@
+
+
+.ztree{    overflow: hidden;
+    height: calc(100% - 43px);
+    overflow-y: auto;
+    box-sizing: border-box;}
+.ztree li{margin-top:5px;}
+.ztree li span.button.ico_close,.ztree li span.button.ico_open,.ztree li span.button.ico_docu{background-position:center !important;    margin:0 5px;background-size:70% !important;}
+.ztree li a {width:100%;}
+.ztree li a span{font-size:14px;}
+/*ztree表格*/
+.ztreeMenu{height:494px;padding:0;border-left:1px solid #E3E3E3;border-right:1px solid #E3E3E3;border-bottom:1px solid #E3E3E3;}
+.ztreeMenu li {margin:0;}
+.ztreeMenu li a{vertical-align:middle;height:38px;padding:0px;}
+.ztreeMenu li > a{width:100%;}
+.ztreeMenu li a.curSelectedNode{padding-top:0px;background-color:#FFE6B0;opacity:1;height:38px;}
+.ztreeMenu li ul{padding-left:0px;}
+.ztreeMenu div.divTd span{line-height:38px;vertical-align:middle;}
+.ztreeMenu div.divTd{height:100%;line-height:38px;border-top:1px solid #E3E3E3;border-left:1px solid #E3E3E3;text-align:center;display:inline-block;color:#6c6c6c;overflow:hidden;}
+.ztreeMenu div.divTd:first-child{text-align:left;text-indent:10px;border-left:none;}
+.ztreeMenu .head{background:#f2f2f2;height:39px;line-height:39px;}
+.ztreeMenu .head div.divTd{color:#393939;text-align:center;background:#f2f2f2;font-size:14px;color:#666;}
+.ztreeMenu .ck{padding:0 5px;margin:2px 3px 7px 3px;}
+.ztreeMenu li span.button.ico_close, .ztreeMenu li span.button.ico_open, .ztreeMenu li span.button.ico_docu{margin:9px 0 0;}
+
+.ztreeMenu .head{position:fixed;width:1263px;z-index:1000;margin-top: -40px;}
+.ztreeMenu div.divTdFirst:first-child{font-size:14px;color:#009688;text-align:center;}
+.ztreeMenu .headCheck{height:39px;line-height:39px;}
+
+.ztreeMenu1 {height:520px;width:100%;margin:10px 0 0;padding-top: 40px;overflow-y: scroll;}
+
+
+.ztree li span.button.classTreeIcon1_ico_open,.ztree li span.button.classTreeIcon1_ico_close,.ztree li span.button.classTreeIcon1_ico_docu {background-image:url('../../common/img/u5554.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.classTreeIcon2_ico_open,.ztree li span.button.classTreeIcon2_ico_close,.ztree li span.button.classTreeIcon2_ico_docu {background-image:url('../../common/img/u2615.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.groupTreeIcon1_ico_open,.ztree li span.button.groupTreeIcon1_ico_close,.ztree li span.button.groupTreeIcon1_ico_docu {background-image:url('../../common/img/u5548.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.groupTreeIcon2_ico_open,.ztree li span.button.groupTreeIcon2_ico_close,.ztree li span.button.groupTreeIcon2_ico_docu {background-image:url('../../common/img/u2615.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.menuTreeIcon1_ico_open,.ztree li span.button.menuTreeIcon1_ico_close,.ztree li span.button.menuTreeIcon1_ico_docu {background-image:url('../../common/img/u5548.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.menuTreeIcon2_ico_open,.ztree li span.button.menuTreeIcon2_ico_close,.ztree li span.button.menuTreeIcon2_ico_docu {background-image:url('../../common/img/u2615.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.menuTreeIcon3_ico_open,.ztree li span.button.menuTreeIcon3_ico_close,.ztree li span.button.menuTreeIcon3_ico_docu {background-image:url('../../common/img/u2628.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.columnTreeIcon1_ico_open,.ztree li span.button.columnTreeIcon1_ico_close,.ztree li span.button.columnTreeIcon1_ico_docu {background-image:url('../../common/img/u5548.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.columnTreeIcon2_ico_open,.ztree li span.button.columnTreeIcon2_ico_close,.ztree li span.button.columnTreeIcon2_ico_docu {background-image:url('../../common/img/u5554.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.columnTreeIcon3_ico_open,.ztree li span.button.columnTreeIcon3_ico_close,.ztree li span.button.columnTreeIcon3_ico_docu {background-image:url('../../common/img/u2615.png'); background-size: 70%;background-position: center;}
+.ztree li span.button.companyTreeIcon1_ico_open,.ztree li span.button.companyTreeIcon1_ico_close,.ztree li span.button.companyTreeIcon1_ico_docu {background-image:url('../../common/img/u5548.png'); background-size: 70%;background-position: center;}

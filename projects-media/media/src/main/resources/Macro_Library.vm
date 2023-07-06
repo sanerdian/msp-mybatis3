@@ -1,0 +1,9 @@
+##定义Include标签，用于引入通用模板
+#macro(Include $filename)
+    #parse("${CMS_TEMPLATE_PATH}/${filename}")
+#end
+
+##定义PaginationScript标签，用于分页
+#macro(PaginationScript)
+    var pagerTools={init:function(id,btnCount){var divs=id.getElementsByTagName('div');var btnDiv;var currIndex=0;var btnCount=btnCount;var blocks=new Array();for(var i=0;i<divs.length;i++){if(divs[i].className=='pager-buttons'){btnDiv=divs[i]}else if(divs[i].getAttribute('pageIndex')){blocks.push(divs[i])}};var btnEvent=function(){var curIndex=this.getAttribute('index');changePage(curIndex);rebuild()};var changePage=function(index){currIndex=index;for(var i=0;i<blocks.length;i++){if(blocks[i].getAttribute('pageIndex')==index){blocks[i].style.display='block'}else{blocks[i].style.display='none'}}};var rebuild=function(){btnDiv.innerHTML='';var sy=document.createElement('a');sy.innerHTML='首页';sy.setAttribute('index',0);sy.onclick=btnEvent;btnDiv.appendChild(sy);var pre=document.createElement('a');pre.innerHTML='上一页';pre.setAttribute('index',(parseInt(currIndex)-1)<=0?0:(parseInt(currIndex)-1));pre.onclick=btnEvent;btnDiv.appendChild(pre);var tmp=0;if(parseInt(currIndex)>=btnCount){tmp=parseInt(currIndex)};if(blocks.length-parseInt(currIndex)+1<=btnCount){tmp=blocks.length-btnCount<0?0:blocks.length-btnCount};for(var i=0;i+tmp<blocks.length&&i<=btnCount;i++){var a=document.createElement('a');a.innerHTML=(i+1+tmp);a.onclick=btnEvent;a.setAttribute('index',i+tmp);if(parseInt(i+tmp)==parseInt(currIndex)){a.className='pager-selected'};btnDiv.appendChild(a)};var next=document.createElement('a');next.innerHTML='下一页';next.setAttribute('index',(parseInt(currIndex)+1)>=blocks.length?blocks.length-1:(parseInt(currIndex)+1));next.onclick=btnEvent;btnDiv.appendChild(next);var wy=document.createElement('a');wy.innerHTML='尾页';wy.setAttribute('index',blocks.length-1);wy.onclick=btnEvent;btnDiv.appendChild(wy)};rebuild()}};
+#end

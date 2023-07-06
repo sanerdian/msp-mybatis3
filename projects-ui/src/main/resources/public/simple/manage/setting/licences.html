@@ -1,0 +1,173 @@
+<title>注册码管理</title>
+<div class="layui-fluid">
+    <div class="layui-card h100" style="background: #fff">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="top_btn">
+                <button class="layui-btn" onclick="generateCodes()">生成注册码</button>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div class="table-area">
+                <table id="test"></table>
+            </div>
+            <div id="demo7"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var data = {
+        "pager": {
+            "current": 1,
+            "size": 15
+        },
+        "picture": {
+            "processing": 1
+        }
+    }
+    var global = {
+        pageNo: 1
+    }
+    $(function () {
+        licencesList(1)
+    }())
+
+    function licencesList(pageNo) {
+        global.pageNo = pageNo;
+        data.pager.current = pageNo;
+        $.ajax({
+            url: '/kang/json/licences.json',
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function (res) {
+                console.log(res);
+                res.obj.records.forEach(function (item, index) {
+                    item.number = index + 1;
+                })
+                layui.use('table', function () {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#test',
+                        data: res.obj.records,
+                        cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            ,
+                        cols: [
+                            [{
+                                type: 'numbers',
+                                title: '序号'
+                            },
+                            {
+                                field: 'name',
+                                width: 300,
+                                title: '注册码名称'
+                            },
+                            {
+                                field: 'content',
+                                width: 880,
+                                title: '注册码描述'
+                            },
+                            {
+                                field: 'operator',
+                                width: 163,
+                                title: '操作人'
+                            },
+                            {
+                                field: 'time',
+                                title: '生成时间',
+                                width: 200
+                            }]
+                        ]
+                    });
+                });
+                layui.laypage.render({
+                    elem: 'demo7',
+                    count: res.obj.records.length,
+                    layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                    jump: function (obj) {
+                        console.log(obj)
+                    }
+                })
+
+            }
+        })
+    }
+    // var data = [{
+    //         name: "francochi",
+    //         content: "中科聚网",
+    //         operator: "admin",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "sadadasdqfvvz",
+    //         content: "",
+    //         operator: "ceshi",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "francochi",
+    //         content: "",
+    //         operator: "test",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "wdaxffrA",
+    //         content: "",
+    //         operator: "admin",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "francochi",
+    //         content: "非物质文化遗产资源管理",
+    //         operator: "admin",
+    //         time: "2019-09-05"
+    //     },
+    // ]
+    // data.forEach(function (item, index) {
+    //     item.number = index + 1;
+    // })
+    // layui.use('table', function () {
+    //     var table = layui.table;
+
+    //     table.render({
+    //         elem: '#test',
+    //         data: data,
+    //         cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+    //             ,
+    //         cols: [
+    //             [{
+    //                 field: 'number',
+    //                 width: 80,
+    //                 title: '序号'
+    //             }, {
+    //                 field: 'name',
+    //                 width: 300,
+    //                 title: '注册码名称'
+    //             }, {
+    //                 field: 'content',
+    //                 width: 880,
+    //                 title: '注册码描述'
+    //             }, {
+    //                 field: 'operator',
+    //                 width: 163,
+    //                 title: '操作人'
+    //             }, {
+    //                 field: 'time',
+    //                 title: '生成时间',
+    //                 width: 200
+    //             }]
+    //         ]
+    //     });
+    // });
+    // layui.laypage.render({
+    //     elem: 'demo7',
+    //     count: 100,
+    //     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+    //     jump: function (obj) {
+    //         console.log(obj)
+    //     }
+    // })
+
+    function generateCodes() {
+        layer.alert("注册码生成成功");
+    }
+</script>

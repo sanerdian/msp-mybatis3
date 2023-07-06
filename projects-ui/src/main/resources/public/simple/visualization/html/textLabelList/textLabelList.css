@@ -1,0 +1,10 @@
+.visual_text_label_list{border:1px solid #ccc;overflow:hidden;}
+.visual_text_label_list .visual_title{height:48px;line-height:48px;background-image:linear-gradient(#ecf2f9,#e0ebfc, #d8e7ff);border-top:2px solid #234eac;}
+.visual_text_label_list .visual_title h3{float:left;height:48px;font-size:16px;color:#fff;background:#234eac;padding:0 20px;}
+.visual_text_label_list .visual_title h3 a{color:#fff;}
+.visual_text_label_list .visual_title .more{float:right;margin:0 20px 0 0;}
+.visual_text_label_list .visual_title .more a{color:#999;}
+.visual_text_label_list .visual_con{padding:0 20px;overflow:hidden;}
+.visual_text_label_list .visual_con ul{margin:-1px 0 0;overflow:hidden;}
+.visual_text_label_list .visual_con ul li{line-height:24px;background:url(img/ico_row.png) no-repeat 0 center;border-top:1px dashed #999;padding:10px 0 10px 30px;}
+.visual_text_label_list .visual_con ul li span{color:#999;}

@@ -1,0 +1,348 @@
+﻿<title>消息通知</title>
+<style>
+    .layui-form-label {
+    padding: 10px 0;
+}
+</style>
+<div class="layui-fluid">
+    <div class="layui-card h100" id="index">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+          <div class="top_btn">
+            <button class="layui-btn" data-method="delNews">删除</button>
+            <button class="layui-btn" data-method="setRead">标记已读</button>
+            <button class="layui-btn" data-method="allRead">全部已读</button>
+            <!-- <button class="layui-btn" data-method="selectExport">标记导出</button> -->
+            <button class="layui-btn" onclick="doexport()">导出</button>
+          </div>
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">发件人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="crUser" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline top_search_btn">
+                      <button type="button" class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                      </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-body">
+            <!--<div class="layui-card-header" style="    height: 50px;display: inline-block;width: 100%;padding: 0;">
+                <div class="layui-btn-container" style="display: inline-block;">
+                    <button class="layui-btn" data-method="delNews">删除</button>
+                    <button class="layui-btn" data-method="setRead">标记已读</button>
+                    &lt;!&ndash;  <button class="layui-btn" data-method="allRead">全部已读</button>&ndash;&gt;
+                    &lt;!&ndash;
+                                <button class="layui-btn" data-method="selectExport">标记导出</button>
+                    &ndash;&gt;
+                    <button class="layui-btn" onclick="doexport()">导出</button>
+                </div>
+                <form class="layui-form" style="float: right;">
+                    <div class="layui-form-item" style="float: left;">
+                        <div class="layui-input-block" style="width: 75px;">
+                            <select name="" id="">
+                                <option value="" selected>全部</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-block" style="    width: 240px;">
+                            <input id="newsContent" type="text" name="title" placeholder="内容" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-input-block">
+                            <button class="layui-btn" type="button" onclick="doList(1)" style="width: 50px;margin-top: -3px;"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>-->
+            <div class="table-area">
+                <table id="test" lay-filter="test"></table>
+            </div>
+            <div id="page"></div>
+        </div>
+    </div>
+    <div class="layui-card" style="height:348px;display:none" id="detail">
+        <div class="layui-card-header" style="height: 60px;line-height: 15px;padding-top: 10px;">
+            <table>
+                <tbody>
+                <tr style="color: #333333">
+                    <td>标题：</td>
+                    <td id="newstitle"></td>
+                </tr>
+                <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="returnBack()">返回上一级</button>
+                <tr style="color: #999;font-size:14px;">
+                    <td>发送时间：</td>
+                    <td id="sendTime"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-card-body">
+            <tbody>
+            <table>
+                <tr style="margin-left:10px;line-height:40px;">
+                    <td>消息内容：</td>
+                    <td id="newscontext"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;" onclick="returnBack()">返回上一级</button>-->
+    </div>
+</div>
+
+<script type="text/html" id="titleTpl">
+    {{#  if(d.status === 1){ }}
+    <a href="javascript:void(0);" class="layui-table-link">{{d.title}}</a>
+    {{#  } else { }}
+    <a href="javascript:void(0);" class="layui-table-link">{{d.title}}
+        <span style='display:inline-block;width:38px;height:22px;background:red;float:right;color:#fff;line-height:22px;text-align:center;margin-top:3px;'>未读</span>
+    </a>
+    {{#  } }}
+
+</script>
+<script>
+    layui.form.on("submit(searchData)",function(data){
+        console.log("data",data)
+        doList(1,data.field);
+        return false;
+    })
+    function refreshList() {
+        doList();
+    }
+
+    var defaultPageSize = 15;
+
+    $(function () {
+        console.log(1);
+
+        doList(1);
+
+        
+    })
+
+    //导出消息
+    function doexport() {
+        window.location.href = service_prefix.message + "/msg/downExcel";
+    }
+
+    //获取当前用户收到的消息
+    function doList(pageNo,entity) {
+        if (!pageNo) {
+            pageNo = 1;
+        }
+        entity = entity?entity:{};
+        entity.isDisplay = 0;
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": defaultPageSize,
+                "sortProps": [
+                    {
+                        "key": "status",
+                        "value": true
+                    },
+                    {
+                        "key": "sendTime",
+                        "value": false
+                    }
+                ]
+            },
+            "entity": entity
+        }
+        ajax(service_prefix.message,"/msg/list2", "post", JSON.stringify(jsondata)).then(data => {
+            var res = data.obj.records;
+            layui.use(['table', 'laypage'], function () {
+                var table = layui.table,
+                    laypage = layui.laypage;
+                table.render({
+                    elem: "#test",
+                    data: res,
+                    limit: defaultPageSize,
+                    cols: [[
+                        {type: 'checkbox',fixed: 'left'}
+                        ,{type:'numbers',title: '序号',fixed: 'left', width:80}
+                        , {field: 'title', title: '标题', event: 'setSign', templet: '#titleTpl',fixed: 'left'}
+                        , {field: 'sendUserName', title: '发件人', width: 100}
+                        , {field: 'sendTime', title: '接收时间', width:200}
+                        , {field: 'crUser', title: '创建人', width:100}
+                        , {field: 'createTime', title: '创建时间', width:200}
+                        , {field: 'modifyUser', title: '操作人', width:100}
+                        , {field: 'modifyTime', title: '操作时间', width:200}
+                    ]]
+                });
+                layui.table.on('tool(test)', function (obj) {
+                    if (obj.event == "setSign") {
+                        goList(obj.data);
+                    }
+                })
+                page(data.obj.total,data.obj.current,defaultPageSize);
+            })
+        })
+    }
+
+    function goList(data) {
+        document.getElementById('index').style.display = 'none';
+        document.getElementById('detail').style.display = 'block';
+        showListObj(data);
+        if (data.status == 0) {
+            ajax(service_prefix.message,"/msg/setRead","post",JSON.stringify([data.id])).then(function (data){
+                if(data.success){
+                }
+            })
+        }
+    }
+
+    //根据id查询数据
+    function getListObj(id) {
+        return new Promise((resovle, reject) => {
+            ajax(service_prefix.message,"/msg" + "/" + id, "get", {}).then(res => {
+                resovle(res);
+            }).catch(res => {
+                reject(res);
+            })
+        })
+    }
+
+    function showListObj(obj) {
+        $("#newstitle").text(obj.title);
+        $("#sendTime").text(obj.sendTime);
+        $("#newscontext").html(obj.content);
+        $('#detail').show();
+    }
+
+    function returnBack() {
+        document.getElementById('index').style.display = 'block';
+        document.getElementById('detail').style.display = 'none';
+        doList(1);
+    }
+
+    layui.use('table', function () {
+        var table = layui.table;
+        // 触发事件
+        var active = {
+            delNews: function () {
+                var ids = checkChecked("test");
+                if(!ids){
+                    return;
+                }
+                layer.alert("是否确定删除,该操作不可撤回", function (index) {
+                    //解决删除后提示框仍在问题
+                    layer.close(index);
+                    ajax(service_prefix.message,"/msg/unrealdelByIds1?ids="+ids.join(),"get").then(function (data){
+                        if(data.success){
+                            doList(1)
+                        }else{
+                            layer.alert(data.msg);
+                        }
+                    })
+
+                })
+            },
+            //标记已读
+            setRead: function () {
+                // var checkStatus = table.checkStatus("test"),
+                //     data = checkStatus.data;
+                // var idStr = "";
+                // //console.log(data.length)
+                // if (data.length === 0) {
+                //     layer.alert("请选择标记数据");
+                //     return false;
+                // }
+                // for (var i in data) {
+                //     idStr = idStr + data[i].id;
+                //     if (i < data.length - 1) {
+                //         idStr = idStr + ",";
+                //     }
+                // }
+                // var jsondata = {
+                //     "ids": 
+                // }
+                //标记已读按钮
+                var data=checkChecked("test");
+                /*if(data){
+                    ajax(service_prefix.message,"/msg/setRead", "post", JSON.stringify(checkChecked("test"))).then(data => {
+                        layer.alert("标记成功");
+                        doList(1);
+                        if(res.success){
+                            layer.alert("全部已读标记成功");
+                            doList(1);
+                        }
+                    })
+                }*/
+                layer.alert("是否标记已读", function (data) {
+                    ajax(service_prefix.message,"/msg/setRead", "post", JSON.stringify(checkChecked("test"))).then(data => {
+                        layer.alert("标记成功");
+                        doList(1);
+                        if(res.success){
+                            layer.alert("全部已读标记成功");
+                            doList(1);
+                        }
+                    })
+
+                })
+            },
+            //全部已读
+            allRead: function () {
+                layer.alert("是否标记全部已读", function () {
+                    // ajax2("/msg/setAllRead", "post", {}).then(data => {
+                    //     layer.alert("标记成功")
+                    //     doList(1)
+                    // })
+                    ajax(service_prefix.message,"/msg/setAllRead","post",{}).then(res=>{
+                        if(res.success){
+                            layer.alert("全部已读标记成功");
+                            doList(1);
+                        }
+                    })
+                })
+            },
+            //标记已读
+            selectExport: function () {
+                var checkStatus = table.checkStatus("test"),
+                    data = checkStatus.data;
+                var idStr = "";
+                //console.log(data.length)
+                if (data.length === 0) {
+                    layer.alert("请选择导出数据");
+                    return false;
+                }
+                for (var i in data) {
+                    idStr = idStr + data[i].id;
+                    if (i < data.length - 1) {
+                        idStr = idStr + ",";
+                    }
+                }
+                var jsondata = {
+                    "ids": idStr
+                }
+                ajax(service_prefix.message,"/msg/downloadExcel?current=1&size=10","post",JSON.stringify(jsondata)).then(function (data){
+                    if(data.success){
+                        layer.alert("标记成功")
+                        doList(1)
+                    }
+                })
+            }
+        }
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            goList();
+            //标注选中样式
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        })
+        $(document).on('click', '.layui-btn', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+
+    });
+    layui.form.render();
+</script>

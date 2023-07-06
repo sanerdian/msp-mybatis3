@@ -1,0 +1,76 @@
+<title>网站设置</title>
+<div class="layui-fluid" >
+    <div class="layui-card h100" style="background: #fff">
+        <div class="layui-card-header">网站设置</div>
+        <div class="layui-card-body">
+            <form class="layui-form" style="margin: 20px">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="padding: 9px 0;width: 100px">网站设置</label>
+                    <div class="layui-input-block" style="margin-left: 120px">
+                        <input type="text" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="padding: 9px 0;width: 100px">网站域名</label>
+                    <div class="layui-input-block" style="margin-left: 120px">
+                        <input type="text" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="padding: 9px 0;width: 100px">缓存时间</label>
+                    <div class="layui-input-block" style="width: 500px;margin-left: 120px">
+                        <input type="text" class="layui-input" style="display: inline-block;width: 80px" lay-verify="number">
+                        <span style="margin-left: 10px">分钟</span>
+                        <span style="margin-left: 30px;font-size: 12px;color: #999">本地开发一般推荐设置为 0，线上环境建议设置为 10</span>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="padding: 9px 0;width: 100px">最大文件上传</label>
+                    <div class="layui-input-block" style="width: 500px;margin-left: 120px">
+                        <input type="text" class="layui-input" style="display: inline-block;width: 80px" lay-verify="number">
+                        <span style="margin-left: 10px">KB</span>
+                        <span style="margin-left: 40px;font-size: 12px;color: #999">提示：1 M = 1024 KB</span>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="padding: 9px 0;width: 100px">上传文件类型</label>
+                    <div class="layui-input-block" style="margin-left: 120px">
+                        <input type="text" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">首页标题</label>
+                    <div class="layui-input-block" style="margin-left: 120px">
+                        <textarea class="layui-textarea" style="min-height: 60px"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">META关键词</label>
+                    <div class="layui-input-block"style="margin-left: 120px">
+                        <textarea class="layui-textarea" style="min-height: 60px" placeholder="多个关键词用英文状态逗号分割"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">META描述</label>
+                    <div class="layui-input-block" style="margin-left: 120px">
+                        <textarea class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">版权信息</label>
+                    <div class="layui-input-block" style="margin-left: 120px">
+                        <textarea class="layui-textarea"  style="min-height: 60px"></textarea>
+                    </div>
+                </div>
+                <button class="layui-btn" style="margin: 10px 0 0 120px" type="button"  lay-submit lay-filter="confirmSave">确认保存</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    layui.form.on('submit(confirmSave)',function (data) {
+        layer.alert("保存成功")
+    })
+</script>

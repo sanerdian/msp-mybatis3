@@ -1,0 +1,75 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html" id="templateSwaggerImport">
+	<form class="layui-form" lay-filter="formSwaggerImport">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">url:</label>
+					<div class="layui-input-block">
+						<input type="text" name="url" lay-verify="required|urlSwagger" placeholder="例子：http://localhost:10010/v2/api-docs?group=all" autocomplete="off" class="layui-input">
+                        <span class="bitianspan">必填</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+					<label class="layui-form-label">选择:</label>
+					<div class="layui-input-block">
+                        <input type="radio" name="type" value="all" title="全选" checked="" lay-filter="LAY-item4-step1-isall-type">
+                        <input type="radio" name="type" value="selection" title="自定义选择" lay-filter="LAY-item4-step1-isall-type">
+                    </div>
+                </div>
+                <div class="layui-form-item istable" style="height: 236px;overflow: auto;" hidden>
+                    <table id="tableData3" lay-filter="tableData3" name="tableData3"></table>
+                </div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label">服务名:</label>
+                    <div class="layui-input-block">
+                        <select name="serviceId" lay-verify="required">
+                            <option value=""></option>
+                            <option value="item" selected>item</option>
+                        </select>
+                        <span class="bitianspan">必填</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分组:</label>
+                    <div class="layui-input-block">
+                        <select name="groupId" id="group4swagger" lay-verify="required">
+                        </select>
+                        <span class="bitianspan">必填</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">运行状态:</label>
+                    <div class="layui-input-block">
+                        <select name="runType" lay-verify="required">
+                            <option value=""></option>
+                            <option value="dev">开发</option>
+                            <option value="test" selected>测试</option>
+                            <option value="pre">预运行</option>
+                            <option value="pro">生产</option>
+                        </select>
+                        <span class="bitianspan">必填</span>
+                    </div>
+                </div>
+                <div class="layui-form-item" onmouseover="this.title='要导入的Api在该分组中已存在时'">
+                    <label class="layui-form-label">冲突选项:</label>
+                    <div class="layui-input-block">
+                        <select name="conflict"  lay-verify="required">
+                            <option value=""></option>
+                            <option value="cover" selected>覆盖</option>
+                            <option value="ignore">忽略</option>
+                            <option value="tips">提示</option>
+                        </select>
+                        <span class="bitianspan">必填</span>
+                    </div>
+                </div>
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" data-type="getCheckData" lay-submit lay-filter="LAY-swaggerImport-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+    </form>
+</script>

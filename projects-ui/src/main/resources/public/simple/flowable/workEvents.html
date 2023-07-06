@@ -1,0 +1,344 @@
+﻿﻿<title>工作事项</title>
+<style>
+    #nav span, .right span {
+        display: none;
+    }
+
+    #nav a {
+        display: inline-block;
+        width: 40px;
+        height: 56px;
+        text-align: center;
+        border: 1px solid #f5f5f5;
+    }
+
+    #nav a:nth-of-type(3) {
+        display: inline-block;
+        width: 220px;
+        height: 52px;
+        text-align: left;
+        padding-left: 20px;
+        border-top: 2px solid #000;
+        font-weight: bold;
+    }
+
+    .right {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .layui-breadcrumb a {
+        color: #000 !important;
+    }
+
+    .node_name {
+        color: #000;
+    }
+
+    .ztree li span.button.noline_open {
+        background-position: -110px -88px;
+    }
+
+    .ztree li span.button.ico_docu {
+        margin-top: 3px;
+    }
+
+    .icon {
+        background: url(common/img/icon_gongzuochaxun.png) no-repeat;
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        top: 10px;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>工作事项<i class="layui-icon layui-icon-close" style="margin-left: 120px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid" id='fluid1'>
+    <div class="layui-card" style="height: 800px;">
+        <form class="layui-form layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">所属流程：</label>
+                <div class="layui-input-block">
+                    <select id="selectProc" lay-filter="selectProc">
+                        <option value="" selected>全部流程</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">流程状态：</label>
+                <div class="layui-input-block">
+                    <select id="flowStatus" lay-filter="flowStatus">
+                        <option value="" selected>所有状态</option>
+                        <option value="1">执行中</option>
+                        <option value="2">已结束</option>
+                        <option value="3">已归档</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div class="layui-card-body">
+            <div class="table-area">
+                <table class="layui-hide" id="test" lay-filter="test"></table>
+            </div>
+            <div id="page"></div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+    });
+</script>
+<script type="text/html" id="state">
+    {{#  if(d.isArchived){ }}
+    <span style='color:#000000'>已归档</span>
+    {{#  } else if(!d.endTime){ }}
+    <span style='color:green'>执行中</span>
+    {{#  } else{ }}
+    <span style='color:red;'>已结束</span>
+    {{#  } }}
+</script>
+<script type="text/html" id="operation">
+    <div class='layui-btn-container'>
+        <!--<button class='layui-btn  layui-btn-sm'>详情</button>-->
+        <button class='layui-btn  layui-btn-sm' onclick="showFlowImg('{{d.processInstanceId}}', '')">流程图</button>
+        <button class='layui-btn  layui-btn-sm' lay-event="cuiban">催办</button>
+        {{# if(d.endTime && !d.isArchived){ }}
+            <button class='layui-btn  layui-btn-sm' lay-event='archived'>归档</button>
+        {{# } }}
+        {{# if(d.isFocus){ }}
+        <button class='layui-btn  layui-btn-sm' lay-event='delFocus'>取消关注</button>
+        {{# }else{ }}
+        <button class='layui-btn  layui-btn-sm' lay-event='addFocus'>关注</button>
+        {{# } }}
+    </div>
+</script>
+<script type="text/html" id="taskName">
+    {{d.task?d.task.name:"已结束"}}
+</script>
+<script type="text/html" id="taskUser">
+    {{d.task?d.task.assigneeName:"已结束"}}
+</script>
+<script type='text/html' id='tips'>
+    <div style='text-align:center;line-height:80px;'>是否进行催办提醒？</div>
+    <div class='layui-btn-container' style='position:absolute;bottom:5px;right:10px;'>
+        <button class='layui-btn layui-btn-primary layui-btn-sm close'>取消</button>
+        <button class='layui-btn  layui-btn-sm' onclick="sendCuiBanMsg('{{d.userName}}')">确定</button>
+    </div>
+</script>
+<script type="text/html" id='select'>
+    <div class='box' style='height:230px'>
+        <ul id="treeDemo" class="ztree" style="width: 390px;height: 220px;"></ul>
+    </div>
+    <div class='layui-btn-container' style='position:absolute;bottom:10px;right:20px;'>
+        <button class='layui-btn ' id='confirm'>确定</button>
+        <button class='layui-btn layui-btn-primary close'>关闭</button>
+    </div>
+</script>
+
+<!--isNew-->
+<script>
+    //选择流程下拉框
+    function initSelect(){
+        ajax(service_prefix.flowable,"/process","post",{}).then(function(res){
+            $.each(res.obj, function (index, item) {
+                $('#selectProc').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+    }
+    initSelect();
+
+
+    var workData;
+
+    function doList(current) {
+        current = current?current : 1;
+
+        var entity = {};
+        // var lcName = $("#selects").val();
+        var procDefiId = $("#selectProc").val();
+        var state = $("#flowStatus").val();
+        entity.procDefiId = procDefiId;
+        entity.state = state;
+
+        ajax(service_prefix.flowable, "/flowList", "post",JSON.stringify({entity:entity,pager:{current:current,size:15}})).then(function (res) {
+            workData = res.obj.records;
+            showTable(res.obj.records);
+            page(res.obj.total,current,15);
+        })
+    }
+
+    doList(1);
+
+    function showTable(data) {
+        layui.table.render({
+            elem: '#test'
+            , data: data
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            // , page:true
+            , limit:15
+            // , limits:[10,15,20,25,30]
+            , cols: [[
+                {type: 'checkbox'}
+                , {type: 'numbers', title: '序号', align: "center", width: 77}
+                , {field: 'id', width: 100, title: '流水号'}
+                , {field: 'task.name', title: '工作名称',templet: '#taskName'}
+                , {field: 'processDefinitionName', width: 185, title: '所属流程'}
+                , {field: 'startTimeStr', width: 160, title: '开始时间'}
+                , {field: 'startUserName', title: '流程发起人', width: 120} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {field: 'state', title: '状态', width: 100, templet: "#state"}
+                , {field: 'task.assigneeName', title: '当前处理人', width: 110,templet: '#taskUser'}
+                , {field: 'classify', title: '操作', width: 290, templet: '#operation'}
+            ]]
+        });
+    }
+
+    layui.table.on('tool(test)', function (obj) {
+        var data = obj.data;
+        if (obj.event == "cuiban") {
+            var userName = data.assignee;
+            layerOpen("提示",350,164);
+            lodTpl("tips","openDiv",{userName:userName});
+        } else if(obj.event == "addFocus"){
+            addFocus(data.id);
+        } else if(obj.event == "delFocus"){
+            delFocus(data.id);
+        } else if(obj.event == "archived"){
+            archived(data.id);
+        }
+    })
+
+    function archived(id){
+        var param = {procInstId:id}
+        ajax(service_prefix.flowable,"/archived","post",JSON.stringify(param)).then(function(res){
+            doList($("#page .layui-laypage-skip input").val());
+        })
+    }
+
+    function addFocus(id){
+        var param = {flowid:id};
+        ajax(service_prefix.flowable,"/focus","post",JSON.stringify(param)).then(function(res){
+            doList($("#page .layui-laypage-skip input").val());
+        })
+    }
+
+    function delFocus(id){
+        var param = {flowId:id};
+        ajax2(service_prefix.flowable,"/focus/del","delete",param).then(function(res){
+            doList($("#page .layui-laypage-skip input").val());
+        })
+    }
+
+    function sendCuiBanMsg(userName){
+        ajax(service_prefix.member,"/user/getUserByName?userName="+userName,"get").then(function(res){
+            if(res.success){
+                var params = {title:"工作提醒",
+                    configId:"1163276358409568257",
+                    content:"有一项任务正在待办",
+                    userids:res.obj.id,
+                    range:"部分用户"
+                }
+                ajax(service_prefix.message,"/msg/addSends","post",JSON.stringify(params)).then(function(res){
+                    if(res.success){
+                        layer.closeAll();
+                        layer.alert("提醒成功");
+                    }
+                })
+            }
+        })
+    }
+</script>
+<script>
+
+    layui.use('layer', function () {
+        var $ = layui.jquery, layer = layui.layer;
+        var active = {
+            end: function () {
+                var that = this;
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    , title: '提示'
+                    , area: ['350px', '164px']
+                    , shade: 0.3
+                    , maxmin: true
+                    , id: "_add"
+                    , content: "<div id='form2'></div>"
+                });
+
+                function close() {
+                    layer.closeAll();
+                }
+
+                var closes = document.querySelector('.close');
+
+                closes.addEventListener('click', close);
+            },
+            delete: function () {
+                var that = this;
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    , title: '提示'
+                    , area: ['350px', '164px']
+                    , shade: 0.3
+                    , maxmin: true
+                    , id: "_add"
+                    , content: "<div id='form3'></div>"
+                });
+                layui.laytpl($("#tips3").html()).render({}, function (html) {
+                    $("#form3").html(html);
+                    layui.form.render();
+                })
+
+                function close() {
+                    layer.closeAll();
+                }
+
+                var closes = document.querySelector('.close');
+
+                closes.addEventListener('click', close);
+            }
+        }
+        $(document).on('click', '.layui-btn', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+    })
+
+    form.on('select(flowStatus)', function(data){
+        doList(1);
+    });
+    form.on('select(selectProc)', function(data){
+        doList(1);
+    });
+
+
+
+</script>
+<script>
+    layui.form.render();
+</script>

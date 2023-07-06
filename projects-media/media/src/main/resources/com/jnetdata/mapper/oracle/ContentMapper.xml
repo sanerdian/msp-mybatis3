@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.ContentMapper">
+
+    <!--新闻轮播序号加1-->
+    <update id="updateXiwenrotationMax" parameterType="java.lang.Integer">
+        update jmeta_xinwen020 x set x.rotationorder=x.rotationorder+1 where x.rotationorder>=#{min} and x.rotationorder &lt;= #{max}
+    </update>
+
+    <!--新闻轮播序号减1-->
+    <update id="updateXiwenrotationMin" parameterType="java.lang.Integer">
+        update jmeta_xinwen020 x set x.rotationorder=x.rotationorder-1 where x.rotationorder>=#{min} and x.rotationorder &lt;= #{max}
+    </update>
+
+    <!--新闻置顶序号加1-->
+    <update id="updateXiwentoppingMax" parameterType="java.lang.Integer">
+        update jmeta_xinwen020 x set x.toppingorder=x.toppingorder+1 where x.toppingorder>=#{min} and x.toppingorder &lt;= #{max}
+    </update>
+
+    <!--新闻置顶序号减1-->
+    <update id="updateXiwentoppingMin" parameterType="java.lang.Integer">
+        update jmeta_xinwen020 x set x.toppingorder=x.toppingorder-1 where x.toppingorder>=#{min} and x.toppingorder &lt;= #{max}
+    </update>
+    <update id="removeTopping"  parameterType="java.lang.Long">
+        update jmeta_xinwen020 x set x.toppingorder='',x.toppingflag='' where x.id=#{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="thirdparty/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="thirdparty/jquery/jquery-2.2.2.min.js"></script>
+    <script type="text/javascript" src="thirdparty/layui/layui.all.js"></script>
+    <script type="text/javascript" src="thirdparty/md5/md5.js"></script>
+    <script src="common/js/config.js"></script>
+    <script src="common/js/common.js"></script>
+    <script src="common/js/login.js"></script>
+    <style>
+        html{
+            background: url("common/img/bg.png") no-repeat ;
+            height:100%;
+
+            width:100%;
+
+            overflow: hidden;
+
+            background-size:cover;
+        }
+        .layui-input-block i {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .layui-input-block input {
+            padding-left: 30px;
+        }
+        .layui-form-checkbox[lay-skin=primary]{position: relative;}
+        .layui-form-checkbox[lay-skin=primary] i{position: absolute;top:0;}
+        .loginfont{
+            font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 16px;
+            color: #555555;
+        }
+    </style>
+</head>
+
+<body>
+<div  style="margin: 40px 0 0 50px">
+    <img src="common/img/jnet_logo_white.png" alt="" style="width: 80px;height: 70px">
+    <h2 class="title" style="margin-bottom:40px;color: #fff;display: inline-block;margin-left: 20px;font-weight: bolder"><div><span id="title"></span></div></h2>
+</div>
+<div class="layui-container" style="margin-top: 315px">
+ <div style="width: 400px;float: right;height: 360px;position: relative;background: #fff;margin-top: -135px;margin-left: 100px">
+    <div style="width: 50px;height: 50px;position: absolute;top:0;right:0;background-image: url('common/img/u26.svg');background-size: cover;" id="showQRBtn" onclick="showQRLogin()"></div>
+     <div style="display: none;width: 318px;margin: auto;margin-top: 20px;" id="qrdiv">
+         <div style="width: 50px;height: 50px;position: absolute;top:0;right:0;background-image: url('/common/img/u30.svg');background-size: cover;display: none" id="hideQRBtn" onclick="hideQRLogin()"></div>
+         <div class="head loginfont" style="height: 40px;line-height: 40px;">扫码登录</div>
+         <div style="width: 318px;height: 1px;background:#d6d6d6"></div>
+         <div style="height: 201px;width: 201px;margin:auto;margin-top:25px;border: solid 1px #d6d6d6;">
+             <div style="width: 190px;height: 190px;margin:  6px auto;">
+                 <img style="width: 100%;height: 100%;" id="qrcodeimg">
+             </div>
+         </div>
+         <span style="width: 100%;text-align: center;display: block;margin-top: 15px;">请使用app扫二维码登录</span>
+     </div>
+
+    <form class="layui-form" lay-filter="formDemo" style="width: 318px;margin: 20px auto" id="loginform">
+        <div class="head loginfont" style="height: 40px;line-height: 40px;">登录</div>
+        <div style="width: 318px;height: 1px;background: #d6d6d6"></div>
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <div class="layui-input-block" style="margin-left:0;width:318px;  position: relative;">
+                <i class="layui-icon layui-icon-username"></i>
+                <input type="text" name="name" id="username" lay-verify="required" class="layui-input" placeholder="用户名" autocomplete="off">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left:0;width:318px;  position: relative;">
+                <i class="layui-icon layui-icon-password"></i>
+                <input type="password" name="passWord" lay-verify="required" class="layui-input" placeholder="密码" autocomplete="off" id="pwd">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block"
+                 style="margin-left:0;width:190px;  position: relative;display: inline-block;">
+                <i class="layui-icon layui-icon-vercode"></i>
+                <input type="text" value="test" name="code" id="imgcode" lay-verify="required" class="layui-input" placeholder="请输入验证码" autocomplete="off">
+            </div>
+            <span style="margin-left: 10px;width:108px;height:40px;display: inline-block;">
+                    <img id="verifyCodeImg" onclick="changeImg()" alt="" style="width: 118px;height:40px">
+                </span>
+        </div>
+        <div class="layui-form-item" style="position: relative;">
+            <div class="layui-input-block" style="margin-left: 0; display: inline-block;">
+                <input type="checkbox" name="remember" lay-skin="primary" title="记住密码" lay-filter="remember">
+            </div>
+            <a href="#" style="position: absolute;right:10px; top:10px;">忘记密码？</a>
+        </div>
+        <button class="layui-btn" lay-submit lay-filter="login" style="width: 100%;">登录</button>
+    </form>
+ </div>
+
+</div>
+<p style="text-align: center;margin-top:850px;color: #FFFFFF">版权所有：<span id="copyright"></span></p>
+</body>
+<script>
+    $(function(){
+        getPerfix().then(function(res){
+            initlogin();
+        })
+    })
+    var qrid;
+    function showQRLogin(){
+        $("#hideQRBtn").show();
+        $("#showQRBtn").hide();
+        $("#loginform").hide();
+        ajax(service_prefix.member,"/home/getLoginQR","get").then(function(res){
+            $("#qrcodeimg").attr("src",res.obj.img);
+            $("#qrdiv").show();
+            qrid = res.obj.qrid;
+            openSocket();
+        })
+    }
+    function hideQRLogin(){
+        $("#hideQRBtn").hide();
+        $("#showQRBtn").show();
+        $("#loginform").show();
+        $("#qrdiv").hide();
+    }
+    function dologin(){
+        ajax("","/member/home/loginByQR/"+qrid,"get",{}).then(function(res){
+            if(res.success){
+                window.location.href="index.html";
+            }else{
+                layer.alert(res.msg)
+            }
+        })
+    }
+
+    var socket;
+    function openSocket() {
+        if(typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        }else{
+            console.log("您的浏览器支持WebSocket");
+            //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+            // var socketUrl="ws://127.0.0.1:22599/webSocket/"+userId;
+            var url = window.location.href;
+            url = url.substring(url.indexOf(":"));
+            url = url.substring(0,url.lastIndexOf("/"));
+            var socketUrl= "ws" + url + "/qrWebSocket/"+qrid;
+            if(socket!=null){
+                socket.close();
+                socket=null;
+            }
+            socket = new WebSocket(socketUrl);
+            //打开事件
+            socket.onopen = function() {
+                console.log("websocket已打开");
+                //socket.send("这是来自客户端的消息" + location.href + new Date());
+            };
+            //获得消息事件
+            socket.onmessage = function(msg) {
+                var serverMsg = "收到服务端信息：" + msg.data;
+                console.log(serverMsg);
+                //发现消息进入    开始处理前端触发逻辑
+                if(msg.data == "islogin"){
+                    dologin();
+                }
+            };
+            //关闭事件
+            socket.onclose = function() {
+                console.log("websocket已关闭");
+            };
+            //发生了错误事件
+            socket.onerror = function() {
+                console.log("websocket发生了错误");
+            }
+        }
+    }
+
+    function sendMessage() {
+        if(typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        }else {
+            // console.log("您的浏览器支持WebSocket");
+            var toUserId = document.getElementById('toUserId').value;
+            var contentText = document.getElementById('contentText').value;
+            var msg = '{"toUserId":"'+toUserId+'","contentText":"'+contentText+'"}';
+            console.log(msg);
+            socket.send(msg);
+        }
+    }
+</script>
+</html>

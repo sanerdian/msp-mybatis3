@@ -1,0 +1,446 @@
+<title>元数据编码规则</title>
+<style>
+    .k_btnRight {
+        float: right;
+    }
+
+    .k_btnLeft {
+        float: left;
+    }
+    .k_listright{
+        height: 40px;
+        width: 81px;
+        margin-top: 20px;
+        margin-left: 3px;
+        margin-bottom: 4px;
+        margin-right: 10px
+    }
+    .k_listleft{
+        height: 40px;
+        width: 81px;
+        margin-top: 20px;
+        margin-left: 20px;
+        margin-bottom: 4px;
+        margin-right: 10px
+    }
+    .checkbox_box .layui-form-checkbox i{
+        border-left: 1px solid #d2d2d2;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>编码规则<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+
+        <div class="layui-btn-container k_btnLeft">
+            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary k_listleft" data-type="add">新建规则</button>
+            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary k_listright" data-type="edit2">编辑规则</button>
+            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary k_listright" data-type="del">删除规则</button>
+        </div>
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto k_btnRight">
+            <form class="layui-form">
+                <div class="layui-form-item ">
+                    <div class="layui-inline">
+                        <div class="layui-input-block">
+                            <!--<input id="crUser" type="text" name="projectname" autocomplete="off" class="layui-input">-->
+                            <input id="bmname" type="text" name="projectname" autocomplete="off" class="layui-input" placeholder="请输入编码规则名称">
+                        </div>
+                    </div>
+                    <div class="layui-inline top_search_btn">
+                        <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!--<div class=" k_btnRight">
+                    <form class="layui-form" action="" style="display: inline-block;float: left;">
+                        <input type="text" name="title" placeholder="请输入子分组名称" autocomplete="off" class="layui-input search-input"
+                               id="val">
+                        <button class="layui-btn" type="button" style="padding: 0 10px;margin-left: 8px;" lay-submit
+                                lay-filter="anothernameSearch" onclick="getTables1()"><i class="layui-icon">&#xe615;</i></button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-inline layui-btn-primary" onclick="showSearchBody()"><img src="common/img/u11999.svg"></button>
+                    </form>
+                </div>-->
+
+            </form>
+        </div>
+        <div class="layui-card-body">
+            <!--     <button onclick="getUserLogin(1)" class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>-->
+            <div class="table-area">
+                <table id="test" lay-filter="test"></table>
+            </div>
+            <div id="demo8"></div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="subtype">
+    <a>{{d.typee == 0 ? "启用" : "停用"}}</a>
+</script>
+
+<script type="text/html"  id="tableDataTemplate">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">基本信息</li>
+                    </ul>
+                    <div class="layui-tab-content" style="height: 475px;">
+                        <div class="layui-tab-item layui-show" style="padding-top: 10px;">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">编码规则:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="bmname" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    <!--<span class="bitianspan">必填</span>-->
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label" style="margin-left: -27px">选择:</label>
+                                <div class="layui-input-block checkbox_box">
+                                    <input  lay-filter="switchTest" type="checkbox" name="" value="yyyy" >年
+                                    <input  lay-filter="switchTest" type="checkbox" name="" value="MM" >月
+                                    <input  lay-filter="switchTest" type="checkbox" name="" value="dd" >日
+                                    <input  lay-filter="switchTest" type="checkbox" name="" value="##" checked="checked" disabled>固定编号
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">编码前缀:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="prefix"  placeholder="请输入" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label" style="margin-left: 1px">编号后缀:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="input-ref" name="bmstyle" lay-verify="required" placeholder="YYYYMMDD##" autocomplete="off" class="layui-input" style="font-size: 17px;"  readonly="readonly">
+                                    <!--<span class="bitianspan">必填</span>-->
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label" style=" width: 364px;color: red;">年：YYYY 月：MM 日：DD 编号：##</label>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label" style="width: 180px;">编号样式:  20221013001</label>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">累计方式:</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="cumulative" value="0" checked="checked">自动累加
+                                    <input type="radio" name="cumulative" value="1">按年累加
+                                    <input type="radio" name="cumulative" value="2">按月累加
+                                    <input type="radio" name="cumulative" value="3">按日累加
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">编码位数:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="digit" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                   <!-- <span class="bitianspan">必填</span>-->
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">当前编号:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="nummber" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                   <!-- <span class="bitianspan">必填</span>-->
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" />
+                            <div class="button-bar">
+                                <button class="layui-btn" lay-submit lay-filter="addUser" type="button">确认</button>
+                                <button class="layui-btn" type="button" data-type="close">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+<script>
+
+</script>
+<script>
+    function showWare(res1,res2){
+        const str2w =res1+res2;
+        return str2w;
+    }
+
+    var pageSize = 15;
+    var startTime='',endTime="";
+    /*layui.use('laydate', function() {  //日期显示组件
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#t12'
+            // ,range: true
+            // ,done:function (value) {
+            //     startTime=value.split(' -')[0]
+            //     endTime =value.split('- ')[1]
+            // }
+        });
+
+    })*/
+   /* var startTime1='',endTime1=""
+    layui.use('laydate', function() {  //日期显示组件
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#t13'
+            // ,range: true
+            // ,done:function (value) {
+            //     startTime1=value.split(' -')[0]
+            //     endTime1 =value.split('- ')[1]
+            // }
+        });
+
+    })*/
+    $(function () {
+        getUserLogin(1);
+    })
+    layui.form.on("submit(searchData)",function(data){
+        var params = urlEncode(data.field);
+        getUserLogin(1);
+        return false;
+    })
+    function getUserLogin(pageNo) {
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":pageSize,
+               /* "sortProps":{
+                    key:"loginTime",
+                    value:false
+                }*/
+            },
+            "entity":{
+                "bmname":document.getElementById("bmname").value,
+                /*"address":document.getElementById("address").value,
+                "loginTime":startTime,
+                "endTime":endTime,
+                "logoutTime":startTime1,
+                "endTime1":endTime1*/
+            }
+        }
+        ajax(service_prefix.metadata,"/encoding/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table;
+                        /*,laypage=layui.laypage;*/
+                    table.render({
+                        elem:'#test'
+                        //elem:'#subscribeTabel'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type: 'checkbox', fixed: 'left'},
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                            ,{field:'bmname', width: 400, title: '编码规则',fixed: 'left'}
+                            ,{field:'', width:270, title: '编码规则样式',templet: function (d) {
+                                return showWare(d.prefix,d.bmstyle)
+                                }}
+                            ,{field:'typee', width:220, title: '使用状态',templet:'#subtype'}
+                            ,{field:'crtime', width:200, title: '创建时间'}
+                            , {field: 'cruser', title: '创建人'}
+                            /*, {field: 'createTime', title: '创建时间'}
+                            , {field: 'modifyUser', title: '操作人'}
+                            , {field: 'modifyTime', title: '操作时间'}*/
+                        ]],
+                            id: "id"
+                        ,limit: 15
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:pageSize
+                        ,layout:['count','prev','page','next','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                getUserLogin(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+
+    function add(){
+        setOpenData({});
+    }
+    function setOpenData(data) {
+        var editType = "新建";
+        layui.layer.open({
+            type: 1,
+            title: editType+"编码规则",
+            area:['620px','560px'],
+            anim: 2,
+            content: '<div id="table_data" class="open_layer_form"></div>',
+        });
+        layui.laytpl($("#tableDataTemplate").html()).render(data, function(html) {
+            $("#table_data").html(html)
+            layui.form.val('editForm', data);
+        });
+    }
+    let dayArrar = []
+    //js代码
+    layui.use(['form', 'layer', 'jquery' ], function () {
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+
+
+        //监听多选框点击事件  主要是通过 lay-filter="switchTest"  来监听
+        form.on('checkbox(switchTest)', function (data) {
+            let boxs = $(".checkbox_box .layui-form-checked");
+            let text = ""
+            for(var i = 0; i < boxs.length; i++) {
+                /*console.log(i,$(boxs[i]).prev().val())*/
+                text += $(boxs[i]).prev().val()
+            }
+            $("#input-ref").val(text);
+        });
+    })
+
+    function refreshList(){
+        doList(1,{});
+    }
+
+    layui.form.on("submit(addUser)",function(data){
+        var thisurl = "/encoding/addlist";
+        if(data.field.id){
+            thisurl = "/encoding/uplist";
+        }
+        let param=data.field;
+        if(com.encrypted.userSm4){
+            if(data.field.bmstyle){
+                param.bmstyle=myObj.sm4Encode(data.field.bmstyle);
+            }
+            param.bmname=myObj.sm4Encode(data.field.bmname);
+           /* param.email=myObj.sm4Encode(data.field.email);*/
+        }
+     /*   var nodes = userSetGroupTreeObj.getCheckedNodes();
+        var groupIds = [];
+        for(var group of nodes){
+            groupIds.push(group.id);
+        }*/
+        data.field.cruser =localStorage.getItem("username")
+        ajax(service_prefix.metadata,thisurl,"post",JSON.stringify(data.field)).then(res=>{
+            if(res.success){
+                getUserLogin(1);
+                layer.closeAll();
+                doList(1,{});
+            }else{
+                layer.alert(res.msg)
+            }
+        })
+        return false;
+    })
+
+
+    active.edit2 = function () {
+        editT2();
+    }
+
+    function editT2() {
+        var dataEdit = layui.table.checkStatus('id');
+        var ids = [];
+        for (var i = 0; i < dataEdit.data.length; i++) {
+            ids.push(dataEdit.data[i].id);
+        }
+        if (ids.length <= 0) {
+            layer.alert("请选择子分组");
+            return false;
+        } else if (ids.length > 1) {
+            layer.alert("请选择一条数据进行修改！");
+            return false;
+        }
+        var jsondata = {
+            "pager": {
+                "current": 1,
+                "size": 100
+            },
+            "entity": {
+                "id": ids[0]
+            }
+        }
+        ajax(service_prefix.metadata,"/encoding/list", "post", JSON.stringify(jsondata)).then(data => {
+            var editType = "修改";
+            layui.layer.open({
+                type: 1,
+                title: editType+"编码规则",
+                area:['700px','450px'],
+                anim: 2,
+                content: '<div id="table_data" class="open_layer_form"></div>',
+            });
+            layui.laytpl($("#tableDataTemplate").html()).render(data, function(html){
+                $("#table_data").html(html)
+                console.log(data)
+                layui.form.val('editForm', data.obj.records[0]);
+                // var headerPic = $('input[name="headUrl"]').val();
+                // if(headerPic){
+                //     $('#demo1').attr('src',headerPic);
+                // }
+            });
+        })
+
+    }
+
+   /* function setOpenData1(data) {
+        var editType = "修改";
+        layui.layer.open({
+            type: 1,
+            title: editType+"编码规则",
+            area:['700px','450px'],
+            anim: 2,
+            content: '<div id="table_data" class="open_layer_form"></div>',
+        });
+        layui.laytpl($("#tableDataTemplate").html()).render(data, function(html){
+            $("#table_data").html(html)
+            layui.form.val('editForm', data);
+            var headerPic = $('input[name="headUrl"]').val();
+            if(headerPic){
+                $('#demo1').attr('src',headerPic);
+            }
+        });
+    }*/
+    function del() {
+        var data2 = layui.table.checkStatus('id');
+        var ids = [];
+        for (var i = 0; i < data2.data.length; i++) {
+            ids.push(data2.data[i].id);
+        }
+        if (ids.length <= 0) {
+            layer.alert("请选择子分组");
+            return false;
+        }
+        layer.open({
+            content: "确认删除该子分组吗？",
+            btn: ['确认', "取消"],
+            yes: function (index, layero) {
+                ajax(service_prefix.metadata,"/encoding/delByIds", "post", JSON.stringify(ids)).then(data => {
+                    if (data.success) {
+                        getUserLogin(1);
+                        /*getChildGroup(groupObj.id, 1);*/
+                        layer.close(index);
+
+                    } else {
+                        layer.alert(data.msg);
+                    }
+                }).catch(res => {
+                })
+            }
+        });
+    }
+
+
+</script>

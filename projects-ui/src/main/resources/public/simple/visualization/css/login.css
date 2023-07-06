@@ -1,0 +1,136 @@
+
+.w_login_icon {
+    position: absolute;
+    margin: 15px 0 0 15px;
+}
+
+.w_login_text {
+    margin: 5px 0;
+    padding: 3px 2px 3px 46px;
+    width: 340px;
+    height: 38px;
+}
+
+.w_login_vercode {
+    margin: 5px 0;
+    padding: 3px 2px 3px 46px;
+    width: 192px;
+    height: 38px;
+}
+
+.w_login {
+    width: 400px;
+    right: 250px;
+    top: 30%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 2px;
+}
+
+.w_login .login_user {
+    padding: 0;
+    margin: 0;
+}
+
+.w_login .vercode_img {
+    margin: 5px 0 0 20px;
+    width: 100px;
+    height: 38px;
+    cursor: pointer;
+}
+
+.w_login .vercode_btn {
+    float: right;
+    width: 106px;
+    margin: 5px 0;
+}
+
+.w_login .forget_password {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.m_t_15 {
+    margin-top: 15px;
+}
+
+.position_r {
+    position: relative;
+}
+
+.w_login .layui-tab-brief {
+    margin: 15px 30px;
+}
+
+.w_login .layui-tab-title .layui-this {
+    font-weight: bold;
+}
+
+.w_login .layui-tab-title li {
+    font-size: 16px;
+    color: #7f7f7f;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.w_login .layui-tab-content {
+    padding: 20px 0;
+    width: 340px;
+    margin: 0
+}
+
+.w_login .password, .w_login .forget_password {
+    color: #666666;
+}
+
+.w_login .wechat_login {
+    color: #00c800;
+    font-size: 37px;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.w_login .qq_login {
+    color: #329eec;
+    font-size: 37px;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.w_login .third_login {
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+    justify-content: center;
+}
+
+.w_login .third_login i {
+    text-align: center;
+    padding-bottom: 0;
+}
+
+.w_login .qr_tab1, .w_login .qr_tab2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.w_login .qr_code {
+    width: 174px;
+    height: 174px;
+}
+
+.w_login .qr_border {
+    text-align: center;
+    padding: 15px;
+    border: 1px solid rgb(214, 214, 214);
+    width: 203px;
+    height: 203px;
+    margin: 20px auto;
+}
+
+.w_login .qr_container {
+    text-align: center;
+}

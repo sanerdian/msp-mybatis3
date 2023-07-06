@@ -1,0 +1,95 @@
+<form class="layui-form" lay-filter="siteForm">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-inline layui-form-label">唯一标识:</label>
+                <div class="layui-inline layui-input-block" style="margin-left:0;">
+                    <input type="text" name="code" required lay-verify="required|enCode" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+                <span style="color:red">（英文）同一个站点只允许一个名称</span>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-inline layui-form-label">模块:</label>
+                <div class="layui-inline layui-input-block" style="margin-left:0;">
+                    <select name="moduleId" id="select_module" lay-filter="select_module"></select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">显示名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-inline layui-form-label">存放目录:</label>
+                <div class="layui-inline layui-input-block" style="margin-left:0;">
+                    <input type="text" name="dataPath" required lay-verify="required|enCode" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+                <span style="color:red">（英文）请不要以符号/“开头</span>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">站点类型：</label>
+                <div class="layui-input-block">
+                    <select name="webClass" id="webClass">
+                        <option value="1">元数据站点</option>
+                        <option value="2">资源综合站点</option>
+                        <option value="3">图片站点</option>
+                        <option value="4">文件站点</option>
+                        <option value="5">音频站点</option>
+                        <option value="6">视频站点</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">站点域名:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="webUrl" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">组织机构:</label>
+                <div class="layui-input-block">
+                    <select name="companyId" id="companys">
+                        <option value="" selected>请选择组织机构</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">首页模板:</label>
+                <div class="layui-input-block" style="height: 30px;padding-top: 10px;cursor: pointer;">
+                    <i class="layui-icon layui-icon-app" onclick="select('首页')"></i>
+                    请选择模板
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">细览模板:</label>
+                <div class="layui-input-block" style="height: 30px;padding-top: 10px;cursor: pointer;">
+                    <i class="layui-icon layui-icon-app" onclick="select('细览')"></i>
+                    请选择模板
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">前一个站点:</label>
+                <div class="layui-input-block">
+                    <select name="siteOrder" class="layui-input" id="siteOrder">
+                        <!--                            <option value="" disabled selected hidden>请选择</option>-->
+                        <!--                            <option value="">————最前面————</option>-->
+                        <!--                            <option value="1">————最后面————</option>-->
+                    </select>
+                </div>
+            </div>
+            <div class="button-bar">
+                <button type="button" class="layui-btn" lay-submit lay-filter="addSite">确定</button>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="homeTemplateId" name="homeTemplateId">
+    <input type="hidden" id="detailTemplateId" name="detailTemplateId">
+    <input type="hidden" name="id">
+    <input type="hidden" name="parentId" value="0">
+    <input type="hidden" name="status" value="0">
+</form>
+<script>
+
+</script>

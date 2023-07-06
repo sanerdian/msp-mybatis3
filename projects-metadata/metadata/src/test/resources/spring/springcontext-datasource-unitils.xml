@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+
+    <!--  注意：Unitils测试需要使用下面的数据源，但是好像中文支持有问题 -->
+    <bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean" />
+
+    <!--
+       <bean id="dataSource4develop" class="com.p6spy.engine.spy.P6DataSource">
+           <constructor-arg>
+               <ref local="dataSource"/>
+           </constructor-arg>
+       </bean>
+     -->
+
+</beans>

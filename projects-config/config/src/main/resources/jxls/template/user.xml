@@ -1,0 +1,18 @@
+<workbook>
+    <worksheet name="Sheet1">
+        <section startRow="0" endRow="0">
+        </section>
+        <loop startRow="2" endRow="2" items="users" var="user" varType="com.jnetdata.msp.user.user.model.User">
+        <section startRow="2" endRow="2">
+            <mapping row="2" col="0">user.name</mapping>
+            <mapping row="2" col="1">user.password</mapping>
+            <mapping row="2" col="2">user.phone</mapping>
+        </section>
+        <loopbreakcondition>
+            <rowcheck offset="0">
+                <cellcheck offset="0"></cellcheck>
+            </rowcheck>
+        </loopbreakcondition>
+    </loop>
+    </worksheet>
+</workbook>

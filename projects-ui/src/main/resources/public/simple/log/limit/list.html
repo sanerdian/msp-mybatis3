@@ -1,0 +1,85 @@
+﻿<title>用户登录日志</title>
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+      <form class="layui-form">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label " title="权限名称">权限名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="powerName" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline top_search_btn">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="layui-card-body">
+ <!--     <button onclick="getUserLogin(1)" class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>-->
+        <div class="table-area">
+          <table id="test" lay-filter="test"></table>
+        </div>
+        <div id="demo8"></div>
+    </div>
+  </div>
+</div>
+<script>
+  var pageSize = 15;
+    $(function () {
+        getUserLogin(1);
+    })
+  layui.form.on("submit(searchData)",function(data){
+      var params = urlEncode(data.field);
+      getUserLogin(1,data.field);
+      return false;
+  })
+    function getUserLogin(pageNo,entity) {
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":pageSize
+            },
+            "entity":entity
+        }
+        ajax(service_prefix.log,"/power/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table
+                        ,laypage=layui.laypage;
+                    table.render({
+                        elem:'#test'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                            ,{field:'powerName', title: '权限名称'}
+                            ,{field:'powerType', title: '权限类型'}
+                            ,{field:'detail', title: '操作明细'}
+                            , {field: 'crUser', title: '创建人'}
+                            , {field: 'createTime', title: '创建时间'}
+                            , {field: 'modifyUser', title: '操作人'}
+                            , {field: 'modifyTime', title: '操作时间'}
+                        ]]
+                        ,limit: 15
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:pageSize
+                        ,layout:['count','prev','page','next','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                getUserLogin(obj.curr)
+                            }
+                        }
+                    })
+                })
+
+            }
+        })
+    }
+</script>

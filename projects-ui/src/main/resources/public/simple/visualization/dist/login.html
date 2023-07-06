@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>一体化系统</title>
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/jquery/jquery-ui.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../js/common.js"></script>
+    <script src="../js/config.js"></script>
+</head>
+
+<style>
+    @import "../css/common1.css";
+    @import "../css/login.css";
+    @import "../css/editor.css";
+</style>
+
+<style id="css_content">
+    /** add style here to override default! **/
+</style>
+
+<body>
+<div id="editor_content" style="display: flex;top: 0">
+    <div id="sidebar"></div>
+    <div id=right_zone>
+        <div id="navbar"></div>
+        <div id="app">
+                     <div id="widget_tag_id_0" class="draggable-tag ui-draggable ui-draggable-handle w_tag widget_container" style="position: absolute; top: 100px; left: 143px; z-index: 35;"> <div class="content">    <!--标签必备id，class必备container_content和border_content--> <div id="container_tag_widget_tag_id_0_0" class="container_content border_content tag_border" style="position: absolute; width: 900px; height: 600px; background: rgba(255, 255, 255, 0.1);"> <div id="widget_image_id_4" class="draggable-image ui-draggable ui-draggable-handle w_image" style="position: absolute; top: 135px; left: 228px; z-index: 37;"> <div class="content border_content" src="../upload/images/logo1.png"> <img class="img_content" src=" ../upload/images/logo1.png " style="width: 150px; border-radius: 0px;"> </div> </div>  <div id="widget_text_id_12" class="draggable-text ui-draggable ui-draggable-handle w_text" style="position: absolute; top: 51px; left: 61px; z-index: 45; width: 150px; height: 50px;"> <div class="text_content border_content" style="font-family: 微软雅黑; font-size: 16px; line-height: 1.5; color: rgb(241, 36, 84); text-decoration: none; font-style: italic; font-weight: normal; text-align: left;"> 百度一下，你就知道 </div> </div> </div>    <div id="container_tag_widget_tag_id_0_1" class="container_content border_content tag_border" style="display: none; position: absolute; width: 900px; height: 600px; background: rgba(255, 255, 255, 0.1);"> <div id="widget_text_id_11" class="draggable-text ui-draggable ui-draggable-handle w_text" style="position: absolute; top: 50px; left: 50px; z-index: 38; width: 100px; height: 50px;"> <div class="text_content border_content" style="font-family: 微软雅黑; font-size: 16px; line-height: 1.5; color: rgb(242, 17, 17); text-decoration: none; font-style: normal; font-weight: normal; text-align: left;"> 百度地图 </div> </div>  <div id="widget_table_id_2" class="draggable-text ui-draggable ui-draggable-handle w_table" style="position: absolute; top: 70px; left: 637px; z-index: 42; width: 250px; height: 400px;"> <div class="compute_text" style="position: absolute"></div> <div class="content border_content" style="background: white; font-family: 微软雅黑;"> <div class="table_container" style="padding: 5px 5px 0px;"> <table id="table_widget_table_id_2" lay-filter="filter_table_widget_table_id_2"></table> <br> <div id="table_page_widget_table_id_2"></div> </div> </div> </div>  <div id="widget_search_id_0" class="draggable-search ui-draggable ui-draggable-handle w_search" style="position: absolute; top: 87px; left: 28px; z-index: 43;"> <div class="content border_content"> <ul>  <li> <label class="layui-form-label">姓名</label> <input type="text" name="name" class="layui-input" style="" placeholder="请输入"> </li>  <li> <label class="layui-form-label">手机号</label> <input type="text" name="phone" class="layui-input" style="" placeholder="请输入"> </li>  </ul> <button class="layui-btn search_btn"><i class="layui-icon layui-icon-search"></i></button> </div> </div>  <div id="widget_button_id_0" class="draggable-button ui-draggable ui-draggable-handle w_button" style="position: absolute; top: 156px; left: 100px; z-index: 44; cursor: pointer;"> <button class="content border_content layui-btn" style="width: 99px; height: 36px; font-family: 微软雅黑; font-size: 14px; color: rgb(255, 255, 255); text-decoration: none; font-style: normal; font-weight: normal; text-align: center; background-color: rgb(0, 150, 136); border-color: rgb(0, 150, 136); border-radius: 2px;"> 新增用户 </button> </div> </div>   <div class="container_tag_holder" style="width: 902px; height: 602px;"></div>   <button id="button_tag_widget_tag_id_0_0" class="layui-btn tag_btn tag_btn_active">默认标签</button>  <button id="button_tag_widget_tag_id_0_1" class="layui-btn tag_btn">标签页2</button>   </div> </div>  <div id="widget_text_id_9" class="draggable-text ui-draggable ui-draggable-handle w_text" style="position: absolute; top: 24px; left: 173px; z-index: 18; width: 250px; height: 29px;"> <div class="text_content border_content" style="font-family: 微软雅黑; font-size: 22px; line-height: 1.5; color: rgb(255, 255, 255); text-decoration: none; font-style: normal; font-weight: normal; text-align: left;"> E-安保一体化运营平台 </div> </div>  <div id="widget_image_id_3" class="draggable-image ui-draggable ui-draggable-handle w_image" style="position: absolute; top: 20px; left: 73px; z-index: 33;"> <div class="content border_content" src="../upload/images/logo1.png"> <img class="img_content" src=" ../upload/images/logo1.png " style="width: 82px; height: 41px; border-radius: 0px;"> </div> </div>  <div id="widget_login_id_0" class="draggable-login ui-draggable ui-draggable-handle w_login" style="top: 166px; left: 1067px; z-index: 34;"> <div class="content border_content"> <div class="login_user">  <div class="qr_tab1"> <img src="../images/qr1.png" style="float: right"> </div>  <div class="layui-tab layui-tab-brief"> <ul class="layui-tab-title">  <li class="layui-this username_login">账号密码</li>   <li class="phone_login">手机号验证码</li>   </ul> <div class="layui-tab-content">  <div class="layui-tab-item layui-show username_login"> <form action="" class="layui-form"> <div class="layui-form-item"> <div class="layui-input-inline"> <i class="layui-icon layui-icon-username w_login_icon"></i> <input type="text" class="layui-input w_login_text" lay-verify="username" name="username" placeholder="请输入账号"> </div> </div> <div class="layui-form-item"> <div class="layui-input-inline"> <i class="layui-icon layui-icon-password w_login_icon"></i> <input type="password" class="layui-input w_login_text" lay-verify="password" name="password" placeholder="请输入密码"> </div> </div>  <div class="layui-form-item vercode_item"> <div class="layui-input-inline"> <i class="layui-icon layui-icon-vercode w_login_icon"></i> <input type="text" class="layui-input w_login_vercode" lay-verify="required" name="vercode" placeholder="请输入验证码"> </div> <img class="vercode_img" src="http://123.57.20.137:8080/member/home/imgCode?t=1650896215625"> </div>  <div class="layui-form-item position_r m_t_15 password"> <div class="layui-input-inline"> <input type="checkbox" name="remember" lay-skin="primary" title="记住密码" lay-filter="remember"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>记住密码</span><i class="layui-icon layui-icon-ok"></i></div> </div> <a class="forget_password" href="#">忘记密码？</a> </div> <button type="submit" class="layui-btn layui-bg-green layui-btn-fluid" lay-submit="" lay-filter="username_login">登录 </button> </form> </div>    <div class="layui-tab-item phone_login">   <form action="" class="layui-form"> <div class="layui-form-item"> <div class="layui-input-inline"> <i class="layui-icon layui-icon-username w_login_icon"></i> <input type="text" class="layui-input w_login_text" name="phone" lay-verify="phone" placeholder="请输入11位手机号"> </div> </div> <div class="layui-form-item"> <div class="layui-input-inline"> <i class="layui-icon layui-icon-vercode w_login_icon"></i> <input type="text" class="layui-input w_login_vercode" name="vercode2" placeholder="请输入验证码"> </div> <button class="layui-btn layui-bg-green vercode_btn">获取验证码 </button> </div> <div class="layui-form-item position_r m_t_15 password"> <div class="layui-input-inline"> <input type="checkbox" name="remember" lay-skin="primary" title="记住密码" lay-filter="remember"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>记住密码</span><i class="layui-icon layui-icon-ok"></i></div> </div> <a class="forget_password" href="#">忘记密码？</a> </div> <button type="submit" class="layui-btn layui-bg-green layui-btn-fluid" lay-submit="" lay-filter="phone_login">登录 </button> </form> </div>  </div>  <fieldset class="layui-elem-field layui-field-title third_login"> <legend class="third_login">第三方登录</legend> <div class="layui-field-box login-icon third_login">  <i class="layui-icon layui-icon-login-wechat wechat_login"></i>   <i class="layui-icon layui-icon-login-qq qq_login"></i>  </div> </fieldset>  </div> </div> <div class="login_qr" style="display: none"> <div class="qr_tab2"> <img src="../images/qr2.png" style="float: right"> </div> <div class="layui-tab layui-tab-brief"> <ul class="layui-tab-title"> <li class="layui-this">扫码登录</li> </ul> <div class="layui-tab-content"> <div class="layui-tab-item layui-show qr_container"> <div class="qr_border"> <img class="qr_code" src="../images/qr_code.png"> </div> <div>请使用APP扫描二维码登录</div> </div> </div> </div> </div> </div> </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    let commonData = {};
+    let zoom = document.body.clientWidth / 1920;
+    $("html").css({zoom: zoom});
+</script>
+
+<script id="js_content">
+    
+        /** __start_page_style_js_code__ **/
+        let currentPageData = {bgColor: ""};
+        (function loadPageStyle() {
+    let background = '';
+    if (currentPageData.bgColor) {
+        background = currentPageData.bgColor;
+    }
+    $("#editor_content").css({background: background});
+})();
+        /** __end_page_style_js_code__ **/
+        
+        /** __start_widget_tag_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_tag_id_0","type":3,"index":0,"left":143,"top":100,"zIndex":35,"width":"900","height":"600","style":1,"background":"rgba(255, 255, 255, 0.1)","border":true,"scroll":false,"containers":[{"id":0,"title":"默认标签","LAY_TABLE_INDEX":0},{"id":1,"title":"标签页2","LAY_TABLE_INDEX":1}]});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        _this.select(".tag_btn:first").addClass("tag_btn_active");
+        _this.containers.forEach(item => {
+            $(`#button_tag_${_this.widgetId}_${item.id}`).click(function () {
+                _this.select(".container_content").hide();
+                $(`#container_tag_${_this.widgetId}_${item.id}`).show();
+                _this.select(".tag_btn").removeClass("tag_btn_active");
+                $(this).addClass("tag_btn_active");
+            });
+        });
+    })(__this);
+        })('widget_tag_id_0');
+        /** __end_widget_tag_js_code__ **/
+        
+        /** __start_widget_text_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_text_id_9","parent":"#app","type":1,"index":9,"left":173,"top":24,"zIndex":18,"width":"250","height":"29","content":"E-安保一体化运营平台","fontFamily":"微软雅黑","fontSize":"22","lineHeight":"1.5","isUnderline":false,"isItalic":false,"isBold":false,"textAlign":"left","color":"rgb(255, 255, 255)","relatedDbTable":"","relatedDbField":"","jumpType":1,"jumpAddress":"https://www.baidu.com","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        if (_this.jumpAddress && _this.jumpAddress.length > 0 && !_this.editable) {
+            _this.currentWidget().css({"cursor": "pointer"});
+            _this.currentWidget().click(function () {
+                location.href = _this.jumpAddress;
+            });
+        }
+        // TODO 关联数据表
+
+    })(__this);
+        })('widget_text_id_9');
+        /** __end_widget_text_js_code__ **/
+        
+        /** __start_widget_image_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_image_id_3","parent":"#app","type":2,"index":3,"left":73,"top":20,"zIndex":33,"width":"82","height":"41","content":"../upload/images/logo1.png","radius":"0","relatedDbTable":"","relatedDbField":"","jumpType":1,"jumpAddress":"https://map.baidu.com","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        if (_this.jumpAddress && _this.jumpAddress.length > 0 && !_this.editable) {
+            _this.currentWidget().css({"cursor": "pointer"});
+            _this.currentWidget().click(function () {
+                location.href = _this.jumpAddress;
+            });
+        }
+        // TODO 关联数据表
+
+    })(__this);
+        })('widget_image_id_3');
+        /** __end_widget_image_js_code__ **/
+        
+        /** __start_widget_login_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_login_id_0","parent":"#app","type":0,"index":0,"left":1067,"top":166,"zIndex":34,"allowUserLogin":true,"allowPhoneLogin":true,"allowQrcodeLogin":true,"allowWechatLogin":true,"allowQQLogin":true,"verifyType":0,"jumpType":0,"jumpAddress":"","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+            return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        let changeImg = function () {
+            _this.select(".vercode_img").attr("src", getAjaxUrl("", "/member/home/imgCode") + "?t=" + new Date().getTime())
+        };
+        let changeQrcode = function () {
+            // TODO changeQrcode
+        };
+        if (_this.select(".vercode_img").is(":visible")) {
+            changeImg();
+        }
+        _this.select(".vercode_img").click(function () {
+            changeImg()
+        });
+        _this.select(".qr_tab1").click(function () {
+            _this.select(".login_user").hide();
+            _this.select(".login_qr").show();
+            changeQrcode();
+        });
+
+        _this.select(".qr_tab2").click(function () {
+            _this.select(".login_user").show();
+            _this.select(".login_qr").hide();
+            changeImg();
+        });
+        _this.select(".login_qr .qr_code").click(function () {
+            changeQrcode();
+        });
+
+        let vercodeBtn = _this.select(".vercode_btn");
+        let vercodeBtnClicked = false;
+        vercodeBtn.click(function (e) {
+            if (vercodeBtnClicked) {
+                return false;
+            }
+            vercodeBtnClicked = true;
+            e.preventDefault();
+            vercodeBtn.addClass("layui-btn-disabled")
+            vercodeBtn.removeClass("layui-bg-green")
+            let time = 60;
+            let interval;
+
+            function fnInterval() {
+                vercodeBtn.text(`${time--}秒后再试`);
+                if (time < 0) {
+                    clearInterval(interval);
+                    vercodeBtn.removeClass("layui-btn-disabled")
+                    vercodeBtn.addClass("layui-bg-green")
+                    vercodeBtn.text("获取验证码");
+                    vercodeBtnClicked = false;
+                }
+                return fnInterval
+            }
+
+            interval = setInterval(fnInterval(), 1000);
+            // TODO send phone msg
+        });
+
+        _this.select(".wechat_login").click(function () {
+            // TODO wechat_login
+        });
+        _this.select(".qq_login").click(function () {
+            // TODO qq_login
+        });
+
+        _this.select(".forget_password").click(function () {
+            // TODO forget_password
+        });
+        form.render();
+    })(__this);
+        })('widget_login_id_0');
+        /** __end_widget_login_js_code__ **/
+        
+        /** __start_widget_image_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_image_id_4","parent":"#container_tag_widget_tag_id_0_0","type":2,"index":4,"left":228,"top":135,"zIndex":37,"width":"150","height":"0","content":"../upload/images/logo1.png","radius":"0","relatedDbTable":"","relatedDbField":"","jumpType":-1,"jumpAddress":"","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        if (_this.jumpAddress && _this.jumpAddress.length > 0 && !_this.editable) {
+            _this.currentWidget().css({"cursor": "pointer"});
+            _this.currentWidget().click(function () {
+                location.href = _this.jumpAddress;
+            });
+        }
+        // TODO 关联数据表
+
+    })(__this);
+        })('widget_image_id_4');
+        /** __end_widget_image_js_code__ **/
+        
+        /** __start_widget_text_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_text_id_11","parent":"#container_tag_widget_tag_id_0_1","type":1,"index":11,"left":50,"top":50,"zIndex":38,"width":"100","height":"50","content":"百度地图","fontFamily":"微软雅黑","fontSize":"16","lineHeight":"1.5","isUnderline":false,"isItalic":false,"isBold":false,"textAlign":"left","color":"rgb(242, 17, 17)","relatedDbTable":"","relatedDbField":"","jumpType":1,"jumpAddress":"https://map.baidu.com","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        if (_this.jumpAddress && _this.jumpAddress.length > 0 && !_this.editable) {
+            _this.currentWidget().css({"cursor": "pointer"});
+            _this.currentWidget().click(function () {
+                location.href = _this.jumpAddress;
+            });
+        }
+        // TODO 关联数据表
+
+    })(__this);
+        })('widget_text_id_11');
+        /** __end_widget_text_js_code__ **/
+        
+        /** __start_widget_table_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_table_id_2","parent":"#container_tag_widget_tag_id_0_1","type":6,"index":2,"left":637,"top":70,"zIndex":42,"width":"250","height":"400","style":0,"fontFamily":"微软雅黑","margin":["5","5","0","5"],"textAlign":"left","dataSelectStyle":2,"numPerPage":5,"tableTitle":[{"type":"checkbox","width":0,"style":2,"align":"left","key":"0-0","hide":false,"unresize":true},{"type":"numbers","title":"序号","width":0,"align":"left","key":"0-1","hide":false,"unresize":true}],"relatedDbTable":"","relatedDbField":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        if (_this.style === 0) {
+            table.render({
+                elem: '#table_' + _this.widgetId,
+                height: _this.height - _this.margin[0] - _this.margin[2] - 2,
+                width: _this.width - _this.margin[1] - _this.margin[3] - 2,
+                url: '../json/page.json', // TODO
+                even: false,
+                page: false,
+                size: 'lg',
+                cols: [_this.tableTitle],
+                parseData(res) {
+                    return {
+                        'status': 0,
+                        'data': res
+                    }
+                },
+                request: {
+                    pageName: 'curr',
+                    limitName: 'nums'
+                },
+                response: {
+                    statusName: 'status'
+                },
+                done(res) {
+                    let tableLength = res.data.length;
+                    renderPage(tableLength);
+                    // _this.select(".total_number").text(`共 ${res.data.length} 条`);
+                }
+            });
+
+            // TODO DEL
+            $(_this.parent).on('table_event_' + _this.parent, function (e, type, msg) {
+                let selectedData = table.checkStatus('table_' + _this.widgetId).data;
+                alert(type + ":  " + _this.widgetId)
+                switch (type) {
+                    case "insert":
+                        break;
+                    case "delete":
+                        break;
+                    case "update":
+                        break;
+                    case "search":
+                        break;
+                    case "redirect":
+                        break;
+                }
+            });
+
+            function renderPage(tableLength) {
+                if (_this.numPerPage > 0) {
+                    laypage.render({
+                        elem: 'table_page_' + _this.widgetId,
+                        count: tableLength,
+                        limit: _this.numPerPage,
+                        layout: ['count', 'prev', 'page', 'next'],
+                        theme: '#009688',
+                        curr: location.hash.replace('#!page=', ''),
+                        hash: 'page',
+                        jump(obj) {
+                            console.log(obj)
+                        }
+                    })
+                }
+            }
+
+            // TODO 关联数据表
+        } else if (_this.style === 2) {
+            table.render({
+                elem: '#table_' + _this.widgetId,
+                height: _this.height - _this.margin[0] - _this.margin[2] - 2,
+                width: _this.width - _this.margin[1] - _this.margin[3] - 2,
+                url: '../json/page.json', // TODO
+                even: false,
+                page: false,
+                size: 'lg',
+                cols: [[{title: '', field: "content1"}, {title: '', field: "content2"},
+                    {title: '', field: "content3"},{title: '', field: "content4"}]],
+                parseData(res) {
+                    return {
+                        'status': 0,
+                        'data': [{"content1": "姓名","content2": "宋江","content3": "身份证号","content4": "110100201111224786"},
+                            {"content1": "年龄","content2": "31","content3": "性别","content4": "男"}]
+                    }
+                },
+                request: {
+                    pageName: 'curr',
+                    limitName: 'nums'
+                },
+                response: {
+                    statusName: 'status'
+                },
+                done(res) {
+                    // _this.select("th").hide();
+                    _this.select("tr").css({"background-color":"white", "border": "none"});
+                    _this.select(".layui-border-box").css("border", "none");
+                    _this.select("th").css({"border": "none", "padding": "2px 1px"});
+                    _this.select("th .layui-table-cell").css("height", "0px");
+                    _this.select("td:even").css("background-color", "#f2f2f2");
+                    _this.select("td").css("border-left", "1px #e6e6e6 solid");
+                }
+            });
+        }
+    })(__this);
+        })('widget_table_id_2');
+        /** __end_widget_table_js_code__ **/
+        
+        /** __start_widget_search_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_search_id_0","parent":"#container_tag_widget_tag_id_0_1","type":8,"index":0,"left":28,"top":87,"zIndex":43,"width":0,"height":0,"fieldLogic":"and","dbTable":"","dbField":[{"title":"姓名","field":"name"},{"title":"手机号","field":"phone"}]});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        let content = _this.currentWidget().children('.content');
+
+        // TODO DEL
+        let parent = $(_this.parent);
+        if (!_this.editable && parent.hasClass("container_content")) {
+            _this.select(".search_btn").click(function () {
+                let type = 'search';
+                let msg = '';
+                if (type.length > 0) {
+                    _this.currentWidget().trigger('table_event_' + _this.parent, [type, msg]);
+                }
+            });
+        }
+    })(__this);
+        })('widget_search_id_0');
+        /** __end_widget_search_js_code__ **/
+        
+        /** __start_widget_button_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_button_id_0","parent":"#container_tag_widget_tag_id_0_1","type":7,"index":0,"left":100,"top":156,"zIndex":44,"width":"99","height":"36","style":2,"content":"新增用户","icon":"","radius":"2","paddingColor":"#009688","borderColor":"#009688","fontFamily":"微软雅黑","isUnderline":false,"isItalic":false,"isBold":false,"textAlign":"center","color":"#FFFFFF","jumpType":-1,"jumpAddress":"","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        let isJump = _this.jumpAddress && _this.jumpAddress.length > 0;
+        if (isJump && !_this.editable) {
+            _this.currentWidget().click(function () {
+                location.href = _this.jumpAddress;
+            });
+        }
+        // TODO DEL
+        let parent = $(_this.parent);
+        if (!isJump && !_this.editable && parent.hasClass("container_content")) {
+            let type = '';
+            let msg = '';
+            if (_this.content.indexOf("增") !== -1) {
+                type = 'insert';
+            }
+            if (_this.content.indexOf("删") !== -1) {
+                type = 'delete';
+            }
+            if (_this.content.indexOf("改") !== -1) {
+                type = 'update';
+            }
+            if (_this.content.indexOf("刷新") !== -1) {
+                type = 'refresh';
+            }
+            _this.currentWidget().click(function () {
+                if (type.length > 0) {
+                    _this.currentWidget().trigger('table_event_'+_this.parent, [type, msg]);
+                }
+            });
+        }
+    })(__this);
+        })('widget_button_id_0');
+        /** __end_widget_button_js_code__ **/
+        
+        /** __start_widget_text_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_text_id_12","parent":"#container_tag_widget_tag_id_0_0","type":1,"index":12,"left":61,"top":51,"zIndex":45,"width":"150","height":"50","content":"百度一下，你就知道","fontFamily":"微软雅黑","fontSize":"16","lineHeight":"1.5","isUnderline":false,"isItalic":true,"isBold":false,"textAlign":"left","color":"rgb(241, 36, 84)","relatedDbTable":"","relatedDbField":"","jumpType":1,"jumpAddress":"https://www.baidu.com","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        if (_this.jumpAddress && _this.jumpAddress.length > 0 && !_this.editable) {
+            _this.currentWidget().css({"cursor": "pointer"});
+            _this.currentWidget().click(function () {
+                location.href = _this.jumpAddress;
+            });
+        }
+        // TODO 关联数据表
+
+    })(__this);
+        })('widget_text_id_12');
+        /** __end_widget_text_js_code__ **/
+        
+</script>
+</html>

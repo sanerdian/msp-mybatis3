@@ -1,0 +1,78 @@
+<style>
+    .layui-form-label{
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+<div>
+    <ul>
+        <li>
+            <br>
+            <div>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item layui-form-text">
+                      <label class="layui-form-label">
+                          相关流程 
+                          <button type="button" class="layui-btn layui-btn-xs" id="upload1">
+                            <i class="layui-icon">&#xe67c;</i>上传
+                          </button>
+                        </label>
+                      <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                      </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">
+                            相关任务
+                            <button type="button" class="layui-btn layui-btn-xs" id="upload2">
+                                <i class="layui-icon">&#xe67c;</i>上传
+                            </button>
+                        </label>
+                        <div class="layui-input-block">
+                          <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        相关客户 
+                        <button type="button" class="layui-btn layui-btn-xs" id="upload1">
+                            <i class="layui-icon">&#xe67c;</i>上传
+                        </button>
+                        </label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        相关项目 
+                        <button type="button" class="layui-btn layui-btn-xs" id="upload1">
+                            <i class="layui-icon">&#xe67c;</i>上传
+                        </button>
+                        </label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                    </div>
+                  </form>
+            </div>
+        </li>
+    </ul>
+</div>
+<script>
+    layui.form.render()
+    layui.upload.render({
+        elem: '#upload1'
+        ,done: function(res, index, upload){
+            //获取当前触发上传的元素，一般用于 elem 绑定 class 的情况，注意：此乃 layui 2.1.0 新增
+            var item = this.item;
+        }
+    })
+    layui.upload.render({
+        elem: '#upload2'
+        ,done: function(res, index, upload){
+            //获取当前触发上传的元素，一般用于 elem 绑定 class 的情况，注意：此乃 layui 2.1.0 新增
+            var item = this.item;
+        }
+    })
+</script>

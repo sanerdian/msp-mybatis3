@@ -1,0 +1,285 @@
+<!--组件编辑页-->
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>组件</title>
+<link rel="stylesheet" href="../../../thirdparty/layui/css/layui.css">
+<!-- <link rel="stylesheet" href="../../../thirdparty/swiper/swiper.min.css"> -->
+<!-- <link rel="stylesheet" href="../../../common/css/admin.css">
+<link rel="stylesheet" href="../../../common/css/style.css"> -->
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/groupEdit.css">
+</head>
+<body>
+<div class="visualMain" id="groupEdit">    
+    <div class="head">
+        <div class="leftHead">
+            <h2>可视化组件管理系统</h2>
+        </div>
+        <div class="rightHead">          
+            <span class="page_set">
+                <img src="../images/web_set.png">
+                <span>组件设置</span>
+            </span>
+            <span class="separator">|</span>
+            <span class="backward">
+                <img src="../images/backward.png"/>
+            </span>
+            <span class="forward">
+                <img src="../images/forward.png"/>
+            </span>
+            <button class="layui-btn saveModel" type="button">保存</button>
+            <button class="layui-btn cancel-btn" type="button" onclick="window.close()">取消</button>
+        </div>
+    </div>
+  
+    <!-- 主题部分 -->
+    <div class="editBody">  
+            <div class="panelView">
+                <div class="editPanel">
+                    <div class="topTitle">
+                        <div class="btnBox topTitRight">
+                            <button class="layui-btn " id="runCode">运行代码</button>
+                        </div>
+                        <div class="topTitLeft">
+                            <span>预览</span>
+                        </div>
+                    </div>
+                    <div class="editDesign">
+                        <span class="deleteDom"><i class="layui-icon layui-icon-delete"></i></span>
+                    </div>
+                    <div class="groupDomBox"></div>
+                </div>
+                
+                
+                <div class="codePannel">
+                    <!-- 代码预览视图 -->
+                    <div class="codeView layui-show">
+                        <div class="codeViewBox">
+                            <ul class="layui-nav" >
+                                <li class="layui-nav-item  layui-this">
+                                    <a>HTML</a>
+                                </li>
+                                <li class="layui-nav-item">
+                                    <a>CSS</a>
+                                </li>
+                                <li class="layui-nav-item">
+                                    <a>JS</a>
+                                </li>
+                                <li class="layui-nav-item">
+                                    <a>IMG</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="layui-form viewChild">
+                            <div class="layui-form-item layui-form-text active">
+                                <div class="code_box">
+                                    <textarea  id="htmlCode" placeholder="请填写HTML" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="uploadBox">
+                                    <div class="layui-btn layui-item" onclick="uploadCssfile()">新建</div>
+                                </div>
+                                <div class="code_box" style="display:none;">
+                                    <div class="codeCur"><span class="code_save" onclick="codeSave(this)">保存</span><span class="back" onclick="backList(this)"></span>当前位置：<span class="cur_name"></span></div>
+                                    <textarea id="cssCode" placeholder="CSS" class="layui-textarea"></textarea>
+                                </div>
+                                <div class="upload_list" id="uploadCssListView">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="uploadBox">
+                                    <div class="layui-btn layui-item" onclick="uploadJsfile()">新建</div>
+                                </div>
+                                <div class="code_box" style="display:none;">
+                                    <div class="codeCur"><span class="code_save" onclick="codeSave(this)">保存</span><span class="back" onclick="backList(this)"></span>当前位置：<span class="cur_name"></span></div>
+                                    <textarea id="jsCode" placeholder="JS" class="layui-textarea"></textarea>
+                                </div>
+                                <div class="upload_list" id="uploadJsListView">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="uploadBox">
+                                    <div class="layui-btn layui-item" onclick="uploadImgfile()">新建</div>
+                                </div>
+                                <div class="upload_list" id="uploadImgListView">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<script src="../../../thirdparty/jquery/jquery-1.12.4.min.js"></script>
+<script src="../../../thirdparty/layui/layui.all.js"></script>
+<script src="../../../thirdparty/html2canvas/html2canvas.min.js"></script>
+<script src="../../../thirdparty/swiper/swiper.min.js"></script>
+<script src="../../../common/js/config.js"></script>
+<script src="../js/commonVisual.js"></script>
+<script src="../js/getViewService.js"></script>
+<script src="../js/groupEdit.js"></script>
+<!-- 点击组件设置后的弹框 -->
+<script type="text/html" id="setGroup">     
+    <form class="layui-form set_from" id="groupFrom" lay-filter="setGroupform">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>组件名称:</label>
+          <div class="layui-input-block">
+            <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>输出文件名:</label>
+            <div class="layui-input-block">
+              <input type="text" name="outFileName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>网页类型:</label>
+            <div class="layui-input-block">
+              <select name="netType" lay-verify="required" >
+                <option value="PC端">PC端</option>
+                <option value="H5移动端">H5移动端</option>
+                <option value="APP端">APP端</option>
+                <option value="小程序端">小程序端</option>
+                <option value="大屏端">大屏端</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>开发框架:</label>
+            <div class="layui-input-block">
+              <select name="frame" lay-verify="required" >
+                <option value="layui">layui</option>
+                <option value="vue">vue</option>
+                <option value="uni-app">uni-app</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>组件类型:</label>
+            <div class="layui-input-block">
+                <select name="vmType" class="visualMoudeltype" lay-filter="visualMoudeltype" lay-verify="required">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="specialWord"> * </span>类型分类:</label>
+          <div class="layui-input-block">
+            <select name="vcType"  class="visualClasstype" lay-filter="visualClasstype" lay-verify="required">
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="specialWord"> * </span>扩展名:</label>
+            <div class="layui-input-block">
+              <input type="text" name="exteName"  placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required" > 
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">组件描述:</label>
+            <div class="layui-input-block">
+              <textarea name="proDes" placeholder="请输入描述" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block btn_center" >
+              <button class="layui-btn" lay-submit lay-filter="groupBtnAdd">确认</button>
+              <button type="reset" class="layui-btn layui-btn-primary reverse-btn">取消</button>
+            </div>
+        </div>
+    </form>
+</script>
+<!-- 点击上传css后的弹框 -->
+<script type="text/html" id="cssFileTemplate"> 
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传CSS文件:</label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="cssFileuploadBtn"><i class="layui-icon"></i>上传</button>
+            </div>
+        </div>
+      </form>
+</script>
+
+<!-- 上传css列表 -->
+<script type="text/html" id="uploadCssListTemplate">
+    <ul>
+    {{#  layui.each(d, function(index, item){ }}    
+    <li class="ico">
+        <div class="del" onclick="uploadCssDel('{{item.id}}')"></div>
+        <div class="edit" onclick="uploadCssfile('{{item.id}}')"></div>
+        <h4 onclick="codeDetail('{{item.id}}',this)">{{ item.title }}.{{ item.type }}</h4>
+    </li>
+    {{#  }); }}
+    </ul> 
+    {{#  if(d.length === 0){ }}
+    <div class="upload_default">请上传CSS</div>
+    {{#  } }} 
+    
+</script>
+
+<!-- 点击上传js后的弹框 -->
+<script type="text/html" id="jsFileTemplate"> 
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传JS文件:</label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="jsFileuploadBtn"><i class="layui-icon"></i>上传</button>
+            </div>
+        </div>
+      </form>
+</script>
+
+<!-- 上传js列表 -->
+<script type="text/html" id="uploadJsListTemplate">
+    <ul>
+    {{#  layui.each(d, function(index, item){ }}    
+    <li class="ico">
+        <div class="del" onclick="uploadJsDel('{{item.id}}')"></div>
+        <div class="edit" onclick="uploadJsfile('{{item.id}}')"></div>
+        <h4 onclick="codeDetail('{{item.id}}',this)">{{ item.title }}.{{ item.type }}</h4>
+    </li>
+    {{#  }); }}
+    </ul>
+    {{#  if(d.length === 0){ }}
+    <div class="upload_default">请上传JS</div>
+    {{#  } }}
+</script>
+
+<!-- 点击上传img后的弹框 -->
+<script type="text/html" id="imgFileTemplate"> 
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传图片：</label>
+            <div class="layui-input-block" >
+                <div class=" imgFilebox" id="imgFileuploadBtn">
+                    <img class="uploadImg" id="img_show" src="../img/uploadImg.png" alt="">
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+
+<!-- 上传img的图片列表 -->
+<script type="text/html" id="uploadImgListTemplate">
+    <ul>
+    {{#  layui.each(d, function(index, item){ }}
+    <li>
+        <div class="del" onclick="uploadImgDel('{{item.id}}')"></div>
+        <div class="edit" onclick="uploadImgfile('{{item.id}}')"></div>
+        <div class="pic"><img src="data:image/png;base64,{{ item.content }}" /></div>
+        <h4>{{ item.title }}.{{ item.ext }}</h4>
+    </li>
+    {{#  }); }}
+    </ul>
+    {{#  if(d.length === 0){ }}
+    <div class="upload_default">请上传IMG</div>
+    {{#  } }}
+</script>
+</body>
+</html>

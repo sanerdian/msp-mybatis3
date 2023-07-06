@@ -1,0 +1,52 @@
+package ${package.Vo};
+
+#foreach($pkg in ${table.importPackages})
+import ${pkg};
+#end
+#if(${swagger2})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${entityLombokModel})
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+#end
+import com.jnetdata.msp.base.vo.PageVo1;
+
+/**
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+@Accessors(chain = true)
+#end
+#if(${swagger2})
+@ApiModel(value="${entity}Vo", description="${entity}Vo")
+#end
+public class ${entity}Vo {
+
+    private PageVo1 pager;
+
+    private ${entity} entity;
+
+    #if(!${entityLombokModel})
+        public PageVo1 getPager() {
+            return pager;
+        }
+        public ${entity}Vo setPager(PageVo1 pager) {
+            this.pager = pager;
+            return this;
+        }
+        public ${entity} getEntity() {
+            return this.entity;
+        }
+        public ${entity}Vo setEntity(${entity} entity) {
+            this.entity = entity;
+            return this;
+        }
+    #end
+
+}

@@ -1,0 +1,70 @@
+<script src="/thirdparty/jquery/jquery-2.2.2.min.js"></script>
+<script src="/thirdparty/layui/layui-v2.6.8/layui.js"></script>
+<link rel="stylesheet" href="/thirdparty/layui/layui-v2.6.8/css/layui.css" media="all">
+<div class="modal" ng-controller="ProcessMetadataTableModelCtrl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h2>选择元数据库表</h2></div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newProcessName">* 表英文前缀：</label>
+                    <input ng-disabled="model.loading" type="text" class="form-control"
+                           id="newProcessName" ng-model="model.process.name" auto-focus editor-input-check>
+                </div>
+                <div class="form-group">
+                    <label for="newProcessProcessType">* 表英文名称：</label>
+                    <select ng-disabled="model.loading" type="text" class="form-control" ng-options="c.value as c.name for c in processTypeOptions"
+                            id="newProcessProcessType" ng-model="model.process.processType"  auto-focus editor-input-check>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newProcessDelegationSettings">* 表中文名称：</label>
+                    <select ng-disabled="model.loading" type="text" class="form-control" ng-options="c.value as c.name for c in delegationSettingsOptions"
+                            id="newProcessDelegationSettings" ng-model="model.process.delegationSettings"  auto-focus editor-input-check>
+                    </select>
+                </div>
+                <table id="tableView"></table>
+            </div>
+
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="cancel()" ng-disabled="model.loading">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default" ng-click="ok()" ng-disabled="model.loading || !model.process.name || model.process.name.length == 0 || !model.process.key || model.process.key.length == 0">
+                        确认
+                    </button>
+                </div>
+                <div class="loading pull-right" ng-show="model.loading">
+                    <div class="l1"></div><div class="l2"></div><div class="l2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const DATA = [
+        {username:'JMETA_PUBLISHDISTRIB',Ename:'测试.测试一'},
+        {username:'JMETA_RULE-EXEC-LOG',Ename:'北京公安局.公安局'},
+        {username:'JMETA_RULE-PARAM',Ename:'通航.通航'},
+        {username:'JMETA_RULE-QI-FACTOR',Ename:'测试.aa'},
+    ]
+
+
+    function initTable(data) {
+        layui.table.render({
+            elem: '#tableView',
+            data:data,
+            cols: [[
+                {type:'checkbox'},
+                {field:'username', title:'表名', minWidth:120},
+                {field:'Ename', title:'英文名',  minWidth: 150}
+            ]]
+        })
+    }
+    $(function () {
+        initTable(DATA)
+    })
+
+</script>

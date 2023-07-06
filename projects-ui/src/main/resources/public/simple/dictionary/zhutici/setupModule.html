@@ -1,0 +1,131 @@
+<!--弹出层模板 设置模块-->
+<script type="text/html" id="setupModuleTemplate">
+    <div class="layui-card-body">
+        <div id="clazz-tree" class="demo-tree-more"></div>
+    </div>
+</script>
+<script>
+    var tree = layui.tree
+,layer = layui.layer
+,util = layui.util
+    
+//设置模块
+    layer.msg(1);
+
+    //模拟数据
+    var database = [{
+        title: '疫苗政策'
+        , id: 1
+        , sum :1500
+        , children: [ {
+            title: '宏观政策'
+            , id: 1001
+            , sum :100
+        }, {
+            title: '舆情'
+            , id: 1002
+            , sum :200
+        }, {
+            title: '要闻'
+            , id: 1003
+            , sum :300
+        }, {
+            title: '政策解读'
+            , id: 1004
+            , sum :400
+        }, {
+            title: '重大会议报道'
+            , id: 1005
+            , sum :500
+        }]
+    }, {
+        title: '疫苗企业'
+        , id: 2
+        , sum :900
+        , children: [{
+            title: '国内企业'
+            , id: 2001
+            , sum :200
+        }, {
+            title: '国外企业'
+            , id: 2002
+            , sum :300
+        }, {
+            title: '疫苗行业第三服务企业'
+            , id: 2003
+            , sum :400
+        }]
+    }, {
+        title: '疫苗动态'
+        , id: 3
+        , sum :1800
+        , children: [{
+            title: '免疫计划疫苗'
+            , id: 3001
+            , sum :300
+        }, {
+            title: '非免疫计划疫苗'
+            , id: 3002
+            , sum :400
+        }, {
+            title: '应急接种疫苗'
+            , id: 3003
+            , sum :500
+        }, {
+            title: '新冠疫苗'
+            , id: 3004
+            , sum :600
+        }]
+    }, {
+        title: '行业协会信息'
+        , id: 4
+        , sum :900
+        , children: [{
+            title: '行业年度计划'
+            , id: 4001
+            , sum :400
+        }, {
+            title: '行业交流活动'
+            , id: 4002
+            , sum :500
+        }]
+    }, {
+        title: '国际组织信息'
+        , id: 5
+        , sum :1800
+        , children: [{
+            title: '比尔盖茨基金会'
+            , id: 5001
+            , sum :500
+        }, {
+            title: '世界卫生组织'
+            , id: 5002
+            , sum :600
+        }, {
+            title: '国际舆情信息'
+            , id: 5003
+            , sum :700
+        }]
+    }, {
+        title: '成人接种门诊'
+        , id: 7
+        , sum :1300
+        , children: [{
+            title: '政策'
+            , id: 6001
+            , sum :600
+        }, {
+            title: '舆情'
+            , id: 6002
+            , sum :700
+        }]
+    }]
+
+    tree.render({
+        elem: '#clazz-tree'
+        , data: database
+        , showCheckbox: true
+        , id: 'demoId'
+    });
+
+</script>

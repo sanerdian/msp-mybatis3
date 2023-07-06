@@ -1,0 +1,121 @@
+<link rel="stylesheet" href="common/css/treenode.css" media="all">
+<script src="common/js/getMenuData.js"></script><!--获取结构树-->
+<script src="common/js/limit.js"></script><!--权限-->
+<style>
+    .limit_form .layui-form-checkbox[lay-skin=primary]{
+        padding-left: 0;
+    }
+</style>
+
+<div class="h100 layui-card-body" id="temp" style="padding-top: 0;">
+    <form class="layui-form limit_form" lay-filter="limitForm">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin: 0">
+            <ul class="layui-tab-title" id="getAllLimit">
+                <li class="layui-this">机构类权限</li>
+                <li>站点类权限</li>
+                <li>栏目类权限</li>
+                <li>元数据信息类权限</li>
+                <li>前台菜单类权限</li>
+                <li>后台菜单类权限</li>
+                <li>组织设置</li>
+                <li>分类法权限</li>
+                <li>元数据产品权限</li>
+                <li>系统权限</li>
+            </ul>
+            <div class="layui-tab-content" style="padding:0;" id="limitContent">
+                <div class="layui-tab-item layui-show">
+                    <ul id="companyRightInfoTable" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item siteRightInfo">
+                    <ul id="siteRightInfoTable" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" id="programaLimit">
+                    <ul id="programaDataTree" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" id="metadataInfoLimit">
+                    <ul id="metadataDataTree" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" id="frontMenuInfoLimit">
+                    <ul id="frontMenuDataTree" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" id="menuInfoLimit">
+                    <ul id="dataTree" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" id="groupInfoLimit">
+                    <ul id="groupDataTree" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <ul id="classRightInfoTable" class="ztree ztreeMenu ztreeMenu1"></ul>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" id = 'metadataModuleInfoItem'>
+                    <table id="metadataModuleInfoTable" lay-filter="metadataModuleInfoTable"></table>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" id = 'manageInfoItem'>
+                    <table id="manageInfoTable" lay-filter="manageInfoTable"></table>
+                    <div class="layui-btn-container">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+                            <button class="layui-btn" type="button" data-type="close">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="">
+        <input type="hidden" name="type" value="">
+    </form>
+</div>

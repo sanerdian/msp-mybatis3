@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>可视化编辑test</title>
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/jquery/jquery-ui.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../js/config.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/code.js"></script>
+    <script src="../js/WidgetLogin.js"></script>
+    <script src="../js/WidgetText.js"></script>
+    <script src="../js/WidgetImage.js"></script>
+    <script src="../js/WidgetTag.js"></script>
+    <script src="../js/WidgetPartition.js"></script>
+    <script src="../js/WidgetSidebar.js"></script>
+    <script src="../js/WidgetNavbar.js"></script>
+    <script src="../js/WidgetTable.js"></script>
+    <script src="../js/WidgetButton.js"></script>
+    <script src="../js/WidgetSearch.js"></script>
+    <script src="../js/WidgetRect.js"></script>
+    <script src="../js/WidgetGraphic.js"></script>
+    <script src="../js/WidgetVideo.js"></script>
+    <link rel="stylesheet" href="../formating/lib/codemirror.css">
+    <script src="../formating/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="../formating/theme/night.css">
+    <link rel="stylesheet" href="../formating/theme/monokai.css">
+    <script src="../formating/lib/util/simple-hint.js"></script>
+    <link rel="stylesheet" href="../formating/lib/util/simple-hint.css">
+    <script src="../formating/lib/util/javascript-hint.js"></script>
+    <script src="../formating/lib/util/formatting.js"></script>
+    <script src="../formating/mode/css/css.js"></script>
+    <script src="../formating/mode/xml/xml.js"></script>
+    <script src="../formating/mode/javascript/javascript.js"></script>
+    <script src="../formating/mode/htmlmixed/htmlmixed.js"></script>
+    <!--    <link rel="stylesheet" href="../formating/doc/docs.css">-->
+    <link rel="stylesheet" href="../formating/lib/util/simple-hint.css">
+    <script src="../formating/lib/util/javascript-hint.js"></script>
+    <script src="../formating/mode/javascript/javascript.js"></script>
+<link rel="stylesheet" href="/common/css/style.css">
+    <link rel="stylesheet" href="/simple/visualization/css/common.css">
+<link rel="stylesheet" href="/simple/visualization/css/productEdit.css">
+
+</head>
+
+<style>
+    @import "../css/common1.css";
+    @import "../css/login.css";
+    @import "../css/editor.css";
+    .panelView > div.active{
+        height: 200px;
+    }
+    .componentBox {
+        width: 400px;
+    }
+    .componentBox .tab{
+        height: 300px;
+    }
+    .componentBox .tabCon{
+        margin-top: -300px;
+    }
+    .componentBox .tabCon ul{
+        height: 250px;
+        overflow: scroll;
+    }
+    .tool_padding {
+        width: 50px;
+        height: 19px;
+        line-height: 19px;
+        background-color: #495660;
+        text-align: center;
+        cursor: move;
+    }
+    .tool_padding1 {
+        width: 50px;
+        height: 19px;
+        line-height: 19px;
+        background-color: #495660;
+        text-align: center;
+        cursor: move;
+    }
+    .tool_padding1 span{
+        font-size: 30px;
+        letter-spacing: 2px;
+        color: white;
+    }
+    .tool_padding span{
+        font-size: 30px;
+        letter-spacing: 2px;
+        color: white;
+    }
+    .tool_close {
+        position: absolute;
+        right: 17px;
+        top: 0;
+        line-height: 18px;
+        font-size: 20px;
+        color: white;
+        cursor: pointer;
+    }
+    .tool_bar1 {
+        width: 400px;
+        height: 19px;
+        background-color: #495660;
+        display: block;
+    }
+    .widget_search {
+        position: absolute;
+        left: 305px;
+        top: 36px;
+        cursor: pointer;
+    }
+    .widget_line {
+        position: absolute;
+        left: 80px;
+        top: 45px;
+        width: 210px;
+        height: 1px;
+        background: #dcdcdc;
+    }
+    .componentBox .tab {
+        float: right;
+        background: #fff;
+        box-shadow: 0 2px 5px #999;
+    }
+</style>
+
+<body>
+<div id="editor_nav" style="width:100%">
+    <div class="head">
+        <div class="content">
+            <div class="leftHead">
+                <span>可视化PC端系统</span>
+            </div>
+            <div class="rightHead">
+                <button class="layui-btn saveModel" type="button">保存</button>
+                <!-- <button class="layui-btn editModel" type="button">编辑</button>-->
+                <button class="layui-btn layui-btn-danger deleteModel" type="button">删除</button>
+                <!-- <span class="addModel">新增</span> -->
+                <!-- <span class="editModel"><i class="layui-icon layui-icon-edit"></i>编辑</span>
+                <span class="saveModel"><i class="layui-icon layui-icon-edit"></i>保存</span>
+                <span class="deleteModel"><i class="layui-icon layui-icon-delete"></i>删除</span> -->
+            </div>
+        </div>
+    </div>
+    <div class="toggleFilter" onclick="toggleFilter(this)">
+    </div>
+    <div class="filter">
+        <form id="groupFrom">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                    <label class="layui-form-label">产品名称：</label>
+                    <div class="layui-input-inline bigWid">
+                    <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">网页类型：</label>
+                    <div class="layui-input-inline">
+                        <select name="netType" lay-verify="">
+                            <option value="">请选择</option>
+                            <option value="PC">PC</option>
+                            <option value="Mobile">移动</option>
+                            <option value="bgScreen">大屏</option>
+                        </select> 
+                    </div>
+                    <label class="layui-form-label">输出文件名：</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="outFileName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">扩展名：</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="exteName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">行业分类：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="indClass" lay-verify="">
+                              <option value="">请选择</option>
+                              <option value="铁路">铁路</option>
+                              <option value="水利">水利</option>
+                              <option value="科研">科研</option>
+                              <option value="大学">大学</option>
+                              <option value="其它">其它</option>
+                            </select> 
+                          </div>
+                    </div>
+                    <label class="layui-form-label">模板类型：</label>
+                    <div class="layui-input-inline">                        
+                        <select name="type">    
+                            <option value="">请选择</option>     
+                            <option value="0" checked title="首页模板">首页模板</option>                   
+                            <option value="1" title="概览模板">概览模板</option>
+                            <option value="2" title="细览模板">细览模板</option>
+                        </select>
+                    </div>
+                    <!-- <label class="layui-form-label">屏幕类型：</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="screenType" lay-verify="">
+                              <option value="">请选择</option>
+                              <option value="samill">小屏</option>
+                              <option value="middle">中屏</option>
+                              <option value="bigSize">大屏幕</option>
+                            </select> 
+                          </div>
+                    </div> -->
+            </div>
+        </div>
+        <div class="layui-form textareaLine">
+            <div class="layui-form-label">产品描述：</div>
+            <div class="layui-input-block">
+                <textarea name="proDes" lay-verify="" placeholder="请输入" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+    </div>
+    <div class="editBody">
+    <div class="rightSide" style="left: 0;width:100%">
+        <div class="topTitle">
+            <div class="topTitLeft">
+                <ul class="layui-nav">
+                    <li class="layui-nav-item layui-this showEditView">
+                        <a>可视化产品模板</a>
+                    </li>
+                    <li class="layui-nav-item showCodeView">
+                        <a>可视化产品代码</a>
+                    </li>
+                    <li class="layui-nav-item showHelpView">
+                        <a>可视化产品帮助</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panelView">
+            <div class="viewBox editPanel active">
+                <div class="editDesign">
+                    <span class="designEditData"><i>数据设置</i></span>
+                    <span class="designEditDom">样式设置</span>
+                    <span class="deleteDom"><i class="layui-icon layui-icon-delete"></i></span>
+                </div>
+                <!-- 模拟html空白页面 -->
+                <div class="domBodyBox" ondragover="dragOverEvent(this, event)">
+                    <!-- <div class="jw_left_nav">
+                        <div></div>
+                    </div> -->
+                    <!-- <style scoped>
+                        .jw_search_box {
+                            width: 210px;
+                            height: 40px;
+                            border-radius: 20px;
+                            border: 1px solid #ddd;
+                            position: relative;
+                            background: rgba(255, 255, 255, 0.3);
+                        }
+                        .jw_search_inp {
+                            box-sizing: border-box;
+                            position: absolute;
+                            top: 50%;
+                            right: 60px;
+                            bottom: 0;
+                            left: 10px;
+                            margin-top: -20px;
+                            height: 40px;
+                            border: none;
+                            background: transparent;
+                        }
+                        .jw_search_icon {
+                            position: absolute;
+                            top: 50%;
+                            right: 10px;
+                            margin-top: -13px;
+                            width: 26px;
+                            height: 26px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            background: #457cc4;
+                        }
+                    </style>
+                    <div class="jw_search_box canEdit">
+                        <input class="jw_search_inp" type="text" placeholder="请输入关键字">
+                        <span class="jw_search_icon">
+                            <img src="">
+                        </span>
+                    </div> -->
+                </div>
+            </div>
+            <!-- 代码预览视图 -->
+            <div class="viewBox codeView">
+                <div class="codeBodyBox">
+                    <div class="leftCodeView">
+                        <div class="active">HTML代码</div>
+                        <div>CSS代码</div>
+                        <div>JS代码</div>
+                    </div>
+                    <div class="rightCodeView">
+                        <div class="layui-show">
+                            <div class="codeLine"></div>
+                            <textarea id="htmlCode" placeholder="HTML代码" class="layui-textarea"></textarea>
+                        </div>
+                        <div>
+                            <div class="codeLine"></div>
+                            <textarea id="cssCode" placeholder="CSS代码" class="layui-textarea"></textarea>
+                        </div>
+                        <div>
+                            <div class="codeLine"></div>
+                            <textarea id="jsCode" placeholder="JS代码" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 效果预览视图 -->
+            <div class="viewBox pageView">
+            </div>
+            <!-- 效果预览视图 -->
+            <div class="viewBox helpView">
+                <span>产品帮助界面</span>
+            </div>
+        </div>
+    </div>
+    </div>
+        <div class="componentBox">
+            <div class="tool_bar1" style="display: none;">
+            <div class="tool_padding">
+                <span>···</span>
+            </div>
+            <div class="tool_close">
+                <i class="layui-icon layui-icon-close"></i>
+            </div>
+            </div>
+            <div class="tab" >
+                <div class="tool_padding1">
+                    <span>···</span>
+                </div>
+                <ul>
+                    <li class="basis" onclick="searchId(138)"><span></span></li>
+                    <li class="base" onclick="searchId(35)"><span></span></li>
+                    <li class="apply" onclick="searchId(36)"><span></span></li>
+                    <li class="report" onclick="searchId"><span></span></li>
+                    <li class="template" onclick="searchId"><span></span></li>
+                </ul>
+            </div>
+            <div class="tabCon">
+                <h3>应用组件</h3>
+                <div class="widget_line"></div>
+                <img class="widget_search" src="../images/t_search.png">
+                <ul>
+                   
+                </ul>
+            </div>
+            <div class="tabCon">
+                <h3>基础组件</h3>
+                <div class="widget_line"></div>
+                <img class="widget_search" src="../images/t_search.png">
+                <ul>
+                    <li><span><img src="/simple/visualization/img/icoItemNav.png"></span>导航栏</li>
+                    <li><span><img src="/simple/visualization/img/icoItemMenuLeft.png"></span>左侧菜单</li>
+                    <li><span><img src="/simple/visualization/img/icoItemContent.png"></span>内容区</li>
+                    <li><span><img src="/simple/visualization/img/icoItemTab.png"></span>标签内容</li>
+                    <li><span><img src="/simple/visualization/img/icoItemSearch.png"></span>搜索组件</li>
+                    <li><span><img src="/simple/visualization/img/icoItemLogin.png"></span>登录框</li>
+                    <li><span><img src="/simple/visualization/img/icoItemPicText.png"></span>图文</li>
+                </ul>
+            </div>
+            <div class="tabCon">
+                <h3>布局组件</h3>
+                <div class="widget_line"></div>
+                <img class="widget_search" src="../images/t_search.png">
+                <ul>
+                    <li><span><img src="/simple/visualization/img/icoItemText.png"></span>文本</li>
+                    <li><span><img src="/simple/visualization/img/icoItemPic.png"></span>图片</li>
+                    <li><span><img src="/simple/visualization/img/icoItemRectangle.png"></span>矩形</li>
+                    <li><span><img src="/simple/visualization/img/icoItemBtn.png"></span>按钮</li>
+                    <li><span><img src="/simple/visualization/img/icoItemTable.png"></span>表格</li>
+                    <li><span><img src="/simple/visualization/img/icoItemVideo.png"></span>视频</li>
+                </ul>
+            </div>
+            <div class="tabCon">
+                <h3>页面组件</h3>
+                <div class="widget_line"></div>
+                <img class="widget_search" src="../images/t_search.png">
+                <ul>
+                    <li><span><img src="/simple/visualization/img/icoItemText.png"></span>文本</li>
+                    <li><span><img src="/simple/visualization/img/icoItemPic.png"></span>图片</li>
+                    <li><span><img src="/simple/visualization/img/icoItemRectangle.png"></span>矩形</li>
+                    <li><span><img src="/simple/visualization/img/icoItemBtn.png"></span>按钮</li>
+                    <li><span><img src="/simple/visualization/img/icoItemTable.png"></span>表格</li>
+                    <li><span><img src="/simple/visualization/img/icoItemVideo.png"></span>视频</li>
+                </ul>
+            </div>
+        </div>
+<!--    <div>-->
+<!--        <button id=preview style="position:fixed; right:10px;bottom:20px;opacity:0.5;">预览</button>-->
+<!--    </div>-->
+</div>
+<div id="editor_page_table_container" style="display: none">
+    <div class="i_tab_pre">
+        <div class="i_tab_info"><span>设置显示页面：</span></div>
+        <div class="i_tab_add_page"><span>添加页面</span></div>
+    </div>
+    <table id="editor_page_table" lay-filter="filter_editor_page_table"></table>
+    <div class="total_number"></div>
+    <div class="layui-input-block">
+        <button id="editor_table_ok" class="layui-btn">确定</button>
+        <button id="editor_table_cancel" class="layui-btn layui-btn-primary">取消</button>
+    </div>
+</div>
+<div id="editor_page_set" class="editor_page_set" style="display: none"></div>
+<div id="editor_page_add" class="editor_page_set" style="display: none"></div>
+
+<div id="editor_content" style="display: flex">
+    <div id="sidebar"></div>
+    <div id=right_zone>
+        <div id="navbar"></div>
+        <div id="app" style="margin-top: 150px;"></div>
+    </div>
+    <div id=menu></div>
+    <div id=settings></div>
+    <div id=template></div>
+</div>
+<div id="editor_code" style="display: none">
+    <div id="code_tab" class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li id="html_code_item" class="layui-this">HTML</li>
+            <li id="css_code_item">CSS</li>
+            <li id="js_code_item">JS</li>
+        </ul>
+    </div>
+    <div>
+        <form id="html_code_form" class="code_form"><textarea id="html_code" name="html_code"></textarea></form>
+        <form id="css_code_form" class="code_form"><textarea id="css_code" name="css_code"></textarea></form>
+        <form id="js_code_form" class="code_form"><textarea id="js_code" name="js_code"></textarea></form>
+    </div>
+</div>
+
+</body>
+
+<script type="text/html" id="tpl_editor_page_set">
+    <form action="" class="layui-form content">
+        <div class="layui-form-item">
+            <label for="page_name" class="layui-form-label">栏目名称：</label>
+            <div class="layui-input-block">
+                <input id="page_name" type="text" lay-skin="primary" class="layui-input editor_input"
+                       placeholder="请输入" value="{{ d.title }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">网页类型：</label>
+            <div class="layui-input-block">
+                <span>PC端</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">行业分类：</label>
+            <div class="layui-input-block">
+                <span>标准业务</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">媒介应用：</label>
+            <div class="layui-input-block">
+                <span>中台应用</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">模板类型：</label>
+            <div class="layui-input-block">
+                <span>E-安保</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择上级栏目：</label>
+                <div class="layui-input-inline">
+                    <div class="layui-unselect layui-form-select downpanel" style="width: 398px;height: 37px">
+                        <div class="layui-select-title">
+                            <span class="layui-input layui-unselect">请选择</span>
+                            <input type="hidden" name="selectID" value="0">
+                            <i class="layui-edge"></i>
+                        </div>
+                        <dl class="layui-anim">
+                            <dd>
+                                <ul class="classtree" style="width: 398px"></ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">访问路径：</label>
+            <div class="layui-input-block">
+                <span>-</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">打开方式：</label>
+            <input type="radio" name="open_type" title="当前窗口" value="current_win" checked>
+            <input type="radio" name="open_type" title="新窗口" value="new_win">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">页面背景：</label>
+            <div class="page_bg" style="float: left">
+                <div class="color_picker"></div>
+                <div>颜色</div>
+            </div>
+            <div class="page_bg">
+                <div class="page_bg_picker"><img></div>
+                <div>图片</div>
+                <div class="page_bg_selector">
+                    <div class="page_bg_selector_preview">
+                        <img>
+                        <i class="layui-icon layui-icon-close layui-bg-red" style="float: right;font-size: 10px"></i>
+                    </div>
+                    <div class="page_bg_selector_text">选择</div>
+<!--                    <button type="button" class="layui-btn page_bg_selector_text" id="btnUpload">开始上传</button>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item submit_item">
+            <div class="layui-input-block">
+                <button class="layui-btn new_page_ok">确定</button>
+                <button class="layui-btn layui-btn-primary new_page_cancel">取消</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="i_tab_right_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="update" class="i_tab i_tab_edit">
+        </span>
+        <span>
+            <img lay-event="copy" class="i_tab i_tab_copy">
+        </span>
+        <span>
+            <img lay-event="add" class="i_tab i_tab_add">
+        </span>
+        <span>
+            <img lay-event="delete" class="i_tab i_tab_delete">
+        </span>
+    </div>
+</script>
+
+<script type="text/html" id="i_tab_order_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="left" class="i_tab i_tab_arrow">
+        </span>
+        <span>
+            <img lay-event="up" class="i_tab i_tab_arrow rotate1">
+        </span>
+        <span>
+            <img lay-event="right" class="i_tab i_tab_arrow rotate2">
+        </span>
+        <span>
+            <img lay-event="down" class="i_tab i_tab_arrow rotate3">
+        </span>
+    </div>
+</script>
+
+<script id="tpl"></script>
+
+<script src="/thirdparty/jquery/jquery-1.12.4.min.js"></script>
+<script src="/thirdparty/layui/layui.all.js"></script>
+<script src="/thirdparty/html2canvas/html2canvas.min.js"></script>
+<script src="/thirdparty/tree/js/jquery.ztree.all.min.js"></script>
+<script src="/common/js/config.js"></script>
+<script src="/common/js/common.js"></script>
+<script src="/simple/visualization/js/getViewService.js"></script>
+<script src="/simple/visualization/js/productEdit.js"></script>
+
+<script>
+    $(function(){
+        var tabTitle = ".componentBox .tab ul li";
+        var tabContent = ".componentBox .tabCon";
+        $(tabTitle).click(function(){
+            console.log(777,this)
+            $(this).siblings("li").removeClass("cur").end().addClass("cur");
+            var index = $(tabTitle).index( $(this) );
+            $(tabContent).eq(index).siblings(tabContent).hide().end().fadeIn(0);   
+        });
+        $('.tab ul li').click(function(){
+            $('.tool_bar1').css('display','block')
+            $('.tool_padding1').css('display','none')
+        })
+        $('.tool_close').click(function(){
+            $('.tabCon').css('display','none')
+            $('.tool_bar1').css('display','none')
+            $('.tool_padding1').css('display','block')
+        })
+    })
+    
+</script>
+<script>
+    let widgetArray = []; // 组件列表
+    let currentPage = ""; // 当前编辑页名称
+    let currentPageTitle = ""; // 当前编辑页标题
+    let currentPageData = {}; // 当前编辑页数据
+    let zIndexMax = -1; // 组件层级最大值
+    let renderIdMax = -1; // 渲染编号最大值
+    let commonData = {};
+    let sidebarHtml = '';
+    let navbarHtml = '';
+    $(function () {
+        // 初始化编辑器导航
+        initEditorNav();
+        // 初始化页面管理
+        initNavPageTable();
+        // 初始化工具条
+        initToolBar();
+        // 初始化通用数据
+        initCommonData();
+        // 初始化代码编辑器
+        initCodeEditor();
+    });
+</script>
+<script src="/thirdparty/jquery/jquery-1.12.4.min.js"></script>
+<script src="/thirdparty/layui/layui.all.js"></script>
+<script src="/thirdparty/html2canvas/html2canvas.min.js"></script>
+<script src="/thirdparty/tree/js/jquery.ztree.all.min.js"></script>
+<script src="/common/js/config.js"></script>
+<script src="/common/js/common.js"></script>
+<script src="/simple/visualization/js/getViewService.js"></script>
+<script src="/simple/visualization/js/product.js"></script>
+</html>

@@ -1,0 +1,197 @@
+<link rel="stylesheet" href="/simple/dictionary/css/style.css">
+<style type="text/css">
+	table tr:nth-of-type(2n) {
+		background-color: #f8f8f8;
+	}
+</style>
+<div class="layui-fluid">
+	<div class="layui-card h100">
+		<!-- 搜索开始 -->
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="top_btn">
+                <button class="layui-btn layuiadmin-btn-admin" onclick="setupModule()">设置模块</button>
+                <!-- <button class="layui-btn layuiadmin-btn-admin" data-type="">本系统发布</button> -->
+                <!-- <button class="layui-btn layuiadmin-btn-admin" data-type="">发布并推送到kfk</button> -->
+				<button class="layui-btn layuiadmin-btn-admin" data-type="addDict" data-layer-html="add.html">手工录入</button>
+				<button class="layui-btn layuiadmin-btn-admin" onclick="importData()">批量导入</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="exportDict">批量导出</button>
+				<button class="layui-btn layuiadmin-btn-admin" data-type="examDict" data-layer-html="exam.html">审核</button>
+				<!--<button class="layui-btn layuiadmin-btn-admin" data-type="out">停用</button>-->
+				<button class="layui-btn layuiadmin-btn-admin" data-type="delDict">删除</button>
+			</div>
+			<form class="layui-form" id="formSearch">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">创建时间：</label>
+						<div class="layui-input-block">
+							<select name="cruser" lay-filter="timeSlot">
+								<option value="">全部</option>
+								<option value="近一天">近一天</option>
+								<option value="近三天">近三天</option>
+								<option value="近一周">近一周</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">词条来源</label>
+						<div class="layui-input-block">
+							<select name="source" lay-filter="ctly">
+								<option value="" selected>全部</option>
+								<option value="手工录入">手工录入</option>
+								<option value="检索日志">检索日志</option>
+								<option value="外部数据">外部数据</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">主题词</label>
+						<div class="layui-input-block">
+							<input type="text" name="wordname" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- 搜索结束 -->
+		<div class="layui-card-body">
+			<!-- 列表开始 -->
+			<!--            <div class="table-area"  style="overflow-x:auto;width:4000px;height:1000px">-->
+			<div class="table-area">
+				<table id="tableData" lay-filter="tableData"></table>
+			</div>
+			<div id="page"></div>
+			<!-- 列表结束 -->
+		</div>
+
+	</div>
+</div>
+
+<div id="editOpenDiv"></div>
+<div id="deatilOpenDiv"></div>
+<!--弹出层模板 设置模块-->
+<div id="setupModule" style="display: none;">
+	<!-- <div id="clazz-tree" class="demo-tree-more"></div> -->
+	<div class="layui-card-body">
+		<form class="layui-form" lay-filter="filterSetupModule">
+			<div class="layui-form-item">
+				<label class="layui-form-label">模块名称：</label>
+				<div class="layui-input-block">
+					<select name="" id="moduleNameView">
+	
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/html" id="moduleNameTpl">
+	{{#  layui.each(d, function(index, item){ }}
+	<option>{{item.modulename}}</option>
+	{{#  }); }}
+</script>
+
+
+<script type="text/html" id="operateTemplate">
+	<button class="layui-btn layui-btn-xs" lay-event="detail">详情</button>
+	<button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+</script>
+
+<!--词条状态-->
+<script type="text/html" id="statusTpl">
+    {{# if(d.status==-1){ }}
+    未生效
+    {{# }else if(d.status==0){ }}
+    已生效
+    {{# }else if(d.status==1){ }}
+    停用
+    {{# } }}
+</script>
+
+<script>
+	function importData(config) {
+		var default_config = {
+			msg: "数据导入成功！"
+		}
+		$.extend(default_config, config);
+		var idRandom = "importData" + Math.ceil(Math.random() * 10000)
+		var htmlContent = '<div id="' + idRandom + '">';
+		htmlContent += "<div style='margin:20px 80px;'>";
+		htmlContent += "选择导入文件（*.xls）";
+		htmlContent += "<button class='layui-btn layui-btn-normal' id='test8'>选择文件</button>";
+		htmlContent += "<button class='layui-btn' style='margin-left:10px;'>开始上传</button></div>";
+		htmlContent += "<div style='margin-left:250px;'><button class='layui-btn layui-btn-normal'>导入</button>";
+		htmlContent += "<button class='layui-btn layui-btn-primary'>关闭</button>";
+		htmlContent += "</div></div>";
+		layer.open({
+			type: 1
+			// , offset: "auto" //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+			, id: 'layer_importData' //防止重复弹出
+			, title: '批量导入'
+			, maxmin: true
+			, content: htmlContent
+			, area: ['800px', '200px']
+			// , yes: function () {//提交
+			// 	var iframe = $("<iframe></iframe>");
+			// 	iframe.attr("src", default_config.downUrl);
+			// 	iframe.css("display", "none");
+			// 	$("#" + idRandom).append(iframe);
+			// }
+		});
+		upload.render({
+			elem: '#test8'
+			, url: '/' //改成自己的上传接口
+			, auto: false
+			, accept:'file'
+			//,multiple: true
+			, bindAction: '#test9'
+			, done: function (res) {
+				layer.msg('上传成功');
+				console.log(res)
+			}
+		});
+	}
+	// getMetadataUri(metadataObj.id).then(function (result) {
+	// 	var metadataUri = result;
+	// })
+	// var upload2;
+	// function uploadData2() {
+	// 	upload2.reload({
+	// 		url: "/import?id=" + metadataObj.id
+	// 	});
+	// }
+
+	// layui.use('upload', function () {
+	// 	var $ = layui.jquery
+	// 		, upload = layui.upload;
+	// 	upload2 = upload.render({
+	// 		elem: '#import'
+	// 		, url: "/import?id=" + metadataObj.id
+	// 		, accept: 'file' //普通文件
+	// 		, before: function (obj) {
+	// 			layer.load();
+	// 		}
+	// 		, done: function (res) {
+	// 			console.log(res);
+	// 			if (res.success) {
+	// 				layer.msg(res.msg);
+	// 				layer.closeAll('loading');
+	// 				doList(1);
+	// 			} else {
+	// 				console.log(res.msg);
+	// 			}
+	// 		}
+	// 	});
+	// });
+</script>
+
+<script src="/common/js/list.js"></script>
+<script src="/simple/dictionary/js/dictionary.js"></script>
+<script src="/simple/dictionary/zhutici/list.js"></script>
+<script src="/simple/dictionary/js/Convert_Pinyin.js"></script>   

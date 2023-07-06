@@ -1,0 +1,218 @@
+<!--产品管理界面-->
+<link rel="stylesheet" href="../../simple/viewManage/viewComm/common.css">
+<link rel="stylesheet" href="../../simple/viewManage/product/product.css">
+<div class="layui-fluid">
+    <div id="productIndex">
+        <div class="productHead">
+            <div class="prohLeft">
+                <ul class="layui-nav layui-bg-white">
+                    <li class="layui-nav-item layui-this">
+                        <a>全部模板</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a>首页模板</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a>概览模板</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a>细览模板</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="prohRight">
+                <a type="button" class="layui-btn" target="_blank" href="simple/viewManage/pcEdit/pcEdit.html">新建可视化模板</a>
+                <button type="button" class="layui-btn">导入可视化模板</button>
+                <button type="button" class="layui-btn">导出可视化模板</button>
+            </div>
+        </div>
+        <div class="productBody">
+            <!--全部模板-->
+
+            <div class="layui-show">
+                <div class="productFilter allModel">
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">行业分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="indClass">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="铁路">铁路</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="水利">水利</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="科研">科研</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="大学">大学</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="其它">其它</button>
+                        </div>
+                    </div>
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">网页分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="netType">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="PC">PC</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="Mobile">移动端</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="bgScreen">可视化大屏</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="proModelBody" id="productView">
+                </div>
+                <div class="page" id="productViewPage">
+                </div>
+            </div>
+            <!--首页模板-->
+            <div class="layui-hide">
+                <!-- <div class="table-area">
+                    <table id="nestView"></table>
+                </div> -->
+                <div class="productFilter nestedModel">
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">行业分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="indClass">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="铁路">铁路</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="水利">水利</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="科研">科研</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="大学">大学</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="其它">其它</button>
+                        </div>
+                    </div>
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">网页分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="netType">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="PC">PC</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="Mobile">移动端</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="bgScreen">可视化大屏</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="proModelBody" id="nestView">
+                </div>
+                <div class="page" id="nesViewPage">
+                </div>
+            </div>
+            <!--概览模板-->
+            <div class="layui-hide">
+                <!-- <div class="table-area">
+                    <table id="generalView"></table>
+                </div> -->
+                <div class="productFilter overviewvModel">
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">行业分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="indClass">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="铁路">铁路</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="水利">水利</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="科研">科研</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="大学">大学</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="其它">其它</button>
+                        </div>
+                    </div>
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">网页分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="netType">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="PC">PC</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="Mobile">移动端</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="bgScreen">可视化大屏</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="proModelBody" id="generalView">
+                </div>
+                <div class="page" id="generalViewPage">
+                </div>
+            </div>
+            <!--细览模板-->
+            <div class="layui-hide">
+                <div class="productFilter prevModel">
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">行业分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="indClass">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="铁路">铁路</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="水利">水利</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="科研">科研</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="大学">大学</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="其它">其它</button>
+                        </div>
+                    </div>
+                    <div class="btnRow">
+                        <div class="btnRowLeft">
+                            <button type="button" class="layui-btn layui-btn-primary">网页分类 ></button>
+                        </div>
+                        <div class="btnRowRight" key="netType">
+                            <button type="button" class="layui-btn">全部</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="PC">PC</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="Mobile">移动端</button>
+                            <button type="button" class="layui-btn layui-btn-primary" data="bgScreen">可视化大屏</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="proModelBody" id="productPerView">
+                </div>
+                <div class="page" id="productPerViewPage">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--产品模板-->
+<script type="text/html" id="productList">
+    <div class="groupBox">
+            {{# layui.each(d, function(index, item){ }}
+            <div class="groupItem">
+                <div class="pic">
+                    <div class="imgBox">
+                        {{# if(item.img.indexOf("/files") == 0){item.img = getAjaxUrl("",item.img);} }}
+                        <img src="{{item.img}}">
+                    </div>
+                    <div class="hoverBack">
+                        <div class="btnBox">
+                            <a class="layui-btn layui-btn-radius" href="simple/viewManage/pcEdit/pcEdit.html#id={{item.id}}" target="_blank">详情</a>
+                            <a class="layui-btn layui-btn-radius layui-btn-danger" onclick="applyTemplate('{{item.id}}','{{item.type}}')">应用</a>
+                            <!-- <a class="layui-btn layui-btn-radius layui-btn-danger" data-type="apply">应用</a> -->
+                        </div>
+                        <div class="opacityBack"></div>
+                    </div>
+                </div>
+                {{# if (item.title) { }}
+                    <div class="txtBox">{{ item.title}}</div>
+                {{# } }}
+            </div>
+        {{# }); }}
+    {{# if (d.length == 0) { }}
+            <span style="font-size: 14px;display: block;text-align: center; padding: 50px 0;">未找到数据</span>
+    {{# } }}
+    </div>
+</script>
+<!--表格右侧的应用模板-->
+<script type="text/html" id="operateTemplate">
+	<span class="warnColor"  onclick="applyTemplate('{{item.id}}')">应用</span>
+</script>
+
+<!--选择站点栏目-->
+<script type="text/html" id="applyTemplate">
+    <ul id="treeDemo" class="ztree" style="width:370px;height:400px;"></ul>
+    <div class="button-bar">
+        <button class="layui-btn" lay-submit="" lay-filter="apply_submit" type="button">确认</button>
+        <!-- <button class="layui-btn" type="button" data-type="close">取消</button> -->
+    </div>
+</script>
+<script type="text/javascript" src="simple/viewManage/viewComm/getViewService.js"></script>
+<script type="text/javascript" src="simple/viewManage/product/product.js"></script>
+<script type="text/javascript" src="../thirdparty/tree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="../thirdparty/tree/js/jquery.ztree.excheck.js"></script>
+

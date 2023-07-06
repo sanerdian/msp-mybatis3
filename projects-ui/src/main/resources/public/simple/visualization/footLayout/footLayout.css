@@ -1,0 +1,9 @@
+.jc_foot {
+    min-width: 80px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    margin: 20px auto;
+    min-height: 100px;
+    line-height: 150px;
+    text-align: center;
+}

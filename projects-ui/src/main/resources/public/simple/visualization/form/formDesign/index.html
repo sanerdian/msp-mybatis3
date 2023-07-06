@@ -1,0 +1,29 @@
+<div class="formdesignerBox">
+    <div style="height: 100%; width: 100%;" id="formdesigner">
+        
+    </div>
+    <!-- <script type="text/javascript" src="simple/viewManage/formDesign/assets/libs/layui/layui.js"></script> -->
+    <script type="text/javascript" src="simple/viewManage/formDesign/assets/js/config.js?v=100"></script> 
+    <script type="text/javascript" src="simple/viewManage/formDesign/assets/modules/Sortable/Sortable.min.js"> </script> 
+    <!--htmlformat 为js-beautify代码-->
+    <script type="text/javascript" src="simple/viewManage/formDesign/assets/js/htmlformat.js?v=100"></script> 
+    <script type="text/javascript" src="simple/viewManage/formDesign/assets/js/jsformat.js?v=100"></script> 
+    <script>
+        layui.use(['layer', 'formDesigner'], function () {
+            var $=layui.$;
+            var formDesigner = layui.formDesigner;
+            // formDesigner.render({
+            //     elem:'#formdesigner'
+            // });
+            $.ajax({
+                url:'simple/viewManage/formDesign/json/demo.json',
+                success:function(result){  
+                    formDesigner.render({
+                        data:result,
+                        elem:'#formdesigner'
+                    });
+                }
+            }); 
+        }); 
+    </script>    
+</div>

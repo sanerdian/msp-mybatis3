@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.PushMapper">
+
+	<select id="loadDwRoot" resultType="com.jnetdata.msp.media.vo.push.TreeNodeVo">
+		select dwbsm as id, fdwbsm as pid, dwmc as name
+		  from lz_dwjbxx
+		where
+		<choose>
+			<when test="dwbsm != null and dwbsm != ''">
+				dwbsm =#{dwbsm}
+			</when>
+			<otherwise>
+				fdwbsm is null
+			</otherwise>
+		</choose>
+	</select>
+	<select id="listDwByFdwbsm" resultType="com.jnetdata.msp.media.vo.push.TreeNodeVo">
+		select dwbsm as id, fdwbsm as pid, dwmc as name
+		  from lz_dwjbxx t
+		where
+		<choose>
+			<when test="fdwbsm != null and fdwbsm != ''">
+				fdwbsm =#{fdwbsm}
+			</when>
+			<otherwise>
+				fdwbsm is null
+			</otherwise>
+		</choose>
+	</select>
+	<select id="listDwByDwmc" resultType="com.jnetdata.msp.media.vo.push.TreeNodeVo">
+		select dwbsm as id, fdwbsm as pid, dwmc as name
+		  from lz_dwjbxx t
+		where dwmc like CONCAT(CONCAT('%',#{dwmc}),'%')
+		 start with
+		<choose>
+			<when test="fdwbsm != null and fdwbsm != ''">
+				dwbsm =#{fdwbsm}
+			</when>
+			<otherwise>
+				dwbsm is not null
+			</otherwise>
+		</choose>
+		connect by prior dwbsm = fdwbsm
+	</select>
+	<select id="listJgByDwbsm" resultType="com.jnetdata.msp.media.vo.push.TreeNodeVo">
+		select dwxxbmbs id, dwbsm pid, xsbmmc name
+		  from lz_dwxsbmxx t
+		 where
+			<choose>
+				<when test="dwbsm != null and dwbsm != ''">
+					dwbsm =#{dwbsm}
+				</when>
+				<otherwise>
+					dwbsm is null
+				</otherwise>
+			</choose>
+	</select>
+	<select id="listJgByBmmc" resultType="com.jnetdata.msp.media.vo.push.TreeNodeVo">
+		select dwxxbmbs id, dwbsm pid, xsbmmc name
+		  from lz_dwxsbmxx t
+		 where  xsbmmc like CONCAT(CONCAT('%',#{bmmc}),'%')
+		  and  dwbsm in
+				(select dwbsm from lz_dwjbxx t
+				 start with
+					<choose>
+						<when test="dwbsm != null and dwbsm != ''">
+							dwbsm =#{dwbsm}
+						</when>
+						<otherwise>
+							dwbsm is not null
+						</otherwise>
+					</choose>
+				connect by prior dwbsm = fdwbsm )
+	</select>
+
+	<sql id="workerWhere">
+		<where>
+			<if test="entity.dwbsm != null and entity.dwbsm != ''">
+				and dwbsm=#{entity.dwbsm}
+			</if>
+			<if test="entity.bmbm != null and entity.bmbm != ''">
+				and bmbm=#{entity.bmbm}
+			</if>
+			<if test="entity.xm != null and entity.xm != ''">
+				and xm like CONCAT(CONCAT('%',#{entity.xm}),'%')
+			</if>
+		</where>
+	</sql>
+	<select id="countWorker" resultType="java.lang.Integer" parameterType="com.jnetdata.msp.media.vo.push.SimpleWorkerVo">
+		select count(1)
+		  from lz_worker_dc_73 t
+		<include refid="workerWhere"/>
+	</select>
+
+	<select id="listWorker" resultType="com.jnetdata.msp.media.vo.push.SimpleWorkerVo" parameterType="com.jnetdata.msp.media.vo.push.SimpleWorkerVo">
+		select *
+		  from (select t.*, rownum rn
+				  from lz_worker_dc_73 t
+				<include refid="workerWhere"/>
+		) tmp
+		 where rn between #{start} and #{end}
+	</select>
+
+	<select id="queryWorker" resultType="com.jnetdata.msp.media.vo.push.SimpleWorkerVo" parameterType="java.lang.String">
+		select t.* from lz_worker_dc_73 t
+		<where>
+			${conditionStr}
+		</where>
+
+	</select>
+	<select id="distinctWorkerField" resultType="java.lang.String">
+		select distinct ${fieldName} from lz_worker_dc_73 w
+		<where>
+			and ${fieldName} is not null
+			<if test="bmbms != null and bmbms != ''">
+				and w.bmbm in (${bmbms})
+			</if>
+			<if test="dwbsms != null and dwbsms != ''">
+				or w.dwbsm in (${dwbsms})
+			</if>
+
+			order by ${fieldName} asc
+
+		</where>
+	</select>
+</mapper>

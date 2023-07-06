@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.media.mapper.LinkAccessRecordMapper">
+
+    <select id="countAccessResult" parameterType="hashmap" resultType="hashmap">
+        select access_result, count(*) as access_result_count
+        from jmeta_link_access_record
+        where link_type=#{linkType}
+        and create_time &gt;= #{startTime}
+        and create_time &lt;= #{endTime}
+        group by access_result
+    </select>
+
+</mapper>

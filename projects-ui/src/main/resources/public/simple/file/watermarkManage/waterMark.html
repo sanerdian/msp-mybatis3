@@ -1,0 +1,969 @@
+<title>Title</title>
+<style>
+    #test11 i{
+        display: none;
+    }
+    th .layui-table-cell{
+        text-align: center;
+    }
+    .layui-table-view{
+        margin: 10px;
+    }
+    #test11 .layui-colorpicker{
+        margin-top: 10px;
+    }
+
+</style>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" style="overflow: hidden;height: 820px;position: relative">
+            <form class="layui-form" style="width:100%;border-bottom: 1px solid #f5f5f5">
+                <div class="layui-form-item" style="margin-top: 10px;display: inline-block">
+                    <label class="layui-form-label" style="padding: 9px 0">水印名称</label>
+                    <div class="layui-input-block" style="width:250px;margin-left: 95px">
+                        <input type="text" class="layui-input" placeholder="请输入" name="name">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-top: 10px;display: inline-block">
+                    <label class="layui-form-label" style="padding: 9px 0">水印类型</label>
+                    <div class="layui-input-block" style="width:250px;margin-left: 95px">
+                        <select name="wmkSign" id="">
+                            <option value="" selected hidden></option>
+                            <option value="0" name="0">文字水印</option>
+                            <option value="1" name="1">图片水印</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="layui-btn" style="margin: -3px 0 0 10px" lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                <div class="layui-btn-container" style="display: inline-block;float: right;
+    margin-top: 10px;">
+<!--                    <button class="layui-btn" type="button" data-type="sizeManage">压缩比例分类管理</button>-->
+<!--                    <button class="layui-btn" type="button" data-type="addCopyRight">版权管理</button>-->
+<!--                    <button class="layui-btn" type="button" data-type="picForm">图片分类管理</button>-->
+<!--                    <button class="layui-btn" type="button" data-type="videoForm">视频分类管理</button>-->
+<!--                    <button class="layui-btn" type="button" data-type="fileForm">文件分类管理</button>-->
+<!--                    <button class="layui-btn" type="button" data-type="audioForm">音频分类管理</button>-->
+                </div>
+            </form>
+            <div class="layui-btn-container" style="margin-top: 10px;">
+                <button class="layui-btn" data-type="addPicMark">新建图片水印</button>
+                <button class="layui-btn" data-type="addWordMark">新建文字水印</button>
+                <button class="layui-btn" onclick="deleteMarks()">删除水印</button>
+            </div>
+            <table class="layui-hide" id="test" lay-filter="demo"></table>
+            <div id="demo1"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var size=10,curr=1;
+    var alpha,fontSize,colors,path
+    var picalpha=0;
+    $(function () {
+        doList(size,curr,{})
+    }())
+
+    function doList(size,curr,obj) {    //查询水印列表
+        obj.isCompress=0;
+        var data={
+            'entity':obj,
+            "pager":{
+                "current":curr,
+                'size':size,
+                'sortProps': {
+                    "key": "createTime",
+                    "value": false
+                }
+            }
+        }
+        ajax(service_prefix.resources,'/watermark/list','post',JSON.stringify(data)).then(function (res) {
+            if(res.success){
+                res.obj.records.forEach(function (item, index) {
+                    item.number = index + 1;
+                })
+                layui.use('table', function(){
+                    var table = layui.table;
+
+                    table.render({
+                        elem: '#test'
+                        ,data:res.obj.records
+                        ,id:"idTest"
+                        ,cols: [[
+                            {type:'checkbox'}
+                            ,{field:'number', title: '序号',width:80}
+                            ,{field:'name',  title: '水印名称',align:"left"}
+                            ,{field:'location', title: '位置',align:"left",width:100,templet:"#location"}
+                            ,{field:'alpha', title: '透明度',align:"right",width:150}
+                            ,{field:'fontSize', title: '大小',align:"right",width:150}
+                            ,{field:'createTime', title: '创建时间',align:"left",width:185}
+                            ,{field:'watermarkSign', title: '水印类型',align:"left",width:235,templet:"#markType"}
+                            ,{field:'operations', title: '操作',align:"left",templet:"#operation",width:100}
+                        ]]
+                    });
+                    console.log("查询出的分页",res.obj.records)
+                    table.on('tool(demo)', function (obj) {
+                        var data = obj.data;
+                        if (obj.event === 'edits') {
+                            console.log(data)
+                            if(data.wmkSign==="0"){
+                                layer.open({
+                                    type: 1 //此处以iframe举例
+                                    ,title: '编辑图片水印'
+                                    ,area: ['520px', '450px']
+                                    ,shade: 0.3
+                                    ,maxmin: true
+                                    ,content: "<div id='form14'></div>"
+                                });
+                                layui.laytpl($("#editpicMark").html()).render({}, function(html){
+                                    $("#form14").html(html);
+                                    layui.form.render();
+                                    layui.form.val("pic",data);
+                                })
+
+                                layui.use(['colorpicker','slider','upload'], function(){
+                                    var colorpicker = layui.colorpicker,slider = layui.slider,upload=layui.upload;
+                                    //渲染
+                                    colorpicker.render({
+                                        elem: '#test11'  //绑定元素
+                                        ,format: 'rgb' //默认为 hex
+                                        ,done:function (color) {
+                                            colors = color
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest3'
+                                        ,min: 0 //最小值
+                                        ,max: 100 //最大值
+                                        ,change:function (value) {
+                                            alpha =value
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest4'
+                                        ,min: 0 //最小值
+                                        ,max: 100 //最大值
+                                        ,change:function (value) {
+                                            fontSize =value
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest15'
+                                        ,min: 0 //最小值
+                                        ,max: 10 //最大值
+                                        ,value:data.alpha
+                                        ,change:function (value) {
+                                            console.log(value)
+                                            picalpha=value
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest16'
+                                        ,min: 0 //最小值
+                                        ,max: 100 //最大值
+                                        ,value:data.fontSize
+                                        ,change:function (value) {
+                                            fontSize=value
+                                        }
+                                    });
+                                    var uploadInst = upload.render({
+                                        elem: '#test12'
+                                        ,url: getAjaxUrl(service_prefix.resources,'/watermark/upload')	//后台接收地址
+                                        ,exts: 'png|jpg|bmp|gif' 			//设置智能上传图片格式文件
+                                        ,size: 5000 				//最大允许上传的文件大小
+                                        ,multiple: false				//设置是否多个文件上传
+                                        ,before: function(obj){
+                                            //预读本地文件示例，不支持ie8
+                                            console.log(obj)
+                                            obj.preview(function(index, file, result){
+                                                $('#demos1').attr('src', result); //图片链接（base64）
+                                            });
+                                        }
+                                        ,done: function(res){
+                                            console.log(res);
+                                        }
+
+                                    });
+                                });
+                            }else{
+                                layer.open({
+                                    type: 1 //此处以iframe举例
+                                    ,title: '编辑文字水印'
+                                    ,area: ['520px', '450px']
+                                    ,shade: 0.3
+                                    ,maxmin: true
+                                    ,content: "<div id='form13'></div>"
+                                });
+                                layui.laytpl($("#editwordMark").html()).render({}, function(html){
+                                    $("#form13").html(html);
+                                    layui.form.render();
+                                    layui.form.val("word",data);
+                                })
+                                layui.use(['colorpicker','slider','upload'], function(){
+                                    var colorpicker = layui.colorpicker,slider = layui.slider,upload=layui.upload;
+                                    //渲染
+                                    colorpicker.render({
+                                        elem: '#test11'  //绑定元素
+                                        ,format: 'rgb' //默认为 hex
+                                        ,color:"rgb("+data.red+","+data.green+","+data.blue
+                                        ,done:function (color) {
+                                            colors = color
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest3'
+                                        ,min: 0 //最小值
+                                        ,max: 100 //最大值
+                                        ,value:data.alpha
+                                        ,change:function (value) {
+                                            alpha =value
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest4'
+                                        ,min: 0 //最小值
+                                        ,max: 100 //最大值
+                                        ,value:data.fontSize
+                                        ,change:function (value) {
+                                            fontSize =value
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest5'
+                                        ,min: 0 //最小值
+                                        ,max: 10 //最大值
+                                        ,change:function (value) {
+                                            console.log(value)
+                                            picalpha=value
+                                        }
+                                    });
+                                    slider.render({
+                                        elem: '#slideTest6'
+                                        ,min: 0 //最小值
+                                        ,max: 100 //最大值
+                                        ,change:function (value) {
+                                            fontSize=value
+                                        }
+                                    });
+                                });
+                            }
+
+                        } else if (obj.event === 'deletes') {
+                            layer.open({
+                                type: 1 //此处以iframe举例
+                                , title: '提示'
+                                , area: ['380px', '221px']
+                                , shade: 0.3
+                                , maxmin: true
+                                , content: "<div style='text-align:center;line-height:120px;'>确认要删除？</div>"
+                                , btn: ['确定', '取消'] //只是为了演示
+                                , btn2: function () {
+                                    layer.closeAll();
+                                },
+                                yes: function () {
+                                    delWatermarkByids(data.id)
+                                    layer.closeAll();
+                                }
+
+                            });
+                        }
+                    });
+                });
+                layui.use('laypage', function(){
+                    var laypage = layui.laypage;
+
+                    //执行一个laypage实例
+                    laypage.render({
+                        elem: 'demo1'
+                        ,count:res.obj.total
+                        ,curr:res.obj.current
+                        ,limit:res.obj.size
+                        ,layout:['count','prev','page','next','limit','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                var curr=obj.curr
+                                var size=obj.limit
+                                doList(size,curr,{})
+                            }
+                        }
+                    });
+                });
+
+            }
+
+        })
+    }
+  function delWatermarkByids(id) { //批量删除
+      ajax(service_prefix.resources,"/watermark/delByIds?ids="+id,"get").then(function (res) {
+          if(res.success){
+              doList(10,1,{})
+          }
+      })
+  }
+    layui.form.on('submit(search)', function(data){  //根据条件查
+        doList(10,1,data.field);
+        // if(!data.field.name&&!data.field.wmkSign){   //如果不输入条件则查询所有的
+        //    doList(10,1,{})
+        // }else{
+        //     var obj={};
+        //     obj.name=data.field.name;
+        //     obj.wmkSign=Number(data.field.wmkSign)
+        //     doList(10,1,obj)
+        // }
+
+        return false;
+    });
+    layui.form.render()
+
+
+    function deleteMarks() {   //删除水印
+        var checkStatus = layui.table.checkStatus('idTest');
+        if(checkStatus.data.length===0){
+            layer.alert("请先选择删除的水印");
+            return;
+        }
+        var ids="",count=0;
+        for(var i in checkStatus.data){
+
+            if(count!=0){
+                ids+=",";
+            }
+            count++;
+           ids+=checkStatus.data[i].id
+        };
+        delWatermarkByids(ids)
+    }
+    active.addPicMark=function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            ,title: '新建图片水印'
+            ,area: ['520px', '510px']
+            ,shade: 0.3
+            ,maxmin: true
+            ,content: "<div id='form12'></div>"
+        });
+        layui.laytpl($("#picMark").html()).render({}, function(html){
+            $("#form12").html(html);
+            layui.form.render();
+        })
+        layui.use(['colorpicker','slider','upload'], function(){
+            var colorpicker = layui.colorpicker,slider = layui.slider,upload=layui.upload;
+            //渲染
+            colorpicker.render({
+                elem: '#test11'  //绑定元素
+                ,format: 'rgb' //默认为 hex
+                ,done:function (color) {
+                    colors = color
+                }
+            });
+            slider.render({
+                elem: '#slideTest3'
+                ,min: 0 //最小值
+                ,max: 100 //最大值
+                ,change:function (value) {
+                    alpha =value
+                }
+            });
+            slider.render({
+                elem: '#slideTest4'
+                ,min: 0 //最小值
+                ,max: 100 //最大值
+                ,change:function (value) {
+                    fontSize =value
+                }
+            });
+            slider.render({
+                elem: '#slideTest15'
+                ,min: 0 //最小值
+                ,max: 10 //最大值
+                ,change:function (value) {
+                    console.log(value)
+                    picalpha=value
+                }
+            });
+            slider.render({
+                elem: '#slideTest16'
+                ,min: 0 //最小值
+                ,max: 100 //最大值
+                ,change:function (value) {
+                    fontSize=value
+                }
+            });
+            var uploadInst = upload.render({
+                elem: '#test12'
+                ,url: getAjaxUrl(service_prefix.resources,'/watermark/upload')	//后台接收地址
+                ,exts: 'png|jpg|bmp|gif' 			//设置智能上传图片格式文件
+                ,size: 5000 				//最大允许上传的文件大小
+                ,multiple: false				//设置是否多个文件上传
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    console.log(obj)
+                    obj.preview(function(index, file, result){
+                        $('#demos1').attr('src', result); //图片链接（base64）
+                    });
+                }
+                ,done: function(res){
+                    path=res.obj.path;
+                }
+
+            });
+        });
+    }
+    active.addWordMark=function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            ,title: '新建文字水印'
+            ,area: ['520px', '520px']
+            ,shade: 0.3
+            ,maxmin: true
+            ,content: "<div id='form13'></div>"
+        });
+        layui.laytpl($("#wordMark").html()).render({}, function(html){
+            $("#form13").html(html);
+            layui.form.render();
+        })
+        layui.use(['colorpicker','slider','upload'], function(){
+            var colorpicker = layui.colorpicker,slider = layui.slider,upload=layui.upload;
+            //渲染
+            colorpicker.render({
+                elem: '#test11'  //绑定元素
+                ,format: 'rgb' //默认为 hex
+                ,done:function (color) {
+                    colors = color
+                }
+            });
+            slider.render({
+                elem: '#slideTest3'
+                ,min: 0 //最小值
+                ,max: 100 //最大值
+                ,change:function (value) {
+                    alpha =value
+                }
+            });
+            slider.render({
+                elem: '#slideTest4'
+                ,min: 0 //最小值
+                ,max: 100 //最大值
+                ,change:function (value) {
+                    fontSize =value
+                }
+            });
+            slider.render({
+                elem: '#slideTest5'
+                ,min: 0 //最小值
+                ,max: 10 //最大值
+                ,change:function (value) {
+                    console.log(value)
+                    picalpha=value
+                }
+            });
+            slider.render({
+                elem: '#slideTest6'
+                ,min: 0 //最小值
+                ,max: 100 //最大值
+                ,change:function (value) {
+                    fontSize=value
+                }
+            });
+
+        });
+    }
+    layui.form.on("submit(addShuiyin)",function (data) {
+        if(!alpha ){
+            layer.alert("请将选择透明度");
+            return;
+        }if(!fontSize){
+            layer.alert("请将选择字体大小");
+            return;
+        }if(!colors){
+            layer.alert("请选择颜色");
+            return;
+        }
+
+
+        data.field.alpha=alpha;
+        data.field.fontSize=fontSize;
+        data.field.red=Number(colors.split("(")[1].split(",")[0]);
+        data.field.green=Number(colors.split("(")[1].split(",")[1].split("")[1]);
+        data.field.blue=Number(colors.split("(")[1].split(",")[2].split(")")[0]);
+        data.field.wmkSign='0'
+        data.field.isCompress=0
+        if( data.field.red==null){
+            layer.alert("请选择水印颜色");
+            return;
+        }
+        ajax(service_prefix.resources,"/watermark",'post',JSON.stringify(data.field)).then(function (res) {
+            if(res.success){
+                layer.closeAll();
+                doList(10,1,{})
+            }
+        })
+    })
+    layui.form.on("submit(addShuiyins)",function (data) {
+        if(!path){
+            layer.alert("请将水印所需信息填写完整");
+            return;
+        }
+        data.field.isCompress=0
+        data.field.wmkSign='1'
+        data.field.location=Number(data.field.location);
+        data.field.picalpha=picalpha;
+        data.field.wmkPath=path
+        ajax(service_prefix.resources,"/watermark",'post',JSON.stringify(data.field)).then(function (res) {
+            if(res.success){
+                layer.closeAll();
+                doList(10,1,{})
+            }
+        })
+    })
+    active.sizeManage=function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            ,title: '压缩比例管理'
+            ,area: ['520px', '250px']
+            ,shade: 0.3
+            ,maxmin: true
+            ,content: "<div id='form6'></div>"
+        });
+        layui.laytpl($("#size").html()).render({}, function(html){
+            $("#form6").html(html);
+            layui.form.render();
+        })
+    }
+    function getCopyright() {
+        var obj={}
+        obj.isCompress=2;
+        var data={
+            'entity':obj,
+            "pager":{
+                "current":curr,
+                'size':size
+            }
+        }
+        ajax(service_prefix.resources,'/watermark/list','post',JSON.stringify(data)).then(function (res) {
+            if(res.success){
+                res.obj.records.forEach(function (item, index) {
+                    item.number = index + 1;
+                })
+                layui.table.render({
+                    elem: '#test1'
+                    ,data:res.obj.records
+                    ,id:"idTest1"
+                    ,cols: [[
+                        {type:'checkbox'}
+                        ,{field:'number', title: '序号',width:80}
+                        ,{field:'copyRight',  title: '版权名称',align:"left"}
+                        ,{field:'operations',title:"操作",templet:"#operation"}
+                    ]]
+                })
+                layui.table.on('tool(demo1)', function (obj) {
+                    var data = obj.data;
+                    if (obj.event === 'deletes') {
+                        delWatermarkByids(data.id)
+                       getCopyright();
+                    }
+                });
+            }
+
+        })
+    }
+active.addCopyRight=function () {
+    layer.open({
+        type: 1 //此处以iframe举例
+        ,title: '版权管理'
+        ,area: ['520px', '400px']
+        ,shade: 0.3
+        ,maxmin: true
+        ,content: "<div id='form1'></div>"
+    });
+    layui.laytpl($("#copyright").html()).render({}, function(html){
+        $("#form1").html(html);
+        layui.form.render();
+        getCopyright();
+    })
+  
+
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'demo2'
+            ,count:0
+            ,curr:1
+            ,limit:3
+            ,layout:['count','prev','page','next','limit','refresh','skip']
+            ,jump:function (obj,first) {
+//                if (!first){
+//                    var curr=obj.curr
+//                    var size=obj.limit
+//                    doList(size,curr,{})
+//                }
+            }
+        });
+    });
+}
+    active.picForm=function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            ,title: '图片格式'
+            ,area: ['520px', '200px']
+            ,shade: 0.3
+            ,maxmin: true
+            ,content: "<div id='form2'></div>"
+        });
+        layui.laytpl($("#pic").html()).render({}, function(html){
+            $("#form2").html(html);
+            layui.form.render();
+        })
+    }
+    active.videoForm=function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            ,title: '视频格式'
+            ,area: ['520px', '200px']
+            ,shade: 0.3
+            ,maxmin: true
+            ,content: "<div id='form3'></div>"
+        });
+        layui.laytpl($("#video").html()).render({}, function(html){
+            $("#form3").html(html);
+            layui.form.render();
+        })
+    }
+    active.fileForm=function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            ,title: '文件格式'
+            ,area: ['520px', '200px']
+            ,shade: 0.3
+            ,maxmin: true
+            ,content: "<div id='form4'></div>"
+        });
+        layui.laytpl($("#file").html()).render({}, function(html){
+            $("#form4").html(html);
+            layui.form.render();
+        })
+    }
+    active.audioForm=function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            ,title: '音频格式'
+            ,area: ['520px', '200px']
+            ,shade: 0.3
+            ,maxmin: true
+            ,content: "<div id='form5'></div>"
+        });
+        layui.laytpl($("#audio").html()).render({}, function(html){
+            $("#form5").html(html);
+            layui.form.render();
+        })
+    }
+    function addCopyright(event) {
+        ajax(service_prefix.resources,"/watermark/addCopyright?copyright="+event.target.value,"post").then(function (res) {
+            if(res.success){
+                getCopyright();
+            }
+        })
+    }
+    layui.form.on("submit(addSize)",function (data) {
+        console.log(data.field)
+        var name = data.field.name;
+        var width=data.field.width;
+        var height=data.field.height;
+        ajax(service_prefix.resources,"/watermark/addCompress?name="+name+"&w="+width+"&h="+height,"post").then(function (res) {
+            if(res.success){
+                layer.closeAll();
+                doList(size,curr,{})
+            }
+        })
+        return false
+    })
+    layui.form.on("submit(picForms)",function (data) {
+        ajax(service_prefix.resources,"/watermark/edit?id=1190169972001751041","post",JSON.stringify(data.field)).then(function (res) {
+            if(res.success){
+                layer.closeAll();
+                doList(size,curr,{})            }
+        })
+        return false
+    })
+    layui.form.on("submit(videoForms)",function (data) {
+        ajax(service_prefix.resources,"/watermark/edit?id=1190170214461882370","post",JSON.stringify(data.field)).then(function (res) {
+            if(res.success){
+                layer.closeAll();
+                doList(size,curr,{})            }
+        })
+        return false
+    })
+    layui.form.on("submit(fileForms)",function (data) {
+        ajax(service_prefix.resources,"/watermark/edit?id=1190170403385917441","post",JSON.stringify(data.field)).then(function (res) {
+            if(res.success){
+                layer.closeAll();
+                doList(size,curr,{})            }
+        })
+        return false
+    })
+    layui.form.on("submit(audioForms)",function (data) {
+        ajax(service_prefix.resources,"/watermark/edit?id=1190170471144898562","post",JSON.stringify(data.field)).then(function (res) {
+            if(res.success){
+                layer.closeAll();
+                doList(size,curr,{})            }
+        })
+        return false
+    })
+</script>
+<script type="text/html" id="size">
+    <form class="layui-form" style="margin-top: 25px">
+        <div class="layui-form-item" style="display: inline-block">
+            <label class="layui-form-label" style="width: 120px">压缩比例名称：</label>
+            <div class="layui-input-block" style="margin-left: 170px;width: 250px">
+                <input type="text" class="layui-input" placeholder="请输入" name="name" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block">
+            <label class="layui-form-label" style="width: 50px;padding: 9px 15px">宽：</label>
+            <div class="layui-input-block" style="margin-left: 80px;width: 160px">
+                <input type="text" class="layui-input" placeholder="请输入" name="width" lay-verify="required|number">
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block">
+            <label class="layui-form-label" style="width: 50px;padding: 9px 15px">高：</label>
+            <div class="layui-input-block" style="margin-left:80px;width: 160px">
+                <input type="text" class="layui-input" placeholder="请输入" name="height" lay-verify="required|number">
+            </div>
+        </div>
+        <div class="layui-btn-container" style="margin-left: 200px">
+            <button class="layui-btn " type="button" lay-submit lay-filter="addSize">确定</button>
+            <button class="layui-btn  layui-btn-primary" type="button"  onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="audio">
+    <form class="layui-form" style="margin-top: 25px">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 15px">音频格式：</label>
+            <div class="layui-input-block" style="margin-left: 115px;width: 380px">
+                <input type="text" class="layui-input" placeholder="请输入" name="supForm" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-btn-container" style="margin-left: 200px">
+            <button class="layui-btn " type="button" lay-submit lay-filter="audioForms">确定</button>
+            <button class="layui-btn  layui-btn-primary" type="button"  onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="file">
+    <form class="layui-form" style="margin-top: 25px">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 15px">文件格式：</label>
+            <div class="layui-input-block" style="margin-left: 115px;width: 380px">
+                <input type="text" class="layui-input" placeholder="请输入" name="supForm" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-btn-container" style="margin-left: 200px">
+            <button class="layui-btn " type="button" lay-submit lay-filter="fileForms">确定</button>
+            <button class="layui-btn  layui-btn-primary" type="button"  onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="video">
+    <form class="layui-form" style="margin-top: 25px">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 15px">视频格式：</label>
+            <div class="layui-input-block" style="margin-left: 115px;width: 380px">
+                <input type="text" class="layui-input" placeholder="请输入" name="supForm" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-btn-container" style="margin-left: 200px">
+            <button class="layui-btn " type="button" lay-submit lay-filter="videoForms">确定</button>
+            <button class="layui-btn  layui-btn-primary" type="button"  onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="pic">
+    <form class="layui-form" style="margin-top: 25px">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 15px">图片格式：</label>
+            <div class="layui-input-block" style="margin-left: 115px;width: 380px">
+                <input type="text" class="layui-input" placeholder="请输入" name="supForm" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-btn-container" style="margin-left: 200px">
+            <button class="layui-btn " type="button" lay-submit lay-filter="picForms">确定</button>
+            <button class="layui-btn  layui-btn-primary" type="button"  onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="copyright">
+    <form class="layui-form" style="margin-top: 25px">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">版权：</label>
+            <div class="layui-input-block" style="margin-left: 75px;width: 420px">
+                <input type="text" class="layui-input" placeholder="请输入" name="copyright" lay-verify="required" onchange="addCopyright(event)">
+            </div>
+        </div>
+        <table class="layui-hide" id="test1" lay-filter="demo1"></table>
+        <div class="layui-btn-container" style="margin-left: 200px">
+            <button class="layui-btn " type="button" lay-submit lay-filter="addCopyright">确定</button>
+            <button class="layui-btn  layui-btn-primary" type="button"  onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="operation">
+    <div class="layui-btn-container">
+
+        <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deletes" type="button">删除</button>
+    </div>
+</script>
+<script type="text/html" id="markType">
+    {{#if(d.wmkSign==="1"){ }}
+    <div>图片水印</div>
+    {{#} else if(d.wmkSign==="0"){ }}
+    <div>文字水印</div>
+    {{#} }}
+</script>
+<script type="text/html" id="location">
+    {{#if(d.location===1){ }}
+    <div>左上</div>
+    {{#} else if(d.location===2){ }}
+    <div>顶部</div>
+    {{#} else if(d.location===3){ }}
+    <div>右上</div>
+    {{#} else if(d.location===4){ }}
+    <div>左侧</div>
+    {{#} else if(d.location===5){ }}
+    <div>正中</div>
+    {{#} else if(d.location===6){ }}
+    <div>右侧</div>
+    {{#} else if(d.location===7){ }}
+    <div>左下</div>
+    {{#} else if(d.location===8){ }}
+    <div>底部</div>
+    {{#} else if(d.location===9){ }}
+    <div>右下</div>
+    {{#} }}
+</script>
+<script type="text/html" id="picMark">
+    <form class="layui-form" style="margin: 20px" lay-filter="pic">
+        <div class="layui-form-item">
+            <div class="layui-upload">
+
+                <div class="layui-upload-list" style="display: inline-block;">
+                    <img class="layui-upload-img" id="demos1" style="width: 200px;height: 60px">
+                    <p id="demoText"></p>
+                    <span>注意：上传的图片不要太大</span>
+                </div>
+                <button type="button" class="layui-btn" id="test12" style="float: left;margin: 16px">上传图片</button>
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">水印名称：</label>
+            <div class="layui-input-block" style="margin-left: 75px;width: 330px">
+                <input type="text" class="layui-input" placeholder="请输入" name="name" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">位置：</label>
+            <div class="layui-input-block" style="margin-left: 75px;width: 330px">
+
+                <select name="location" id="" >
+                    <option value="5">正中</option>
+                    <option value="1">左上</option>
+                    <option value="2">顶部</option>
+                    <option value="4">左侧</option>
+                    <option value="6">右侧</option>
+                    <option value="7">左下</option>
+                    <option value="8">底部</option>
+                    <option value="9">右下</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">透明度：</label>
+            <div class="layui-input-block" style="    margin-left: 75px;margin-top: 15px;;width: 330px">
+                <div id="slideTest15" class="demo-slider"></div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">大小：</label>
+            <div class="layui-input-block" style="    margin-left: 75px;margin-top: 15px;;width: 350px">
+                <div id="slideTest16" class="demo-slider"></div>
+            </div>
+        </div>
+        <div class="layui-btn-container" style="margin-left: 150px">
+            <button class="layui-btn " type="button" lay-submit lay-filter="addShuiyins">确定</button>
+            <button class="layui-btn  layui-btn-primary" type="button"  onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="wordMark">
+    <form class="layui-form" style="margin: 20px" lay-filter="word">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">水印名称：</label>
+            <div class="layui-input-block" style="margin-left: 75px;width: 330px">
+                <input type="text" class="layui-input" placeholder="请输入" name="name" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">内容：</label>
+            <div class="layui-input-block" style="margin-left: 75px;width: 350px">
+                <input type="text" class="layui-input" name="content" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <span style="display: inline-block;
+    text-align: right;
+    margin-left: 31px;
+   ">字体：</span>
+            <div class="layui-input-block" style="margin-left: 0px;width: 330px;display: inline-block;">
+                <select name="inputFont" id="">
+                    <option value="默认">默认</option>
+                    <option value="仿宋">仿宋</option>
+                    <option value="楷体">楷体</option>
+                    <option value="宋体">宋体</option>
+                    <option value="黑体">黑体</option>
+                </select>
+            </div>
+            <div style="margin-left: 10px;display: inline-block;">
+                <span style="    margin-left: 22px;
+    ">颜色：</span>
+                <div id="test11"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">位置：</label>
+            <div class="layui-input-block" style="margin-left: 75px;width: 350px">
+
+                <select name="location" id="" >
+                    <option value="5">正中</option>
+                    <option value="1">左上</option>
+                    <option value="2">顶部</option>
+                    <option value="4">左侧</option>
+                    <option value="6">右侧</option>
+                    <option value="7">左下</option>
+                    <option value="8">底部</option>
+                    <option value="9">右下</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block;">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">透明度：</label>
+            <div class="layui-input-block" style="    margin-left: 75px;margin-top: 15px;;width: 330px">
+                <div id="slideTest3" class="demo-slider"></div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block;margin-bottom: 0;">
+            <label class="layui-form-label" style="width: 70px;padding: 9px 0">大小：</label>
+            <div class="layui-input-block" style="    margin-left: 75px;margin-top: 15px;;width: 350px">
+                <div id="slideTest4" class="demo-slider"></div>
+            </div>
+        </div>
+        <div class="layui-btn-container" style="margin-left: 150px">
+            <button class="layui-btn " style="margin-bottom: 0;" type="button" lay-submit lay-filter="addShuiyin">确定</button>
+            <button class="layui-btn  layui-btn-primary" style="margin-bottom: 0;"  type="button" onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+</script>
+
+

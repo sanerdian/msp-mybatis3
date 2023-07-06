@@ -1,0 +1,32 @@
+--配置表
+CREATE TABLE `sysconfig` (
+  `CONFIGID` bigint(20) NOT NULL COMMENT '主键id',
+  `CTYPE` varchar(255) DEFAULT NULL COMMENT '编号',
+  `CKEY` varchar(255) DEFAULT NULL COMMENT '属性名',
+  `CVALUE` varchar(255) DEFAULT NULL COMMENT '属性值',
+  `CDESC` varchar(255) DEFAULT NULL COMMENT '描述',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `SITEID` bigint(20) DEFAULT NULL COMMENT '站点信息id',
+  PRIMARY KEY (`CONFIGID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配置表';
+
+
+--配置类型表
+CREATE TABLE `sysconfigtype` (
+  `TYPEID` bigint(20) NOT NULL COMMENT '主键id',
+  `TYPENAME` varchar(255) DEFAULT NULL COMMENT '类型名',
+  `TYPEDESC` varchar(255) DEFAULT NULL COMMENT '类型描述',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`TYPEID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置类型';
+
+
+

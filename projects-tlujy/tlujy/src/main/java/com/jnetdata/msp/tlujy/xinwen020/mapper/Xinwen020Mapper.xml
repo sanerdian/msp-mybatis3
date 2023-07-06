@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.tlujy.xinwen020.mapper.Xinwen020Mapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jnetdata.msp.tlujy.xinwen020.model.Xinwen020">
+    <result column="CRUSER" property="cruser" />
+    <result column="CRTIME" property="crtime" />
+    <result column="CRNUMBER" property="crnumber" />
+        <result column="ID" property="id" />
+        <result column="DOCCHANNELID" property="docchannelid" />
+        <result column="DOCSTATUS" property="docstatus" />
+        <result column="SINGLETEMPKATE" property="singletempkate" />
+        <result column="SITEID" property="siteid" />
+        <result column="DOCVALID" property="docvalid" />
+        <result column="DOCPUBTIME" property="docpubtime" />
+        <result column="OPERUSER" property="operuser" />
+        <result column="OPERTIME" property="opertime" />
+        <result column="DOCTITLE" property="doctitle" />
+        <result column="DOCRELTIME" property="docreltime" />
+        <result column="DOCPUBURL" property="docpuburl" />
+        <result column="LINKURL" property="linkurl" />
+        <result column="CLASSINFOID" property="classinfoid" />
+        <result column="STATUS" property="status" />
+        <result column="COMPANYID" property="companyid" />
+        <result column="WEBSITEID" property="websiteid" />
+        <result column="COLUMNID" property="columnid" />
+        <result column="MODIFY_BY" property="modifyBy" />
+        <result column="MODIFY_USER" property="modifyUser" />
+        <result column="SEQENCING" property="seqencing" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+        <result column="FLOW_ID" property="flowId" />
+        <result column="FLOW_USER" property="flowUser" />
+        <result column="TITLE" property="title" />
+        <result column="PUSER" property="puser" />
+        <result column="PTIME" property="ptime" />
+        <result column="ZHENGWEN" property="zhengwen" />
+        <result column="SUMMARY" property="summary" />
+        <result column="HOMETITLE" property="hometitle" />
+        <result column="SUBTITLE" property="subtitle" />
+        <result column="DOCSOURCE" property="docsource" />
+        <result column="DOCAUTHOR" property="docauthor" />
+        <result column="ISPROHIBITPUBLISH" property="isprohibitpublish" />
+        <result column="COPYFLAG" property="copyflag" />
+        <result column="ISROTATION" property="isrotation" />
+        <result column="STATE" property="state" />
+        <result column="DIANPINGSHU" property="dianpingshu" />
+        <result column="TUIJIANZHE" property="tuijianzhe" />
+        <result column="LOGOTU" property="logotu" />
+        <result column="KEYWORDS" property="keywords" />
+        <result column="SCSTATE" property="scstate" />
+        <result column="PUSHTORANGE" property="pushtorange" />
+        <result column="COMMENTALLOWED" property="commentallowed" />
+        <result column="COMMENTCHECKED" property="commentchecked" />
+        <result column="COLUMNNAME" property="columnname" />
+        <result column="PUSHTOGROUP" property="pushtogroup" />
+        <result column="PUSHTOUSER" property="pushtouser" />
+        <result column="PUSHTOCONDITION" property="pushtocondition" />
+        <result column="FROZENTYPE" property="frozentype" />
+        <result column="WRITINGTIME" property="writingtime" />
+        <result column="SOURCEURL" property="sourceurl" />
+        <result column="CDNTYPE" property="cdntype" />
+        <result column="PUSHSQL" property="pushsql" />
+        <result column="TOPPINGFLAG" property="toppingflag" />
+        <result column="TOPPINGORDER" property="toppingorder" />
+        <result column="ROTATIONORDER" property="rotationorder" />
+        <result column="XM" property="xm" />
+        <result column="SEX" property="sex" />
+        <result column="AGE" property="age" />
+        <result column="XWHCDHZ" property="xwhcdhz" />
+        <result column="SXZY" property="sxzy" />
+        <result column="ZZMM" property="zzmm" />
+        <result column="ZWMC" property="zwmc" />
+        <result column="XJSZWMC" property="xjszwmc" />
+        <result column="JSDJ" property="jsdj" />
+        <result column="SZBZ" property="szbz" />
+        <result column="BZZLX" property="bzzlx" />
+        <result column="GZ" property="gz" />
+        <result column="DWBSM" property="dwbsm" />
+        <result column="BMBM" property="bmbm" />
+    </resultMap>
+
+</mapper>

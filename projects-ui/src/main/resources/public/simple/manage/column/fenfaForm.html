@@ -1,0 +1,153 @@
+﻿<style>
+    .fenfaform{margin-top: 10px}
+    .fenfaform .layui-form-label {
+        width: 75px;
+        padding: 9px 15px;
+    }
+</style>
+<form class="layui-form fenfaform" lay-filter="fenfaform">
+    <!--<div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">同步从</label>
+            <div class="layui-input-inline" style="width: 140px;">
+                <input type="text" name="starttime" id="ffstarttime" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">到</div>
+            <div class="layui-input-inline" style="width: 140px;">
+                <input type="text" name="endtime" id="ffendtime" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">结束</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">同步</label>
+            <div class="layui-input-inline" style="width: 140px;">
+                <input type="text" name="filetime" id="fffiletime" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">之后的文档</div>
+        </div>
+    </div>-->
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">同步时机</label>
+            <div class="layui-input-inline" style="width: 320px;">
+                <input type="checkbox" name="syncwhile" value="0" lay-skin="primary" title="新建时" checked>
+                <input type="checkbox" name="syncwhile" value="1" lay-skin="primary" title="修改时">
+                <input type="checkbox" name="syncwhile" value="2" lay-skin="primary" title="发布后同步并且">
+            </div>
+            <div class="layui-input-inline" style="width: 20px;    margin-left: -20px;">
+                <select name="syncwhileadd" lay-ignore style="margin-top: 9px;width: 65px;">
+                    <option value="0" selected>不发布</option>
+                    <option value="1">发布</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label">sql语句</label>
+        <div class="layui-input-inline" style="width: 375px;">
+            <textarea name="sqlstr" class="layui-textarea"></textarea>
+        </div>
+    </div>-->
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">同步模式</label>
+            <div class="layui-input-inline" style="width: 320px;">
+                <input type="radio" value="0" name="synctype" lay-skin="primary" title="复制" checked>
+                <input type="radio" value="1" name="synctype" lay-skin="primary" title="引用">
+                <input type="radio" value="2" name="synctype" lay-skin="primary" title="镜像">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">同步栏目</label>
+            <div class="layui-input-inline" style="width: 60px;">
+                <button class="layui-btn layui-btn-primary" type="button" id="showColumns">选择</button>
+            </div>
+            <div class="layui-input-inline" style="width: 120px;margin-top: 10px;">
+                <input type="text" name="fromnames" id="fffromnames" readonly style="border: none;">
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="id">
+    <input type="hidden" name="fromids" id="fffromids">
+    <div class="layui-row">
+        <div style="margin:auto;width: 144px;">
+            <button class="layui-btn" lay-submit="" lay-filter="submitFenfa">确认</button>
+            <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    //日期
+    laydate.render({
+        elem: '#ffstarttime'
+    });
+    //日期
+    laydate.render({
+        elem: '#fffiletime'
+    });
+    laydate.render({
+        elem: '#ffendtime'
+    });
+    $("#showColumns").click(function(){
+        var currNode = getColumnCurrNode();
+        showColumnTree([], xxx, "选择栏目", "checkbox",{tableId:currNode.tableId},{id:currNode.id},$("#fffromids").val().split(","));
+    })
+    function xxx(ids,xx,names){
+        $("#fffromids").val(ids.join());
+        $("#fffromnames").val(names.join());
+    }
+    layui.form.on("submit(submitFenfa)",function(data){
+        var currNode = getColumnCurrNode();
+        data.field.columnid = currNode.id;
+        data.field.columnname = currNode.name;
+        var syncwhile = [];
+        $('input[name="syncwhile"]:checked').each(function() {
+            if($(this).val() == 2){
+                syncwhile.push(2 + Number(data.field.syncwhileadd))
+            }else{
+                syncwhile.push($(this).val());
+            }
+
+        });
+        data.field.syncwhile = syncwhile.join();
+
+        var id = data.field.id;
+        var type = id?"put":"post";
+        var uri = id?("/"+id):"";
+
+        ajax("","/manage/fenfa" + uri,type,JSON.stringify(data.field)).then(function(res){
+            if(!res.success){
+                layer.alert(res.msg);
+            }else{
+                layer.closeAll();
+                getFenfaList();
+            }
+        })
+        return false;
+    })
+    function showFenfaData(id){
+        ajax("","/manage/fenfa/"+id,"get").then(function(res){
+            if(!res.success){
+                layer.alert(res.msg);
+            }else{
+                layui.form.val("fenfaform",res.obj);
+                $('input[name="syncwhile"]').prop("checked",false)
+                for(var o of res.obj.syncwhile.split(",")){
+                    if(o == 3){
+                        $('input[name="syncwhile"][value="2"]').prop("checked",true);
+                        $('select[name="syncwhileadd"]').val(1);
+                    }else{
+                        $('input[name="syncwhile"][value="'+o+'"]').prop("checked",true);
+                    }
+                }
+                layui.form.render();
+            }
+        })
+    }
+
+</script>

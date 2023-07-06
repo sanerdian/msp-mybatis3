@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="list.js"></script>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-card h100">
+            <!-- 搜索开始 -->
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <form class="layui-form" id="formSearch">
+                    <div class="layui-form-item">    
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-back-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 搜索结束 -->
+            <div class="layui-card-body">
+                <!-- 列表开始 -->
+                <div class="table-area">
+                    <table id="tableData" lay-filter="tableData"></table>
+                </div>
+                <!-- 列表结束 -->
+            </div>   
+    
+        </div>
+    </div>
+    <script>
+        //服务id service_prefix.dict
+        var serviceId = "member";
+
+        //接口地址
+        var url = '/user';
+
+        //列表数据
+        var columns = [
+            {type: 'checkbox', fixed: 'left'}
+            , {type: 'numbers', title: '序号', fixed: 'left'}
+            , {field: 'name', title: '用户名', width: 140, fixed: 'left'}
+            , {field: 'trueName', title: '真实姓名', width: 100}
+            , {field: 'email', title: '电子邮箱'}
+            , {field: 'mobile', title: '手机号码', width: 120}
+            , {field: 'groupName', title: '所属组织'}
+            , {field: 'roleName', title: '所属角色'}
+        ];
+        
+        $(function(){
+            setListData(serviceId,url, curr, defaultPageSize,{});
+            getSearch(serviceId,url,curr, defaultPageSize);            
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictDianpinglevelMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictDianpinglevel">
+    <!--@mbg.generated-->
+    <!--@Table dict_dianpinglevel-->
+    <id column="metaid" jdbcType="INTEGER" property="metaid" />
+    <result column="shuxinglevel" jdbcType="INTEGER" property="shuxinglevel" />
+    <result column="titile" jdbcType="VARCHAR" property="titile" />
+    <result column="crtime" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="optime" jdbcType="TIMESTAMP" property="optime" />
+    <result column="cruser" jdbcType="VARCHAR" property="cruser" />
+    <result column="opuser" jdbcType="VARCHAR" property="opuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    metaid, shuxinglevel, titile, crtime, optime, cruser, opuser
+  </sql>
+</mapper>

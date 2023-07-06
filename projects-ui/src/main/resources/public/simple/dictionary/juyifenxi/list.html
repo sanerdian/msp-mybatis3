@@ -1,0 +1,310 @@
+<link rel="stylesheet" href="simple/dictionary/css/style.css">
+<style>
+    #formSearch {
+        width: 100%;
+    }
+
+    .layui-row {
+        display: flex;
+        flex-direction: column;
+        margin-right: 20px;
+    }
+
+    .layui-card-header.layuiadmin-card-header-auto .layui-input-block {
+        width: 70%
+    }
+
+    .layui-row .layui-inline .layui-form-label {
+        width: 35%;
+        text-align: right;
+        margin: 0px;
+        font-size: 12px;
+    }
+
+    .layui-row .layui-inline {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    #formSearch .layui-row .layui-inline:nth-last-child() {
+        margin-bottom: 0px;
+    }
+
+    .serarchCondition {
+        font-size: 12px;
+        margin: 0px 10px;
+    }
+
+    .serarchCondition span {
+        margin-left: 10px;
+    }
+
+    .serarchCondition input {
+        margin-left: 20px;
+    }
+
+    .table-area {
+        /* height: 57% !important; */
+    }
+    .layui-layout-admin .layui-body{
+        background-color: #fff;
+    }
+    .layui-layout-admin .layui-body .layadmin-tabsbody-item{
+        overflow: auto;
+    }
+    .layui-card-body {
+        /* overflow-y: scroll; */
+        /* width: 4000px; */
+        /* height: 636px; */
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-card h100">
+        <!-- 搜索开始  style="width:98%;height:32%;padding: 15px;box-sizing: border-box;"-->
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <form class="layui-form" id="formSearch" action="">
+                <div class="layui-form-item" style="display: flex;">
+                    <div class="layui-row">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">车企：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="carCorp" id="carCorpKey">
+                                <!--<select class="layui-input" name="carCorp" id="carCorpKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.carCorp}}">{{ item.carCorp}}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">一级指标：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="level1st" id="level1isKey">
+                                <!--		<select class="layui-input" name="level1st" id="level1stKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.level1st}}">{{ item.level1st}}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">帖子分类：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="postKind" id="postKindKey">
+                                <!--		<select class="layui-input" name="postKind" id="postKindKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.postKind}}">{{ item.postKind}}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px;">
+                            <label class="layui-form-label">形容词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="adjective" id="adjectiveKey">
+                                <!--	<select class="layui-input" name="adjective" id="adjectiveKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.adjective}}">{{ item.adjective }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">品牌：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="brand" id="brandKey">
+                                <!--<select class="layui-input" name="brand" id="brandKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.brand}}">{{ item.brand }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">二级指标：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="level2nd" id="level2ndKey">
+                                <!--		<select class="layui-input" name="wordname" id="level2ndKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.level2nd}}">{{ item.level2nd }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">标题：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="tittle" placeholder="请输入" id="tittleKey" autocomplete="off"
+                                    class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px;">
+                            <label class="layui-form-label" style="width: 38%;">主题词停用词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="subjectWordStopWord"
+                                    id="subjectWordStopWordKey">
+                                <!--		<select class="layui-input" name="subjectWordStopWord" id="subjectWordStopWordKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.subjectWordStopWord}}">{{ item.subjectWordStopWord }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">车型：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="automotiveType" id="automotiveTyepeKey" autocomplete="off"
+                                    class="layui-input">
+                                <!--<select class="layui-input" name="automotiveType" id="automotiveTypeKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.automotiveType}}">{{ item.automotiveType }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">三级指标：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="level3rd" id="level3rdKey" autocomplete="off"
+                                    class="layui-input">
+                                <!--<select class="layui-input" name="level3rd" id="level3rdKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.level3rd}}">{{ item.level3rd }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">帖子ID：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="postId" id="postIdKey" placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px;">
+                            <label class="layui-form-label">地域：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="region" id="regionKey" autocomplete="off" class="layui-input">
+                                <!--<select class="layui-input" name="region" id="regionKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.region}}">{{ item.region }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 80px;">主题词量：</label>
+                            <div class="layui-input-inline" style="display: flex">
+                                <input type="text" class="layui-input" name="quatityOfSubjectWord"
+                                    id="subjectWordStopWordKey" width="300px">
+                                <span>-</span>
+                                <input type="text" class="layui-input" name="quatityOfSubjectWord"
+                                    id="subjectWordStopWordKey" width="300px">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 80px;">四级指标：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="level4th" id="level4thKey" autocomplete="off"
+                                    class="layui-input">
+                                <!--<select class="layui-input" name="level4rd" id="level4rdKey" onkeydown="option"
+										onclick="getList" lay-search="">
+									{{#  layui.each(d.obj, function(index, item){ }}
+									<option value="{{item.level4rd}}">{{ item.level4rd }}</option>
+									{{#  }); }}
+								</select>-->
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">帖子内容：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="postContents" id="postContentsKey" placeholder="请输入"
+                                    autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">主题词：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="subjectWord" id="subjectWordKey" placeholder="请输入"
+                                    autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px;">
+                            <div class="layui-inline layui-inline2">
+                                <label class="layui-form-label">发帖时间：</label>
+                                <div class="layui-input-inline layui-input-inline2">
+                                    <input type="text" name="time" class="layui-input" id="date">
+                                </div>
+                                <label class="layui-form-mid">-</label>
+                                <div class="layui-input-inline layui-input-inline2">
+                                    <input type="text" class="layui-input" name="timeEnd" id="date2">
+                                </div>
+                            </div>
+                            <!--<label class="layui-form-label" style="width: 80px;">发帖时间：</label>-->
+                            <!--<div class="layui-input-inline" style="display: flex">-->
+                            <!--<input type="text" class="layui-input" id="startPostTimeKey" placeholder="">-->
+                            <!--<span>-</span>-->
+                            <!--<input type="text" class="layui-input" id="postTimeKey" placeholder="">-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="serarchCondition">
+                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-back-search">
+                        搜索
+                    </button>
+                    <span>主题词不为空</span>
+                    <input type="checkbox" name="satisfactory" title="满意" lay-skin="primary">
+                    <input type="checkbox" name="neutral" title="中立" lay-skin="primary">
+                    <input type="checkbox" name="unsatisfactory" title="不满意" lay-skin="primary">
+                    <input type="checkbox" name="boutiqueStickers" title="精品贴" lay-skin="primary">
+                    <input type="checkbox" name="questionAnswer" title="问答贴" lay-skin="primary">
+                    <input type="checkbox" name="wordOfMouthStick" title="口碑贴" lay-skin="primary">
+                </div>
+            </form>
+            <!-- 搜索结束 -->
+
+            <div class="layui-card-body">
+                <!-- 列表开始 -->
+                <!--<div class="table-area"  style="overflow-x:auto;width:4000px;height:1000px">-->
+                <div class="table-area">
+                    <table id="tableData" lay-filter="tableData"></table>
+                </div>
+                <div id="page"></div>
+                <!-- 列表结束 -->
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/html" id="operateTemplate">
+        <button class="layui-btn layui-btn-xs" lay-event="detail">详情</button>
+        <!--<button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>-->
+        <!--<button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>-->
+    </script>
+
+    <script src="common/js/list.js"></script>
+    <script src="simple/dictionary/js/dictionary.js"></script>
+    <script src="simple/viewManage/viewComm/getViewService.js"></script>
+    <script src="simple/dictionary/juyifenxi/list.js"></script>
+    <script src="simple/dictionary/juyifenxi/Convert_Pinyin.js"></script>

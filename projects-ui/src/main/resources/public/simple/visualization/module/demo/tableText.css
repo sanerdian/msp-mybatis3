@@ -1,0 +1,19 @@
+.visual_module_set .layui-tab{padding:0;margin:0;}
+.visual_module_set .layui-tab-content{padding:0 20px 0 0;}
+.visual_module_set .layui-tab-title{background:#f1f1f1;}
+.visual_module_set .layui-tab-title .layui-this{background:#fff;}
+.visual_module_set form{padding:20px 0 0;}
+.visual_module_set form .layui-form-item .visual_inline{float:left;width:190px;}
+.visual_module_set form .layui-form-item .visual_inline .layui-input{float:left;width:50%;margin:0 10px 0 0;}
+.visual_module_set form .layui-form-item .visual_inline span.text{line-height:40px;}
+.visual_module_set form .layui-form-item .layui-form-checkbox[lay-skin="primary"]{height:30px!important;line-height:30px!important;}
+.visual_module_set form .layui-form-item .visual_check{height:160px;overflow-y:scroll;}
+.visual_module_set form .layui-form-item .visual_check .visual_num{margin:0 15px 0 0;}
+.widget_box .widget_active{border:1px solid #1a90ff;}
+.widget_box .widget_menu{display:none;position:fixed;z-index:9999;height:40px;background:#eeeff3;border-radius:2px;text-align:center;line-height:40px;padding:0 10px;}
+.widget_box .widget_menu .widget_icon{width:40px;height:40px;cursor:pointer;float:left;}
+.widget_box .widget_menu .widget_set{background:url(../../images/set.png) no-repeat center;}
+.widget_box .widget_menu .widget_link{background:url(../../images/link.png) no-repeat center;}
+.widget_box .widget_menu .widget_delete{background:url(../../images/delete.png) no-repeat center;}
+.widget_box .widget_id{display:none;}
+.layui-layer-molv .layui-layer-btn .layui-layer-btn1{background: #fff !important;color:#009f95;}

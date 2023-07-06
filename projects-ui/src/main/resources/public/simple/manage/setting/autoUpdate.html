@@ -1,0 +1,181 @@
+<title>代码自动更新</title>
+<div class="layui-fluid">
+    <div class="layui-card h100" style="background: #fff">
+        <div style="margin: 20px 20px 0px 20px;display: inline-block">
+            <button class="layui-btn" style="margin-right: 20px" onclick="updateVesion()">版本更新</button>
+            <span>当前已是最新版本~</span>
+        </div>
+        <div class="layui-card-body">
+            <div class="table-area">
+                <table id="test"></table>
+            </div>
+            <div id="demo7"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var data = {
+        "pager": {
+            "current": 1,
+            "size": 15
+        },
+        "picture": {
+            "processing": 1
+        }
+    }
+    var global = {
+        pageNo: 1
+    }
+    $(function () {
+        autoUpdateList(1)
+    }())
+
+    function autoUpdateList(pageNo) {
+        global.pageNo = pageNo;
+        data.pager.current = pageNo;
+        $.ajax({
+            url: '/kang/json/autoUpdate.json',
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function (res) {
+                console.log(res);
+                res.obj.records.forEach(function (item, index) {
+                    item.number = index + 1;
+                })
+                layui.use('table', function () {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#test',
+                        data: res.obj.records,
+                        cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            ,
+                        cols: [
+                            [{
+                                type: 'numbers',
+                                title: '序号'
+                            }, {
+                                field: 'name',
+                                width: 300,
+                                title: '版本名称'
+                            }, {
+                                field: 'content',
+                                width: 880,
+                                title: '更新内容'
+                            }, {
+                                field: 'operator',
+                                width: 163,
+                                title: '操作人'
+                            }, {
+                                field: 'time',
+                                title: '更新时间',
+                                width: 200
+                            }]
+                        ]
+                    });
+
+                });
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage,
+                        layer = layui.layer;
+                    laypage.render({
+                        elem: 'demo7',
+                        count: res.obj.records.length,
+                        limit: 15,
+                        curr: pageNo ? pageNo : 0,
+                        layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh',
+                            'skip'],
+                        jump: function (obj, first) {
+                            console.log(obj)
+                            if (!first) {
+                                autoUpdateList(obj.curr)
+                            }
+                        }
+                    });
+                })
+
+            }
+        })
+
+    }
+
+    // var data = [{
+    //         name: "中科聚网",
+    //         content: "中科聚网",
+    //         operator: "admin",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "测试网站",
+    //         content: "",
+    //         operator: "ceshi",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "测试1",
+    //         content: "",
+    //         operator: "test",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "测试2",
+    //         content: "",
+    //         operator: "admin",
+    //         time: "2019-09-05"
+    //     },
+    //     {
+    //         name: "中国艺术研究院",
+    //         content: "非物质文化遗产资源管理",
+    //         operator: "admin",
+    //         time: "2019-09-05"
+    //     },
+    // ]
+    // data.forEach(function (item, index) {
+    //     item.number = index + 1;
+    // })
+    // layui.use('table', function () {
+    //     var table = layui.table;
+
+    //     table.render({
+    //         elem: '#test',
+    //         data: data,
+    //         cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+    //             ,
+    //         cols: [
+    //             [{
+    //                 field: 'number',
+    //                 width: 80,
+    //                 title: '序号'
+    //             }, {
+    //                 field: 'name',
+    //                 width: 300,
+    //                 title: '版本名称'
+    //             }, {
+    //                 field: 'content',
+    //                 width: 880,
+    //                 title: '更新内容'
+    //             }, {
+    //                 field: 'operator',
+    //                 width: 163,
+    //                 title: '操作人'
+    //             }, {
+    //                 field: 'time',
+    //                 title: '更新时间',
+    //                 width: 200
+    //             }]
+    //         ]
+    //     });
+    // });
+    // layui.laypage.render({
+    //     elem: 'demo7',
+    //     count: 100,
+    //     layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+    //     jump: function (obj) {
+    //         console.log(obj)
+    //     }
+    // });
+
+    function updateVesion() {
+        layer.alert("更新成功")
+    }
+</script>

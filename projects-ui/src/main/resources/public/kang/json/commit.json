@@ -1,0 +1,106 @@
+{
+    "status": "200",
+    "msg": "成功",
+    "success": true,
+    "obj": {
+        "current": 1,
+        "size": 20,
+        "total": 12,
+        "records": [
+            {
+                "type": "0",
+                "typeName": "图片",
+                "count": 2,
+                "content": [
+                    {
+                        "url": "common/img/u15383.png",
+                        "name": "图片1"
+                    },{
+                        "url": "common/img/u15383.png",
+                        "name": "图片2"
+                    }
+                ]
+            },
+            {
+                "type": "1",
+                "typeName": "文档",
+                "count": 4,
+                "content": [
+                    {
+                        "url": "",
+                        "name": "文档1"
+                    },{
+                        "url": "",
+                        "name": "文档2"
+                    },{
+                        "url": "",
+                        "name": "文档3"
+                    },{
+                        "url": "",
+                        "name": "文档4"
+                    }
+                ]
+
+            },
+            {
+                "type": "2",
+                "typeName": "音频",
+                "count": 4,
+                "content": [
+                    {
+                        "url": "",
+                        "name": "音频1"
+                    },{
+                        "url": "",
+                        "name": "音频2"
+                    },{
+                        "url": "",
+                        "name": "音频3"
+                    },{
+                        "url": "",
+                        "name": "音频4"
+                    }
+                ]
+            },
+            
+            {
+                "type": "3",
+                "typeName": "视频",
+                "count": 2,
+                "content": [
+                    {
+                        "url": "",
+                        "name": "视频1"
+                    },{
+                        "url": "",
+                        "name": "视频2"
+                    }
+                ]
+            },
+            
+            {
+                "type": "4",
+                "typeName": "其他文件",
+                "count": 5,
+                "content": [
+                    {
+                        "url": "",
+                        "name": "其他文件1"
+                    },{
+                        "url": "",
+                        "name": "其他文件2"
+                    },{
+                        "url": "",
+                        "name": "其他文件3"
+                    },{
+                        "url": "",
+                        "name": "其他文件4"
+                    },{
+                        "url": "",
+                        "name": "其他文件5"
+                    }
+                ]
+            }
+        ]
+    }
+}

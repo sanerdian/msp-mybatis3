@@ -1,0 +1,30 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateResetPass">
+	<form class="layui-form" lay-filter="formResetPass">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<label class="layui-form-label">密码:</label>
+						<div class="layui-input-block">
+							<input type="password" name="passWord" lay-verify="required|pass" placeholder="请输入" autocomplete="new-password" class="layui-input">
+							<span class="bitianspan">必填</span></br>
+							<span style="">（密码必须6到16位，且不能出现空格）</span>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">确认密码:</label>
+						<div class="layui-input-block">
+							<input type="password" name="passWord2" lay-verify="required|pwd2" placeholder="请输入" autocomplete="off" class="layui-input">
+							<span class="bitianspan">必填</span>
+						</div>
+					</div>
+				</div>
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-data-reset-pass">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

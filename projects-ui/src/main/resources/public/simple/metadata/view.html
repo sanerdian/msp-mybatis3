@@ -1,0 +1,1270 @@
+﻿<title>元数据视图管理</title>
+
+<style>
+    .left-list .layui-form-item .layui-form-radio {
+        margin: 6px -12px 0 0;
+    }
+
+    .addColor {
+        background: rgba(218, 250, 162, 1)
+    }
+
+    .left-list .layui-form-label {
+        padding: 0px;
+        width: auto;
+    }
+
+    .left-list .layui-input-block {
+        margin-left: 28px;
+    }
+
+    .left-list .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+        margin-top: 5px;
+    }
+
+    .left-list .active {
+        background: rgba(218, 250, 162, 1);
+        width: 387px !important;
+    }
+
+    .left-list .active2 {
+        background: rgba(218, 250, 162, 1);
+        width: 387px !important;
+    }
+
+    .left-list .layui-card-body {
+        padding: 10px 0;
+        height: 85%;
+    }
+
+    .left-list .layui-form-item {
+        padding: 8px 11px;
+        margin-bottom: 0px;
+        cursor: pointer;
+    }
+
+    .left-list .layui-btn-container {
+        padding-left: 25px;
+    }
+
+    .layui-textarea {
+        min-height: 650px
+    }
+
+    .layui-table-cell {            overflow: visible !important;        }
+    /* 使得下拉框与单元格刚好合适 */
+    td .layui-form-select{
+        margin-top: -10px;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+</style>
+<script src="common/js/jquery.custom.imitate.editor-v1.0.js"></script>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 md3-left left-list">
+        <div class="layui-card h100">
+            <div class="layui-card-header">视图</div>
+            <div class="layui-card-body">
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-sm" data-type="edit"><i class="layui-icon">&#xe642;</i> 修改视图</button>
+                    <button type="button" class="layui-btn layui-btn-sm" data-type="del"><i class="layui-icon">&#xe640;</i> 删除视图</button>
+                    <button type="button" class="layui-btn layui-btn-sm " data-type="generateCodes">生成前端模板代码</button>
+                    <button type="button" class="layui-btn layui-btn-sm" data-type="createCodes">生成java代码</button>
+                    <button type="button" class="layui-btn layui-btn-sm" data-type="bushu">部署应用</button>
+                    <button type="button" class="layui-btn layui-btn-sm" data-type="delCodes"><i class="layui-icon">&#xe640;</i> 删除元数据视图及代码应用</button>
+                </div>
+                <form class="layui-form" action="" id="listForm" style='position: relative;    overflow: hidden;
+    height: 604px;
+    overflow: auto;
+    width: 437px;'>
+                </form>
+            </div>
+            <div class="" id="pageleft" style="padding-left: 10px"></div>
+        </div>
+    </div>
+    <div class="layui-col-md9 md3-right h100" style="width: 75%">
+        <div class="layui-card h100">
+            <div class="layui-tab" lay-filter="demo">
+                <div class="layui-tab-content jnet-tab-content" style="height: 747px">
+                    <div id="main" class="layui-tab-item layui-show" style="position: relative" >
+                        <div class="layui-card-header">视图字段</div>
+                        <div class="layui-card-body">
+                           <div class="layui-row">
+                            <div class="layui-btn-container layui-col-md5">
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-type="editViewSql">SQL语句视图修改</button>
+                                <button type="button" class="layui-btn" onclick="downInterfaceDocument()">导出接口文档</button>
+                            </div>
+                            <div class="jnet-search-right layui-col-md7">
+                                <form>
+                                    <div class="layui-inline">
+                                        <input type="text" id="searchTableInput" placeholder="请输入中文或英文名称" class="layui-input">
+                                    </div>
+                                    <button type="button" onclick="searchTableByName()"  class="layui-btn layui-btn-sm layui-inline"><img src="common/img/u11881.svg"></button>
+                                    <button type="button" class="layui-btn layui-btn-sm layui-inline layui-btn-primary" onclick="showSearchBody()"><img src="common/img/u11999.svg"></button>
+                                </form>
+                            </div>
+                           </div>
+                            <table class="layui-hide" id="fieldTabel" lay-filter="fieldTabel"></table>
+                            <div id="fieldPage"></div>
+                        </div>
+                        <div class="layui-card jnet-search-body">
+                            <div class="layui-card-header"><div class="layui-col-md5">筛选</div><div class="layui-col-md7"><img onclick="closeSearchBody()" src="common/img/u11915.svg" style="float: right; margin-top: 15px;cursor: pointer;"></div></div>
+                            <div class="layui-card-body">
+                                <form class="layui-form">
+                                    <div class="layui-row">
+                                        中文名称
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input" type="text" name="anothername">
+                                    </div>
+                                    <div class="layui-row-item">
+                                        英文名称
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input" type="text" name="fieldname">
+                                    </div>
+                                    <div class="layui-form-item">
+                                        字段类型
+                                    </div>
+                                    <div class="layui-row">
+                                        <select name="fieldtype" id="fieldtypes" class="layui-input" lay-filter="fieldtypes">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-row-item">
+                                        库中类型
+                                    </div>
+                                    <div class="layui-row">
+                                        <select name="dbtype" id="dbtype1" class="layui-input">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-row-item">
+                                        匹配方式
+                                    </div>
+                                    <div class="layui-row">
+                                        <select name="matchType" id="matchType1" class="layui-input">
+                                            <option value="">请选择</option>
+                                            <option value="1">=</option>
+                                            <option value="2">!=</option>
+                                            <option value="3">＞</option>
+                                            <option value="4">＞=</option>
+                                            <option value="5">＜</option>
+                                            <option value="6">＜=</option>
+                                            <option value="7">Between</option>
+                                            <option value="8">like</option>
+                                        </select>
+                                    </div><!--
+                                    <div class="layui-row-item">
+                                        创建人
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input" type="text" name="crUser">
+                                    </div>-->
+                                    <div class="layui-row-item">
+                                        创建时间
+                                    </div>
+                                    <div class="layui-row">
+                                        <input class="layui-input jnet-search-crtime" type="text" name="createTime">
+                                    </div>
+                                    <div class="jnet-submit-bar">
+                                        <button class="layui-btn layui-btn-sm" lay-submit lay-filter="searchTable">确定</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-tab-item">
+                        <div class="layui-card-header">git推送时间记录</div>
+                        <div class="layui-card-body" style="height: 640px; overflow: auto;">
+                            <table class="" id="fieldTable4" style="width: 100%;"></table>
+                            <div id="fieldPage4"></div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="layui-tab-title" id="manage">
+                    <li class="layui-this" id="first">模块元数据表</li>
+<!--                    <li onclick="getPushView()">git推送时间记录</li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <form action="" class="layui-form" id="form1" style="display: none">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin: 20px 0 20px 20px; width: 80px; display: inline-block; height: 32px!important">
+                        <select name="city" lay-verify="required">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-block" style="margin: 20px -5px; width: 200px; display: inline-block;">
+                        <input type="text" required lay-verify="required" placeholder="请输入检索词" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-block" style="margin: 20px 0px; display: inline-block;">
+                        <button class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+                    </div>
+                    <span style="font-size: 12px;float:right;margin: 40px 20px 0 0">共<span style="color: red">1</span>页,<span style="color: red">43</span>个模块</span>
+                </div>
+                <div class="layui-form-item" style="margin: 20px; border: 1px solid #ccc; height: 200px!important; overflow:auto">
+                    <div class="layui-input-block" style="margin: 7px; width: 200px; display: inline-block; height: 32px!important">
+                        <input type="radio" name="sex"> <span>通用概览_标准化概况</span>
+                    </div>
+                    <div class="layui-input-block" style="margin: 7px; width: 200px; display: inline-block; height: 32px!important">
+                        <input type="radio" name="sex"><span>通用概览_标准化概况</span>
+                    </div>
+                    <div class="layui-input-block" style="margin: 7px; width: 200px; display: inline-block; height: 32px!important">
+                        <input type="radio" name="sex"><span>通用概览_标准化概况</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 135px;">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html" id="metadataTemplate">
+    <form class="layui-form" lay-filter="metadataForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                {{# if(!d.edit){ }}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">表英文前缀:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="preTbm" value="" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                {{# } }}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*表英文名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="viewname" value="" required lay-verify="required" {{ d.edit?'readonly':'' }} placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--<div class="layui-form-item">
+                  <label class="layui-form-label">*表主键字段:</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="pk" value="" required lay-verify="required"  placeholder="请输入" autocomplete="off" class="layui-input">
+                  </div>
+                </div>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*表中文名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tableviewname" value="" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">视图描述:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="viewdesc" value="" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--<div class="layui-form-item">
+                  <label class="layui-form-label">元数据模板:</label>
+                  <div class="layui-input-block" style="height: 30px;padding-top: 10px;cursor: pointer;">
+                    <i class="layui-icon layui-icon-app" data-method="select" id="select"></i>
+                    请选择模板
+                  </div>
+                </div>-->
+                <input type="hidden" name="tabletype" value="view">
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 175px;">
+                        <button class="layui-btn" lay-submit lay-filter="addMetadata">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id">
+    </form>
+</script>
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html" id="fieldTemplate">
+    <form class="layui-form" lay-filter="fieldForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">视图名</label>
+                    <div class="layui-input-block">
+                        <input type="text" placeholder="" value="{{d.tablename?d.tablename:''}}" readonly name="tablename" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">中文名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="anothername" value="{{d.anothername?d.anothername:''}}" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">英文名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="fieldname" value="{{d.fieldname?d.fieldname:''}}" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">字段类型</label>
+                    <div class="layui-input-block">
+                        <select name="fieldtype" id="fieldtype" value="{{d.fieldtype?d.fieldtype:''}}" class="layui-input" required lay-verify="required">
+                            <option>--请选择--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">库中类型</label>
+                    <div class="layui-input-block">
+                        <select name="dbtype" id="dbtype" value="{{d.dbtype?d.dbtype:''}}" class="layui-input" required lay-verify="required">
+                            <option>--请选择--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">库中长度</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="dblength" value="{{d.dblength?d.dblength:''}}" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择分组</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="groupid" value="{{d.groupid?d.groupid:''}}" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否启用</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="hiddenfield" value="{{d.hiddenfield?d.hiddenfield:''}}" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">字段默认值</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="defaultvalue" value="{{d.defaultvalue?d.defaultvalue:''}}" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否非空</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="notnull" value="{{d.notnull?d.notnull:''}}" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="addFieldinfo">立即提交</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="tableid" value="{{d.tableid?d.tableid:''}}" id="tableid">
+        <input type="hidden" name="id" value="{{d.id?d.id:''}}">
+    </form>
+</script>
+
+<script type="text/html" id="viewsqlTemplate">
+    <form class="layui-form" lay-filter="viewsqlForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*表英文名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tablename" value="" required lay-verify="required" {{ d.edit?'readonly':'' }} placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--<div class="layui-form-item">
+                  <label class="layui-form-label">*表主键字段:</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="pk" value="" required lay-verify="required" {{ d.edit?'readonly':'' }} placeholder="请输入" autocomplete="off" class="layui-input">
+                  </div>
+                </div>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*表中文名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="anothername" value="" required lay-verify="required" {{ d.edit?'readonly':'' }} placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--<div class="layui-form-item">
+                  <label class="layui-form-label">sql语句修改:</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="viewsql" value="" required lay-verify="required" {{ d.edit?'readonly':'' }} placeholder="请输入" autocomplete="off" class="layui-input">
+                  </div>
+                </div>-->
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">sql语句修改:</label>
+                    <div class="layui-input-block">
+                        <textarea name="viewsql" placeholder="请输入内容" class="layui-textarea" autocomplete="off" style="padding-top:7px;line-height: 18px!important;" required lay-verify="required" {{
+                                  d.edit?'readonly':'' }} ></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="text-align: center">
+                        <button class="layui-btn" lay-submit lay-filter="addViewsql">确认</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id">
+    </form>
+</script>
+<script type="text/html" id="toGitHistory">
+    <a href="http://47.93.246.70/fastdevplatform/web/commit/{{d.id}}" style="color:blue;text-decoration:underline;cusor:pointer;" target="_blank">{{d.title}}</a>
+</script>
+<script type="text/html" id="state">
+    <a>{{d.generatestate == 1 ? "是" : "否"}}</a>
+</script>
+<script type="text/html" id="site">
+    <div class='treeBox' style='margin:15px 35px;border:1px solid #f5f5f5;width:428px;height:317px;'>
+        <ul id="treeDemo1" class="ztree" style="width:428px;height:317px;"></ul>
+    </div>
+</script>
+<script>
+    // layui
+    layui.use('table', function () {
+        var $ = layui.$
+            , layer = layui.layer
+            , table = layui.table
+            , form = layui.form;
+
+        form.on('submit(addMetadata)', function (data) {
+            if (data.field.id) {
+                doEditMetadata(data.field);
+            } else {
+                doAddMetadata(data.field);
+            }
+            return false;
+        });
+        form.on('submit(addFieldinfo)', function (data) {
+            if (data.field.id) {
+                doEditField(data.field);
+            } else {
+                doAddField(data.field);
+            }
+            return false;
+        });
+        form.on('submit(addViewsql)', function (data) {
+            doEditViewsql(data.field);
+            return false;
+        });
+    });
+
+    function doEditViewsql(data) {
+        viewsql = sqlFormatter.format(data.viewsql);
+        ajax2(service_prefix.metadata,"/getViewSql?id=" + metadataObj.id + "&viewname=" + data.tablename, "post", {sql: viewsql}).then(res2 => {
+            if (res2.success) {
+                layer.closeAll();
+                getMetadatas(1);
+            } else {
+                layer.closeAll();
+            }
+        }).catch(function(res2) {
+        })
+    }
+
+    active.delFields = function () {
+        doDeleteFields();
+    };
+    active.generateCodes = function () {
+        layer.open({
+            type: 1 //此处以iframe举例
+            , title: '选择站点'
+            , area: ['502px', '452px']
+            , shade: 0.3
+            , maxmin: true
+            , content: "<div id='openDiv'></div>"
+            , btn: ['确定', '取消'] //只是为了演示
+            , btn2: function () {
+                layer.closeAll();
+            }
+            , yes: function () {
+//                if (!siteId) {
+//                    layer.alert("请先选择站点");
+//                    return;
+//                }
+//                var fileds = [];
+//                ajax("/fieldinfo/all", "get", {tableId: siteId}).then(function(res) {
+//                    fields = res.obj;
+//                    var tplObj = {};
+//                    tplObj.tempname = metadataObj.name + "编辑模板";
+//                    tplObj.tempext = "html";
+//                    var html = "";
+//                    for (var i in fields) {
+//                        fields[i].forEach(function(res) {
+//                            html += '<div class="layui-form-item" pane="">' +
+//                                '<label class="layui-form-label">' + res.anothername + '</label>' +
+//                                '<div class="layui-input-block">' +
+//                                '    <input class="layui-input" type="text" name="' + res.proName + '" lay-skin="primary" id="check">' +
+//                                '</div>' +
+//                                '</div>';
+//                        })
+//                    }
+//                    tplObj.temphtml = html;
+//                    tplObj.outputfilename = "html";
+//
+//                    ajax("/manage/template", "post", JSON.stringify(tplObj)).then(data => {
+//                        if (res.success) {
+//                            layer.closeAll();
+//                        }
+//                    })
+//                })
+            }
+
+        });
+        ajax(service_prefix.manage,"/programa/getTreeData", "post", {}).then(function(res) {
+            lodTpl("site", "openDiv", res.obj);
+            var settingss = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    },
+                    key: {
+                        name: "name" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+                    }
+                },
+                view: {
+                    showLine: false,
+                    showIcon: true
+                },
+                callback: {
+                    onClick: zTreeOnClick
+                }
+            };
+            var zTreeObj = {};
+            zTreeObj = $.fn.zTree.init($("#treeDemo1"), settingss, res.obj); //初始化树
+            zTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+
+        })
+
+    }
+
+    function zTreeOnClick(event, treeId, treeNode) {
+    }
+
+    function showSearchBody(){
+        $(".jnet-search-body").show();
+        getdict1();
+        getDbDict1();
+    }
+
+    function closeSearchBody(){
+        $(".jnet-search-body").hide();
+    }
+
+    layui.laydate.render({
+        elem: '.jnet-search-crtime'
+        , range: true
+    });
+
+    active.createCodes = function () {
+        var tableName = metadataObj.vname;
+        if (!tableName) {
+            layer.alert("请选择视图");
+            return false;
+        }
+        var params = {};
+        params.tableNames = tableName;
+        if (tableName.indexOf("_") > 0) {
+            params.prefixes = tableName.split("_")[0] + "_";
+        }
+        if(metadataObj.ownerid){
+            ajax(service_prefix.metadata,"/moduleinfo/" + metadataObj.ownerid, "get", {}).then(data2 => {
+                params.moduleNames = data2.obj.englishname;
+                params.id = data2.obj.id;
+                params.ttype = 1;
+                ajax2(service_prefix.generator,"/module/createCode", "post", params).then(function(res) {
+                    if (res.success) {
+                        layer.alert("生成成功");
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                })
+            })
+        } else {
+            layer.alert("请为该视图选择模块！");
+            return false;
+        }
+    }
+
+    active.bushu = function(){
+        ajax2(service_prefix.generator,"/module/mvnPackage", "post", {}).then(res2 => {
+            layer.alert("部署成功!");
+        })
+    }
+
+    active.delCodes = function () {
+        var tableName = metadataObj.vname;
+        if (!tableName) {
+            layer.alert("请选择视图");
+            return false;
+        }
+        var params = {};
+        params.tableNames = tableName;
+        if (tableName.indexOf("_") > 0) {
+            params.prefixes = tableName.split("_")[0] + "_";
+        }
+        layer.open({
+            content: "确认删除应用吗？"
+            , btn: ['确认', "取消"]
+            , yes: function (index, layero) {
+                ajax(service_prefix.metadata,"/moduleinfo/" + metadataObj.ownerid, "get", {}).then(data2 => {
+                    params.moduleNames = data2.obj.englishname;
+                    params.id = data2.obj.id;
+                    params.ttype = 1;
+                    ajax2(service_prefix.generator,"/module/delCodes", "post", params).then(function(res) {
+                        if (res.success) {
+                            layer.alert("删除成功");
+                            var ids = []
+                            ids.push(metadataObj.id)
+                            ajax(service_prefix.metadata,"/view/delByIds", "post", JSON.stringify(ids)).then(res3 => {
+                                if (res3.success) {
+                                    getFields(metadataObj.id, 1);
+                                    getMetadatas(1);
+                                } else {
+                                    layer.alert(res3.msg);
+                                }
+                            });
+                        } else {
+                            layer.alert(res.msg);
+                        }
+                    }).catch(function(res) {
+
+                    })
+                })
+            }
+            , btn2: function (index, layero) {
+                layer.closeAll();
+            }
+        });
+
+    }
+    active.setTop = function () {
+        layer.open({
+            type: 1,
+            title: "新建字段",
+            area: ['550px', '670px'],
+            shade: 0,
+            maxmin: true,
+            content: '<div id="fieldForm"></div>',
+            cancel: function () {
+
+            }
+        });
+        layui.laytpl($("#fieldTemplate").html()).render({tableid: metadataObj.id, tablename: metadataObj.name}, function (html) {
+            $("#fieldForm").html(html)
+            getDict();
+            getDbDict();
+        });
+    };
+
+    //监听操作列工具条
+    layui.table.on('tool(fieldTabel)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if(layEvent === 'edit') { //编辑
+            editField(data);
+        }
+    });
+
+    layui.use('layer', function () { //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+        layui.use(['form'], function () {
+            var form = layui.form
+                , layer = layui.layer
+        })
+        layui.use('layer', function () { //独立版的layer无需执行这一句
+            var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+            $('#select').on('click', select);
+
+            function select() {
+                var that = this;
+                layer.open({
+                    type: 1,
+                    title: "选择模板",
+                    area: ['542px', '409px'],
+                    shade: 0,
+                    maxmin: true,
+                    content: $("#form1")
+                });
+            }
+        })
+    })
+
+    function downInterfaceDocument(){
+        const link = document.createElement('a');// 创建a标签
+        // link.download = "加减分详情表.xlsx";// a标签添加属性
+        link.style.display = 'none';
+        link.href = service_prefix.metadata+"/fieldinfo/downWordDocument/"+searchObj.tableid;
+        document.body.appendChild(link);
+        link.click();// 执行下载
+        document.body.removeChild(link);// 释放标签
+    }
+</script>
+
+<script type="text/html" id="matchTpl">
+    {{# var str;
+       switch(d.matchType){
+        case 1:str = "=";break;
+        case 2:str = "!=";break;
+        case 3:str = "＞";break;
+        case 4:str = "＞=";break;
+        case 5:str = "＜";break;
+        case 6:str = "＜=";break;
+        case 7:str = "Between";break;
+        case 8:str = "like";break;
+        default:str = ""
+    } }}
+    {{str}}
+</script>
+<script type="text/html" id="editFieldTpl">
+    <a class="layui-btn  layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+</script>
+<script type="text/html" id="fieldTpl">
+    <form class="layui-form" lay-filter="fieldForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">元数据视图名</label>
+                    <div class="layui-input-block">
+                        <input type="text" placeholder="" readonly name="tablename" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*中文名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="anothername" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*英文名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="fieldname" class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">字段类型</label>
+                    <div class="layui-input-block">
+                        <select name="fieldtype" id="fieldtype" class="layui-input" lay-filter="fieldType">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">匹配方式</label>
+                    <div class="layui-input-block">
+                        <select name="matchType" id="matchType" class="layui-input">
+                            <option value="1">=</option>
+                            <option value="2">!=</option>
+                            <option value="3">＞</option>
+                            <option value="4">＞=</option>
+                            <option value="5">＜</option>
+                            <option value="6">＜=</option>
+                            <option value="7">Between</option>
+                            <option value="8">like</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">列宽</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="width" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 195px">
+                        <button class="layui-btn" lay-submit="" lay-filter="addFieldinfo">立即提交</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id">
+        <input type="hidden" name="tableid">
+    </form>
+</script>
+
+<script>
+
+    var metadataObj = {};
+    var searchObj = {};
+
+    function editField(data) {
+        layerOpen("维护视图字段",550,670);
+        lodTpl("fieldTpl","openDiv",{});
+        getDict(data.fieldtype);
+        getDbDict(data.dbtype);
+        layui.form.val("fieldForm", data);
+        layui.form.render();
+    }
+
+    function doDeleteFields() {
+        var data = checkChecked('fieldTabel');
+        if (data) {
+            layer.open({
+                content: "确认删除该字段吗？"
+                , btn: ['确认', "取消"]
+                , yes: function (index, layero) {
+                    ajax(service_prefix.metadata,"/fieldinfo/delByIds", "POST", JSON.stringify(data)).then(function(res) {
+                        if (res.success) {
+                            getFields(metadataObj.id, 1);
+                            layer.closeAll();
+                        } else {
+                            layer.alert("删除失败");
+                        }
+                    }).catch(function(res) {
+
+                    })
+                }
+                , btn2: function (index, layero) {
+                    layer.closeAll();
+                }
+            });
+
+        }
+    }
+
+    function checkChoice() {
+        if (!metadataObj.id) {
+            layer.alert("请选择菜单");
+            return false;
+        }
+        return true;
+    }
+
+    function doAddField(data) {
+        var metadataid = data.tableid;
+        ajax(service_prefix.metadata,"/fieldinfo/add", "POST", JSON.stringify(data)).then(function(res) {
+            if (res.success) {
+                getFields(metadataid, 1);
+                layer.closeAll();
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        }).catch(function(res) {
+
+        })
+    }
+
+    function doEditField(data) {
+        var metadataid = data.tableid;
+        ajax(service_prefix.metadata,"/fieldinfo/" + data.id, "put", JSON.stringify(data)).then(function(res) {
+            if (res.success) {
+                getFields(metadataid, 1);
+                layer.closeAll();
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        }).catch(function(res) {
+
+        })
+    }
+
+    function doAddMetadata(data) {
+        data.tablename = data.preTbm + data.viewname;
+        ajax(service_prefix.metadata,"/add", "post", JSON.stringify(data)).then(function(res) {
+            if (res.success) {
+                layer.closeAll();
+                getMetadatas(1);
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        }).catch(function(res) {
+
+        })
+    }
+
+    function doEditMetadata(data) {
+        ajax(service_prefix.metadata,"/" + data.id, "put", JSON.stringify(data)).then(function(res) {
+            if (res.success) {
+//        layer.alert("修改成功",function(index){
+                layer.closeAll();
+                getMetadatas(1);
+//        });
+            } else {
+                layer.alert(res.msg, function () {
+                    layer.closeAll();
+                });
+            }
+        }).catch(function(res) {
+
+        })
+    }
+
+    function getMetadatas(pageNo) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": 6,
+                sortProps:[{key:"crtime",value:false}]
+            }
+        }
+        ajax(service_prefix.metadata,"/view/list", "post", JSON.stringify(jsondata)).then(data => {
+            if (data.success) {
+                if (data.obj.records.length > 0) {
+                    getFields(data.obj.records[0].id, 1);
+                    metadataObj.id = data.obj.records[0].id;
+                    metadataObj.name = data.obj.records[0].tablename;
+                    metadataObj.vname = data.obj.records[0].tablename;
+                    metadataObj.ownerid = data.obj.records[0].ownerid;
+                }
+                var html = "";
+                for (var i in data.obj.records) {
+                    var obj = data.obj.records[i];
+                    var activeClass = "";
+                    var activeinputc = "";
+                    var genertime = "";
+                    if (obj.generatetime != null) {
+                        genertime = "<p>生成时间：" + obj.generatetime + "</p>";
+                    }
+                    if (i == 0) {
+                        activeClass = "active";
+                        activeinputc = "checked";
+                    }
+                    html += '<div class="layui-form-item ' + activeClass + '" data_id="' + obj.id + '" data_name="' + obj.anothername + '"  data_vname="' + obj.tablename + '" data_ownerid="'+obj.ownerid+'" pane="">' +
+                        '              <div class="layui-form-label"><input type="radio" name="listid" value="' + obj.id + '" lay-skin="primary" ' + activeinputc + '></div>' +
+                        '              <div class="layui-input-block">' +
+                        '                <p>' + obj.anothername + ' [' + obj.tablename + ']</p>' +
+                        '                <p>创建时间:' + obj.createTime + '</p>' +
+                        genertime +
+                        '              </div>' +
+                        '            </div>';
+                }
+                $("#listForm").html(html);
+
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+
+                layui.use(['laypage', 'layer'], function () {
+                    laypage.render({
+                        elem: 'pageleft'
+                        , count: data.obj.total //数据总数
+                        , curr: data.obj.current
+                        , limit: 6
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                getMetadatas(obj.curr)
+                            }
+                        }
+                    });
+                });
+
+                layui.form.render();
+            }
+        }).catch(function(res) {
+
+        })
+    }
+
+    function getDict(val) {
+        ajax(service_prefix.metadata,"/dict/list", "post", JSON.stringify("field_type")).then(data => {
+            for (var i in data) {
+                if (val && val == data[i].no) {
+                    $("#fieldtype").append("<option selected value='" + data[i].no + "'>" + data[i].name + "</option>")
+                } else {
+                    $("#fieldtype").append("<option value='" + data[i].no + "'>" + data[i].name + "</option>")
+                }
+            }
+            layui.form.render('select');
+        }).catch(function(res) {
+
+        })
+    }
+
+    function getDbDict(val) {
+        ajax(service_prefix.metadata,"/dict/list", "post",JSON.stringify("db_type")).then(data => {
+            for (var i in data) {
+                if (val && val == data[i].no) {
+                    $("#dbtype").append("<option selected value='" + data[i].no + "'>" + data[i].name + "</option>")
+                } else {
+                    $("#dbtype").append("<option value='" + data[i].no + "'>" + data[i].name + "</option>")
+                }
+            }
+            layui.form.render('select');
+        }).catch(function(res) {
+
+        })
+    }
+
+    function getdict1(){
+        ajax(service_prefix.metadata, "/dict/list", "post", JSON.stringify("field_type")).then(function(data) {
+            var html3 = "";
+            for (var i in data) {
+                var s = data[i];
+                html3 += "<option value='" + s.no + "'>" + s.name + "</option>";
+            }
+            $("#fieldtypes").append(html3);
+            layui.form.render("select");
+        })
+    }
+
+    function getDbDict1() {
+        ajax(service_prefix.metadata, "/dict/list", "post", JSON.stringify("db_type")).then(function(data) {
+            for (var i in data) {
+                $("#dbtype1").append("<option value='" + data[i].no + "'>" + data[i].name + "</option>");
+            }
+            layui.form.render('select');
+        })
+    }
+
+    function searchTableByName(){
+        searchObj.searchName = $("#searchTableInput").val();
+        getFields();
+    }
+
+    layui.form.on("submit(searchTable)",function(data){
+        var time = data.field.createTime;
+        if(time){
+            var times = time.split(" - ");
+            data.field.crtimeTo = times[1];
+            data.field.createTime = times[0];
+            searchObj = data.field;
+        }else {
+            searchObj = data.field;
+        }
+        getFields();
+        return false;
+    })
+
+    function getFields(id, pageno) {
+        if(id == null){
+            searchObj.tableid = metadataObj.id
+        }else{
+            searchObj.tableid = id
+        }
+        if(pageno == null) pageno = 1;
+
+        var jsondata = {
+            "entity":searchObj,
+            "pager": {
+                "current": pageno,
+                "size": 15
+            }
+        }
+
+        ajax(service_prefix.metadata,"/fieldinfo/list", "post", JSON.stringify(jsondata)).then(data => {
+            layui.use('table', function () {
+                var table = layui.table;
+                table.render({
+                    elem: '#fieldTabel'
+                    , data: data.obj.records
+                    , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    , cols: [[
+                        {type: 'checkbox'}
+                        , {type: 'numbers', title: '序号'}
+                        , {field: 'fieldname', title: '英文名称'}
+                        , {field: 'anothername', title: '中文名称'}
+                        , {field: 'fieldTypeStr', title: '字段类型', width: 110} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                        , {field: 'dbTypeStr', title: '库中类型', width: 110}
+                        , {field: 'matchType', title: '匹配方式', templet:"#matchTpl", width: 110}
+                        , {field: 'createTime', title: '创建时间', width: 170}
+                        , {field: '', title: '修改', width: 170, toolbar:"#editFieldTpl"}
+                    ]],
+                    limit: 15
+                });
+            });
+            layui.laypage.render({
+                elem: 'fieldPage'
+                , count: data.obj.total //数据总数
+                , curr: data.obj.current
+                , limit: 15
+                , jump: function (obj, first) {
+                    if (!first) {
+                        getFields(metadataObj.id, obj.curr);
+                    }
+                }
+            });
+        }).catch(function(res) {
+
+        })
+    }
+
+    function del() {
+        var ids = [];
+        $("input[name='listid']:checked").each(function () {
+            ids.push($(this).val());
+        })
+        if (ids.length <= 0) {
+            layer.alert("请选择视图");
+            return false;
+        }
+        layer.open({
+            content: "确认删除该视图吗？"
+            , btn: ['确认', "取消"]
+            , yes: function (index, layero) {
+                ajax(service_prefix.metadata,"/view/delByIds", "post", JSON.stringify(ids)).then(data => {
+                    if (data.success) {
+                        getMetadatas(1);
+                        getFields(metadataObj.id, 1);
+                        layer.closeAll()
+                    } else {
+                        layer.alert(data.msg);
+                    }
+                }).catch(function(res) {
+
+                })
+            }
+            , btn2: function (index, layero) {
+                layer.closeAll();
+            }
+        });
+    }
+
+    function add() {
+        //多窗口模式，层叠置顶
+        layer.open({
+            type: 1,
+            title: "新建视图",
+            area: ['600px', '450px'],
+            shade: 0,
+            maxmin: true,
+            content: '<div id="addMetadataForm"></div>',
+        });
+        layui.laytpl($("#metadataTemplate").html()).render({edit: false}, function (html) {
+            $("#addMetadataForm").html(html)
+        });
+        layui.form.val("metadataForm", {preTbm: "VIEW_"});
+    }
+
+    function edit() {
+        if (checkChoice()) {
+            ajax(service_prefix.metadata,"" + metadataObj.id, "get", {}).then(data => {
+                layer.open({
+                    type: 1,
+                    title: "修改视图",
+                    area: ['600px', '350px'],
+                    shade: 0,
+                    maxmin: true,
+                    content: '<div id="addMetadataForm"></div>',
+                });
+                layui.laytpl($("#metadataTemplate").html()).render({edit: true}, function (html) {
+                    $("#addMetadataForm").html(html)
+                });
+                layui.form.val("metadataForm", data.obj);
+            }).catch(function(res) {
+
+            })
+        }
+    }
+
+    active.editViewSql = function () {
+        editViewsql2();
+    };
+
+    function editViewsql2() {
+        var fields = [];
+        var data = getTableCheck("fieldTabel");
+        if (data.length > 0) {
+            data.forEach(function(res) {
+                fields.push(res.id);
+            })
+            var dataid = {"id": metadataObj.id, "ids": fields.join()};
+            ajax2(service_prefix.metadata,"/selectViewSql", "post", dataid).then(data => {
+                layerOpenFull("修改视图");
+                lodTpl("viewsqlTemplate","openDiv",{edit: false});
+                var viewsql = "CREATE OR REPLACE VIEW \n" + data.obj.viewname.toUpperCase() + " AS \n" + data.obj.viewsql.toUpperCase();
+                /*viewsql = StandardSqlFormatter.format(viewsql, {
+                  language: "sql"
+                });*/
+                viewsql = sqlFormatter.format(viewsql);
+                layui.form.val("viewsqlForm", data.obj);
+                layui.form.val("viewsqlForm", {viewsql: viewsql});
+            });
+        } else {
+            ajax(service_prefix.metadata,"/view/viewSql", "post", JSON.stringify(metadataObj.id)).then(data => {
+                layerOpenFull("修改视图");
+                lodTpl("viewsqlTemplate","openDiv",{edit: false});
+                $("#text1").initTextarea();
+                var viewsql = "CREATE OR REPLACE VIEW \n" + data.obj.tablename.toUpperCase() + " AS \n" + data.obj.viewsql.toUpperCase();
+                // viewsql = StandardSqlFormatter.format(viewsql, {
+                //   language: "sql"
+                // });
+                viewsql = sqlFormatter.format(viewsql);
+                layui.form.val("viewsqlForm", data.obj);
+                layui.form.val("viewsqlForm", {viewsql: viewsql});
+            }).catch(function(res) {
+
+            })
+        }
+    }
+
+    function getPushView() {
+        var tname = metadataObj.vname;
+        tname = tname.toLowerCase().replace("view_", "").replace("_", "");
+        ajax("","http://47.93.246.70/api/v4/projects/17/repository/commits?private_token=HUvSgtfu6tresYAc9zga&path=projects-feiwuzhiwenhuayichan/src/main/java/com/jnetdata/simple/feiwuzhiwenhuayichan/" + tname, "get", {}).then(data => {
+            var html = "";
+            for (var i in data) {
+                data[i].committed_date = timeFormat(data[i].committed_date);
+            }
+            layui.use('table', function () {
+                var table = layui.table;
+                table.render({
+                    elem: '#fieldTable4'
+                    , data: data
+                    , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    , cols: [[
+                        {type: 'numbers', title: '序号'}
+                        , {field: 'title', title: 'git信息', templet:"#toGitHistory"}
+                        , {field: 'committer_email', title: '提交名称'}
+                        , {field: 'committed_date', title: '提交时间'}
+                        , {field: 'short_id', title: 'git提交id'}
+                    ]]
+                    , limit: 100
+                });
+            });
+        })
+    }
+</script>
+
+<script>
+    $(function () {
+        $(".left-list").on("mouseover", ".layui-form-item", function () {
+            $(this).addClass("active2").siblings().removeClass("active2");
+        })
+        $(".left-list").on("mouseleave", ".layui-form-item", function () {
+            $(this).removeClass("active2");
+        })
+        $(".left-list").on("click", ".layui-form-item", function () {
+            $(".left-list input").prop("checked", false);
+            $(this).find("input").prop("checked", true);
+            layui.form.render();
+            $(this).addClass("active").siblings().removeClass("active");
+            metadataObj.id = $(this).attr("data_id");
+            metadataObj.name = $(this).attr("data_name");
+            metadataObj.vname = $(this).attr("data_vname");
+            metadataObj.ownerid = $(this).attr("data_ownerid");
+            getFields($(this).attr("data_id"), 1);
+            getPushView();
+        })
+        layui.form.render();
+        getMetadatas(1);
+    })
+
+</script>

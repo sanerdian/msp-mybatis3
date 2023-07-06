@@ -1,0 +1,122 @@
+<script type="text/html" id="module_video" xmlns="http://www.w3.org/1999/html">
+    <div id="{{ d.widgetId }}" class="draggable-video ui-draggable ui-draggable-handle w_video"
+         style="position: absolute">
+        <div class="content border_content video_container" style="width: 200px;height: 200px;/*background: black*/">
+            <video id="{{ d.widgetId }}_video" width="100%" height="100%" style="object-fit: fill">
+                <source src="../upload/videos/test1.mp4"  type="video/mp4">
+            </video>
+            <div class="video_cover">
+                <img src="../upload/videos/test.jpg">
+            </div>
+            <div class="video_play_icon">
+                <span style="position: absolute;opacity: 0.7">
+                    <img src="../images/play_bg.png">
+                </span>
+                <span style="position: absolute;left: 13px;top:7px">
+                    <img src="../images/play.png">
+                </span>
+            </div>
+        </div>
+        <span style="display: none;">{{d.id}}</span>
+    </div>
+</script>
+
+<script type="text/html" id="module_video_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_video_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings">
+        <div class="layui-tab" style="margin: 0;padding: 0">
+            <ul class="layui-tab-title">
+                <li class="layui-this">文字样式</li>
+                <li>关联字段</li>
+            </ul>
+
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form action="" class="layui-form content">
+                        <label for="" class="layui-form-label">视频标题：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input text_content" lay-verify="required"
+                                   name="video_title"
+                                   placeholder="请输入" value="{{ d.videoTitle  }}">
+                        </div>
+                        <label for="" class="layui-form-label" style="clear: left;margin: 10px auto">视频类型：</label>
+                        <div class="layui-input-block" style="margin: 10px auto">
+                            <input type="radio" name="video_type" lay-filter="{{ d.widgetId }}_video_type"
+                                   title="本地视频" value="0" checked>
+                            <input type="radio" name="video_type" lay-filter="{{ d.widgetId }}_video_type"
+                                   title="在线视频" value="1">
+                        </div>
+                        <label for="" class="layui-form-label" style="clear: left">位置尺寸：</label>
+                        <div class="layui-input-block" style="padding-top: 10px">
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_left"
+                                   value="{{ d.left }}">
+                            <span class="text_set_note">X</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_top"
+                                   value="{{ d.top }}">
+                            <span class="text_set_note">Y</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_width"
+                                   value="{{ d.width }}">
+                            <span class="text_set_note">W</span>
+                            <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                                   name="text_height"
+                                   value="{{ d.height }}">
+                            <span class="text_set_note">H</span>
+                        </div>
+                        <label for="" class="layui-form-label" style="clear: left">片头图片：</label>
+                        <div class="layui-input-block cover_upload" style="width: 60px;height: 68px;cursor:pointer;margin-top: 8px">
+                            <div style="position:absolute;width: 60px;height: 60px;background: #f2f2f2;border: 1px solid #dbdbdb"></div>
+                            <span style="position:absolute;top: 16px;left: 16px"><img src="../images/add_icon.png"></span>
+                        </div>
+                        <label for="" class="layui-form-label" style="clear: left;margin: 10px auto">播放方式：</label>
+                        <div class="layui-input-block" style="margin: 10px auto">
+                            <input type="radio" name="play_style" lay-filter="{{ d.widgetId }}_play_style"
+                                   title="弹层播放" value="popup" checked>
+                            <input type="radio" name="play_style" lay-filter="{{ d.widgetId }}_play_style"
+                                   title="直接播放" value="normal">
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">
+                    <form action="" class="layui-form content">
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">元数据表：</label>
+                            <div class="layui-input-block" style="width: 380px">
+                                <select lay-verify="required" class="data_set_sel">
+                                    <option>无</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin: 10px auto">
+                            <label for="" class="layui-form-label">关联字段：</label>
+                            <div class="layui-input-block"
+                                 style="width: 380px;height: 216px;border: #dbdbdb 1px solid;">
+                                <i style="color: #AAAAAA; font-size: 14px;position: absolute;top: 50%;left: 150px">请选择元数据表</i>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="layui-input-block w_settings_btn" style="margin-top: 20px">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+        <div style="position:absolute;top: 12px; right: 20px;font-weight: bold;cursor: pointer"><i
+                class="layui-icon layui-icon-close"></i></div>
+    </div>
+</script>
+
+

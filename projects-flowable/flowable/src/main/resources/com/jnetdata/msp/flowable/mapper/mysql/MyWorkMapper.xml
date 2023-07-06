@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.flowable.mapper.MyWorkMapper">
+
+    <select id="myTodo" resultType="com.jnetdata.msp.flowable.vo.WorkVo">
+        select t1.metadata_title as workName,
+            t1.proc_defi_id as procDefiId,
+            t1.proc_defi_key as procDefiKey,
+            t1.creator_id as startUserId,
+            t2.name_ as stepName,
+            t2.create_time_ as receiveTime
+        from j_flow_metadata t1, act_ru_task t2
+        where t1.proc_inst_id = t2.proc_inst_id_
+        and (t2.ASSIGNEE_=#{vo.loginUserId}
+            or (assignee_ is null
+                and exists (
+                    select t3.id_
+                    from act_ru_identitylink t3
+                    where t3.task_id_ = t2.id_
+                    and t3.type_ = 'candidate'
+                    and ( t3.user_id_ = #{vo.loginUserId}
+                        or t3.group_id_ in (
+                            select group_id_ from act_id_membership where user_id_=#{vo.loginUserId}
+                        )
+                    )
+                )
+            )
+        )
+        <if test="vo.workName != null and vo.workName != ''">
+            and t1.metadata_title like concat('%', #{vo.workName}, '%')
+        </if>
+        <if test="vo.serialNumber != null">
+            and t1.serial_number = #{vo.serialNumber}
+        </if>
+        <if test="vo.metadataTable != null and vo.metadataTable != ''">
+            and t1.metadata_table = #{vo.metadataTable}
+        </if>
+        <if test="vo.procDefiKey != null and vo.procDefiKey != ''">
+            and t1.proc_defi_key = #{vo.procDefiKey}
+        </if>
+        order by t1.serial_number desc
+    </select>
+
+    <select id="myDone" resultType="com.jnetdata.msp.flowable.vo.WorkVo">
+        select t1.metadata_title as workName,
+            t1.proc_inst_id as procInstId,
+            t1.proc_defi_id as procDefiId,
+            t1.proc_defi_key as procDefiKey,
+            t1.creator_id as startUserId,
+            t2.name_ as stepName,
+            t2.end_time_ as doneTime
+        from j_flow_metadata t1, act_hi_taskinst t2
+        where t1.proc_inst_id = t2.proc_inst_id_
+        and t2.end_time_ is not null
+        and t2.assignee_ = #{vo.loginUserId}
+        <if test="vo.workName != null and vo.workName != ''">
+            and t1.metadata_title like concat('%', #{vo.workName}, '%')
+        </if>
+        <if test="vo.serialNumber != null">
+            and t1.serial_number = #{vo.serialNumber}
+        </if>
+        <if test="vo.metadataTable != null and vo.metadataTable != ''">
+            and t1.metadata_table = #{vo.metadataTable}
+        </if>
+        <if test="vo.procDefiKey != null and vo.procDefiKey != ''">
+            and t1.proc_defi_key = #{vo.procDefiKey}
+        </if>
+        order by t1.serial_number desc
+    </select>
+
+    <select id="getCurrentStep" resultType="com.jnetdata.msp.flowable.vo.WorkVo" parameterType="java.util.List">
+        select t1.proc_inst_id_ as procInstId, t1.act_name_ as currentStepName
+        from act_hi_actinst t1
+        where t1.start_time_ = (
+            select max(start_time_)
+            from act_hi_actinst t2
+            where t1.proc_inst_id_ = t2.proc_inst_id_
+        )
+        and proc_inst_id_ in
+        <foreach collection="list" item="procInstId" index="index" open="(" close=")" separator=",">
+            #{procInstId}
+        </foreach>
+    </select>
+</mapper>

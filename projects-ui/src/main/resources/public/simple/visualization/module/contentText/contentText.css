@@ -1,0 +1,7 @@
+.visual_content{padding:0 50px;border-top:5px solid #0857cc;box-shadow:0  0 2px 2px #eee;}
+.visual_content .visual_title{padding:20px 0;overflow:hidden;}
+.visual_content .visual_title h2{font-size:16px;font-weight:bold;color:#0857cc;}
+.visual_content .visual_info{padding:0 0 20px;overflow:hidden;}
+.visual_content .visual_info ul li{padding:10px 0;overflow:hidden;}
+.visual_content .visual_info ul li span{float:left;width:12%;font-weight:bold;text-align:right;padding:0 2% 0 0;}
+.visual_content .visual_info ul li p{float:left;width:86%;}

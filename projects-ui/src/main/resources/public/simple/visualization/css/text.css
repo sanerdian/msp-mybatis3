@@ -1,0 +1,40 @@
+
+.text_set_input {
+    width: 60px;
+    float: left;
+    border: none;
+    border-bottom: #aaaaaa 1px solid;
+    text-align: center;
+}
+
+.text_set_note {
+    font-size: 12px;
+    float: left;
+    color: #7F7F7F;
+}
+
+.text_icon_style {
+    margin: 10px;
+}
+
+.text_icon_style i {
+    margin-right: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.text_icon_style i.text_style {
+    font-weight: bold;
+}
+
+.text_icon_style i:hover {
+    color: #009688;
+}
+
+.text_icon_style i.active {
+    color: #009688;
+}
+
+/*div[id^='widget_text_id'] label.layui-form-label {*/
+/*    padding-left: 0;*/
+/*}*/

@@ -1,0 +1,42 @@
+<!--弹出层模板 新增-->
+<script type="text/html" id="addTemplate">
+    <div class="layui-card-body">
+            <form class="layui-form" lay-filter="addForm">
+                <!--模块名称-->
+                <input type="text" class="layui-input" name="fenlei" style="display: none;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>主题词：</label>
+                    <div id="themeWord" class="layui-input-block"></div>
+                    <input type="text" class="layui-input" name="wordid" lay-verify="required" style="display: none;">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>停用词：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="stopwordname" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">词条状态：</label>
+                    <div class="layui-input-block">
+                        <select name="status" lay-filter="status">
+                            <option value="-1">未生效</option>
+                            <option value="0">已生效</option>
+                            <option value="1">停用</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="source">
+                    </div>
+                </div>
+
+                <div class="button-bar">
+                    <button class="layui-btn" lay-submit lay-filter="submitBtnAdd">确定</button>
+                    <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+                </div>
+            </form>
+    </div>
+</script>

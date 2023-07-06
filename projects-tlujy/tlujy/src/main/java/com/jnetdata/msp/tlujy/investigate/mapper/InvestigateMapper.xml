@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.tlujy.investigate.mapper.InvestigateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jnetdata.msp.tlujy.investigate.model.Investigate">
+        <id column="ID" property="id" />
+    <result column="CRUSER" property="cruser" />
+    <result column="CRTIME" property="crtime" />
+    <result column="CRNUMBER" property="crnumber" />
+        <result column="DOCCHANNELID" property="docchannelid" />
+        <result column="DOCSTATUS" property="docstatus" />
+        <result column="SINGLETEMPKATE" property="singletempkate" />
+        <result column="SITEID" property="siteid" />
+        <result column="DOCVALID" property="docvalid" />
+        <result column="DOCPUBTIME" property="docpubtime" />
+        <result column="OPERUSER" property="operuser" />
+        <result column="OPERTIME" property="opertime" />
+        <result column="DOCTITLE" property="doctitle" />
+        <result column="DOCRELTIME" property="docreltime" />
+        <result column="DOCPUBURL" property="docpuburl" />
+        <result column="LINKURL" property="linkurl" />
+        <result column="CLASSINFOID" property="classinfoid" />
+        <result column="STATUS" property="status" />
+        <result column="COMPANYID" property="companyid" />
+        <result column="WEBSITEID" property="websiteid" />
+        <result column="COLUMNID" property="columnid" />
+        <result column="MODIFY_BY" property="modifyBy" />
+        <result column="MODIFY_USER" property="modifyUser" />
+        <result column="SEQENCING" property="seqencing" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+        <result column="TITLE" property="title" />
+        <result column="INFOTYPE" property="infotype" />
+        <result column="LIMITFLAG" property="limitflag" />
+        <result column="LIMITTYPE" property="limittype" />
+        <result column="LIMITCOUNT" property="limitcount" />
+        <result column="SHOWRESULTTYPE" property="showresulttype" />
+        <result column="HSSTARTDATE" property="hsstartdate" />
+        <result column="HSENDDATE" property="hsenddate" />
+        <result column="REMARKS" property="remarks" />
+        <result column="EXPLAINS" property="explains" />
+        <result column="FLOW_ID" property="flowId" />
+        <result column="FLOW_USER" property="flowUser" />
+        <result column="PUSHTOGROUP" property="pushtogroup" />
+        <result column="PUSHTOUSER" property="pushtouser" />
+        <result column="PUSHTOCONDITION" property="pushtocondition" />
+        <result column="PUSHTORANGE" property="pushtorange" />
+        <result column="TUIJIANZHE" property="tuijianzhe" />
+        <result column="LOGOTU" property="logotu" />
+        <result column="TIMELIMITFLAG" property="timelimitflag" />
+        <result column="TIMELIMITSECOND" property="timelimitsecond" />
+        <result column="ISALLOWEDLEAVEMIDWAY" property="isallowedleavemidway" />
+        <result column="PAGETYPE" property="pagetype" />
+        <result column="PUSHSQL" property="pushsql" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,20 @@
+<!--批量导出模板-->
+<script type="text/html" id="batchExpertTemple">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="editForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="sign_required">*</span>导出地址</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="changjingci">
+                </div>
+            </div>
+            <div class="button-bar">
+                <button class="layui-btn" lay-submit lay-filter="submitBtnEdit">确定</button>
+                <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+            </div>
+        </form>
+    </div>
+</script>
+<script>
+    layui.form.render()
+</script>

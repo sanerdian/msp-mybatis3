@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑</title>
+    <link rel="stylesheet" href="../../../thirdparty/layui/css/layui.css">
+    <style>
+        .k_header {
+            display: flex;
+            justify-content: space-between;
+            height: 50px;
+            width: 100%;
+            margin: 10px;
+        }
+
+        .header_left {
+            display: flex;
+            height: 50px;
+            line-height: 50px;
+            width: 85%;
+            background-color: #f2f2f2;
+            border-left: 5px solid #009688;
+            padding-left: 20px;
+        }
+
+        .header_left p {
+            margin-right: 20px;
+        }
+
+        .k_content .k_content_item {}
+
+        .k_content .k_content_item h4 {
+            height: 40px;
+            line-height: 44px;
+            font-size: 12px;
+            color: #009688;
+            border-bottom: 1px solid #e5e5e5;
+
+        }
+
+        .k_content .k_content_item p {
+            padding-top: 8px;
+        }
+
+        .k_content .k_content_item h4 span {
+            border-bottom: 2px solid #009688;
+            padding-bottom: 10px;
+        }
+
+        .evaluate {
+            background-color: #009688;
+            color: #fff;
+            display: inline;
+            padding: 5px;
+        }
+
+        .postContent-top {
+            height: 50px;
+            line-height: 50px;
+            width: 95%;
+            border-left: 5px solid #009688;
+            background-color: #f2f2f2;
+        }
+
+        .layui-tab-item {
+            padding: 15px;
+            /* height: 200px; */
+        }
+
+        .item2 h4 {
+            height: 40px;
+            line-height: 44px;
+            font-size: 12px;
+            color: #009688;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .item2 h4 span {
+            border-bottom: 2px solid #009688;
+            padding-bottom: 10px;
+        }
+
+        .posiContent-main {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .posiContent-item {
+            width: 30%;
+            /* height: 500px; */
+            background-color: #e6f5f3;
+            border-radius: 5px;
+            padding: 15px;
+            margin-right: 15px;
+        }
+
+        .posiContent-item .posiContent-title {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .posiContent-main .layui-btn {
+            background: none !important;
+            border-radius: 5px;
+            border: 1px solid #009688;
+            color: #009688;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .posiContent-title {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .posiContent-title h5 {
+            line-height: 30px;
+            height: 30px;
+        }
+
+        .posiContent-content h5 {
+            height: 40px;
+            line-height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="containar">
+        <div class="k_header">
+            <div class="header_left">
+                <p>车型：奥迪RS 4</p>
+                <p>发帖时间：2019-11-20 08：20</p>
+                <p>审核时间：2019-11-20 08：20</p>
+                <p>贴主：8493148</p>
+                <p>地域：82981070</p>
+                <p>原网址：<a href="">网址详情</a></p>
+            </div>
+            <div class="header_right">
+                <button class="layui-btn layuiadmin-btn-admin limit-user" data-type="putUser">车型指标编辑</button>
+            </div>
+        </div>
+        <div class="k_content" style="display: flex;flex-direction: column;margin-bottom: 15px;">
+            <div class="k_content_item">
+                <h4 class="content_item_title"><span>车型指标分类</span></h4>
+                <p class="content_item_text"></p>
+            </div>
+            <div class="k_content_item">
+                <h4 class="content_item_title"><span>主题词</span></h4>
+                <p class="content_item_text">运动型多用途车;钥匙;比亚迪;售后服务;顶配;车型;性价比;国产车</p>
+            </div>
+            <div class="k_content_item">
+                <h4 class="content_item_title"><span>形容词</span></h4>
+                <p class="content_item_text">喜欢;精致;很好;热情;很高;</p>
+            </div>
+            <div class="k_content_item">
+                <h4 class="content_item_title"><span>形容词</span></h4>
+                <p class="content_item_text">喜欢;精致;很好;热情;很高;</p>
+            </div>
+        </div>
+        <div class="evaluate">
+            <span>满意:5 中立:0 不满意:0</span>
+        </div>
+
+        <!-- 选项卡 -->
+        <div class="layui-tab layui-tab-card" style="margin-top: 20px;">
+            <ul class="layui-tab-title">
+                <li class="layui-this">帖子内容</li>
+                <li>断句分析</li>
+                <li>断句操作记录</li>
+                <li>断句流程</li>
+                <li>断句建议</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <p>
+                        前8年我们家都是小轿车，买SUV一直是我要买的。据说女人都很喜欢SUV.刚好家里的小轿车也有些小毛病了。看车老公一直在网上看了一年多，中间看过不少车。比亚迪，雪佛兰。最后还是选择了捷途，个人觉得捷途的服务还是很好，第一次去的是廊坊的一个4S店去就能试车，有些其他车是不可以试车的。第二次试车的时候，老公特意让我去开了一圈。因为我家的车我开的多。第二次去试车的时候，是通州一个店，去的当天就订车。可能当时给的优惠，折扣也很多。买回来的时候老公那是爱不释手，每天很是照顾它。这是第一天买回来时候，去加油站加油。
+                    </p>
+                    <br>
+                    <p>关于新车的介绍，一个女同志实在写不出什么。但是这次的发布会，让我见证了奥迪RS
+                        4的成长和创新。就连钥匙都比以前精致了。在国产车中，这款车的性价比还是很高的。不光我觉得好看。看看捷途车主作为捷途的粉丝，我们和其他粉丝还被捷途邀请一起去爬古北水镇的司马台长城，逛古镇。真的很感谢捷途的大力回馈。也很感恩遇见，感恩捷途让捷途的车主们聚在一起。一次美好的旅行。
+                    </p>
+                    <br>
+                    <p>我爱我车，我爱旅行，奥迪RS 4一直在路上。</p>
+                </div>
+                <div class="layui-tab-item item2">
+                        <p class="postContent-top">1【买SUV一直是我要买的。】</p>
+                        <h4><span>第一段数据操作</span><img src="" alt=""></h4>
+                        <div class="posiContent-main">
+                            <div class="posiContent-item posiMainLeft">
+                                <div class="posiContent-title">
+                                    <h5>断句标签块1-1</h5>
+                                    <div class="btn" style="display: flex;">
+                                        <button type="button" class="layui-btn layui-btn-fluid">编辑</button>
+                                        <button type="button" class="layui-btn layui-btn-fluid">删除</button>
+                                    </div>
+                                </div>
+                                <div class="posiContent-content">
+                                    <h5>车体指标分类：</h5>
+                                    <h5>车型指标分类：</h5>
+                                    <h5>主题词：（共1个）</h5>
+                                    <h5 style="color: #009688;">运动型多用途车</h5>
+                                    <h5>车体主题词：（共0个）</h5>
+                                    <h5>车型主题词：（共0个）</h5>
+                                    <h5>主题词属性词：</h5>
+                                    <h5>主题词相关词：（共0个）</h5>
+                                    <h5>场景词：</h5>
+                                    <h5>形容词：</h5>
+                                    <h5>反义词：</h5>
+                                    <h5>主题词停用词：</h5>
+                                    <h5>满意度分类：</h5>
+                                    <span style="color: #009688;">满意：0 &nbsp;&nbsp; 中意：0&nbsp;&nbsp;不满意&nbsp;&nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="posiContent-item posiMainCenter">
+                                <div class="posiContent-title">
+                                    <h5>断句标签块1-1</h5>
+                                    <div class="btn" style="display: flex;">
+                                        <button type="button" class="layui-btn layui-btn-fluid">编辑</button>
+                                        <button type="button" class="layui-btn layui-btn-fluid">删除</button>
+                                    </div>
+                                </div>
+                                <div class="posiContent-content">
+                                    <h5>车体指标分类：</h5>
+                                    <h5>车型指标分类：</h5>
+                                    <h5>主题词：（共1个）</h5>
+                                    <h5 style="color: #009688;">运动型多用途车</h5>
+                                    <h5>车体主题词：（共0个）</h5>
+                                    <h5>车型主题词：（共0个）</h5>
+                                    <h5>主题词属性词：</h5>
+                                    <h5>主题词相关词：（共0个）</h5>
+                                    <h5>场景词：</h5>
+                                    <h5>形容词：</h5>
+                                    <h5>反义词：</h5>
+                                    <h5>主题词停用词：</h5>
+                                    <h5>满意度分类：</h5>
+                                    <span style="color: #009688;">满意：0 &nbsp;&nbsp; 中意：0&nbsp;&nbsp;不满意&nbsp;&nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="posiContent-item posiMainRight">
+                                <div class="posiContent-title">
+                                    <h5>断句标签块1-1</h5>
+                                    <div class="btn" style="display: flex;">
+                                        <button type="button" class="layui-btn layui-btn-fluid">编辑</button>
+                                        <button type="button" class="layui-btn layui-btn-fluid">删除</button>
+                                    </div>
+                                </div>
+                                <div class="posiContent-content">
+                                    <h5>车体指标分类：</h5>
+                                    <h5>车型指标分类：</h5>
+                                    <h5>主题词：（共1个）</h5>
+                                    <h5 style="color: #009688;">运动型多用途车</h5>
+                                    <h5>车体主题词：（共0个）</h5>
+                                    <h5>车型主题词：（共0个）</h5>
+                                    <h5>主题词属性词：</h5>
+                                    <h5>主题词相关词：（共0个）</h5>
+                                    <h5>场景词：</h5>
+                                    <h5>形容词：</h5>
+                                    <h5>反义词：</h5>
+                                    <h5>主题词停用词：</h5>
+                                    <h5>满意度分类：</h5>
+                                    <span style="color: #009688;">满意：0 &nbsp;&nbsp; 中意：0&nbsp;&nbsp;不满意&nbsp;&nbsp;</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="layui-tab-item">3</div>
+                <div class="layui-tab-item">4</div>
+                <div class="layui-tab-item">5</div>
+                <div class="layui-tab-item">6</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../../thirdparty/layui/layui.js"></script>
+    <script src="../../../thirdparty/layui/layui.all.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.message.msg.mapper.MsgMapper">
+    <!--<select id="Userpagename" resultType="com.jnetdata.msp.message.msg.model.Msg">
+        SELECT
+        tt.id,
+        tt.title,
+        tt.content,
+        tt.modifyTime,
+        tt.sendtime,
+        tt.crUser,
+        tt.addresstype,
+        tt.isdisplay,
+        tt.modifyUser,
+        tt.crtime createTime,
+        tt.STATUS,
+        c.USERNAME sendUserName,
+        readstatus
+        FROM
+        (
+        SELECT
+        bb.id,
+        aa.title,
+        aa.content,
+        bb.modifyTime,
+        bb.sendtime,
+        bb.cruser,
+        bb.addresstype,
+        bb.isdisplay,
+        bb.modifyUser,
+        bb.crtime,
+        bb.STATUS,
+        1 AS readstatus
+        FROM
+        (
+        SELECT
+        PARENTID,
+        ADDRESSEE receptionId,
+        SENDER sendID,
+        NEWSID id,
+        MODIFY_TIME modifyTime,
+        sendtime,
+        cruser,
+        addresstype,
+        isdisplay,
+        MODIFY_USER modifyUser,
+        crtime,
+        STATUS
+        FROM
+        CUSTOMERNEWSLOG
+        WHERE
+        ADDRESSEE = #{msgVoEntity.id}
+        AND isdisplay = 0
+        ) bb
+        JOIN (
+        SELECT
+        nrewstitle title,
+        NEWSCONTEXT content,
+        a.NEWSID NEWSID
+        FROM
+        CUSTOMERNEWSLOG a
+        WHERE
+        a.NEWSID IN ( SELECT PARENTID FROM CUSTOMERNEWSLOG WHERE ADDRESSEE = #{msgVoEntity.id}  AND isdisplay = 0 )) aa ON aa.NEWSID = bb.PARENTID UNION
+        SELECT
+        id,
+        xwid title,
+        NULL AS content,
+        crtime modifyTime,
+        crtime sendtime,
+        cruser,
+        2 AS ADDRESSTYPE,
+        isdisplay,
+        cruser modifyUser,
+        crtime,
+        IF
+        ( id IN ( SELECT readid FROM t_readuser bc WHERE bc.userid = #{msgVoEntity.id}  ), 1, 0 ) AS `STATUS`,
+        2 AS readstatus
+        FROM
+        `t_network`
+        WHERE
+        ((((
+        conditionn = '小于'
+        AND age > #{msgVoEntity.ageForBirthday}
+        )
+        OR ( conditionn = '大于等于' AND #{msgVoEntity.ageForBirthday}>=age )
+        OR ( conditionn = '大于' AND #{msgVoEntity.ageForBirthday}>age )
+        OR ( conditionn = '小于等于' AND age >= #{msgVoEntity.ageForBirthday} )
+        OR ( conditionn = '等于' AND age = #{msgVoEntity.ageForBirthday} )
+        OR ( conditionn = '介于区间' AND #{msgVoEntity.ageForBirthday}>=age AND AGEONE >= #{msgVoEntity.ageForBirthday} )
+        OR ( conditionn IS NULL ))
+        AND organizationid IN (${msgVoEntity.s1})
+        AND ( education = #{msgVoEntity.educationbackground} OR ( education IS NULL ) )
+        AND (
+        politicsstatus = #{msgVoEntity.politicsstatus}
+        OR ( politicsstatus IS NULL ))
+        AND (
+        ( #{msgVoEntity.name} LIKE '%' || namee || '%' )
+        OR ( namee IS NULL )))
+        OR userid = #{msgVoEntity.id}
+        )
+        AND id NOT IN ( SELECT readid FROM t_readuser WHERE userid = #{msgVoEntity.id}  AND STATUS = 1 )
+        ) tt
+        JOIN ( SELECT USERNAME FROM USERINFO WHERE USERID = #{msgVoEntity.id}  ) c
+        where 1=1
+        <if test="msgVoEntity.cruser != null and msgVoEntity.cruser !='' ">
+            and cruser like CONCAT('%',#{msgVoEntity.cruser},'%')
+        </if>
+        <if test="msgVoEntity.title != null and msgVoEntity.title !=''">
+            and title like CONCAT('%',#{msgVoEntity.title},'%')
+        </if>
+     &lt;!&ndash;   <if test="msgVoEntity.size != null and msgVoEntity.size !='' ">
+            limit
+            <if test="msgVoEntity.current != null and msgVoEntity.current !='' ">
+                #{msgVoEntity.current },
+            </if>
+            #{msgVoEntity.size}
+        </if>&ndash;&gt;
+
+    </select>-->
+    <select id="selectcount" resultType="com.jnetdata.msp.message.msg.model.Msg">
+        SELECT
+        id
+        FROM
+        `t_network`
+        WHERE
+        ((
+        ((
+        conditionn = '小于'
+        AND age > #{msgVoEntity.ageForBirthday}
+        )
+        OR ( conditionn = '大于等于' AND #{msgVoEntity.ageForBirthday}>=age )
+        OR ( conditionn = '大于' AND #{msgVoEntity.ageForBirthday}>age )
+        OR ( conditionn = '小于等于' AND age >= #{msgVoEntity.ageForBirthday} )
+        OR ( conditionn = '等于' AND age = #{msgVoEntity.ageForBirthday} )
+        OR ( conditionn = '介于区间' AND #{msgVoEntity.ageForBirthday}>=age AND AGEONE >= #{msgVoEntity.ageForBirthday} )
+        OR ( conditionn IS NULL ))
+        AND organizationid IN (${msgVoEntity.s1})
+        AND ( education = #{msgVoEntity.educationbackground} OR ( education IS NULL ) )
+        AND (
+        politicsstatus = #{msgVoEntity.politicsstatus}
+        OR ( politicsstatus IS NULL ))
+        AND (
+        ( "admin" LIKE '%' || namee || '%' )
+        OR ( namee IS NULL )))
+        OR userid = #{msgVoEntity.id})AND id NOT IN ( SELECT readid FROM t_readuser WHERE userid = #{msgVoEntity.id} )
+        UNION
+        SELECT
+        bb.id
+        FROM(
+        SELECT
+        PARENTID,
+        NEWSID id,
+        `STATUS`
+        FROM
+        CUSTOMERNEWSLOG
+        WHERE
+        ADDRESSEE = #{msgVoEntity.id}
+        AND isdisplay = 0
+        ) bb
+        JOIN (
+        SELECT
+        a.NEWSID NEWSID
+        FROM
+        CUSTOMERNEWSLOG a
+        WHERE
+        a.NEWSID IN ( SELECT PARENTID FROM CUSTOMERNEWSLOG WHERE ADDRESSEE = #{msgVoEntity.id}  AND isdisplay = 0 )) aa on aa.NEWSID = bb.PARENTID where bb.status!=1
+    </select>
+    <select id="getInform"  resultType="com.jnetdata.msp.message.msg.model.Msg">
+		SELECT
+        id,
+        xwid title,
+        tablename AS content,
+        crtime modifyTime,
+        crtime sendtime,
+        cruser,
+        2 AS ADDRESSTYPE,
+        isdisplay,
+        cruser sendUserName,
+        cruser modifyUser,
+        crtime createTime,
+        IF
+        ( id IN ( SELECT readid FROM t_readuser bc WHERE bc.userid = #{msgVoEntity.id}  ), 1, 0 ) AS `STATUS`,
+        2 AS readstatus
+        FROM
+        `t_network`
+        WHERE
+        ((((
+        conditionn = '小于'
+        AND age > #{msgVoEntity.ageForBirthday}
+        )
+        OR ( conditionn = '大于等于' AND #{msgVoEntity.ageForBirthday} >=age )
+        OR ( conditionn = '大于' AND #{msgVoEntity.ageForBirthday} >age )
+        OR ( conditionn = '小于等于' AND age >= #{msgVoEntity.ageForBirthday}  )
+        OR ( conditionn = '等于' AND age = #{msgVoEntity.ageForBirthday}  )
+        OR ( conditionn = '介于区间' AND #{msgVoEntity.ageForBirthday} >=age AND AGEONE >= #{msgVoEntity.ageForBirthday}  )
+        OR ( conditionn IS NULL ))
+        <if test="msgVoEntity.s1 != null and msgVoEntity.s1 !=''">
+        AND organizationid IN (${msgVoEntity.s1})
+    </if>
+        AND ( education = #{msgVoEntity.educationbackground} OR ( education IS NULL ) )
+        AND (
+        politicsstatus = #{msgVoEntity.politicsstatus}
+        OR ( politicsstatus IS NULL ))
+        AND (
+        ( #{msgVoEntity.name} LIKE '%' || namee || '%' )
+        OR ( namee IS NULL )))
+        OR userid = #{msgVoEntity.id}
+        )
+        AND id NOT IN ( SELECT readid FROM t_readuser WHERE userid = #{msgVoEntity.id}  AND STATUS = 1 )
+    </select>
+
+    <select id="getInformm" resultType="com.jnetdata.msp.message.msg.model.Msg">
+        SELECT
+        bb.id,
+        aa.title,
+        aa.content,
+        bb.modifyTime,
+        bb.sendtime,
+        bb.cruser,
+        bb.addresstype,
+        bb.isdisplay,
+        bb.modifyUser,
+        bb.crtime,
+        bb.STATUS,
+        1 AS readstatus,
+        cruser sendUserName
+        FROM
+        (
+        SELECT
+        PARENTID,
+        ADDRESSEE receptionId,
+        SENDER sendID,
+        NEWSID id,
+        MODIFY_TIME modifyTime,
+        sendtime,
+        cruser,
+        addresstype,
+        isdisplay,
+        MODIFY_USER modifyUser,
+        crtime,
+        STATUS
+        FROM
+        CUSTOMERNEWSLOG
+        WHERE
+        ADDRESSEE = #{msgVoEntity.id}
+        AND isdisplay = 0
+        ) bb
+        JOIN (
+        SELECT
+        nrewstitle title,
+        NEWSCONTEXT content,
+        a.NEWSID NEWSID
+        FROM
+        CUSTOMERNEWSLOG a
+        WHERE
+        a.NEWSID IN ( SELECT PARENTID FROM CUSTOMERNEWSLOG WHERE ADDRESSEE = #{msgVoEntity.id}  AND isdisplay = 0 )) aa ON aa.NEWSID = bb.PARENTID
+    </select>
+</mapper>

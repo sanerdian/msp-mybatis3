@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>可视化编辑</title>
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/jquery/jquery-ui.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../js/config.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/code.js"></script>
+    <script src="../js/WidgetLogin.js"></script>
+    <script src="../js/WidgetText.js"></script>
+    <script src="../js/WidgetImage.js"></script>
+    <script src="../js/WidgetTag.js"></script>
+    <script src="../js/WidgetPartition.js"></script>
+    <script src="../js/WidgetSidebar.js"></script>
+    <script src="../js/WidgetNavbar.js"></script>
+    <script src="../js/WidgetTable.js"></script>
+    <script src="../js/WidgetButton.js"></script>
+    <script src="../js/WidgetSearch.js"></script>
+    <script src="../js/WidgetRect.js"></script>
+    <script src="../js/WidgetGraphic.js"></script>
+    <script src="../js/WidgetVideo.js"></script>
+    <link rel="stylesheet" href="../formating/lib/codemirror.css">
+    <script src="../formating/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="../formating/theme/night.css">
+    <link rel="stylesheet" href="../formating/theme/monokai.css">
+    <script src="../formating/lib/util/simple-hint.js"></script>
+    <link rel="stylesheet" href="../formating/lib/util/simple-hint.css">
+    <script src="../formating/lib/util/javascript-hint.js"></script>
+    <script src="../formating/lib/util/formatting.js"></script>
+    <script src="../formating/mode/css/css.js"></script>
+    <script src="../formating/mode/xml/xml.js"></script>
+    <script src="../formating/mode/javascript/javascript.js"></script>
+    <script src="../formating/mode/htmlmixed/htmlmixed.js"></script>
+    <!--    <link rel="stylesheet" href="../formating/doc/docs.css">-->
+    <link rel="stylesheet" href="../formating/lib/util/simple-hint.css">
+    <script src="../formating/lib/util/javascript-hint.js"></script>
+    <script src="../formating/mode/javascript/javascript.js"></script>
+</head>
+
+<style>
+    @import "../css/common1.css";
+    @import "../css/login.css";
+    @import "../css/editor.css";
+</style>
+
+<body>
+<div id="editor_nav">
+    <span id="editor_name">可视化PC页面编辑器</span>
+    <div id="editor_tab" class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li id="product_item" class="layui-this">可视化产品模板</li>
+            <li id="code_item">可视化产品代码</li>
+            <li style="pointer-events: none">产品帮助文档</li>
+        </ul>
+    </div>
+    <div class="editor_set">
+        <div class="layui-input-inline page_list">
+            <div class="layui-unselect layui-form-select downpanel" style="width: 168px">
+                <div class="layui-select-title">
+                    <span class="layui-input layui-unselect">请选择</span>
+                    <input type="hidden" name="selectID" value="0">
+                    <i class="layui-edge"></i>
+                </div>
+                <dl class="layui-anim">
+                    <div class="list_top">
+                        <span>导航页面</span>
+                    </div>
+                    <dd>
+                        <ul class="classtree" style="width: 168px"></ul>
+                    </dd>
+                    <div>
+                        <div class="list_notice"><span>*请保存后再切换页面</span></div>
+                        <button class="layui-btn layui-bg-green layui-fluid list_button">页面管理</button>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="page_set">
+            <img src="../images/web_set.png">
+            <span>模板设置</span>
+        </div>
+        <div class="separator"><span>|</span></div>
+        <div class="backward">
+            <img src="../images/backward.png"/>
+        </div>
+        <div class="forward">
+            <img src="../images/forward.png"/>
+        </div>
+        <button id=save class="layui-btn layui-bg-green save">
+            保存
+        </button>
+        <button id=preview class="layui-btn layui-btn-primary preview">
+            预览
+        </button>
+        <button id=cancel class="layui-btn layui-btn-primary cancel">
+            取消
+        </button>
+    </div>
+    <div id="tools" class="ui-draggable ui-draggable-handle">
+        <div class="tool_content">
+            <div class="tool_main">
+                <div id="basic_widget">
+                    <div class="widget_title">
+                        <div class="widget_title_name">基础组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                    <div class="widget_zone">
+                        <div id="tool_widget_text" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgLTcgLTUgKSI+CiAgICA8cGF0aCBkPSJNIDggMTQgIEwgOCAxLjkxMTYzNjM1NzQyMTg3ICBMIDE0IDEuOTExNjM2MzU3NDIxODcgIEwgMTQgMCAgTCAwIDAgIEwgMCAxLjkxMTYzNjM1NzQyMTg3ICBMIDYgMS45MTE2MzYzNTc0MjE4NyAgTCA2IDE0ICBMIDggMTQgIFogIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiM1ODc0ZDgiIHN0cm9rZT0ibm9uZSIgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSA3IDUgKSIgLz4KICA8L2c+Cjwvc3ZnPg==">
+                            </div>
+                            <div class="widget_text">文本</div>
+                        </div>
+                        <div id="tool_widget_image" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMThweCIgaGVpZ2h0PSIxNHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgLTUgLTUgKSI+CiAgICA8cGF0aCBkPSJNIDYuODYwNTc5OTI3ODg0NjEgMTAuNzI0Njg0MTc1NTMxOSAgTCA0Ljg3MTYyODYwNTc2OTIzIDcuNzY0NjM1OTcwNzQ0NjggIEMgNC42MDgxMTg5OTAzODQ2MSA3LjM3MjQ4NTg3MTAxMDY0ICA0LjE4MDkxNjQ2NjM0NjE1IDcuMzcyNTE0OTYwMTA2MzggIDMuOTE3NDA2ODUwOTYxNTQgNy43NjQ2MzU5NzA3NDQ2OCAgTCAwLjI1MDc0NTE5MjMwNzY5MyAxMy4yMjE1NzU3OTc4NzIzICBDIC0wLjAxMjc2NDQyMzA3NjkyMzMgMTMuNjEzNzI1ODk3NjA2NCAgMC4xNDQ0NjUxNDQyMzA3NjkgMTMuOTMxNjQwNjI1ICAwLjYwMTkwMjA0MzI2OTIzMSAxNCAgTCAxNy40MDEyMzQ5NzU5NjE1IDE0ICBDIDE3Ljg1ODk0MjMwNzY5MjMgMTMuOTMxNjQwNjI1ICAxOC4wMTI2NTYyNSAxMy42MTQ0MjQwMzU5MDQzICAxNy43NDY1Nzc1MjQwMzg1IDEzLjIyMzExNzUxOTk0NjggIEwgMTEuOTM1ODk4NDM3NSA0LjY3NzUyNjU5NTc0NDY4ICBDIDExLjY2ODA4ODk0MjMwNzcgNC4yODM2NjAyMzkzNjE3ICAxMS4yMzg0NTI1MjQwMzg1IDQuMjg2MjQ5MTY4ODgyOTggIDEwLjk3MjQwMDg0MTM0NjIgNC42Nzc1MjY1OTU3NDQ2OCAgTCA2Ljg2MDYwNjk3MTE1Mzg1IDEwLjcyNDY4NDE3NTUzMTkgIFogTSAyLjU0Mzk4NzM3OTgwNzY5IDEuNzc4OTE0NTYxMTcwMjEgIEMgMi41NDM5ODczNzk4MDc2OSAyLjczNzc0MTYxNDMzMDI2ICAzLjI2NjYwNDIzMzA2NDk0IDMuNTE1MDI0NTE3OTUyMTMgIDQuMTU3OTk3Mjk1NjczMDggMy41MTUwMjQ1MTc5NTIxMyAgQyA1LjA0OTM5MDM1ODI4MTIxIDMuNTE1MDI0NTE3OTUyMTMgIDUuNzcyMDA3MjExNTM4NDYgMi43Mzc3NDE2MTQzMzAyNiAgNS43NzIwMDcyMTE1Mzg0NiAxLjc3ODkxNDU2MTE3MDIxICBDIDUuNzcyMDA3MjExNTM4NDYgMC44MjAwODc1MDgwMTAxNjUgIDUuMDQ5MzkwMzU4MjgxMjEgMC4wNDI4MDQ2MDQzODgyOTgzICA0LjE1Nzk5NzI5NTY3MzA4IDAuMDQyODA0NjA0Mzg4Mjk4MyAgQyAzLjI2NjYwNDIzMzA2NDk0IDAuMDQyODA0NjA0Mzg4Mjk4MyAgMi41NDM5ODczNzk4MDc2OSAwLjgyMDA4NzUwODAxMDE2NSAgMi41NDM5ODczNzk4MDc2OSAxLjc3ODkxNDU2MTE3MDIxICBaICIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjNTg3NGQ4IiBzdHJva2U9Im5vbmUiIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgNSA1ICkiIC8+CiAgPC9nPgo8L3N2Zz4=">
+                            </div>
+                            <div class="widget_text">图片</div>
+                        </div>
+                        <div id="tool_widget_rect" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text" src="">
+                            </div>
+                            <div class="widget_text">矩形</div>
+                        </div>
+                        <div id="tool_widget_button" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMThweCIgaGVpZ2h0PSI4cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSA1OCAtODUgKSI+CiAgICA8cGF0aCBkPSJNIDQuNTE1OTUwOTgzMjc5OTEgMy4wODIzMjU5OTU1NTI4NiAgQyA0LjcxOTk4ODA2MjAyODk0IDIuNzM3MzM1NzU5MDQ1ODkgIDQuOTI0MDI1MTQwNzc3OTYgMi4zOTQ2NDU0NjE4OTYxICA0LjkyNDAyNTE0MDc3Nzk2IDEuOTM1ODA4NDQ5NTY1MzkgIEMgNC45MjQwMjUxNDA3Nzc5NiAxLjM2MTk3NDY5MTczMjM2ICA0LjcxOTk4ODA2MjAyODk0IDAuOTAzMTM3Njk5NjE1OTI4ICA0LjMxMTkxMzkwNDUzMDg5IDAuNTU5Mjk3NDMyNzg3NTQ4ICBDIDMuOTAzODM5NzQ3MDMyODQgMC4yMTQzMDcxOTYyODA1NzIgIDMuMjkxNzI4NTEwNzg1NzYgMC4wOTkzMTA0NTA3NzgyNDc2ICAyLjU3NzEwNTg5OTY3OTQ2IDAuMDk5MzEwNDcwOTkyNTIwNiAgTCAwLjUzNTc0OTQyMzg5MzI2OSAwLjA5OTMxMDQ3MDk5MjUyMDYgIEMgMC4zMzE3MTIzNDUxNDQyNDQgMC4wOTkzMTA0NzA5OTI1MjA2ICAwLjEyNzY3NTI2NjM5NTIxNSAwLjMyOTMwMzk2MTk5NzE2OSAgMC4xMjc2NzUyNjYzOTUyMTUgMC41NTkyOTc0MzI3ODc1NDggIEwgMC4xMjc2NzUyNjYzOTUyMTUgNy40NDA3MDI1NjcyMTI0NSAgQyAwLjEyNzY3NTI2NjM5NTIxNSA3LjY3MDY5NjA1ODIxNzEgIDAuMzMxNzEyMzQ1MTQ0MjQ0IDcuOTAwNjg5NTQ5MjIxNzUgIDAuNTM1NzQ5NDIzODkzMjY5IDcuOTAwNjg5NTI5MDA3NDggIEwgMi42Nzg2MzE1ODYyNDI3NCA3LjkwMDY4OTUyOTAwNzQ4ICBDIDMuNDk1NzY1NTg5NTM0NzggNy45MDA2ODk1MjkwMDc0OCAgNC4xMDc4NzY4MjU3ODE4NiA3LjY3MDY5NjAzODAwMjgzICA0LjUxNTk1MDk4MzI3OTkxIDcuMzI1NzA1ODIxNzEwMTMgIEMgNC45MjQwMjUxNDA3Nzc5NiA2Ljg2ODAxODc3OTA1ODAxICA1LjIzMDU3MzU5NDM4NjIxIDYuMjk0MTg1MDQxNDM5MjYgIDUuMjMwNTczNjExNzEyNzMgNS42MDUzNTQ1MzgxMDM5ICBDIDUuMjMwNTczNjExNzEyNzMgNS4xNDY1MTc1MjU3NzMyICA1LjEyODA2MjIzNjg1MzUxIDQuNjg3NjgwNTMzNjU2NzYgIDQuODIyNDk5NDU0MjE0NjggNC4zNDM4NDAyNjY4MjgzOCAgQyA0LjUxNjkzNjY3MTU3NTg1IDQgIDQuMTA3ODc2ODQzMTA4MzggMy43NzExNTY0Nzg2NzM5NCAgMy42OTg4MTY5Nzk5ODc4NyAzLjc3MTE1NjQ3ODY3Mzk0ICBDIDMuOTAzODM5NzQ3MDMyODQgMy41NDExNjI5ODc2NjkzICA0LjIxMDM4ODIwMDY0MTA4IDMuMzExMTY5NDk2NjY0NjQgIDQuNTE2OTM2NjcxNTc1ODUgMy4wODIzMjU5OTU1NTI4NiAgWiBNIDEuNTU1OTM0ODE3NjM4NCAxLjM2MTk3NDcxMTk0NjYzICBMIDIuMTY5MDMxNzQyMTgxNDEgMS4zNjE5NzQ3MTE5NDY2MyAgQyAyLjk4NTE4MDA1NzE3NzUxIDEuMzYxOTc0NzExOTQ2NjMgIDMuMjkxNzI4NTEwNzg1NzYgMS43MDY5NjQ5NDg0NTM2MSAgMy4yOTE3Mjg1MTA3ODU3NiAyLjI3OTY0ODcxNjM5Mzc3ICBDIDMuMjkxNzI4NTEwNzg1NzYgMi42MjQ2Mzg5NTI5MDA3NSAgMy4xODkyMTcxMzU5MjY1MyAyLjg1MzQ4MjQ3NDIyNjggIDIuOTg1MTgwMDU3MTc3NTEgMy4wODIzMjU5OTU1NTI4NiAgQyAyLjc4MTE0Mjk3ODQyODQ5IDMuMzEyMzE5NDg2NTU3NTEgIDIuNDc0NTk0NTI0ODIwMjQgMy4zMTIzMTk0ODY1NTc1MSAgMi4xNjkwMzE3NDIxODE0MSAzLjMxMjMxOTQ2NjM0MzI0ICBMIDEuNTU0OTQ5MTI5MzQyNDYgMy4zMTIzMTk0NjYzNDMyNCAgTCAxLjU1NDk0OTEyOTM0MjQ2IDEuMzYxOTc0NzExOTQ2NjMgIFogTSAzLjU5NzI5MTI5MzQyNDU5IDUuNjA1MzU0NTM4MTAzOSAgQyAzLjU5NzI5MTI5MzQyNDU5IDUuOTUwMzQ0Nzc0NjEwODcgIDMuNDk1NzY1NTg5NTM0NzggNi4xODAzMzgyNDU0MDEyNSAgMy4yOTE3Mjg1MTA3ODU3NiA2LjQwOTE4MTc2NjcyNzMxICBDIDMuMDg3NjkxNDMyMDM2NzMgNi42MzgwMjUyODgwNTMzNiAgMi43ODExNDI5Nzg0Mjg0OSA2Ljc1MzAyMjAzMzU1NTY5ICAyLjM3MzA2ODgyMDkzMDQ0IDYuNzUzMDIyMDMzNTU1NjkgIEwgMS41NTQ5NDkxMjkzNDI0NiA2Ljc1MzAyMjAzMzU1NTY5ICBMIDEuNTU0OTQ5MTI5MzQyNDYgNC41NzM4MzM3NTc4MzMwMyAgTCAyLjM3MjA4MzEzMjYzNDUgNC41NzM4MzM3NTc4MzMwMyAgQyAyLjc4MDE1NzI5MDEzMjU1IDQuNTczODMzNzU3ODMzMDMgIDMuMDg2NzA1NzQzNzQwOCA0LjY4ODgzMDUwMzMzNTM1ICAzLjI5MDc0MjgyMjQ4OTgyIDQuODAzODI3MjI4NjIzNDEgIEMgMy40OTQ3Nzk5MDEyMzg4NSA0LjkxNzY3NDAwNDQ0NzE0ICAzLjU5NjMwNTYwNTEyODY1IDUuMjYxNTE0MjcxMjc1NTIgIDMuNTk2MzA1NjA1MTI4NjUgNS42MDUzNTQ1MzgxMDM5MSAgWiBNIDcuNzgxNTI5OTMxNTYwMjYgNy45MDE4Mzk0OTg2ODYwNyAgTCA3Ljc4MTUyOTkzMTU2MDI2IDcuODk5NTM5NTU5MzI4ODkgIEwgOC40OTYxNTI1NDI2NjY1NSA3Ljg5OTUzOTU1OTMyODg5ICBDIDguNzAwMTg5NjIxNDE1NTcgNy44OTk1Mzk1NTkzMjg4OSAgOC45MDQyMjY3MDAxNjQ2IDcuNjY5NTQ2MDY4MzI0MjQgIDguOTA0MjI2NzAwMTY0NiA3LjQ0MDcwMjU2NzIxMjQ1ICBMIDguOTA0MjI2NzAwMTY0NiAxLjkzNTgwODQ0OTU2NTM5ICBDIDguOTA0MjI2NzAwMTY0NiAxLjcwNTgxNDk1ODU2MDc0ICA5LjEwOTI0OTQ2NzIwOTU3IDEuNDc1ODIxNDY3NTU2MDkgIDkuMzEzMjg2NTQ1OTU4NTkgMS40NzU4MjE0ODc3NzAzNyAgTCAxMC44NDQwNTc0ODkzODc1IDEuNDc1ODIxNDg3NzcwMzcgIEwgMTAuODQ0MDU3NDg5Mzg3NSAwLjEwMTYxMDQxMDM0OTcwNyAgTCA1LjQzNDYxMDY5MDQ2MTc1IDAuMTAxNjEwNDEwMzQ5NzA3ICBMIDUuNDM0NjEwNjkwNDYxNzUgMS40NzgxMjE0MjcxMjc1NSAgTCA2Ljk2NTM4MTYxNjU2NDE1IDEuNDc4MTIxNDI3MTI3NTUgIEMgNy4xNjk0MTg2OTUzMTMxNyAxLjQ3ODEyMTQyNzEyNzU1ICA3LjM3MzQ1NTc3NDA2MjIgMS43MDgxMTQ5MTgxMzIyICA3LjM3MzQ1NTc3NDA2MjIgMS45MzY5NTg0MTkyNDM5OCAgTCA3LjM3MzQ1NTc3NDA2MjIgNy40NDE4NTI1MTY2NzY3OCAgQyA3LjM3MzQ1NTc3NDA2MjIgNy42NzE4NDYwMDc2ODE0MiAgNy41Nzc0OTI4NTI4MTEyMyA3LjkwMTgzOTQ5ODY4NjA3ICA3Ljc4MTUyOTkzMTU2MDI2IDcuOTAxODM5NDk4Njg2MDcgIFogTSAxMy4xOTE5NjI0MTg3ODE5IDMuNDI3MzE2MjExODQ1NTYgIEwgMTMuMTkwOTc2NzMwNDg2IDMuNDI2MTY2MjQyMTY2OTcgIEwgMTMuMTkwOTc2NzMwNDg2IDIuMTY0NjUxOTcwODkxNDUgIEMgMTMuMjkzNDg4MTA1MzQ1MiAyLjI3OTY0ODcxNjM5Mzc3ICAxMy4zOTUwMTM4MDkyMzUgMi41MDk2NDIyMDczOTg0MiAgMTMuNDk2NTM5NTEzMTI0OCAyLjg1MzQ4MjQ3NDIyNjggIEwgMTYuMzU1MDI5OTkyMjAzMSA3LjY3MDY5NjAzODAwMjgzICBDIDE2LjQ1NzU0MTM2NzA2MjMgNy43ODU2OTI3ODM1MDUxNiAgMTYuNTU5MDY3MDcwOTUyMSA3LjkwMDY4OTUyOTAwNzQ4ICAxNi42NjA1OTI3NTc1MTU0IDcuOTAwNjg5NTI5MDA3NDggIEwgMTcuNTgwMjM4MTM1NjY2NiA3LjkwMDY4OTUyOTAwNzQ4ICBDIDE3Ljc4NDI3NTIxNDQxNTcgNy45MDA2ODk1MjkwMDc0OCAgMTcuOTg4MzEyMjkzMTY0NyA3LjY3MDY5NjAzODAwMjgzICAxNy45ODgzMTIyOTMxNjQ3IDcuNDQwNzAyNTY3MjEyNDUgIEwgMTcuOTg4MzEyMjkzMTY0NyAwLjEwMTYxMDQxMDM0OTcwNyAgTCAxNi41NTkwNjcwNzA5NTIxIDAuMTAxNjEwNDEwMzQ5NzA3ICBMIDE2LjU1OTA2NzA3MDk1MjEgNS42MDY1MDQ1MDc3ODI0OSAgQyAxNi41NTkwNjcwNzA5NTIxIDUuNDkxNTA3NzYyMjgwMTcgIDE2LjM1NTAyOTk5MjIwMzEgNS4yNjI2NjQyNDA5NTQxMSAgMTYuMjUzNTA0Mjg4MzEzMyA1LjAzMzgyMDcxOTYyODA2ICBMIDEzLjQ5NzUyNTIwMTQyMDggMC4zMzA0NTM5MzE2NzU3NjMgIEMgMTMuMzk1MDEzODI2NTYxNiAwLjIxNTQ1NzE4NjE3MzQzOCAgMTMuMjkzNDg4MTIyNjcxNyAwLjEwMDQ2MDQ0MDY3MTExNCAgMTMuMTkxOTYyNDE4NzgxOSAwLjEwMDQ2MDQ0MDY3MTExNCAgTCAxMi4xNzA3OTEzMzY3NDA5IDAuMTAwNDYwNDQwNjcxMTE0ICBDIDExLjk2Njc1NDI1Nzk5MTkgMC4xMDA0NjA0NDA2NzExMTQgIDExLjc2MjcxNzE3OTI0MjggMC4zMzA0NTM5MzE2NzU3NjMgIDExLjc2MjcxNzE3OTI0MjggMC41NjA0NDc0MDI0NjYxNDMgIEwgMTEuNzYyNzE3MTc5MjQyOCA3LjkwMDY4OTUyOTAwNzQ4ICBMIDEzLjE5MTk2MjQxODc4MTkgNy45MDA2ODk1MjkwMDc0OCAgTCAxMy4xOTE5NjI0MTg3ODE5IDMuNDI3MzE2MjExODQ1NTYgIFogIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiM1ODc0ZDgiIHN0cm9rZT0ibm9uZSIgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSAtNTggODUgKSIgLz4KICA8L2c+Cjwvc3ZnPg==">
+                            </div>
+                            <div class="widget_text">按钮</div>
+                        </div>
+                        <div id="tool_widget_table" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjJweCIgaGVpZ2h0PSIxNnB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgMzI1IC0xNTUgKSI+CiAgICA8cGF0aCBkPSJNIDAgNyAgTCAwIDUgIEwgMjIgNSAgTCAyMiA3ICBMIDAgNyAgWiBNIDAgMTMgIEwgMCAxMSAgTCAyMiAxMSAgTCAyMiAxMyAgTCAwIDEzICBaIE0gNiAxNiAgTCA2IDAgIEwgOCAwICBMIDggMTYgIEwgNiAxNiAgWiBNIDE0IDE2ICBMIDE0IDAgIEwgMTYgMCAgTCAxNiAxNiAgTCAxNCAxNiAgWiBNIDAgMiAgTCAwIDAgIEwgMjIgMCAgTCAyMiAyICBMIDAgMiAgWiAiIGZpbGwtcnVsZT0ibm9uemVybyIgZmlsbD0iIzU4NzRkOCIgc3Ryb2tlPSJub25lIiB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIC0zMjUgMTU1ICkiIC8+CiAgPC9nPgo8L3N2Zz4=">
+                            </div>
+                            <div class="widget_text">表格</div>
+                        </div>
+                        <div id="tool_widget_video" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgMjMzIC0xNTQgKSI+CiAgICA8cGF0aCBkPSJNIDEzLjkyNTI4OTcyMjE2NDcgNi45OTY3NzI4NTQxNjY2NiAgQyAxMy45MjUyODk3MjIxNjQ3IDMuMTQ1NjMxOTI3MDgzMzMgIDEwLjgyMzU0NjM1MjQ0MjEgMC4wMjI1MDE0MDg4NTQxNjY2ICA2Ljk5NzIwNTUwNDk2Njg5IDAuMDIyNTAxNDA4ODU0MTY2NiAgQyAzLjE3MDgwOTA2NDU2OTU0IDAuMDIyNTAxNDA4ODU0MTY2NiAgMC4wNjkxMjEyODc3NjkwNDA1IDMuMTQ1NjMxOTI3MDgzMzMgIDAuMDY5MTIxMjg3NzY5MDQwNSA2Ljk5Njc3Mjg1NDE2NjY3ICBDIDAuMDY5MTIxMjg3NzY5MDQwNSAxMC44NDg2MjI2NDA2MjUgIDMuMTcwODA5MDY0NTY5NTQgMTMuOTcxMDQ0Mjk5NDc5MiAgNi45OTcyMDU1MDQ5NjY4OSAxMy45NzEwNDQyOTk0NzkyICBDIDEwLjgyMzUyNzgwOTM5NTcgMTMuOTcxMDQ0Mjk5NDc5MiAgMTMuOTI1Mjg5NzIyMTY0NyAxMC44NDg2MDM5NzM5NTgzICAxMy45MjUyODk3MjIxNjQ3IDYuOTk2NzcyODU0MTY2NjYgIFogTSAxMC4wNzYzNjAyMjA5MjMgNi45ODYzMjY2MTE5NzkxNyAgTCA1LjQ1ODAyNjU1OTkxMzA4IDEwLjA4NTI2Mjg1MTU2MjUgIEwgNS40NTgwMjY1NTk5MTMwOCAzLjg4NTkxNjY5MDEwNDE3ICBMIDEwLjA3NjM2MDIyMDkyMyA2Ljk4NjMyNjYxMTk3OTE3ICBaICIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjNTg3NGQ4IiBzdHJva2U9Im5vbmUiIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgLTIzMyAxNTQgKSIgLz4KICA8L2c+Cjwvc3ZnPg==">
+                            </div>
+                            <div class="widget_text">视频</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="app_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">应用组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                    <div class="widget_zone">
+                        <div id="tool_widget_navbar" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <div style="width: 20px;height: 4px;background: #6796db;margin: 1px"></div>
+                            </div>
+                            <div class="widget_text">导航栏</div>
+                        </div>
+                        <div id="tool_widget_sidebar" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <div style="width: 7px;height: 18px;background: #6796db;margin: 1px"></div>
+                            </div>
+                            <div class="widget_text">左侧菜单</div>
+                        </div>
+                        <div id="tool_widget_partition" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <div style="width: 18px;height: 2px;background: #6796db;margin: 2px"></div>
+                                <div style="width: 18px;height: 3px;background: #6796db;margin: 2px"></div>
+                            </div>
+                            <div class="widget_text">内容区</div>
+                        </div>
+                        <div id="tool_widget_tag" class="widget_zone1">
+                            <div class="icon_text widget_icon" style="border: none;width: 26px;height: 24px;">
+                                <img class="icon_text" style="float: left"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjZweCIgaGVpZ2h0PSIyNHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPG1hc2sgZmlsbD0id2hpdGUiIGlkPSJjbGlwMSI+CiAgICAgIDxwYXRoIGQ9Ik0gMjYgMTYuOTk0NzI4NjAzNTkzOCAgTCAyNiAxOC45OTk5OTk5ODQ1Njk5ICBMIDI2IDI0ICBMIDE4IDI0ICBMIDE4LjAwMDM4NDA0NTU4NjcgMTkgIEwgMCAxOSAgTCAwIDAgIEwgMjYgMCAgTCAyNiAxNi45OTQ3Mjg2MDM1OTM4ICBaICIgZmlsbC1ydWxlPSJldmVub2RkIiAvPgogICAgPC9tYXNrPgogIDwvZGVmcz4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDYyIC03NyApIj4KICAgIDxwYXRoIGQ9Ik0gMjYgMTYuOTk0NzI4NjAzNTkzOCAgTCAyNiAxOC45OTk5OTk5ODQ1Njk5ICBMIDI2IDI0ICBMIDE4IDI0ICBMIDE4LjAwMDM4NDA0NTU4NjcgMTkgIEwgMCAxOSAgTCAwIDAgIEwgMjYgMCAgTCAyNiAxNi45OTQ3Mjg2MDM1OTM4ICBaICIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9Im5vbmUiIGZpbGwtb3BhY2l0eT0iMCIgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSAtNjIgNzcgKSIgLz4KICAgIDxwYXRoIGQ9Ik0gMjYgMTYuOTk0NzI4NjAzNTkzOCAgTCAyNiAxOC45OTk5OTk5ODQ1Njk5ICBMIDI2IDI0ICBMIDE4IDI0ICBMIDE4LjAwMDM4NDA0NTU4NjcgMTkgIEwgMCAxOSAgTCAwIDAgIEwgMjYgMCAgTCAyNiAxNi45OTQ3Mjg2MDM1OTM4ICBaICIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2U9IiM0NjUzNWQiIGZpbGw9Im5vbmUiIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgLTYyIDc3ICkiIG1hc2s9InVybCgjY2xpcDEpIiAvPgogIDwvZz4KPC9zdmc+">
+                                <div style="position: absolute;top:36px">
+                                    <div style="float: left;width: 5px;height: 4px;background: #5874d8;margin: 4px 1px 0 0;"></div>
+                                    <div style="float: left;width: 5px;height: 4px;background: #5874d8;margin: 4px 1px 0 0;"></div>
+                                    <div style="float: left;width: 5px;height: 4px;background: #5874d8;margin: 4px 1px 0 0;"></div>
+                                </div>
+                            </div>
+                            <div class="widget_text">标签内容</div>
+                        </div>
+                        <div id="tool_widget_search" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text" style="margin-bottom: 3px"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgMzIxIC0xNTQgKSI+CiAgICA8cGF0aCBkPSJNIDEzLjk5OTQ2MDI5MTIxODMgMTIuODE3MDI3ODU4Nzg1OSAgQyAxMy45OTk0NjAyOTEyMTgzIDEyLjQ3MTY2NDIyOTEzNjMgIDEzLjg0ODQ2NzM2OTYwNTEgMTIuMTQzNTYyOTE1NzY4MyAgMTMuNTg2MTQ4NjQ4NjQ4NiAxMS45MTg5MTg5MTg5MTg5ICBMIDExLjIyMTI4Mzc4Mzc4MzggOS41NTQwNTQwNTQwNTQwNSAgQyAxMS4xMjQ0ODY4MzIxNTQzIDkuNDYwOTAzMDM2NjU4OCAgMTEuMDEyNTIzOTE5MzM4NCA5LjM4NDkyODIwMjk2MjMgIDEwLjg5MDIwMjcwMjcwMjcgOS4zMjkzOTE4OTE4OTE4OSAgQyAxMS41NTc4NjY2NzUwMTcyIDguMzQ4NDY5NDgwMDQ5NDggIDExLjkxNDkxNjk1Njc0OTYgNy4xODkzMzk3OTI3OTkzNCAgMTEuOTE0OTE2OTU2NzQ5NiA2LjAwMjc1NDc5NDU4NzQ3ICBDIDExLjkxNDkxNjk1Njc0OTYgMi43Mzc1NTc3OTM4OTg2NiAgOS4yNjc5NTE3OTUyNzYyOCAwLjA5MDU5MjYzMjQyNTMwODIgIDYuMDAyNzU0Nzk0NTg3NDcgMC4wOTA1OTI2MzI0MjUzMDgyICBDIDIuNzM3NTU3NzkzODk4NjYgMC4wOTA1OTI2MzI0MjUzMDgyICAwLjA5MDU5MjYzMjQyNTMwODIgMi43Mzc1NTc3OTM4OTg2NiAgMC4wOTA1OTI2MzI0MjUzMDgyIDYuMDAyNzU0Nzk0NTg3NDcgIEMgMC4wOTA1OTI2MzI0MjUzMDgyIDkuMjY3OTUxNzk1Mjc2MjggIDIuNzM3NTU3NzkzODk4NjYgMTEuOTE0OTE2OTU2NzQ5NiAgNi4wMDI3NTQ3OTQ1ODc0NyAxMS45MTQ5MTY5NTY3NDk2ICBDIDcuMTg5MzM5NzkyNzk5MzQgMTEuOTE0OTE2OTU2NzQ5NiAgOC4zNDg0Njk0ODAwNDk0OCAxMS41NTc4NjY2NzUwMTcyICA5LjMyOTM5MTg5MTg5MTg5IDEwLjg5MDIwMjcwMjcwMjcgIEMgOS4zODQ5MjgyMDI5NjIzIDExLjAxMjUyMzkxOTMzODQgIDkuNDYwOTAzMDM2NjU4OCAxMS4xMjQ0ODY4MzIxNTQzICA5LjU1NDA1NDA1NDA1NDA1IDExLjIyMTI4Mzc4Mzc4MzggIEwgMTEuOTE4OTE4OTE4OTE4OSAxMy41ODYxNDg2NDg2NDg2ICBDIDEyLjE0MzU2MjkxNTc2ODMgMTMuODQ4NDY3MzY5NjA1MSAgMTIuNDcxNjY0MjI5MTM2MyAxMy45OTk0NjAyOTEyMTgzICAxMi44MTcwMjc4NTg3ODU5IDEzLjk5OTQ2MDI5MTIxODMgIEMgMTMuNDcwMDY3MjU4OTIzNiAxMy45OTk0NjAyOTEyMTgzICAxMy45OTk0NjAyOTEyMTgzIDEzLjQ3MDA2NzI1ODkyMzYgIDEzLjk5OTQ2MDI5MTIxODMgMTIuODE3MDI3ODU4Nzg1OSAgWiBNIDEwLjczNjQ4NjQ4NjQ4NjUgNi4wMDY3NTY3NTY3NTY3NiAgQyAxMC43MzY0ODY0ODY0ODY1IDguNjE4OTE0MzU3MzA3OCAgOC42MTg5MTQzNTczMDc4IDEwLjczNjQ4NjQ4NjQ4NjUgIDYuMDA2NzU2NzU2NzU2NzYgMTAuNzM2NDg2NDg2NDg2NSAgQyAzLjM5NDU5OTE1NjIwNTcxIDEwLjczNjQ4NjQ4NjQ4NjUgIDEuMjc3MDI3MDI3MDI3MDMgOC42MTg5MTQzNTczMDc4ICAxLjI3NzAyNzAyNzAyNzAzIDYuMDA2NzU2NzU2NzU2NzYgIEMgMS4yNzcwMjcwMjcwMjcwMyAzLjM5NDU5OTE1NjIwNTcxICAzLjM5NDU5OTE1NjIwNTcxIDEuMjc3MDI3MDI3MDI3MDMgIDYuMDA2NzU2NzU2NzU2NzYgMS4yNzcwMjcwMjcwMjcwMyAgQyA4LjYxODkxNDM1NzMwNzggMS4yNzcwMjcwMjcwMjcwMyAgMTAuNzM2NDg2NDg2NDg2NSAzLjM5NDU5OTE1NjIwNTcxICAxMC43MzY0ODY0ODY0ODY1IDYuMDA2NzU2NzU2NzU2NzYgIFogIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiM1ODc0ZDgiIHN0cm9rZT0ibm9uZSIgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSAtMzIxIDE1NCApIiAvPgogIDwvZz4KPC9zdmc+">
+                            </div>
+                            <div class="widget_text">搜索组件</div>
+                        </div>
+                        <div id="tool_widget_login" class="widget_zone1">
+                            <div class="icon_text widget_icon">
+                                <img class="icon_text" style="margin-bottom: 3px"
+                                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTdweCIgaGVpZ2h0PSIxM3B4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgLTEyIC02ICkiPgogICAgPHBhdGggZD0iTSAxMC41NTk4Nzk5NjAxNjQgOC42MjEwOTU0NTIwMDg5MyAgTCAxMC41NTk4Nzk5NjAxNjQgMTIuODM5MTk4MjA0MTM5NiAgTCAxNi44Nzg0MzE5MTkwOTAzIDYuNTAxMzM4MjE3ODM2ODUgIEwgMTAuNTU5ODc5OTYwMTY0IDAuMTYzNDc4MjMxNTM0MDkyICBMIDEwLjU1OTg3OTk2MDE2NCA0LjQwMjk5MjY5OTg3ODI1ICBMIDAuMDM2MDc1NTI0MDU2MzExOCA0LjQwMjk5MjY5OTg3ODI1ICBMIDAuMDM2MDc1NTI0MDU2MzExOCA4LjYyMTA5NTQ1MjAwODkzICBMIDEwLjU1OTg3OTk2MDE2NCA4LjYyMTA5NTQ1MjAwODkzICBaICIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjNTg3NGQ4IiBzdHJva2U9Im5vbmUiIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgMTIgNiApIiAvPgogIDwvZz4KPC9zdmc+">
+                            </div>
+                            <div class="widget_text">登录框</div>
+                        </div>
+                        <div id="tool_widget_graphic" class="widget_zone1">
+                            <div  class="icon_text widget_icon">
+                                <div style="width: 18px;height: 7px;background: #5874d8;margin: 2px"></div>
+                                <div style="width: 18px;height: 2px;background: #46535d;margin: 2px"></div>
+                                <div style="width: 18px;height: 1px;background: #46535d;margin: 2px"></div>
+                            </div>
+                            <div class="widget_text">图文</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="report_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">报表组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                </div>
+                <div id="page_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">页面组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                </div>
+                <div id="custom_widget" style="display: none">
+                    <div class="widget_title">
+                        <div class="widget_title_name">自定义组件</div>
+                        <div class="widget_line"></div>
+                        <img class="widget_search" src="../images/t_search.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tool_bar2">
+            <div class="tool_padding"><span>···</span></div>
+            <div class="group_zone bar_shrink">
+                <div class="group_zone1">
+                    <div class="group_icon basic_widget_icon">
+                        <img class="icon icon_basic" src="../images/t_basic1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon app_widget_icon">
+                        <img class="icon icon_app" src="../images/t_app1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon report_widget_icon">
+                        <img class="icon icon_report" src="../images/t_report1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon page_widget_icon">
+                        <img class="icon icon_page" src="../images/t_page1.png">
+                    </div>
+                </div>
+                <div class="group_zone1">
+                    <div class="group_icon custom_widget_icon">
+                        <img class="icon icon_custom" src="../images/t_custom1.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tool_bar1">
+            <div class="tool_padding"><span>···</span></div>
+            <div class="tool_close"><i class="layui-icon layui-icon-close"></i></div>
+        </div>
+    </div>
+
+<!--    <div>-->
+<!--        <button id=preview style="position:fixed; right:10px;bottom:20px;opacity:0.5;">预览</button>-->
+<!--    </div>-->
+</div>
+<!-- 页面管理弹出框 -->
+<div id="editor_page_table_container" style="display: none">
+    <div class="i_tab_pre">
+        <div class="i_tab_info"><span>设置显示页面：</span></div>
+        <div class="i_tab_add_page"><span>添加页面</span></div>
+    </div>
+    <table id="editor_page_table" lay-filter="filter_editor_page_table"></table>
+    <div class="total_number"></div>
+    <div class="layui-input-block">
+        <button id="editor_table_ok" class="layui-btn">确定</button>
+        <button id="editor_table_cancel" class="layui-btn layui-btn-primary">取消</button>
+    </div>
+</div>
+<div id="editor_page_table_content" style="display: none;">
+    <div class="layui-form-item" style="margin-top: 5px;">
+        <label class="layui-form-label">栏目名称</label>
+        <div class="layui-input-block" style="width:350px">
+        <input type="text" id="gain_title" name="title" lay-verify="title" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-input-block" style="padding-left: 70px;">
+        <button id="editor_table_ok2" class="layui-btn">确定</button>
+        <button id="editor_table_cancel2" class="layui-btn layui-btn-primary">取消</button>
+    </div>
+</div>
+<div id="editor_page_set" class="editor_page_set" style="display: none"></div>
+<div id="editor_page_add" class="editor_page_set" style="display: none"></div>
+
+<!-- 可拖动区域模板 -->
+<div id="editor_content" style="display: flex">
+    <div id="sidebar"></div>
+    <div id=right_zone>
+        <div id="navbar"></div>
+        <div id="app"></div>
+    </div>
+    <div id=menu></div>
+    <div id=settings></div>
+    <div id=template></div>
+</div>
+<!-- 可视化产品代码的代码区 -->
+<div id="editor_code" style="display: none">
+    <div id="code_tab" class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li id="html_code_item" class="layui-this">HTML</li>
+            <li id="css_code_item">CSS</li>
+            <li id="js_code_item">JS</li>
+        </ul>
+    </div>
+    <div>
+        <form id="html_code_form" class="code_form"><textarea id="html_code" name="html_code"></textarea></form>
+        <form id="css_code_form" class="code_form"><textarea id="css_code" name="css_code"></textarea></form>
+        <form id="js_code_form" class="code_form"><textarea id="js_code" name="js_code"></textarea></form>
+    </div>
+</div>
+
+</body>
+<!-- 页面设置模板 -->
+<script type="text/html" id="tpl_editor_page_set">
+    <form action="" class="layui-form content">
+        <div class="layui-form-item">
+            <label for="page_name" class="layui-form-label">栏目名称：</label>
+            <div class="layui-input-block">
+                <input id="page_name" type="text" lay-skin="primary" class="layui-input editor_input"
+                       placeholder="请输入" value="{{ d.title }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">网页类型：</label>
+            <div class="layui-input-block">
+                <span>PC端</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">行业分类：</label>
+            <div class="layui-input-block">
+                <span>标准业务</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">媒介应用：</label>
+            <div class="layui-input-block">
+                <span>中台应用</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">模板类型：</label>
+            <div class="layui-input-block">
+                <span>E-安保</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择上级栏目：</label>
+                <div class="layui-input-inline">
+                    <div class="layui-unselect layui-form-select downpanel" style="width: 398px;height: 37px">
+                        <div class="layui-select-title">
+                            <span class="layui-input layui-unselect">请选择</span>
+                            <input type="hidden" name="selectID" value="0">
+                            <i class="layui-edge"></i>
+                        </div>
+                        <dl class="layui-anim">
+                            <dd>
+                                <ul class="classtree" style="width: 398px"></ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">访问路径：</label>
+            <div class="layui-input-block">
+                <span>-</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">打开方式：</label>
+            <input type="radio" name="open_type" title="当前窗口" value="current_win" checked>
+            <input type="radio" name="open_type" title="新窗口" value="new_win">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">页面背景：</label>
+            <div class="page_bg" style="float: left">
+                <div class="color_picker"></div>
+                <div>颜色</div>
+            </div>
+            <div class="page_bg">
+                <div class="page_bg_picker"><img></div>
+                <div>图片</div>
+                <div class="page_bg_selector">
+                    <div class="page_bg_selector_preview">
+                        <img>
+                        <i class="layui-icon layui-icon-close layui-bg-red" style="float: right;font-size: 10px"></i>
+                    </div>
+                    <div class="page_bg_selector_text">选择</div>
+<!--                    <button type="button" class="layui-btn page_bg_selector_text" id="btnUpload">开始上传</button>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item submit_item">
+            <div class="layui-input-block">
+                <button class="layui-btn new_page_ok">确定</button>
+                <button class="layui-btn layui-btn-primary new_page_cancel">取消</button>
+            </div>
+        </div>
+    </form>
+</script>
+<!-- 页面管理排序部分模板 -->
+<script type="text/html" id="i_tab_right_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="update" class="i_tab i_tab_edit">
+        </span>
+        <span>
+            <img lay-event="copy" class="i_tab i_tab_copy">
+        </span>
+        <span>
+            <img lay-event="add" class="i_tab i_tab_add">
+        </span>
+        <span>
+            <img lay-event="delete" class="i_tab i_tab_delete">
+        </span>
+    </div>
+</script>
+<!-- 页面管理操作部分模板 -->
+<script type="text/html" id="i_tab_order_bar">
+    <div class="i_tab_bar_container">
+        <span>
+            <img lay-event="left" class="i_tab i_tab_arrow">
+        </span>
+        <span>
+            <img lay-event="up" class="i_tab i_tab_arrow rotate1">
+        </span>
+        <span>
+            <img lay-event="right" class="i_tab i_tab_arrow rotate2">
+        </span>
+        <span>
+            <img lay-event="down" class="i_tab i_tab_arrow rotate3">
+        </span>
+    </div>
+</script>
+
+<script id="tpl"></script>
+
+<script>
+    let widgetArray = []; // 组件列表
+    let currentPage = ""; // 当前编辑页名称
+    let currentPageTitle = ""; // 当前编辑页标题
+    let currentPageData = {}; // 当前编辑页数据
+    let zIndexMax = -1; // 组件层级最大值
+    let renderIdMax = -1; // 渲染编号最大值
+    let commonData = {};
+    let sidebarHtml = '';
+    let navbarHtml = '';
+    $(function () {
+        // 初始化编辑器导航
+        initEditorNav();
+        // 初始化页面管理
+        initNavPageTable();
+        // 初始化工具条
+        initToolBar();
+        // 初始化通用数据
+        initCommonData();
+        // 初始化代码编辑器
+        initCodeEditor();
+    });
+</script>
+</html>

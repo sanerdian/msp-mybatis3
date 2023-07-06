@@ -1,0 +1,417 @@
+﻿    <title>流程统计</title>
+    <style>
+          #nav span,.right span{display: none;}
+        #nav a{display: inline-block;width: 40px;height: 56px;text-align: center;border: 1px solid #f5f5f5;}
+        #nav a:nth-of-type(3){display: inline-block;width: 220px;height: 52px; text-align: left;padding-left: 20px;border-top: 2px solid #000;font-weight: bold;}
+        .right{display: inline-block;position: absolute;top: 0;right: 0;}
+        .layui-breadcrumb a{color: #000!important;}
+        .select{border-bottom: 4px solid #379ff7;color: #379ff7!important;}
+        .unselect{border-bottom: 0;color: #000!important;}
+        .layui-tab-title .layui-this:after{border:0;}
+        #bottom:hover{color: #fff;background: #379ff7;}
+        .role{width: 260px;height: 272px;}
+        .role li {color:#126DBA; padding: 5px 10px!important;}
+        .list li {height: 30px; text-align: center;line-height: 30px;}
+        .list li:hover{color: #fff;background: #379ff7;}
+        .layui-tab-title li{padding: 0;margin-right: 10px;}
+        .node_name{color: #000;}
+        .ztree li span.button.noline_open {
+    background-position: -110px -88px;
+}
+.ztree li span.button.ico_docu{margin-top: 3px;}
+.role li {color:#126DBA; padding: 5px 10px!important;}
+        .role li:hover{color: #fff;background: #379ff7;}
+        .icon{background: url(common/img/icon_lctj.png) no-repeat; display: inline-block;width:22px;height: 22px;position: absolute;top:10px;}
+    </style>
+        <div class="layui-fluid">
+            <div class="layui-card" style='height: 800px;'>
+                <div class="layui-card-header" style="border-bottom:2px solid #379ff7">
+                    <span class="icon"></span>
+                    <span style="margin-left: 30px;">流程统计</span>
+                </div>
+                <div class="layui-card-body">
+                    <form class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 100px;padding:9px 0;">选择时间段：</label>
+                            <div class="layui-input-block" style='margin-left:90px;'>
+                                    <input type="text" class="layui-input" id="test1" placeholder="yyyy-MM-dd" style='display:inline-block;margin-right:15px;width:260px' value="2019-11-01">~<input type="text" class='layui-input ' readOnly style='width:260px;display:inline-block;margin-left:15px;' id='test2' placeholder="yyyy-MM-dd" value="2019-12-31">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                                <label class="layui-form-label" style="width: 100px;padding:9px 0;">选择流程：</label>
+                                <div class="layui-input-block" style='margin-left:100px;width: 260px;'>
+                                    <input type="text" class="layui-input" readonly data-method="select" id='selects'>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 100px;padding:9px 0;">分组对象：</label>
+                                    <div class="layui-input-block" style='margin-left:100px;width: 260px;'>
+                                        <select name="" id="">
+                                            <option value="0" selected>人员</option>
+                                            <option value="1">部门</option>
+                                            <option value="2">月份</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                        <label class="layui-form-label" style="width: 100px;padding:9px 0;">人员范围：</label>
+                                        <div class="layui-input-block" style='margin-left:100px;width: 300px;position: relative;'>
+                                            <textarea name="" id="" class="layui-textarea" style="display: inline-block;width: 260px;"></textarea>
+                                            <i class='layui-icon layui-icon-add-1' style='color:#379ff7;position: absolute;bottom:5px;right:10px' data-method="add" ></i>
+                                        </div>
+                                    </div>
+                    </form>
+                    <div class="layui-btn-container" style="margin: 20px 0 0 200px;">
+                        <button class="layui-btn ">超时统计</button>
+                        <button class="layui-btn ">流程处理情况统计</button>
+                        <button class="layui-btn ">流程办理情况统计</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+         layui.use(['form', 'layedit', 'laydate'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  
+  //日期
+  laydate.render({
+    elem: '#test1'
+  });
+  laydate.render({
+    elem: '#test2'
+  });
+  
+  
+});
+layui.use('layer', function(){ 
+      var layer = layui.layer; 
+      var active={
+
+            select:function(){
+              var that=this;
+              layer.open({
+                type: 1 //此处以iframe举例
+                ,title: '选择流程'
+                ,area: ['400px', '348px']
+                ,shade: 0.3
+                ,maxmin: false
+                ,id:"_add"
+                ,content: "<div id='form4'></div>"
+              });
+              layui.laytpl($("#select").html()).render({}, function(html){
+                  $("#form4").html(html);
+                  layui.form.render();
+                })
+               
+                var settingss = {
+                  callback: {
+                  onClick: zTreeOnClick
+                },
+            data: {
+                simpleData: {
+                    enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                    idKey: "id", //节点数据中保存唯一标识的属性名称
+                    pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称  
+                    rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                },
+                key: {
+                    name: "menuName" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+                }
+            },
+            view: {
+                showLine: false,
+                showPlusMinus: false,
+                showIcon: true,
+                dblClickExpand: false,
+                fontCss: {
+                    'color': 'white',
+                    'font-weight': 'normal'
+                }
+            }
+        };
+
+        //数据
+        var zNodes = [
+            //注意，数据中的 menuName 必须与 settingss 中key 中定义的name一致，否则找不到
+            {
+                menuName: "全部流程",
+                icon: "common/img/wf_node2.png",
+            },
+            {
+                menuName: "默认分类",
+                icon: "common/img/wf_node1.png",
+                open: true,
+                children:[
+                  {
+                    menuName: "签章测试流程",
+                    icon: "common/img/wf_node2.png"
+                  },
+                  {
+                    menuName: "测试111",
+                    icon: "common/img/wf_node2.png"
+                  },
+                ]
+            },
+            {
+                menuName: "人事类",
+                icon: "common/img/wf_node1.png",
+                open: true,
+                children:[
+                  {
+                    menuName: "员工外出申请（业务）",
+                    icon: "common/img/wf_node2.png"
+                  }
+                ]
+            },
+            {
+                menuName: "费用类",
+                icon: "common/img/wf_node1.png",
+                open: true,
+                children:[
+                  {
+                    menuName: "个人年度费用计划申请（业务）",
+                    icon: "common/img/wf_node2.png"
+                  }
+                ]
+            },
+            {
+                menuName: "合同类",
+                icon: "common/img/wf_node1.png",
+                open: true,
+                children:[
+                  {
+                    menuName: "合同审批申请（演示）",
+                    icon: "common/img/wf_node2.png"
+                  }
+                ]
+            },
+            {
+                menuName: "公文类",
+                icon: "common/img/wf_node1.png",
+                open: true,
+                children:[
+                  {
+                    menuName: "办公室发文",
+                    icon: "common/img/wf_node2.png"
+                  },
+                  {
+                    menuName: "办公室收文",
+                    icon: "common/img/wf_node2.png"
+                  }
+                ]
+            }
+        ];
+
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, zNodes); //初始化树
+        zTreeObj.expandAll(true);
+        function zTreeOnClick(event, treeId, treeNode) {
+            var name = treeNode.menuName;
+            $("#confirm").click(function(){
+              $('#selects').val(name);
+              layer.closeAll();
+            })
+            
+        };
+                  
+       }
+          }
+  
+  $('.layui-input').focus(function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+  });
+  })
+         layui.use('layer', function(){ //独立版的layer无需执行这一句
+            var  layer = layui.layer; 
+            var active={
+                add: function(){
+                var that = this;
+                layer.open({
+                type: 1 //此处以iframe举例
+                ,title: '选择人员'
+                ,area: ['565px', '460px']
+                ,shade: 0.3
+                ,maxmin: true
+                ,id:"_add"
+                ,content: "<div id='form1'></div>"
+            
+            });
+            layui.laytpl($("#add").html()).render({}, function(html){
+                $("#form1").html(html);
+                layui.form.render();
+            })
+            $("li").click(function (e) {
+                var others = $(this).siblings();
+                if ($(this).hasClass('unselect')) {
+                    $(this).removeClass('unselect');
+                    $(this).addClass('select');
+                    others.addClass('unselect');
+                    $('#createStream').hide();
+                }
+            })
+            var settingss = {
+              callback: {
+                  onClick: zTreeOnClick
+                },
+                check: {
+            enable: true
+        },
+            data: {
+                simpleData: {
+                    enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                    idKey: "id", //节点数据中保存唯一标识的属性名称
+                    pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称  
+                    rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                },
+                key: {
+                    name: "menuName" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+                }
+            },
+            view: {
+                showLine: false,
+                showPlusMinus: false,
+                showIcon: true,
+                dblClickExpand: false,
+                fontCss: {
+                    'color': 'white',
+                    'font-weight': 'normal'
+                }
+            }
+        };
+
+        //数据
+        var zNodes = [
+            //注意，数据中的 menuName 必须与 settingss 中key 中定义的name一致，否则找不到
+            {
+                menuName: "系统管理部",
+                icon: "common/img/node_dept.gif",
+            },
+            {
+                menuName: "信息部",
+                icon: "common/img/node_dept.gif",
+                open: true,
+                children:[
+                  {
+                    menuName: "信息一部",
+                    icon: "common/img/node_dept.gif"
+                  }
+                ]
+            }
+            
+        ];
+
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, zNodes); //初始化树
+        zTreeObj.expandAll(true);
+
+        function zTreeOnClick(event, treeId, treeNode) {
+            var name = treeNode.menuName;
+            $("#confirm").click(function(){
+              $('#selects').val(name);
+              layer.closeAll();
+            })
+            
+        };
+                
+        
+
+                }
+            }
+            $('.layui-icon').click(function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+  });
+         })
+         function change(event){
+                     var val=event.target.innerHTML;
+                     document.querySelector('#head').innerHTML=val;
+                   }
+        </script>
+         <script id="add" type="text/html">
+            <div class='layui-fluid'>
+                <div class='layui-row layui-col-space10'>
+                    <div class='layui-col-md7' style='height:390px;margin-left:15px;width:300px;margin-right:10px'>
+                        <div class='layui-card'>
+                            <div class='layui-card-body'>
+                                    <div class="layui-tab" id='select'>
+                                            <ul class="layui-tab-title" style='border:0;'>
+                                              <li class="layui-this select">按部门选择</li>
+                                              <li class="unselect">按角色选择</li>
+                                              <li class="unselect">自定义组</li>
+                                            </ul>
+                                            <div class="layui-tab-content" style='border:1px solid #ccc;height:260px;overflow-Y:auto;padding:0;'>                          
+                                              <div class="layui-tab-item layui-show">
+
+                                                            <ul id="treeDemo" class="ztree"></ul>
+                                              </div>
+                                              <div class="layui-tab-item">
+                                                 <ul class='role' onclick='change(event)'>
+                                                   <li>系统管理员</li>
+                                                   <li>董事长</li>
+                                                   <li>总裁</li>
+                                                   <li>总经理</li>
+                                                   <li>分公司副总经理</li>
+                                                   <li>营销副总</li>
+                                                   <li>行政副总</li>
+                                                   <li>总经理助理</li>
+                                                   <li>人事经理</li>
+                                                   <li>行政经理</li>
+                                                   <li>采购经理</li>
+                                                   <li>财务经理</li>
+                                                   <li>研发经理</li>
+                                                   <li>员工</li>
+                                                 </ul>
+                                              </div>
+                                              <div class="layui-tab-item">没有设置自定义组</div>
+                                            </div>
+                                          </div>
+                                          <div id='bottom' style='width:260px;height:35px; margin-top:5px;border:1px solid #ccc;line-height:35px'>
+                                            <i class='layui-icon layui-icon-username' style='margin-left:10px;'></i>&nbsp;&nbsp;已选人员
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='layui-col-md5' style='height:380px;width:204px;'>
+                        <form class='layui-form'>
+                            <div class='layui-form-item'>
+                                <div class='layui-input-block'style='margin-left:0;width:100%'>
+                                    <input type="text" class='layui-input' style="display:inline-block;width:130px!important;" placeholder='按用户名搜索...'>
+                                    <button class='layui-btn 'style='display:inline-block;position:absolute;top:0;right:0;'>搜索</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class='content' style='width:100%;height:275px;border:1px solid #ccc;margin-top:10px;'>
+                            <div class='head' style='width:194px;height:40px;background:#f5f5f5;border-bottom:1px solid #ccc;'>
+                                <form class='layui-form' style='width:165px;'>
+                                  <div class='layui-form-item' style='margin-bottom:0;'>
+                                    <div class='layui-input-block' style='margin-left:30px;width:30px;float:left'>
+                                      <input type="checkbox" lay-skin='primary'>
+                                    </div>
+                                    <label class='layui-form-label' style='display:inline-block;padding:9px 0;text-align:left;width:100px;' id='head'>系统管理部</label>
+                                  </div>
+                                </form>
+                                <ul class='list'>
+                                   <li>系统管理员</li>
+                                   <li>123</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class='layui-btn ' style="margin:10px 0 0 70px;">确定</button>
+                    </div>
+                </div>
+            </div>
+            </script>
+            <script type="text/html" id='select'>
+                <div class='box' style='height:230px;'>
+                    <ul id="treeDemo" class="ztree" style="height: 220px;width: 390px;"></ul>
+                </div>
+                <div class='layui-btn-container' style='position:absolute;bottom:10px;right:20px;'>
+                  <button class='layui-btn ' id='confirm'>确定</button>
+                  <button class='layui-btn layui-btn-primary' onclick='layer.closeAll();'>关闭</button>
+                </div>
+            </script>
+    <script>
+        layui.form.render();
+    </script>

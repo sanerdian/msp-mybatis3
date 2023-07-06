@@ -1,0 +1,63 @@
+<div class="layui-fluid" id="userSyncList">
+	<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+		<div class="tool_btn_box">
+			<button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="goBack()">返回</button>
+		</div>
+	</div>
+	<div class="layui-card h100">					
+		<!-- 搜索开始 -->
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<form class="layui-form">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">操作</label>
+						<div class="layui-input-block">
+							<select name="operation">
+								<option value="">全部</option>
+								<option value="add">add</option>
+								<option value="update">update</option>
+								<option value="delete">delete</option>
+								<option value="deletes">deletes</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">同步状态</label>
+						<div class="layui-input-block">
+							<select name="status">
+								<option value="">全部</option>
+								<option value="0">待同步</option>
+								<option value="1">同步成功</option>
+								<option value="2">同步失败</option>
+								<option value="3">抛出异常</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline top_search_btn">
+						<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-userSync-back-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+			<div class="top_btn">
+				<button class="layui-btn layuiadmin-btn-admin" data-type="reset">重置</button>
+				<button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="deletes">删除</button>
+			</div>
+		</div>
+		<!-- 搜索结束 -->							
+		
+		<div class="layui-card-body">
+
+			<!-- 列表开始 -->
+			<div class="table-area">
+				<table id="tableUserSync" lay-filter="tableUserSync"></table>
+			</div>
+			<div id="pageUserSync"></div>
+			<!-- 列表结束 -->
+		</div>
+
+	</div>
+</div>
+
+<script src="simple/gateway/app/userSyncList.js"></script>

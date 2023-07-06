@@ -1,0 +1,227 @@
+﻿<title>模板管理日志</title>
+<!-- <style>
+  #nav span,.right span{display: none;}
+  #nav a{display: inline-block;width: 40px;height: 56px;text-align: center;border: 1px solid #f5f5f5;}
+  #nav a:nth-of-type(3){display: inline-block;width: 170px;height: 52px; text-align: left;padding-left: 20px;border-top: 2px solid #000;font-weight: bold;}
+  .right{display: inline-block;position: absolute;top: 0;right: 0;}
+  .layui-breadcrumb a{color: #000!important;}
+  .layui-card .layui-table-view{margin: 20px 0 20px 0;}
+  .layui-form-item {
+    margin-bottom: 5px;
+    display: inline-block;
+    width: 21%;
+  }
+  .layui-input-block {
+    margin-left: auto;
+    min-height: 36px;
+  }
+</style> -->
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+    <a><i class="layui-icon layui-icon-prev"></i></a>
+    <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+    <a>模板管理日志<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+    <div class="right">
+      <a><i class="layui-icon layui-icon-next"></i></a>
+      <a><i class="layui-icon layui-icon-down"></i></a>
+    </div>
+  </div>
+</div>
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+      <form class="layui-form">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label " title="IP地址">IP地址</label>
+            <div class="layui-input-block">
+              <input id="address" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="栏目">栏目</label>
+            <div class="layui-input-block">
+              <input id="column" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="模板类型">模板类型</label>
+            <div class="layui-input-block">
+              <input id="templateType" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="模板名称">模板名称</label>
+            <div class="layui-input-block">
+              <input id="templateName" type="text" name="projectname" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <!-- <div class="layui-inline">
+            <label class="layui-form-label " title="操作类型">操作类型</label>
+            <div class="layui-input-block">
+              <input id="handleType" type="text" name="projectname" autocomplete="off" class="layui-input" style="width: 150px">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="操作结果">操作结果</label>
+            <div class="layui-input-block">
+              <input id="handleRes" type="text" name="projectname" autocomplete="off" class="layui-input" style="width: 150px">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="操作明细">操作明细</label>
+            <div class="layui-input-block">
+              <input id="detail" type="text" name="projectname" autocomplete="off" class="layui-input" style="width: 150px">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label " title="创建时间">创建时间</label>
+            <div class="layui-input-block">
+              <input id="t12" type="text" name="projectname" autocomplete="off" class="layui-input" style="width: 150px">
+            </div>
+          </div> -->
+          <div class="layui-inline top_search_btn">
+            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="layui-card-body">
+     <!-- <button class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>-->
+      <div class="table-area">
+        <table id="test" lay-filter="test"></table>
+      </div>
+      <div id="demo8"></div>
+    </div>
+  </div>
+</div>
+<script>
+
+    $(function () {
+        getTemplate(1,10);
+    })
+    // var startTime='',endTime=""
+    // layui.use('laydate', function() {  //日期显示组件
+    //     var laydate = layui.laydate;
+    //     laydate.render({
+    //         elem: '#t12'
+    //         ,range: true
+    //         ,done:function (value) {
+    //             startTime=value.split(' -')[0]
+    //             endTime =value.split('- ')[1]
+    //         }
+    //     });
+
+    // })
+    layui.form.on("submit(searchData)",function(data){
+        var params = urlEncode(data.field);
+        getTemplate(1,10)
+        return false;
+    })
+    function getTemplate(pageNo,size) {
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":size,
+                "sortProps":{
+                   /* key:"createTime",*/
+                  key:"modifyTime",
+                    value:false
+                }
+            },
+            "entity":{
+                "address":document.getElementById("address").value,
+                // "handleType":document.getElementById("handleType").value,
+                // "handleResult":document.getElementById("handleRes").value,
+                "columnName":document.getElementById("column").value,
+                "templateType":document.getElementById("templateType").value,
+                "templateName":document.getElementById("templateName").value
+                // "detail":document.getElementById("detail").value,
+                // "createTime":startTime,
+                // "endTime":endTime
+            }
+        }
+        ajax(service_prefix.log,"/template/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                layui.use(['table','laypage'],function () {
+                    var table=layui.table
+                        ,laypage=layui.laypage;
+                    table.render({
+                        elem:'#test'
+                        ,data:data.obj.records
+                        ,cols: [[
+                            {type:'numbers',title: '序号',fixed: 'left'}
+                            ,{field:'crUser', width:140, title: '用户名',fixed: 'left'}
+                            ,{field:'address', width:140, title: '登录IP'}
+                            ,{field:'columnName', width:200,title: '栏目名称'}
+                            ,{field:'templateType', width:150, title: '模板类型'}
+                            ,{field:'templateName', width:200, title: '模板名称'}
+                            ,{field:'handleType', width:150, title: '操作类型'}
+                        /*,{field:'detail', width:200, title: '操作明细'}*/
+//                            ,{field:'handleResult', width:150, templet:"#resType",title: '操作状态'}
+                            /*, {field: 'crUser', title: '创建人'}
+                            , {field: 'createTime', title: '创建时间'}*/
+                            , {field: 'modifyUser', title: '操作人'}
+                            , {field: 'modifyTime', title: '操作时间'}
+                        ]]
+                    })
+                    laypage.render({
+                        elem:'demo8'
+                        ,count:data.obj.total
+                        ,curr:data.obj.current
+                        ,limit:data.obj.size
+                        ,layout:['count','prev','page','next','limit','refresh','skip']
+                        ,jump:function (obj,first) {
+                            if (!first){
+                                pageNo=obj.curr
+                                size=obj.limit
+                                getTemplate(pageNo,size)
+                            }
+                        }
+                    })
+                })
+            }
+        })
+    }
+
+  layui.use('table', function(){
+    var table = layui.table;
+
+    table.render({
+      elem: '#test'
+      ,data:[
+        {id:1,username:"shuangming",operation:"编辑",contentType:"Block",crTime:"2018-07-04 19:38",templateName:"template/header.template.html",res:"成功"},
+        {id:2,username:"shuangming",operation:"编辑",contentType:"SiteIndex",crTime:"2018-07-04 19:38",templateName:"template/index.template.html",res:"成功"},
+        {id:3,username:"shuangming",operation:"编辑",contentType:"Block",crTime:"2018-07-04 19:38",templateName:"template/header.template.html",res:"成功"},
+        {id:4,username:"shuangming",operation:"编辑",contentType:"Block",crTime:"2018-07-04 19:38",templateName:"template/index.template.html",res:"成功"},
+        {id:5,username:"shuangming",operation:"编辑",contentType:"SiteIndex",crTime:"2018-07-04 19:38",templateName:"template/header.template.html",res:"成功"},
+        {id:6,username:"shuangming",operation:"编辑",contentType:"SiteIndex",crTime:"2018-07-04 19:38",templateName:"template/index.template.html",res:"成功"},
+        {id:7,username:"shuangming",operation:"编辑",contentType:"SiteIndex",crTime:"2018-07-04 19:38",templateName:"template/header.template.html",res:"成功"},
+        {id:8,username:"shuangming",operation:"编辑",contentType:"SiteIndex",crTime:"2018-07-04 19:38",templateName:"template/index.template.html",res:"成功"},
+        {id:9,username:"shuangming",operation:"编辑",contentType:"Block",crTime:"2018-07-04 19:38",templateName:"template/header.template.html",res:"成功"},
+        {id:10,username:"shuangming",operation:"编辑",contentType:"SiteIndex",crTime:"2018-07-04 19:38",templateName:"template/index.template.html",res:"成功"}
+      ]
+      ,cols: [[
+        {field:'id', width:80, title: '序号'}
+        ,{field:'username', width:193, title: '用户名'}
+        ,{field:'chanel', title: '栏目名称', width: 200}
+        ,{field:'contentType',title:"模板类型",width:150}
+        ,{field:'templateName',title:"模板名称",width:300}
+        ,{field:'operation', width:160, title: '操作类型'}
+        ,{field:'res', width:160,title: '操作结果'}
+        ,{field:'detail', title: '操作明细', width: 190}
+        ,{field:'crTime', title: '创建时间', width:200}
+      ]],
+      page:true
+    });
+  });
+</script>
+<script type="text/html" id="resType">
+  {{#if(d.handleResult===1){ }}
+  失败
+  {{#} else if(d.handleResult===0){ }}
+  成功
+  {{#} }}
+</script>

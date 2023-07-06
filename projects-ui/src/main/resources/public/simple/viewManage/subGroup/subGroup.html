@@ -1,0 +1,93 @@
+<!--组件管理界面-->
+<link rel="stylesheet" href="../../simple/viewManage/viewComm/common.css">
+<link rel="stylesheet" href="../../simple/viewManage/subGroup/subGroup.css">
+<div class="layui-fluid">
+<div id="subGroupIndex">
+    <div class="subGroupHead">
+        <div class="sghLeft">
+            <ul class="layui-nav layui-bg-white">
+                <li class="layui-nav-item layui-this">
+                    <a>全部组件</a>
+                </li>
+                <li class="layui-nav-item" data="index">
+                    <a>首页组件</a>
+                </li>
+                <li class="layui-nav-item" data="detail">
+                    <a>详情页组件</a>
+                </li>
+                <li class="layui-nav-item" data="list">
+                    <a>列表页组件</a>
+                </li>
+            </ul>
+        </div>
+        <div class="sghRight">
+            <a class="layui-btn" href="simple/viewManage/groupEdit/groupEdit.html" target="_blank">新建组件</a>
+            <button type="button" class="layui-btn">导入组件模板</button>
+            <button type="button" class="layui-btn">导出组件模板</button>
+        </div>
+    </div>
+    <div class="subGroupFilter">
+        <div class="btnRow">
+            <div class="btnRowLeft">
+                <button type="button" class="layui-btn layui-btn-primary">组件状态 ></button>
+            </div>
+            <div class="btnRowRight">
+                <button type="button" class="layui-btn initStatus">现行</button>
+                <button type="button" class="layui-btn layui-btn-primary">下架</button>
+            </div>
+        </div>
+        <div class="btnRow">
+            <div class="btnRowLeft">
+                <button type="button" class="layui-btn layui-btn-primary">网页类型 ></button>
+            </div>
+            <div class="btnRowRight netType">
+                <button type="button" class="layui-btn layui-btn-primary" data="PC" datatype="net">PC</button>
+                <button type="button" class="layui-btn layui-btn-primary" data="Mobile" datatype="net">移动端</button>
+                <button type="button" class="layui-btn layui-btn-primary" data="bgScreen" datatype="net">大屏</button>
+            </div>
+        </div>
+        <div class="btnRow">
+            <div class="btnRowLeft">
+                <button type="button" class="layui-btn layui-btn-primary">组件类型 ></button>
+            </div>
+            <div class="btnRowRight groupType">
+            </div>
+        </div>
+    </div>
+    <div class="subGroupBody">
+        <div id="groupView"></div>
+        <div class="page" id="subGroupPa"></div>
+    </div>
+    <!--分页-->
+</div>
+</div>
+<!--模板-->
+<script type="text/html" id="groupList">
+    <div class="groupBox">
+    {{# layui.each(d, function(index, item){ }}
+        <div class="groupItem">
+            <div class="pic">
+                <div class="imgBox">
+                    <img src="{{item.img}}"/>
+                </div>
+                <div class="hoverBack">
+                    <div class="btnBox">
+                        <a class="layui-btn layui-btn-radius" href="simple/viewManage/groupEdit/groupEdit.html#id={{item.id}}" target="_blank">详情</a>
+                        <!-- <button class="layui-btn layui-btn-radius layui-btn-danger">应用</button> -->
+                    </div>
+                    <div class="opacityBack"></div>
+                </div>
+            </div>
+            {{# if (item.title) { }}
+                <div class="txtBox">{{ item.title}}</div>
+            {{# } }}
+        </div>
+    {{# }); }}
+    {{# if (d.length == 0) { }}
+        <span style="display: block;text-align: center;line-height: 200px;font-size: 14px;">未找到数据</span>
+    {{# } }}
+    </div>
+</script>
+<script type="text/javascript" src="simple/viewManage/viewComm/getViewService.js"></script>
+<script type="text/javascript" src="simple/viewManage/subGroup/subGroup.js"></script>
+

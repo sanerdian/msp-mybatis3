@@ -1,0 +1,136 @@
+﻿<title>sql日志</title>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>SQL日志<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card h100">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="IP地址">IP地址</label>
+                        <div class="layui-input-block">
+                            <input id="address" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="原始信息">原始信息</label>
+                        <div class="layui-input-block">
+                            <input id="content" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label " title="创建时间">创建时间</label>
+                        <div class="layui-input-block">
+                            <input id="t12" type="text" name="projectname" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline top_search_btn">
+                      <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                      </button>
+                    </div>
+                    <!-- <div  class="layui-input-block" style="display: inline-block">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="searchData"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </div> -->
+                </div>
+            </form>
+           <!-- <button onclick="getSqlLog(1)" class="layui-btn" style="display: inline-block;float:right;margin-right: -350px;"><i class="layui-icon">&#xe615;</i></button>-->
+        </div>
+        <div class="layui-card-body">
+            <table class="layui-hide" id="test" style="margin-top: 100px;"></table>
+            <div id="demo8"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var pageSize = 15;
+    var startTime='',endTime=""
+    layui.use('laydate', function() {  //日期显示组件
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#t12'
+            ,range: true
+            ,done:function (value) {
+                startTime=value.split(' -')[0]
+                endTime =value.split('- ')[1]
+            }
+        });
+
+    })
+    $(function () {
+
+        getSqlLog(1,{});
+    })
+
+    layui.form.on("submit(searchData)",function(data){
+        var params = urlEncode(data.field);
+        getSqlLog(1);
+        return false;
+    })
+    function getSqlLog(pageNo) {
+
+        var jsondata={
+            "pager":{
+                "current":pageNo,
+                "size":pageSize,
+                "sortProps":{
+                    key:"eventTime",
+                    value: false
+                }
+            },
+
+            "entity":{
+                "argument":$("#content").val(),
+                "userHost":document.getElementById("address").value,
+                "eventTime":startTime,
+                "endEventTime":endTime
+            }
+        }
+        ajax(service_prefix.log,"/sqlgeneralLog/list","POST",JSON.stringify(jsondata)).then(data=>{
+            console.log(data);
+            layui.use(['table','laypage'],function () {
+                var table=layui.table
+                    ,laypage=layui.laypage;
+                table.render({
+                    elem:'#test'
+                    ,data:data.obj.records
+
+                    ,cols: [[
+                       /* {type:'numbers',title: '序号'}*/
+                   /*     ,{field:'crUser', width:193, title: '用户名'}*/
+                        ,{field:'userHost',  title: '登录IP',width:140}
+                 /*       ,{field:'modifyTime',title:"耗时",width:200}*/
+
+                        ,{field:'argument', title: '原始消息', width: 1166}
+                        ,{field:'eventTime', title: '创建时间', width:205}
+
+                    ]]
+                    ,limit: pageSize
+                })
+                laypage.render({
+                    elem:'demo8'
+                    ,count:data.obj.total
+                    ,curr:data.obj.current
+                    ,limit:pageSize
+                    ,layout:['count','prev','page','next','refresh','skip']
+                    ,jump:function (obj,first) {
+                        if (!first){
+                            getSqlLog(obj.curr,{});
+                        }
+                    }
+                })
+            })
+        });
+    }
+</script>

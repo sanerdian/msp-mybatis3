@@ -1,0 +1,14 @@
+.detaileWork {
+    margin: 0 auto;
+    width: 63%;
+    text-align: center;
+}
+.detaileWork .layui-table thead th{
+    text-align: center;
+}
+.detaileWork .layui-table tbody tr:nth-child(even) {
+    background-color: #f4f9ff;
+}
+.detaileWork .layui-table tbody tr:hover {
+    background-color: #f4f9ff;
+}

@@ -1,0 +1,45 @@
+<!--弹出层模板 新增-->
+<script type="text/html" id="editTemplate">
+    <style>
+        .layui-form-select {
+            width: 300px !important;
+        }
+
+        .layui-col-md5 input {
+            width: 300px !important;
+        }
+
+
+        .getpingyin {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
+    <div class="layui-card-body">
+        <div style="width:500px; height:680px;">
+            <form class="layui-form" lay-filter="editForm">
+                <div class="layui-row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">属性级别：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="shuxingjibie" id="shuxingjibie">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">满意度：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="manyidu" id="manyidu">
+                            </div>
+                        </div>
+                    <div class="layui-form-item" style="text-align: center">
+                        <div class="button-bar">
+                            <button class="layui-btn" lay-submit lay-filter="submitBtnEdit">确定</button>
+                            <button class="layui-btn layui-btn-primary" type="button" onclick="closeLayer()">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

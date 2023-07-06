@@ -1,0 +1,98 @@
+﻿<title>表单管理</title>
+<script src="common/js/list.js"></script>
+<div class="layui-fluid">
+    <div class="layui-card h100">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="top_btn">
+                <button class="layui-btn" data-type="add">新建表单</button>
+                <button class="layui-btn" data-type="edit">修改表单</button>
+                <button class="layui-btn" data-type="del1">删除表单</button>
+            </div>
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">表单名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">key</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">创建人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">创建时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" autocomplete="off" class="layui-input" id="createDate">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">修改人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">修改时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" autocomplete="off" class="layui-input" id="editDate">
+                        </div>
+                    </div>
+                    <div class="layui-inline top_search_btn">
+                        <button class="layui-btn layuiadmin-btn-admin" >
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-body">
+            <div class="table-area">
+                <table class="layui-hide" id="test" lay-filter='test'></table>
+            </div>
+
+            <div id="page"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    setDate('#createDate','date');
+    setDate('#editDate','date');
+    //新建表单
+    function add() {
+        layer.open({
+            type: 1,
+            area: ['552px', '350px'],
+            title: '新建表单',
+            maxmin: false,
+            content: '<div id="fieldView"></div>'
+        })
+        getData({},'#fieldTemplate','#fieldView');
+    }
+
+    function setOpenData(data, type) {
+        layui.layer.open({
+            type: 1,
+            title: "修改机构信息",
+            area: ['552px', '412px'],
+            anim: 2,
+            content: '<div id="table_data" class="open_layer_form""></div>',
+        });
+        layui.laytpl($("#fieldTemplate").html()).render(data, function (html) {
+            $("#table_data").html(html)
+            layui.form.val('editForm', data);
+        });
+    }
+</script>

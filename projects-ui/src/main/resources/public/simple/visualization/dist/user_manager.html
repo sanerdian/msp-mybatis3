@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>一体化系统</title>
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/jquery/jquery-ui.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../js/common.js"></script>
+    <script src="../js/config.js"></script>
+</head>
+
+<style>
+    @import "../css/common1.css";
+    @import "../css/login.css";
+    @import "../css/editor.css";
+</style>
+
+<style id="css_content">
+    /** add style here to override default! **/
+</style>
+
+<body>
+<div id="editor_content" style="display: flex;top: 0">
+    <div id="sidebar"> <div id="widget_sidebar_id_2" class="draggable-sidebar ui-draggable ui-draggable-handle w_sidebar layui-side" style="top: 0px;bottom: 0;flex-flow: column; height: 100%; position: static"> <ul class="layui-nav layui-nav-tree content border_content" style="height:100%;background-color: #20222a;" lay-shrink="all"> <div class="sidebar_title"> <a href="#">E-安保</a> </div> </ul> </div> </div>
+    <div id=right_zone>
+        <div id="navbar"> <div id="widget_navbar_id_0" class="draggable-navbar ui-draggable ui-draggable-handle w_navbar" style="width: 100%;height: 50px;position: relative"> <div class="content border_content"> <ul class="layui-nav">  <li class="layui-nav-item"> <a href="javascript:" title="侧边伸缩"> <i class="layui-icon layui-icon-shrink-right"></i> </a> </li>   <li class="layui-nav-item"> <a href="javascript:location.reload();" title="刷新" style=""> <i class="layui-icon layui-icon-refresh-3"></i> </a> </li>  <li class="layui-nav-item"> <a href="javascript:" style="font-weight: 200;color: #8f338f;margin-right: 5px"> <span>|</span> </a> </li> <li class="layui-nav-item"> <a href="javascript:history.go(0);" title="主页" class="nav_home" style="font-weight: 400;color: #363636;"> <i style="content: url('../images/home_icon.png');padding-top: 16px"></i> </a> </li>  <li class="layui-nav-item"> <a href="javascript:" style="cursor: default"> <i style="font-style: normal;font-size: 14px;">当前位置： </i> <i class="nav_current_location" style="font-style: normal;font-size: 14px;">用户管理</i> </a> </li>  <div class="navbar_right">  <a href="javascript:;"> <cite id="currUser">admin</cite> </a> <a href="javascript:">|</a>   <a href="javascript:">修改密码</a>   <a href="javascript:"><i class="layui-icon layui-icon-screen-full"></i></a>   <a href="javascript:"><i class="layui-icon layui-icon-logout"></i></a>  </div> </ul> </div> </div> </div>
+        <div id="app">
+             <div id="widget_tag_id_0" class="draggable-tag ui-draggable ui-draggable-handle w_tag widget_container" style="position: absolute; top: 9px; left: 14px; z-index: 36;"> <div class="content">    <!--标签必备id，class必备container_content和border_content--> <div id="container_tag_widget_tag_id_0_0" class="container_content border_content" style="position: absolute; width: 1670px; height: 860px; background: rgb(255, 255, 255);"> <div id="widget_search_id_1" class="draggable-search ui-draggable ui-draggable-handle w_search" style="position: absolute; top: 32px; left: 27px; z-index: 40;"> <div class="content border_content"> <ul>  <li> <label class="layui-form-label">姓名</label> <input type="text" name="name" class="layui-input" style="" placeholder="请输入"> </li>  <li> <label class="layui-form-label">手机号</label> <input type="text" name="phone" class="layui-input" style="" placeholder="请输入"> </li>  </ul> <button class="layui-btn search_btn"><i class="layui-icon layui-icon-search"></i></button> </div> </div>  <div id="widget_table_id_1" class="draggable-text ui-draggable ui-draggable-handle w_table" style="position: absolute; top: 168px; left: 38px; z-index: 42; width: 1600px; height: 500px;"> <div class="compute_text" style="position: absolute"></div> <div class="content border_content" style="background: white; font-family: 微软雅黑;"> <div class="table_container" style="padding: 5px 5px 0px;"> <table id="table_widget_table_id_1" lay-filter="filter_table_widget_table_id_1"></table> <br> <div id="table_page_widget_table_id_1"></div> </div> </div> </div>  <div id="widget_button_id_1" class="draggable-button ui-draggable ui-draggable-handle w_button" style="position: absolute; top: 104px; left: 44px; z-index: 41; cursor: pointer;"> <button class="content border_content layui-btn" style="width: 99px; height: 36px; font-family: 微软雅黑; font-size: 14px; color: rgb(255, 255, 255); text-decoration: none; font-style: normal; font-weight: normal; text-align: center; background-color: rgb(0, 150, 136); border-color: rgb(0, 150, 136); border-radius: 2px;"> 删除用户 </button> </div> </div>    <div id="container_tag_widget_tag_id_0_1" class="container_content border_content" style="display: none; position: absolute; width: 1670px; height: 860px; background: rgb(255, 255, 255);"></div>   <div class="container_tag_holder" style="width: 1672px; height: 862px;"></div>   <button id="button_tag_widget_tag_id_0_0" class="layui-btn tag_btn tag_btn_active">待审核</button>  <button id="button_tag_widget_tag_id_0_1" class="layui-btn tag_btn">已审核</button>   </div> </div> 
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    let commonData = {};
+    let zoom = document.body.clientWidth / 1920;
+    $("html").css({zoom: zoom});
+</script>
+
+<script id="js_content">
+    
+        /** __start_page_style_js_code__ **/
+        let currentPageData = {bgColor: "#f2f2f2"};
+        (function loadPageStyle() {
+    let background = '';
+    if (currentPageData.bgColor) {
+        background = currentPageData.bgColor;
+    }
+    $("#editor_content").css({background: background});
+})();
+        /** __end_page_style_js_code__ **/
+        
+        /** __start_widget_tag_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_tag_id_0","type":3,"index":0,"left":14,"top":9,"zIndex":36,"width":"1670","height":"860","style":1,"background":"#ffffff","border":false,"scroll":false,"containers":[{"id":0,"title":"待审核","LAY_TABLE_INDEX":0},{"id":1,"title":"已审核","LAY_TABLE_INDEX":1}]});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        _this.select(".tag_btn:first").addClass("tag_btn_active");
+        _this.containers.forEach(item => {
+            $(`#button_tag_${_this.widgetId}_${item.id}`).click(function () {
+                _this.select(".container_content").hide();
+                $(`#container_tag_${_this.widgetId}_${item.id}`).show();
+                _this.select(".tag_btn").removeClass("tag_btn_active");
+                $(this).addClass("tag_btn_active");
+            });
+        });
+    })(__this);
+        })('widget_tag_id_0');
+        /** __end_widget_tag_js_code__ **/
+        
+        /** __start_widget_sidebar_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_sidebar_id_2","parent":"#sidebar","type":4,"index":2,"title":"E-安保","fontFamily":"微软雅黑","fontSize":14,"lineHeight":40,"isUnderline":false,"isItalic":false,"isBold":false,"textAlign":"left","color":"#bcbdbf"});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            __this.initMenu = function(_this) {
+        let root = _this.select("ul.layui-nav");
+        commonData.pages.forEach((item) => {
+            console.log(item)
+            if (!item || !item.title) {
+                return;
+            }
+            let $li = $("<li class='layui-nav-item'></li>");
+            let href = 'javascript:;'
+            let hasHref = item.href && item.href.length > 0;
+            let hasChildren = item.children && item.children.length > 0;
+            if (hasHref && !hasChildren && !_this.editable) {
+                href = item.href;
+            }
+            let icon = "layui-icon-list";
+            if (item.icon && item.icon.length > 0) {
+                icon = item.icon;
+            }
+            let $a = $(`<a href=${href} class="nav_text"><i class="layui-icon ${icon}"></i><span>${item.title}</span></a>`);
+            $li.append($a);
+            if (hasChildren) {
+                let $dl = $("<dl class='layui-nav-child'></dl>");
+                item.children.forEach(item => {
+                    $dl.append(_this.getChildMenu(item));
+                });
+                $li.append($dl);
+            }
+            root.append($li);
+        });
+        element.render();
+    };
+            __this.getChildMenu = function(data) {
+        let _this = this;
+        let $dd = $("<dd></dd>");
+        let href = 'javascript:;'
+        let hasHref = data.href && data.href.length > 0;
+        let hasChildren = data.children && data.children.length > 0;
+        if (hasHref && !hasChildren && !_this.editable) {
+            href = data.href;
+        }
+        let icon = "layui_icon_padding";
+        if (data.icon && data.icon.length > 0) {
+            icon = data.icon;
+        }
+        let $a = $(`<a href=${href} class="nav_text"><i class="layui-icon ${icon}"></i><span>${data.title}</span></a>`);
+        $dd.append($a);
+        if (hasChildren) {
+            let $dl = $("<dl class='layui-nav-child'></dl>");
+            data.children.forEach(item => {
+                $dl.append(_this.getChildMenu(item));
+            });
+            $dd.append($dl);
+        }
+        return $dd;
+    };
+            let uiInit = function (_this) {
+        _this.initMenu(_this);
+        let title = _this.select(".content .sidebar_title a");
+        let content = _this.select(".content .nav_text");
+        if (_this.color) {
+            title.css("cssText", `color:${_this.color}!important;`);
+            content.css("cssText", `color:${_this.color}!important;`);
+        }
+        if (_this.fontFamily) {
+            content.css({"font-family": _this.fontFamily});
+        }
+        if (_this.fontSize) {
+            content.css({"font-size": _this.fontSize + "px"});
+            content.find('i').css({"font-size": _this.fontSize + "px"});
+            title.css({"font-size": parseInt(_this.fontSize) + 2 + "px"});
+        }
+        content.css({"text-decoration": _this.isUnderline ? "underline" : "none"});
+        content.css({"font-style": _this.isItalic ? "italic" : "normal"});
+        content.css({"font-weight": _this.isBold ? "bold" : "normal"});
+        if (_this.textAlign === "left" || _this.textAlign === "center" || _this.textAlign === "right") {
+            content.css({"text-align": _this.textAlign});
+        }
+        if (_this.textAlign === "right") {
+            content.addClass("sidebar_text_padding_right");
+        }
+        if (_this.lineHeight) {
+            content.css({lineHeight: _this.lineHeight + "px", height: _this.lineHeight + "px"});
+        }
+
+        function barShrink() {
+            _this.select(".layui-nav-itemed").removeClass("layui-nav-itemed");
+            _this.select(".layui-icon-down").hide();
+            _this.select(".layui-nav-item a span").hide();
+            _this.currentWidget().css({width: 55});
+        }
+
+        function barSpread() {
+            _this.select(".layui-icon-down").show();
+            _this.select(".layui-nav-item a span").show();
+            _this.currentWidget().css({width: 220});
+        }
+
+        _this.select(".layui-nav-item").click(function () {
+            barSpread();
+            $("#navbar i.layui-icon-spread-left").removeClass("layui-icon-spread-left").addClass("layui-icon-shrink-right");
+        });
+
+        $("#sidebar").on("sidebar", function (e, type, msg) {
+            if (type === 'shrink' && msg === true) {
+                barShrink();
+            }
+            if (type === 'shrink' && msg === false) {
+                barSpread();
+            }
+
+        });
+        _this.select(".layui-nav-bar").remove();
+        element.render();
+    };
+            let initCommonData = function initCommonData(callback, param) {
+    $.getJSON(`../json/common.json?_=${new Date().getTime()}`, function (res) {
+        commonData.sidebar = res.sidebar;
+        commonData.navbar = res.navbar;
+        $.getJSON(`../json/page.json?_=${new Date().getTime()}`, function (res) {
+            commonData.pages = res;
+            if (typeof callback === "function") {
+                callback(param);
+            }
+        });
+    });
+};
+            let currentPageTitle = '用户管理';
+            initCommonData(uiInit, __this);
+        })('widget_sidebar_id_2');
+        /** __end_widget_sidebar_js_code__ **/
+        
+        /** __start_widget_navbar_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_navbar_id_0","parent":"#navbar","type":5,"index":0,"withShrink":true,"withRefresh":true,"withLocation":true,"withUserInfo":true,"withPasswordUpdate":true,"withFullscreen":true,"withLogout":true});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            let uiInit = function (_this) {
+        let app = $("#app");
+        app.css({height: 1080 - 50 - 2});
+        _this.select("i.layui-icon-shrink-right").click(function () {
+            if ($(this).hasClass("layui-icon-shrink-right")) {
+                $(this).removeClass("layui-icon-shrink-right").addClass("layui-icon-spread-left");
+                $("#sidebar").trigger("sidebar", ['shrink', true]);
+            } else {
+                $(this).removeClass("layui-icon-spread-left").addClass("layui-icon-shrink-right");
+                $("#sidebar").trigger("sidebar", ['shrink', false]);
+            }
+        });
+        _this.select(".nav_current_location").text(currentPageTitle);
+        _this.select("a i.layui-icon-screen-full").click(function () {
+            fullscreen();
+        });
+    };
+            let initCommonData = function initCommonData(callback, param) {
+    $.getJSON(`../json/common.json?_=${new Date().getTime()}`, function (res) {
+        commonData.sidebar = res.sidebar;
+        commonData.navbar = res.navbar;
+        $.getJSON(`../json/page.json?_=${new Date().getTime()}`, function (res) {
+            commonData.pages = res;
+            if (typeof callback === "function") {
+                callback(param);
+            }
+        });
+    });
+};
+            let currentPageTitle = '用户管理';
+            initCommonData(uiInit, __this);
+        })('widget_navbar_id_0');
+        /** __end_widget_navbar_js_code__ **/
+        
+        /** __start_widget_search_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_search_id_1","parent":"#container_tag_widget_tag_id_0_0","type":8,"index":1,"left":27,"top":32,"zIndex":40,"width":0,"height":0,"fieldLogic":"and","dbTable":"","dbField":[{"title":"姓名","field":"name"},{"title":"手机号","field":"phone"}]});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        let content = _this.currentWidget().children('.content');
+
+        // TODO DEL
+        let parent = $(_this.parent);
+        if (!_this.editable && parent.hasClass("container_content")) {
+            _this.select(".search_btn").click(function () {
+                let type = 'search';
+                let msg = '';
+                if (type.length > 0) {
+                    _this.currentWidget().trigger('table_event_' + _this.parent, [type, msg]);
+                }
+            });
+        }
+    })(__this);
+        })('widget_search_id_1');
+        /** __end_widget_search_js_code__ **/
+        
+        /** __start_widget_button_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_button_id_1","parent":"#container_tag_widget_tag_id_0_0","type":7,"index":1,"left":44,"top":104,"zIndex":41,"width":"99","height":"36","style":0,"content":"删除用户","icon":"","radius":"2","paddingColor":"#009688","borderColor":"#009688","fontFamily":"微软雅黑","isUnderline":false,"isItalic":false,"isBold":false,"textAlign":"center","color":"#FFFFFF","jumpType":-1,"jumpAddress":"","jumpName":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        let isJump = _this.jumpAddress && _this.jumpAddress.length > 0;
+        if (isJump && !_this.editable) {
+            _this.currentWidget().click(function () {
+                location.href = _this.jumpAddress;
+            });
+        }
+        // TODO DEL
+        let parent = $(_this.parent);
+        if (!isJump && !_this.editable && parent.hasClass("container_content")) {
+            let type = '';
+            let msg = '';
+            if (_this.content.indexOf("增") !== -1) {
+                type = 'insert';
+            }
+            if (_this.content.indexOf("删") !== -1) {
+                type = 'delete';
+            }
+            if (_this.content.indexOf("改") !== -1) {
+                type = 'update';
+            }
+            if (_this.content.indexOf("刷新") !== -1) {
+                type = 'refresh';
+            }
+            _this.currentWidget().click(function () {
+                if (type.length > 0) {
+                    _this.currentWidget().trigger('table_event_'+_this.parent, [type, msg]);
+                }
+            });
+        }
+    })(__this);
+        })('widget_button_id_1');
+        /** __end_widget_button_js_code__ **/
+        
+        /** __start_widget_table_js_code__ **/
+        (function(widgetId) {
+            let __this = function () {
+            };
+            $.extend(__this,{"widgetId":"widget_table_id_1","parent":"#container_tag_widget_tag_id_0_0","type":6,"index":1,"left":38,"top":168,"zIndex":42,"width":"1600","height":"500","style":0,"fontFamily":"微软雅黑","margin":["5","5","0","5"],"textAlign":"center","dataSelectStyle":2,"numPerPage":10,"tableTitle":[{"type":"checkbox","width":48,"style":2,"align":"center","key":"0-0","hide":false,"unresize":true},{"type":"numbers","title":"序号","width":82,"align":"center","key":"0-1","hide":false,"unresize":true},{"field":"title","title":"用户ID","unresize":false,"align":"center","key":"0-2","hide":false,"type":"normal","width":472},{"field":"title","title":"姓名","unresize":false,"align":"center","key":"0-3","hide":false,"type":"normal","width":246},{"field":"title","title":"手机号","unresize":false,"align":"center","key":"0-4","hide":false,"type":"normal","width":230},{"field":"title","title":"用户类型","unresize":false,"align":"center","key":"0-5","hide":false,"type":"normal","width":264},{"field":"title","title":"注册时间","unresize":false,"align":"center","key":"0-6","hide":false,"type":"normal","width":241}],"relatedDbTable":"","relatedDbField":""});
+            __this.widgetId = widgetId;
+            __this.select = function (child) {
+        return $("#" + this.widgetId + " " + child);
+    };
+            __this.currentWidget = function () {
+        return $("#" + this.widgetId);
+    };
+            (function (_this) {
+        table.render({
+            elem: '#table_' + _this.widgetId,
+            height: _this.height - _this.margin[0] - _this.margin[2] - 2,
+            width: _this.width - _this.margin[1] - _this.margin[3] - 2,
+            url: '../json/page.json', // TODO
+            even: false,
+            page: false,
+            size: 'lg',
+            cols: [_this.tableTitle],
+            parseData(res) {
+                return {
+                    'status': 0,
+                    'data': res
+                }
+            },
+            request: {
+                pageName: 'curr',
+                limitName: 'nums'
+            },
+            response: {
+                statusName: 'status'
+            },
+            done(res) {
+                let tableLength = res.data.length;
+                renderPage(tableLength);
+                // _this.select(".total_number").text(`共 ${res.data.length} 条`);
+            }
+        });
+
+        // TODO DEL
+        $(_this.parent).on('table_event_' + _this.parent, function (e, type, msg) {
+            let selectedData = table.checkStatus('table_' + _this.widgetId).data;
+            alert(type + ":  " + _this.widgetId)
+            switch (type) {
+                case "insert":
+                    break;
+                case "delete":
+                    break;
+                case "update":
+                    break;
+                case "search":
+                    break;
+                case "redirect":
+                    break;
+            }
+        });
+
+        function renderPage(tableLength) {
+            if (_this.numPerPage > 0) {
+                laypage.render({
+                    elem: 'table_page_' + _this.widgetId,
+                    count: tableLength,
+                    limit: _this.numPerPage,
+                    layout: ['count', 'prev', 'page', 'next'],
+                    theme: '#009688',
+                    curr: location.hash.replace('#!page=', ''),
+                    hash: 'page',
+                    jump(obj) {
+                        console.log(obj)
+                    }
+                })
+            }
+        }
+
+        // TODO 关联数据表
+
+    })(__this);
+        })('widget_table_id_1');
+        /** __end_widget_table_js_code__ **/
+        
+</script>
+</html>

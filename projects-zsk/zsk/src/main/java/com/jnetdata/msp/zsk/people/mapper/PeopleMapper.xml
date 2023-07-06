@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.zsk.people.mapper.PeopleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jnetdata.msp.zsk.people.model.People">
+        <id column="ID" property="id" />
+    <result column="CRUSER" property="cruser" />
+    <result column="CRTIME" property="crtime" />
+    <result column="CRNUMBER" property="crnumber" />
+    <result column="MODIFY_BY" property="modifyBy" />
+    <result column="MODIFY_USER" property="modifyUser" />
+    <result column="MODIFY_TIME" property="modifyTime" />
+        <result column="DOCCHANNELID" property="docchannelid" />
+        <result column="DOCSTATUS" property="docstatus" />
+        <result column="SINGLETEMPKATE" property="singletempkate" />
+        <result column="SITEID" property="siteid" />
+        <result column="DOCVALID" property="docvalid" />
+        <result column="DOCPUBTIME" property="docpubtime" />
+        <result column="OPERUSER" property="operuser" />
+        <result column="OPERTIME" property="opertime" />
+        <result column="DOCTITLE" property="doctitle" />
+        <result column="DOCRELTIME" property="docreltime" />
+        <result column="DOCPUBURL" property="docpuburl" />
+        <result column="LINKURL" property="linkurl" />
+        <result column="CLASSINFOID" property="classinfoid" />
+        <result column="STATUS" property="status" />
+        <result column="COMPANYID" property="companyid" />
+        <result column="WEBSITEID" property="websiteid" />
+        <result column="COLUMNID" property="columnid" />
+        <result column="SEQENCING" property="seqencing" />
+        <result column="FLOW_ID" property="flowId" />
+        <result column="FLOW_USER" property="flowUser" />
+        <result column="QUOTAINFO" property="quotainfo" />
+        <result column="COPYFROMID" property="copyfromid" />
+        <result column="BZ" property="bz" />
+        <result column="P_CATEGORY" property="pCategory" />
+        <result column="SOURCE_TERMS" property="sourceTerms" />
+        <result column="FILTE" property="filte" />
+        <result column="SEARCHORDER" property="searchorder" />
+        <result column="RECOMMEND" property="recommend" />
+        <result column="STOPWORD" property="stopword" />
+        <result column="CXFL" property="cxfl" />
+        <result column="CTFL" property="ctfl" />
+        <result column="TONGYICI" property="tongyici" />
+        <result column="ENTONGYICI" property="entongyici" />
+        <result column="SUOXIE" property="suoxie" />
+        <result column="PINYIN" property="pinyin" />
+        <result column="TONGYINCI" property="tongyinci" />
+        <result column="NEWTONGYINCI" property="newtongyinci" />
+        <result column="FENLEI" property="fenlei" />
+        <result column="WORDNAME" property="wordname" />
+        <result column="CURRENTPOSITION" property="currentposition" />
+        <result column="CURRENTEMPLOYER" property="currentemployer" />
+        <result column="CURRENTSTART" property="currentstart" />
+        <result column="CURRENTEND" property="currentend" />
+        <result column="HISTORICALRESUME" property="historicalresume" />
+        <result column="REMARKS" property="remarks" />
+    </resultMap>
+
+</mapper>

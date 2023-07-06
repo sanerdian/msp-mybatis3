@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.tlujy.vote.mapper.VoteMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jnetdata.msp.tlujy.vote.model.Vote">
+        <id column="ID" property="id" />
+    <result column="CRUSER" property="cruser" />
+    <result column="CRTIME" property="crtime" />
+    <result column="CRNUMBER" property="crnumber" />
+        <result column="DOCCHANNELID" property="docchannelid" />
+        <result column="DOCSTATUS" property="docstatus" />
+        <result column="SINGLETEMPKATE" property="singletempkate" />
+        <result column="SITEID" property="siteid" />
+        <result column="DOCVALID" property="docvalid" />
+        <result column="DOCPUBTIME" property="docpubtime" />
+        <result column="OPERUSER" property="operuser" />
+        <result column="OPERTIME" property="opertime" />
+        <result column="DOCTITLE" property="doctitle" />
+        <result column="DOCRELTIME" property="docreltime" />
+        <result column="DOCPUBURL" property="docpuburl" />
+        <result column="LINKURL" property="linkurl" />
+        <result column="CLASSINFOID" property="classinfoid" />
+        <result column="STATUS" property="status" />
+        <result column="COMPANYID" property="companyid" />
+        <result column="WEBSITEID" property="websiteid" />
+        <result column="COLUMNID" property="columnid" />
+        <result column="MODIFY_BY" property="modifyBy" />
+        <result column="MODIFY_USER" property="modifyUser" />
+        <result column="SEQENCING" property="seqencing" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+        <result column="TITLE" property="title" />
+        <result column="STARTDATE" property="startdate" />
+        <result column="ENDDATE" property="enddate" />
+        <result column="LIMITTYPE" property="limittype" />
+        <result column="LIMITCOUNT" property="limitcount" />
+        <result column="REMARKS" property="remarks" />
+        <result column="PHOTO" property="photo" />
+        <result column="STATE" property="state" />
+        <result column="FLOW_ID" property="flowId" />
+        <result column="FLOW_USER" property="flowUser" />
+        <result column="PUSHTOUSER" property="pushtouser" />
+        <result column="PUSHTOCONDITION" property="pushtocondition" />
+        <result column="PUSHTORANGE" property="pushtorange" />
+        <result column="PUSHTOGROUP" property="pushtogroup" />
+        <result column="TUIJIANZHE" property="tuijianzhe" />
+        <result column="VOTETHEMEID" property="votethemeid" />
+        <result column="PUSHSQL" property="pushsql" />
+    </resultMap>
+
+</mapper>

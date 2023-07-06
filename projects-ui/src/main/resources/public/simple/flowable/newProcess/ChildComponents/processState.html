@@ -1,0 +1,46 @@
+<title>新建流程</title>
+<style>
+    .layui-show-img{
+        text-align: center;
+    }
+</style>
+
+<!-- 主页面 -->
+<div class="layui-tab layui-tab-card">
+      <div class="layui-tab-item layui-show layui-show-img">
+          <img src="https://d1icd6shlvmxi6.cloudfront.net/gsc/S4B7H4/7f/75/56/7f755622b6f8401d97d317d3c3e4e3ae/images/入职流程审批单/u57.png?pageId=ba82bb60-5fff-45d2-a84c-bd5d9a1ddb75" alt="" srcset="">
+      </div>
+  <script>
+       layui.table.render({
+            elem: '#tableView'
+            ,data:[
+                {
+                    id:"第一步"
+                    ,username:"自由环节"
+                    ,detail:''
+                }
+            ]
+            ,cellMinWidth: 80
+            ,cols: [[
+            {field:'id', title: '序号', sort: true}
+            ,{field:'username', title: '步骤名称'}
+            ,{field:'detail', title: '详情', sort: true}
+            ]]
+        });
+        layui.table.render({
+            elem: '#tableView1'
+            ,data:[
+                {
+                    id:"1"
+                    ,username:"系统管理员"
+                    ,detail:'2023-02-24'
+                }
+            ]
+            ,cellMinWidth: 80
+            ,cols: [[
+            {field:'id', title: '步骤序列', sort: true}
+            ,{field:'username', title: '办理人'}
+            ,{field:'detail', title: '创建时间', sort: true}
+            ]]
+        });
+  </script>

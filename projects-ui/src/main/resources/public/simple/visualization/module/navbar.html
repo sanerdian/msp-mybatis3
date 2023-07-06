@@ -1,0 +1,142 @@
+<script type="text/html" id="module_navbar">
+    <div id="{{ d.widgetId }}" class="draggable-navbar ui-draggable ui-draggable-handle w_navbar"
+         style="width: 100%;height: 50px;position: relative">
+        <div class="content border_content">
+            <span style="display: none;">{{d.navId}}</span>
+            <ul class="layui-nav">
+                {{# if(d.withShrink){ }}
+                <li class="layui-nav-item">
+                    <a href="javascript:" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </a>
+                </li>
+                {{# } }}
+                {{# if(d.withRefresh){ }}
+                <li class="layui-nav-item">
+                    <a href="javascript:location.reload();" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+                {{# } }}
+                <li class="layui-nav-item">
+                    <a href="javascript:" style="font-weight: 200;color: #8f338f;margin-right: 5px">
+                        <span>|</span>
+                    </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:history.go(0);" title="主页" class="nav_home" style="font-weight: 400;color: #363636;">
+                        <i style="content: url('../images/home_icon.png');padding-top: 16px"></i>
+                    </a>
+                </li>
+                {{# if(d.withLocation){ }}
+                <li class="layui-nav-item">
+                    <a href="javascript:" style="cursor: default">
+                        <i style="font-style: normal;font-size: 14px;">当前位置： </i>
+                        <i class="nav_current_location" style="font-style: normal;font-size: 14px;">用户管理</i>
+                    </a>
+                </li>
+                {{# } }}
+                <div class="navbar_right">
+                    {{# if(d.withUserInfo){ }}
+                    <a href="javascript:;">
+                        <cite id="currUser">admin</cite>
+                    </a>
+                    <a href="javascript:">|</a>
+                    {{# } }}
+                    {{# if(d.withPasswordUpdate){ }}
+                    <a href="javascript:">修改密码</a>
+                    {{# } }}
+                    {{# if(d.withFullscreen){ }}
+                    <a href="javascript:"><i class="layui-icon layui-icon-screen-full"></i></a>
+                    {{# } }}
+                    {{# if(d.withLogout){ }}
+                    <a href="javascript:"><i class="layui-icon layui-icon-logout"></i></a>
+                    {{# } }}
+                </div>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_navbar_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu">
+        <div class="menu_icon set">
+            <img src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_navbar_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings w_settings_navbar" style="width: 317px">
+        <form action="" class="layui-form content">
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">侧边伸缩：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="shrink" lay-filter="{{ d.widgetId }}_shrink" title="开启" value="1" checked>
+                    <input id="test1" type="radio" name="shrink" lay-filter="{{ d.widgetId }}_shrink" title="关闭" value="0">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">页面刷新：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="refresh" lay-filter="{{ d.widgetId }}_refresh" title="开启" value="1"
+                           checked>
+                    <input type="radio" name="refresh" lay-filter="{{ d.widgetId }}_refresh" title="关闭" value="0">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">当前位置：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="location" lay-filter="{{ d.widgetId }}_location" title="开启" value="1"
+                           checked>
+                    <input type="radio" name="location" lay-filter="{{ d.widgetId }}_location" title="关闭" value="0">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">用户信息：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="userinfo" lay-filter="{{ d.widgetId }}_userinfo" title="开启" value="1"
+                           checked>
+                    <input type="radio" name="userinfo" lay-filter="{{ d.widgetId }}_userinfo" title="关闭" value="0">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label">修改密码：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="password_update" lay-filter="{{ d.widgetId }}_password_update" title="开启"
+                           value="1" checked>
+                    <input type="radio" name="password_update" lay-filter="{{ d.widgetId }}_password_update" title="关闭"
+                           value="0">
+                </div>
+                <div class="layui-form-item">
+                    <label for="" class="layui-form-label">全屏查看：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="fullscreen" lay-filter="{{ d.widgetId }}_fullscreen" title="开启"
+                               value="1" checked>
+                        <input type="radio" name="fullscreen" lay-filter="{{ d.widgetId }}_fullscreen" title="关闭"
+                               value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="" class="layui-form-label">退出登录：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="logout" lay-filter="{{ d.widgetId }}_logout" title="开启" value="1"
+                               checked>
+                        <input type="radio" name="logout" lay-filter="{{ d.widgetId }}_logout" title="关闭" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-top: 15px">
+                    <div class="layui-input-block w_settings_btn">
+                        <button class="layui-btn set_ok">确定</button>
+                        <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+
+

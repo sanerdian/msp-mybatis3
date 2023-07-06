@@ -1,0 +1,3 @@
+e:
+cd IdeaProjects\web\projects-${package.ModuleName}
+mvn package -Dmaven.test.skip=true

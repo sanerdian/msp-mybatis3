@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jnetdata.msp</groupId>
+        <artifactId>jnetdata-msp-message-parent</artifactId>
+        <version>1</version>
+    </parent>
+
+    <artifactId>jnetdata-msp-message</artifactId>
+    <version>${jnetdata-msp.version}</version>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jnetdata.msp</groupId>
+            <artifactId>jnetdata-msp-message-api</artifactId>
+            <version>${jnetdata-msp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-annotation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.jnetdata.msp</groupId>
+            <artifactId>jnetdata-msp-config</artifactId>
+            <version>${jnetdata-msp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-annotation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.jnetdata.msp</groupId>
+            <artifactId>jnetdata-msp-common</artifactId>
+            <version>${jnetdata-msp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-annotation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.jnetdata.msp</groupId>
+            <artifactId>jnetdata-msp-member</artifactId>
+            <version>${jnetdata-msp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-annotation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.jnetdata.msp</groupId>
+            <artifactId>jnetdata-msp-verifycodesaver</artifactId>
+            <version>${jnetdata-msp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-annotation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.jnetdata.msp</groupId>
+            <artifactId>jnetdata-msp-util</artifactId>
+            <version>${jnetdata-msp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-annotation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.jnetdata.msp</groupId>
+            <artifactId>jnetdata-msp-limit</artifactId>
+            <version>${jnetdata-msp.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baidubce</groupId>
+            <artifactId>bce-java-sdk</artifactId>
+            <version>0.10.147</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.thenicesys.store</groupId>
+            <artifactId>message-sms-starter</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.thenicesys.store</groupId>
+            <artifactId>message-email-starter</artifactId>
+        </dependency>
+
+
+
+    </dependencies>
+
+</project>

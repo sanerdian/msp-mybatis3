@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>微信公众号页面</title>
+    <script src="thirdparty/jquery/jquery-2.2.2.min.js"></script>
+    <script src="common/js/config.js"></script>
+    <script src="common/js/common.js"></script>
+    <script src="thirdparty/layui/layui-v2.6.8/layui.js"></script>
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+
+<div style="align-content: center; font-size: 20px; padding-left: 10px; padding-top: 10px">
+    报告反馈通知
+    <div>报告标题：<span id="title"></span></div>
+    <div>反馈内容：<span id="content"></span></div>
+    <div>反馈人员：<span id="user"></span></div>
+    <div>反馈时间：<span id="time"></span></div>
+    <iframe style="width: 100%" id="jumpUrl" src="" frameborder="0" height="500px" width="100%"></iframe>
+</div>
+
+<script>
+
+    var WxMsg;
+
+    $(function () {
+        // $("#title").text(getQueryVariable("title"));
+        // $("#content").text(getQueryVariable("content"));
+        // $("#user").text(getQueryVariable("user"));
+        // $("#time").text(getQueryVariable("time"));
+        // $("#jumpUrl").attr("href",getQueryVariable("jumpUrl"));
+        doList();
+    })
+
+    function doList() {
+        var newsId=getQueryVariable("id");
+
+        var jsondate={
+            "type": newsId
+        }
+        ajax(service_prefix.message,"/msg/findWxMsg", "post", JSON.stringify(jsondate)).then(function (data) {
+            if (data.success){
+                console.log("查询成功：",data)
+                WxMsg=data.obj;
+                $("#title").text(WxMsg.title);
+                $("#content").text(WxMsg.content);
+                $("#user").text(WxMsg.crUser);
+                $("#time").text(getQueryVariable("time"));
+                // document.getElementById("jumpUrl").src=WxMsg.jumpUrl;
+                $("#jumpUrl").attr("src",WxMsg.jumpUrl)
+            }
+        })
+    }
+
+    //获取url参数，方法一
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+
+    //获取url参数，方法二
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return decodeURI(pair[1]);}
+        }
+        return(false);
+    }
+</script>
+</body>
+</html>

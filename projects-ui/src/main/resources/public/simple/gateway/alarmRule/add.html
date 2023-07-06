@@ -1,0 +1,46 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateData">
+	<form class="layui-form" lay-filter="formEditData">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">uri:</label>
+					<div class="layui-input-block">
+						<input type="text" name="uri" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" value="/">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+                <div class="layui-form-item">
+					<label class="layui-form-label">警报类型:</label>
+					<div class="layui-input-block">
+						<select name="type">
+							<option value="req_all">所有请求</option>
+							<option value="err_all">异常响应</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">阈值(每分钟):</label>
+					<div class="layui-input-block">
+						<input type="number" name="value" lay-verify="required|naturalNumber"  placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注:</label>
+					<div class="layui-input-block">
+						<input type="text" name="remark" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<input hidden="hidden" name="id">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-data-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.dict3.wordname.mapper.DictStopwordMapper">
+  <resultMap id="BaseResultMap" type="com.jnetdata.msp.dict3.wordname.model.DictStopword">
+    <!--@mbg.generated-->
+    <!--@Table dict_stopword-->
+    <result column="JMETASTOPWORDID" jdbcType="BIGINT" property="jmetastopwordid" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="cruser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="OPERUSER" jdbcType="VARCHAR" property="operuser" />
+    <result column="OPERTIME" jdbcType="TIMESTAMP" property="opertime" />
+    <result column="STOPWORDNAME" jdbcType="VARCHAR" property="stopwordname" />
+    <result column="TYPE" jdbcType="INTEGER" property="type" />
+    <result column="DOCSTATUS" jdbcType="INTEGER" property="docstatus" />
+    <result column="SOURCE" jdbcType="INTEGER" property="source" />
+    <result column="DOCTITLE" jdbcType="VARCHAR" property="doctitle" />
+    <result column="FIRST" jdbcType="VARCHAR" property="first" />
+    <result column="SECOND" jdbcType="VARCHAR" property="second" />
+    <result column="LAIYUAN" jdbcType="VARCHAR" property="laiyuan" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JMETASTOPWORDID, CRUSER, CRTIME, `STATUS`, OPERUSER, OPERTIME, STOPWORDNAME, `TYPE`, 
+    DOCSTATUS, `SOURCE`, DOCTITLE, `FIRST`, `SECOND`, LAIYUAN
+  </sql>
+</mapper>

@@ -1,0 +1,390 @@
+﻿<title>流程设计</title>
+<style>
+    #nav span, .right span {
+        display: none;
+    }
+
+    #nav a {
+        display: inline-block;
+        width: 40px;
+        height: 56px;
+        text-align: center;
+        border: 1px solid #f5f5f5;
+    }
+
+    #nav a:nth-of-type(3) {
+        display: inline-block;
+        width: 220px;
+        height: 52px;
+        text-align: left;
+        padding-left: 20px;
+        border-top: 2px solid #000;
+        font-weight: bold;
+    }
+
+    .right {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .layui-breadcrumb a {
+        color: #000 !important;
+    }
+
+    #right .layui-unselect {
+        display: inline-block;
+        width: 150px;
+    }
+
+    .layui-this {
+        font-weight: bold;
+        color: #426BCA !important;
+    }
+
+    .layui-table thead tr {
+        background: #fff;
+    }
+
+    .layui-table thead tr th {
+        color: #426BCA !important;
+        font-weight: bold;
+    }
+
+    #stream2 .layui-table-view {
+        margin-top: 20px;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md3 " style="width: 300px;">
+            <div class="layui-card h100">
+                <div class="layui-card-header">流程分类</div>
+                <div class="layui-card-body">
+                    <ul id="treeDemo" class="ztree" style='height: 720px; '></ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9" style="width: 1360px;">
+            <div class="layui-card h100" id='stream'>
+                <div class="layui-card-header">
+                    <button class="layui-btn layui-btn-sm" type="button" onclick="saveFlow()">保存</button>
+                    <a class="layui-btn layui-btn-sm" href="/flowable-modeler/#/processes" target="_blank">新建</a>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-form" style="height: 750px;overflow: auto;">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="150">
+                                <col width="400">
+                                <col width="150">
+                                <col width="400">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <td>流程名称<span style="color: red">*</span>:</td>
+                                <td>
+                                    <form class="layui-form" style="margin-top: 20px;">
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block" style="margin-left: 0">
+                                                <input type="text" id="flowName" class="layui-input" disabled style="width: 350px;">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>流程分类:</td>
+                                <td>
+                                    <form class="layui-form" style="margin-top: 20px;">
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block" style="margin-left: 0;width: 200px;">
+                                                <select name="" id="flowType">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>流程描述:</td>
+                                <td>
+                                    <form class="layui-form" style="margin-top: 20px;">
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block" style="margin-left: 0;width: 300px;">
+                                                <textarea class="layui-textarea" id="desc"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>所属部门:</td>
+                                <td>
+                                    <form class='layui-form' style="margin-top: 10px;">
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block" style="margin-left: 0">
+                                                <input type="text" class="layui-input"
+                                                       style="width: 250px;display: inline-block">
+                                                <span style="color: #426BCA;margin-left: 20px;" data-method="add"
+                                                      class="select">选择</span>
+                                                <span style="color: #426BCA;margin-left: 20px;">清除</span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            <input id="flowId" type="hidden">
+                            <input id="processId" type="hidden">
+                            </tbody>.layui-tab-title li
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card" style="height: 820px;display:none;" id='stream1'>
+                <div class="layui-card-header">
+                    流程列表/<span id='title'></span>
+                    <div class="layui-btn-container" style="position: absolute;top:5px;right:10px;">
+                        <button class="layui-btn layui-btn-sm create">新建流程</button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--分类树-->
+<script>
+    var settingss = {
+        data: {
+            simpleData: {
+                enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id", //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            }
+        },
+        view: {
+            showLine: false,
+            showPlusMinus: false,
+            showIcon: true,
+            dblClickExpand: false
+        },
+        callback: {
+            onClick: zTreeOnClick
+        }
+    };
+    function getTree() {
+        ajax(service_prefix.flowable,"/flow/type/all", "post", {}).then(res => {
+            setTypes(res.obj);
+            ajax(service_prefix.flowable,"/flowable/process","post",{}).then(process => {
+                initTree(res.obj.concat(process.obj));
+            })
+        })
+    }
+    function initTree(data) {
+        var zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, data); //初始化树
+    }
+    function setTypes(data){
+        var html = "";
+        data.forEach(res => {
+            html += "<option value='"+res.id+"'>"+res.name+"</option>";
+        })
+        $("#flowType").html(html);
+    }
+    function zTreeOnClick(event, treeId, treeNode) {
+        if(treeNode.parentId <= 0){
+            return false;
+        }
+        $("#flowName").val(treeNode.name);
+        $("#flowType").val(treeNode.parentId);
+        $("#desc").val(treeNode.flowDesc);
+        $("#flowId").val(treeNode.flowId);
+        $("#processId").val(treeNode.id);
+        layui.form.render();
+    };
+    getTree();
+</script>
+<!--create flow-->
+<script>
+    function saveFlow(){
+        var params = {}
+        params.type = $("#flowType").val();
+        params.desc = $("#desc").val();
+        if($("#flowId").val()){
+            ajax(service_prefix.flowable,"/flow/"+$("#flowId").val(),"put",JSON.stringify(params)).then(res=>{
+                getTree();
+            })
+        }else{
+            params.did = $("#processId").val();
+            ajax(service_prefix.flowable,"/flow","post",JSON.stringify(params)).then(res=>{
+                getTree();
+            })
+        }
+    }
+</script>
+<script>
+    layui.use('transfer', function () {
+        var transfer = layui.transfer;
+        var data2 = [
+            {"value": "1", "title": "@流水号"}
+            , {"value": "2", "title": "@工作名称"}
+            , {"value": "3", "title": "@所属流程"}
+            , {"value": "4", "title": "@发起人"}
+            , {"value": "5", "title": "@步骤与流程图"}
+            , {"value": "6", "title": "@时间"}
+            , {"value": "7", "title": "@状态"}
+            , {"value": "8", "title": "@公共附件"}
+            , {"value": "9", "title": "@正文"}
+            , {"value": "10", "title": "@操作"}
+            , {"value": "11", "title": "文号"}
+            , {"value": "12", "title": "日期喜安泽"}
+            , {"value": "13", "title": "计算空间"}
+            , {"value": "14", "title": "发气布满"}
+            , {"value": "15", "title": "电子签章"}
+        ]
+        //渲染
+        transfer.render({
+            elem: '#test11'  //绑定元素
+            , data: data2
+            , title: ['显示字段', '非显示字段'],
+            value: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        });
+    });
+    layui.use(['element', 'layer'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+        element.render('collapse');
+    });
+    layui.use('element', function () {
+        var $ = layui.jquery
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+    });
+
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+    $(".level0>.node_name").click(function () {
+        // alert(1);
+        $('#stream').hide();
+        $("#stream1").show();
+        $("#stream2").hide();
+        $("#title").text($(this).text())
+    })
+    $('.create').click(function () {
+        $('#stream2').hide();
+        $("#stream1").hide();
+        $("#stream").show();
+    })
+    $(".level1>.node_name").click(function () {
+        $('#stream').hide();
+        $("#stream1").hide();
+        $("#stream2").show();
+    })
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            , data: [
+                {name: "自由流程测试", types: "自由流程", form: "测试表单00", counts: "0"},
+                {name: "签章测试流程", types: "固定流程", form: "表单签章控件测试", counts: "3"},
+                {name: "签章测试流程", types: "固定流程", form: "测试表单00", counts: "2"}
+            ]
+            , cols: [[
+                {field: 'name', width: 203, title: '流程名称', templet: "#name"}
+                , {field: 'types', width: 210, title: '类型'}
+                , {field: 'form', width: 210, title: '表单'}
+                , {field: 'counts', width: 210, title: '已建工作数'}
+                , {field: 'operations', width: 380, title: '管理', templet: "#manage"}
+
+            ]]
+        });
+        table.render({
+            elem: '#test2'
+            // ,data:[]
+            , cols: [[
+
+                {field: 'types', width: 280, title: '权限类型'}
+                , {field: 'range', width: 280, title: '授权范围'}
+                , {field: 'range1', width: 280, title: '管理范围'}
+                , {field: 'counts', width: 310, title: '操作'}
+
+            ]]
+        });
+        table.render({
+            elem: '#test1'
+            // ,data:[]
+            , cols: [[
+
+                {field: 'types', width: 280, title: '定时类型'}
+                , {field: 'range', width: 280, title: '流程发起人'}
+                , {field: 'range1', width: 280, title: '发起时间'}
+                , {field: 'counts', width: 310, title: '操作'}
+
+            ]]
+        });
+        table.render({
+            elem: '#test3'
+            // ,data:[]
+            , cols: [[
+
+                {field: 'name', width: 280, title: '模板名称'}
+                , {field: 'step', width: 560, title: '使用步骤'}
+                , {field: 'counts', width: 310, title: '操作'}
+
+            ]]
+        });
+        table.render({
+            elem: '#test4'
+            // ,data:[]
+            , cols: [[
+
+                {field: 'name', width: 280, title: '模板名称'}
+                , {field: 'step', width: 560, title: '模板文件'}
+                , {field: 'counts', width: 310, title: '操作'}
+
+            ]]
+        });
+        table.render({
+            elem: '#test5'
+            // ,data:[]
+            , cols: [[
+
+                {field: 'name', width: 575, title: '模板名称'}
+                , {field: 'counts', width: 575, title: '操作'}
+
+            ]]
+        });
+        table.render({
+            elem: '#test6'
+            // ,data:[]
+            , cols: [[
+
+                {field: 'types', width: 280, title: '变量名称'}
+                , {field: 'range', width: 280, title: '初始值'}
+                , {field: 'range1', width: 280, title: '类型'}
+                , {field: 'counts', width: 310, title: '操作'}
+            ]]
+        });
+    });
+</script>
+<script type="text/html" id='manage'>
+    <div class='layui-btn-container'>
+        <button class='layui-btn layui-btn-sm'>详细设置</button>
+        <button class='layui-btn layui-btn-sm'>流程设计器</button>
+        <button class='layui-btn layui-btn-sm'>删除</button>
+        <button class='layui-btn layui-btn-sm'>菜单定义指南</button>
+    </div>
+</script>
+<script>
+    layui.form.render();
+</script>

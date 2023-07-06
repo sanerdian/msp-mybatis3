@@ -1,0 +1,6 @@
+.open_layer_form .layui-input{float:none;width:100%;}
+.open_layer_form p{line-height:38px;color:#333;}
+.open_layer_form .layui-unselect.layui-form-select{width:100%;}
+.open_layer_form .layui-form-select .layui-edge{margin:0;}
+
+.layui-layer-page .layui-layer-content{overflow:auto;}

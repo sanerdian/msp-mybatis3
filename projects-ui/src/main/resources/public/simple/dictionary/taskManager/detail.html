@@ -1,0 +1,80 @@
+<!--弹出层模板 编辑-->
+<script type="text/html" id="detailTemplate">
+    <style>
+        .layui-input {
+            width: 280px !important;
+        }
+        .layui-form-item {
+            margin-left: 50px;
+        }
+        .layui-form-label {
+            margin-right: 30px;
+            width: 130px;
+        /*    text-align: justify;*/
+        }
+    </style>
+    <div class="layui-card-body">
+              <form class="layui-form" lay-filter="detailForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主题词：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="wordname" value="{{d.wordname}}" readonly="true">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">属性词：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="shuxingci" value="{{d.shuxingci}}" readonly="true">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">属性词相关词：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="sx_relationword" value="{{d.sx_relationword}}" readonly="true">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">属性词同义词：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="tongyici" value="{{d.tongyici}}" readonly="true">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">属性拼音：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="pinyin" value="{{d.pinyin}}" readonly="true">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">属性同音词：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="tongyinci" value="{{d.tongyinci}}" readonly="true">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">创建时间：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="createTime" value="{{d.createTime}}" readonly="true">
+                    </div>
+                </div>
+                  <div class="layui-form-item">
+                      <label class="layui-form-label">创建人：</label>
+                      <div class="layui-input-block">
+                          <input class="layui-input" name="crUser" value="{{d.crUser}}" readonly="true">
+                      </div>
+                  </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">修改时间：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="modifyTime" value="{{d.modifyTime}}" readonly="true">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">修改人：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="modifyUser" value="{{d.modifyUser}}" readonly="true">
+                    </div>
+                </div>
+            </form>
+    </div>
+</script>

@@ -1,0 +1,244 @@
+﻿<title>实时控制台日志</title>
+<style>
+    #nav span,.right span{display: none;}
+    #nav a{display: inline-block;width: 40px;height: 56px;text-align: center;border: 1px solid #f5f5f5;}
+    #nav a:nth-of-type(3){display: inline-block;width: 170px;height: 52px; text-align: left;padding-left: 20px;border-top: 2px solid #000;font-weight: bold;}
+    .right{display: inline-block;position: absolute;top: 0;right: 0;}
+    .layui-unselect{width: 100px;margin-left: -100px;display: inline-block}
+    .layui-input-block{display: inline-block; color: #000;}
+    .layui-breadcrumb a{color: #000!important;}
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>实时控制台日志<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card" style="height:800px;overflow: hidden">
+        <div class="layui-card-body">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="checkbox" lay-skin="primary" title="滚动锁定">
+                    </div>
+                    <div class="layui-input-block">
+                        <input type="checkbox" lay-skin="primary" title="自动刷新">
+                    </div>
+                    <div class="layui-input-block" style="margin-left: 0;line-height:30px;position: absolute;top: 13px; color: #000;" onclick="getLog()">
+                        <i class="layui-icon">&#xe669;</i>&nbsp;&nbsp;
+                        刷新
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card" style="height: 754px;background:rgba(246, 247, 249, 1);overflow:auto;">
+                <div class="layui-card-body" id="body"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tpl">
+    {{#layui.each(d, function(index, item){ }}
+    <p>{{item}}</p>
+    {{# }) }}
+
+</script>
+<script>
+    //Demo
+    // var data=["DEBUG: 2019-03-06 16:23:16 ZCMS 1ms     select * from ZCSite where 1=1 order by orderflag",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select * from ZDBranch order by OrderFlag,BranchInnerCode",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select * from ZDMetaModel where OwnerType='ContentType'",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 0ms     select * from ZDUserPreferences where UserName='demo'",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select * from ZDMetaModel where OwnerType='ContentType' and OwnerID=122",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select ID,Name from ZCBrowsePrivGroup where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 0ms     select count(1) from ZCCatalog where 1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4",
+    //     "1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4 order by OrderFlag",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select InnerCode from ZCCatalog where SiteID=122 and (ContentType='Article' or ContentType='')",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select ID,Name from ZCBrowsePrivGroup where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select ID,Name from ZCBrowsePrivGroup where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select Params from ZCMediaConfig where Code='WeChatMedia'",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select Params from ZCMediaConfig where Code='SinaWeiBo'",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 0ms     select Params from ZCMediaConfig where Code='QQNewsPlat'",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 0ms     select Params from ZCMediaConfig where Code='TouTiaoMedia'",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 0ms     select count(1) from ZCCatalog where 1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4",
+    //     "1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4 order by OrderFlag",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 1ms     select InnerCode from ZCCatalog where SiteID=122 and (ContentType='Article' or ContentType='')",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 0ms     select count(1) from ZCCatalog where 1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4",
+    //     "1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4 order by OrderFlag",
+    //     "DEBUG: 2019-03-06 16:23:17 ZCMS 0ms     select InnerCode from ZCCatalog where SiteID=122 and (ContentType='Article' or ContentType='')",
+    //     "DEBUG: 2019-03-06 16:23:18 ZCMS 1ms     select ID,Word,ReplaceWord,AddUser,AddTime from ZCWrongWord where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:21 ZCMS 0ms     select * from ZDSchedule",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select count(ID) from ZCMember where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 3ms     select Word from ZCSearchWord order by searchcount desc limit 0,10",
+    //     "ZCContent c on r.contentid = c.id where c.siteID=122 order by AddTime desc limit 0,10",
+    //     "= c.id where 1=1 and c.CopyID in (486228,486223,486195,486193,486191,486189,486187,486185,486182,486180) order by CopyID",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486228",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 1ms     select * from ZDMessage where ToUser='demo' and DelByToUser<>1 order by addTime desc limit 0,10",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 2ms     select count(1) from ZDMessage where ToUser='demo' and DelByToUser<>1 ",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486228",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486223",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486223",
+    //     "b.LevelID  where a.siteID=14 group by name ",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486195",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486195",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 3ms     select * from ZCStatItem where SiteID=122 and Type='Global' order by period desc",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486195",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486195",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486193",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486193",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486193",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 2ms     select * from ZCStatItem where SiteID=122 and Type='Hour' and period in ('201903','201903')",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486193",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 2ms     select * from ZCStatItem where SiteID=122 and Type='Hour' and period='201903'",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     SELECT COUNT(ID) FROM zccontent where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 1ms     SELECT COUNT(ID) Amount,Status FROM zccontent where SiteID=122 and Status in (0,30,20) group by Status",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     SELECT COUNT(ID) FROM ZCCatalog where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486191",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486191",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486191",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486191",
+    //     "Period>='197001' and Period<='201903' and length(Item)=6",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486189",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486189",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     SELECT COUNT(ID) FROM ZCComment where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     SELECT COUNT(ID) FROM ZCLeaveMessage where SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486189",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486189",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486187",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486187",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486187",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486187",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486185",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486185",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486185",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486185",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486182",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486182",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486182",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486182",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486180",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486180",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486180",
+    //     "zccontent c on b.PushContentID = c.ID where c.ID = 486180",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 0ms     select * from ZCCatalog where Alias='Root' and SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:24 ZCMS 1ms      select ID,Name,Code from ZCDimension where  SiteID=122 and IsOpen='Y'",
+    //     "DEBUG: 2019-03-06 16:23:25 ZCMS 0ms     select * from ZDMetaModel where OwnerType='ContentType' and OwnerID=122",
+    //     "DEBUG: 2019-03-06 16:23:28 ZCMS 1ms     select ID,name,code from ZCDimension where SiteID=122 order by AddTime Desc",
+    //     "DEBUG: 2019-03-06 16:23:28 ZCMS 1ms     select * from ZDMetaModel where OwnerType='ContentType' and OwnerID=122",
+    //     "DEBUG: 2019-03-06 16:23:28 ZCMS 1ms     select ID,Kinds from ZCHotWordKinds where SiteID=122 order by ID desc",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 1ms      select ID,Name,Code from ZCDimension where  SiteID=122 and IsOpen='Y'",
+    //     "OwnerType='Catalog'",
+    //     "OwnerType='Content'",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 1ms     Select ID,Name from ZWWorkflow where Type='ContentWorkflow'",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 1ms     select ID,name,code from ZCDimension where SiteID=122 order by AddTime Desc",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 1ms     select ID,name from ZCBrowsePrivGroup where  SiteID=122",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 1ms     select ID,name,code from ZCDimension where SiteID=122 order by AddTime Desc",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 1ms     select * from ZDBranch where BranchInnerCode like '00010021%' order by OrderFlag",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 0ms     select * from ZDUser where UserName='lili'",
+    //     "WARN: 2019-03-06 16:23:29 ZCMS Get cache data failed: Provider=Platform,Type=User,Key=lili",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 0ms     select * from ZDMetaModel where OwnerType='ContentType' and OwnerID=122",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 0ms     select count(1) from ZCCatalog where 1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4",
+    //     "1=1 and SiteID=122 and DimensionID=1 and TreeLevel<4 order by OrderFlag",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 0ms     select count(1) from ZCCatalog where 1=1 and SiteID=122 and DimensionID=1 and TreeLevel<5",
+    //     "1=1 and SiteID=122 and DimensionID=1 and TreeLevel<5 order by OrderFlag",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 1ms     select * from ZDMetaModel where OwnerType='ContentType'",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 0ms     select * from ZCCatalog where ID=15113",
+    //     "DEBUG: 2019-03-06 16:23:29 ZCMS 0ms     select * from ZDMetaModel where OwnerType='ContentType'",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select count(1) from ZCContent where  1=1 AND STATUS = 30 ",
+    //     "PublishDate desc limit 0,10",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select * from ZCContent where ID=486145",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486145",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486145",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486145",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486147",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486147",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486147",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486147",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486149",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486149",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486149",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486149",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486151",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486151",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486151",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486151",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486153",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486153",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486153",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486153",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select * from ZCContent where ID=486157",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486157",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486157",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486157",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486162",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486162",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486162",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486162",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486164",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486164",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486164",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486164",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486168",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486168",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 1ms     select catalogid from ZCContentRela where contentID = 486168",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486168",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select * from ZCContent where ID=486170",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486170",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486170",
+    //     "DEBUG: 2019-03-06 16:23:32 ZCMS 0ms     select catalogid from ZCContentRela where contentID = 486170",
+    //     "DEBUG: 2019-03-06 16:23:45 ZCMS 0ms     select * from ZCCatalog where ID=15113",
+    //     "DEBUG: 2019-03-06 16:23:45 ZCMS 0ms     select * from ZDMetaModel where OwnerType='ContentType'",
+    //     "DEBUG: 2019-03-06 16:23:45 ZCMS 1ms     select ID,name,code from ZCDimension where SiteID=122 order by AddTime Desc",
+    //     "DEBUG: 2019-03-06 16:23:45 ZCMS 2ms     select ID,name,code from ZCDimension where SiteID=122 order by AddTime Desc",
+    //     "DEBUG: 2019-03-06 16:23:49 ZCMS 1ms     select * from ZDCode where CodeType='VirtualMappingType' order by CodeOrder",
+    //     "WARN: 2019-03-06 16:23:49 ZCMS There is a duplicate type name in provider :Code",
+    //     "DEBUG: 2019-03-06 16:23:49 ZCMS 0ms     select * from ZCCatalog where ID=15113",
+    //     "DEBUG: 2019-03-06 16:23:49 ZCMS 1ms     select ID,name,code from ZCDimension where SiteID=122 order by AddTime Desc",
+    //     "DEBUG: 2019-03-06 16:23:49 ZCMS 1ms     select ID,name,code from ZCDimension where SiteID=122 order by AddTime Desc",
+    //     "DEBUG: 2019-03-06 16:23:49 ZCMS 33ms     select * from ZCVirtualCatalog",
+    //     "WARN: 2019-03-06 16:23:49 ZCMS There is a duplicate type name in provider :ContentAdvanceCache",
+    //     "WARN: 2019-03-06 16:23:49 ZCMS Get cache data failed: Provider=ContentAdvanceCache,Type=VirtualCatalog,Key=15113",
+    //     "DEBUG: 2019-03-06 16:23:50 ZCMS 0ms     select * from ZCVirtualCatalog",
+    //     "WARN: 2019-03-06 16:23:50 ZCMS There is a duplicate type name in provider :ContentAdvanceCache",
+    //     "WARN: 2019-03-06 16:23:50 ZCMS Get cache data failed: Provider=ContentAdvanceCache,Type=VirtualCatalog,Key=15113",
+    //     "DEBUG: 2019-03-06 16:23:50 ZCMS 7ms     select * from ZCDimension",
+    //     "WARN: 2019-03-06 16:23:50 ZCMS There is a duplicate type name in provider :ContentCoreCache",
+    //     "WARN: 2019-03-06 16:23:50 ZCMS There is a duplicate type name in provider :ContentCoreCache",
+    //     "DEBUG: 2019-03-06 16:23:50 ZCMS 1ms     select BranchInnerCode,Name,TreeLevel from ZDBranch",
+    //     "DEBUG: 2019-03-06 16:23:57 ZCMS 4ms     insert into ZDUserLog (UserName,LogID,IP,LogType,SubType,LogMessage,Memo,AddTime) values (?,?,?,?,?,?,?,?)",
+    //     "INFO: 2019-03-06 16:24:00 ZCMS 生成索引/web/zcms3.x_demo/appdata/index/ 耗时 3 ms",
+    //     "INFO: 2019-03-06 16:24:00 ZCMS 置顶搜索词撤销置顶任务完成，共取消置顶搜索词0条",
+    //     "INFO: 2019-03-06 16:24:00 ZCMS 站点风格替换文件耗时：0毫秒",
+    //     "DEBUG: 2019-03-06 16:24:06 ZCMS 0ms     select now()",
+    //     "DEBUG: 2019-03-06 16:24:22 ZCMS 0ms     select * from ZDSchedule"]
+    $(function () {
+        getLog();
+    })
+    function getLog() {
+        ajax(service_prefix.log,"/realLog/readLog","get").then(function (data){
+            if(data.success){
+                layui.use('form', function(){
+                    var form = layui.form;
+
+                    //监听提交
+                    form.on('submit(formDemo)', function(data){
+                        layer.msg(JSON.stringify(data.field));
+                        return false;
+                    });
+                });
+                var getTpl = tpl.innerHTML;
+                var view = document.getElementById('body');
+                layui.laytpl(getTpl).render(data.obj, function(html){
+                    view.innerHTML = html;
+                });
+                layui.form.render();
+            }
+        })
+    }
+
+</script>

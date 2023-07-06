@@ -1,0 +1,159 @@
+<div class="layui-fluid" id="groupSyncSetting">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="tool_btn_box">
+                <button class="layui-btn layui-btn-primary" style=" margin-left: 10px;float: right" onclick="goBack()">返回</button>
+            </div>
+        </div>
+        <div class="layui-card-body" >
+            <form class="layui-form" id="setGroupForm" lay-filter="setGroupForm">
+                <div>
+                    <blockquote class="layui-elem-quote" id="idGroupSyncSetting">
+                        部门同步设置</blockquote>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">同步方式</label>
+                        <div class="layui-input-block">
+                            <select name="syncType" lay-verify="required" lay-filter="LAY-set-group-select-syncType">
+                                <option value="http">通过Http请求同步到应用</option>
+                                <!--<option value="sql">通过SQL语句同步到应用数据库</option>
+                                <option value="agent">通过Agent/Actor同步到应用</option>
+                                <option value="ldap">LDAP</option>
+                                <option value="ad">AD</option>
+                                <option value="jms">标准JMS</option>-->
+                                <option value="no" selected>不同步</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="syncType-http" style="display: none">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">响应同步操作</label>
+                            <div class="layui-input-block">
+                                <div>
+                                    <input type="checkbox" name="flagAdd" title="添加组织" lay-skin="primary">
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="flagDelete" title="删除组织" lay-skin="primary">
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="flagUpdate" title="更新组织" lay-skin="primary">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">添加的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlAdd" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">同步添加机构时，通知应用的url</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">删除的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlDelete" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">同步删除用户时, 通知应用的URL</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">更新的url</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="urlUpdate" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">同步更新用户时, 通知应用的URL</span>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">提交方式</label>
+                            <div class="layui-input-block">
+                                <select name="httpMethod" lay-verify="required">
+                                    <option value="POST">POST</option>
+                                    <option value="GET" disabled>GET</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">数据构造类路径</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="pathForDataConstructor" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">用于构造同步数据的类路径，暂时未启用</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">发送模式</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="sendFormType" placeholder="请输入" autocomplete="off" class="layui-input" value="application/json">
+                                <span class="bitianspan">发送模式，目前只支持application/json; charset=UTF-8</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">内容编码</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="charset" placeholder="请输入" autocomplete="off" class="layui-input" value="UTF-8">
+                                <span class="bitianspan">发送内容的编码，如UTF-8，GBK等，默认为UTF-8</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">验证密码(authPwd)</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="authPwd" placeholder="请输入" autocomplete="off" class="layui-input">
+                                <span class="bitianspan">以&authPwd=???的格式附加到请求的参数（目前未启用）</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码加密算法</label>
+                            <div class="layui-input-block">
+                                <select name="pwdEncryption" lay-verify="required">
+                                    <option value="no">不加密</option>
+                                    <option value="base64">BASE64加密</option>
+                                    <option value="des">DES加密</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input hidden="hidden" name="id">
+                    </div>
+                    <blockquote class="layui-elem-quote">基本属性同步参数参考</blockquote>
+                    <table class="layui-table">
+                        <tr>
+                            <td class="td_bg" width="10%">机构编号</td>
+                            <td width="10%">id</td>
+                            <td class="td_bg" width="10%">机构名称</td>
+                            <td width="10%">name</td>
+                            <td class="td_bg" width="10%">上级部门id</td>
+                            <td width="10%">parentId</td>
+                            <td class="td_bg" width="10%">部门编码</td>
+                            <td width="10%">companyId>
+                            <td class="td_bg" width="10%">电话</td>
+                            <td width="10%">tellPhone</td>
+                        </tr>
+                        <tr>
+                            <td class="td_bg" width="10%">手机</td>
+                            <td width="10%">mobile</td>
+                            <td class="td_bg" width="10%">邮箱</td>
+                            <td width="10%">email</td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div class="button-bar">
+                    <button class="layui-btn" type="button" onclick="checkGroupLink()">验证链接</button>
+                    <button class="layui-btn" type="button" lay-submit lay-filter="LAY-set-group-submit">应用</button>
+                    <button class="layui-btn" type="button" onclick="goBack()">返回</button>
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<script  src="simple/gateway/app/groupSyncSetting.js"></script>
+<style>
+    #groupSyncSetting .layui-input{width:500px;display: inline;}
+    #groupSyncSetting .layui-unselect.layui-form-select{width: 500px;}
+    #groupSyncSetting .layui-form-label{background-color: #F2F4F1;padding-right: 10px;}
+    #groupSyncSetting .layui-input-block{padding-left: 10px;}
+    #groupSyncSetting #setGroupForm{max-height: 650px;overflow-y: auto}
+    #groupSyncSetting .td_bg{background-color: #F2F4F1;}
+</style>

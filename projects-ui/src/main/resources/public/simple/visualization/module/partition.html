@@ -1,0 +1,102 @@
+<script type="text/html" id="module_partition">
+    <div id="{{ d.widgetId }}" class="draggable-partition ui-draggable ui-draggable-handle w_partition widget_container"
+         style="position: absolute">
+        <div class="content">
+            <div id="container_partition_{{ d.widgetId }}_0" class="container_content border_content"
+                 style="position: absolute"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_partition_menu">
+    <div id="{{ d.widgetId }}_menu" class="draggable-menu ui-draggable ui-draggable-handle w_menu w_container_menu">
+        <div class="menu_icon set">
+            <img lay-event="set" src="../images/set.png">
+        </div>
+        <div class="menu_icon delete">
+            <img src="../images/delete.png">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="module_partition_set">
+    <div id="{{ d.widgetId }}_settings" class="w_settings w_partition_settings" style="width: 488px;">
+        <form action="" class="layui-form content">
+            <label for="" class="layui-form-label" style="clear: left">滚动设置：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="page_style" lay-filter="{{ d.widgetId }}_page_style" title="空白页面" value="0" checked>
+                <input type="radio" name="page_style" lay-filter="{{ d.widgetId }}_page_style" title="后台页面" value="1">
+            </div>
+            <div class="blank_page_set">
+                <label for="" class="layui-form-label" style="clear: left">位置尺寸：</label>
+                <div class="layui-input-block" style="padding-top: 10px">
+                    <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                           name="text_left"
+                           value="{{ d.left }}">
+                    <span class="text_set_note">X</span>
+                    <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                           name="text_top"
+                           value="{{ d.top }}">
+                    <span class="text_set_note">Y</span>
+                    <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                           name="text_width"
+                           value="{{ d.width }}">
+                    <span class="text_set_note">W</span>
+                    <input type="text" class="text_set_input" lay-verify="required|text_position_num"
+                           name="text_height"
+                           value="{{ d.height }}">
+                    <span class="text_set_note">H</span>
+                </div>
+                <label for="" class="layui-form-label">背景填充：</label>
+                <div class="layui-input-block">
+                    <div class="color_picker"></div>
+                    <div style="position: absolute;top:10px;left: 80px">
+                        <span>描边:</span>
+                    </div>
+                    <div class="border_img">
+                        <img src="../images/border_icon.png">
+                    </div>
+                </div>
+                <label for="" class="layui-form-label" style="clear: left">滚动设置：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="scroll" lay-filter="{{ d.widgetId }}_scroll" title="从不滚动" value="0" checked>
+                    <input type="radio" name="scroll" lay-filter="{{ d.widgetId }}_scroll" title="按需滚动" value="1">
+                </div>
+                <label for="" class="layui-form-label" style="clear: left">页面排列：</label>
+                <div class="text_icon_style">
+                    {{# if(d.align === "left") { }}
+                    <i class="layui-icon layui-icon-align-left text_style active"></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-align-left text_style"></i>
+                    {{# }if(d.align === "center") { }}
+                    <i class="layui-icon layui-icon-align-center text_style active "></i>
+                    {{# } else { }}
+                    <i class="layui-icon layui-icon-align-center text_style"></i>
+                    {{# } }}
+                </div>
+            </div>
+            <div class="copy_page_set" style="display: none">
+                <label class="layui-form-label" style="clear: left;padding: 9px 25px">选择要拷贝的后台页面：</label>
+                <div class="layui-input-inline" style="padding: 9px 25px">
+                    <div class="layui-unselect layui-form-select downpanel" style="width: 382px">
+                        <div class="layui-select-title">
+                            <span class="layui-input layui-unselect">请选择</span>
+                            <input type="hidden" name="selectID" value="0">
+                            <i class="layui-edge"></i>
+                        </div>
+                        <dl class="layui-anim">
+                            <dd>
+                                <ul class="classtree" style="width: 360px"></ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="layui-input-block w_settings_btn" style="margin-top: 20px">
+            <button class="layui-btn set_ok">确定</button>
+            <button class="layui-btn layui-btn-primary set_cancel">取消</button>
+        </div>
+        <div id="editor_page_add" class="editor_page_set" style="display: none"></div>
+    </div>
+</script>

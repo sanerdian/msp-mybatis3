@@ -1,0 +1,258 @@
+-- 消息管理表
+CREATE TABLE `customernewslog` (
+  `NEWSID` bigint(20) NOT NULL COMMENT '主键id',
+  `ADDRESSEE` bigint(20) DEFAULT NULL COMMENT '接收用户id',
+  `SENDER` bigint(20) DEFAULT NULL COMMENT '发送用户id',
+  `NREWSTITLE` varchar(255) DEFAULT NULL COMMENT '标题内容',
+  `NEWSCONTEXT` varchar(1000) DEFAULT NULL COMMENT '信息内容',
+  `SENDSTATE` bigint(18) DEFAULT NULL COMMENT '信息发送状态',
+  `NEWSTYPE` bigint(18) DEFAULT NULL COMMENT '信息类型',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `SENDTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '发送时间',
+  `BUSINESSTYPE` bigint(20) DEFAULT NULL COMMENT '业务类型',
+  `status` int(10) DEFAULT NULL COMMENT '消息读取状态（0：未读；1：已读）',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '用户名',
+  PRIMARY KEY (`NEWSID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息管理表';
+
+
+--菜单管理表
+CREATE TABLE `menuman` (
+  `MENUID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `type` varchar(20) DEFAULT NULL COMMENT '模块类型',
+  `natural_id` varchar(20) DEFAULT NULL COMMENT '自然Id',
+  `NAME` varchar(50) DEFAULT NULL COMMENT '标题',
+  `URL` varchar(100) DEFAULT NULL COMMENT 'url',
+  `seq` int(11) DEFAULT NULL COMMENT '显示顺序',
+  `PARENTID` bigint(20) DEFAULT NULL COMMENT '父Id',
+  `STATE` int(5) DEFAULT NULL COMMENT '是否活跃',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人Id',
+  `CRTIME` datetime DEFAULT NULL COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人Id',
+  `modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  `photo_url` varchar(255) DEFAULT NULL COMMENT '图片链接',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人',
+  PRIMARY KEY (`MENUID`)
+) ENGINE=InnoDB AUTO_INCREMENT=361 DEFAULT CHARSET=utf8 COMMENT='资源表';
+
+
+--用户管理表
+CREATE TABLE `userinfo` (
+  `USERID` bigint(20) NOT NULL COMMENT '主键id',
+  `USERNAME` varchar(255) DEFAULT NULL COMMENT '用户名',
+  `NICKNAME` varchar(255) DEFAULT NULL COMMENT '用户昵称',
+  `TRUENAME` varchar(255) DEFAULT NULL COMMENT '真实姓名',
+  `MDPASSWORD` varchar(255) DEFAULT NULL COMMENT '加密密码',
+  `PASSWORD` varchar(255) DEFAULT NULL COMMENT '真实密码',
+  `CREDIT` varchar(255) DEFAULT NULL COMMENT '用户积分',
+  `REGTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '注册时间',
+  `ADDRESS` varchar(255) DEFAULT NULL COMMENT '用户地址',
+  `TEL` varchar(255) DEFAULT NULL COMMENT '电话',
+  `MOBILE` varchar(255) DEFAULT NULL COMMENT '手机',
+  `EMAIL` varchar(255) DEFAULT NULL COMMENT '邮箱',
+  `LOGINTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '登录时间',
+  `LOGOUTTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '登出时间',
+  `STATUS` int(10) DEFAULT NULL COMMENT '用户状态',
+  `LASTLOGINTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后登录时间',
+  `LASTLOGINIP` varchar(255) DEFAULT NULL COMMENT '登录ip',
+  `CARDID` varchar(255) DEFAULT NULL COMMENT '身份证号',
+  `DUTIES` varchar(255) DEFAULT NULL COMMENT '职务',
+  `SEX` varchar(255) DEFAULT NULL COMMENT '性别',
+  `NATION` varchar(255) DEFAULT NULL COMMENT '民族',
+  `ISACTOR` int(10) DEFAULT NULL COMMENT '参会类型',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `headUrl` varchar(255) DEFAULT NULL COMMENT '头像url',
+  `describe` varchar(255) DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (`USERID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户管理表';
+
+
+
+
+
+
+--组织信息表
+CREATE TABLE `groupinfo` (
+  `GROUPID` bigint(20) NOT NULL COMMENT '主键id',
+  `GROUPNAME` varchar(255) DEFAULT NULL COMMENT '组织名称',
+  `GROUPPATH` varchar(255) DEFAULT NULL COMMENT '组织层级结构',
+  `GDESC` varchar(255) DEFAULT NULL COMMENT '组织描述',
+  `PARENTID` bigint(20) DEFAULT NULL,
+  `GROUPORDER` bigint(10) DEFAULT NULL COMMENT '组织排序字段',
+  `STATUS` int(5) DEFAULT NULL COMMENT '组织状态',
+  `ADDRESS` varchar(255) DEFAULT NULL COMMENT '组织地址',
+  `MOBILE` varchar(255) DEFAULT NULL COMMENT '手机号码',
+  `PHONE` varchar(255) DEFAULT NULL COMMENT '固定电话',
+  `QQ` varchar(255) DEFAULT NULL COMMENT '组织qq',
+  `EMAIL` varchar(255) DEFAULT NULL COMMENT '组织email',
+  `GRPCODE` varchar(255) DEFAULT NULL COMMENT '组织编码',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`GROUPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织信息表';
+
+
+--组织用户关联表
+CREATE TABLE `grp_user` (
+  `GRPUSERID` bigint(20) NOT NULL COMMENT '主键id',
+  `GROUPID` bigint(20) DEFAULT NULL COMMENT '组织编号',
+  `USERID` bigint(20) DEFAULT NULL COMMENT '用户编号',
+  `ISLEADER` int(5) DEFAULT NULL COMMENT '是否组长',
+  `USERORDER` bigint(10) DEFAULT NULL COMMENT '排序字段',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人姓名',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`GRPUSERID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织用户关联表';
+
+--角色基本信息表
+CREATE TABLE `roleinfo` (
+  `ROLEID` bigint(20) NOT NULL COMMENT '主键id',
+  `ROLENAME` varchar(255) DEFAULT NULL COMMENT '角色名称',
+  `ROLEPATH` varchar(255) DEFAULT NULL COMMENT '角色结构层级',
+  `ROLEDESC` varchar(255) DEFAULT NULL COMMENT '描述说明',
+  `PARENTID` bigint(20) DEFAULT NULL COMMENT '父角色编号',
+  `ROLEORDER` bigint(10) DEFAULT NULL COMMENT '显示顺序字段',
+  `STATUS` int(2) DEFAULT NULL COMMENT '状态',
+  `ADDRESS` varchar(255) DEFAULT NULL COMMENT '地址',
+  `MOBILE` varchar(255) DEFAULT NULL COMMENT '手机',
+  `EMAIL` varchar(255) DEFAULT NULL COMMENT '邮箱',
+  `QQ` varchar(255) DEFAULT NULL COMMENT 'qq',
+  `PHONE` varchar(255) DEFAULT NULL COMMENT '电话',
+  `ROLECODE` varchar(255) DEFAULT NULL COMMENT '编码',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`ROLEID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色基本信息表';
+
+--用户角色关联表
+CREATE TABLE `role_user` (
+  `ROLEUSERID` bigint(20) NOT NULL COMMENT '主键id',
+  `ROLEID` bigint(20) DEFAULT NULL COMMENT '角色id',
+  `USERID` bigint(20) DEFAULT NULL COMMENT '用户id',
+  `ISLEADER` int(5) DEFAULT NULL COMMENT '是否为组长',
+  `USERORDER` bigint(20) DEFAULT NULL COMMENT '排序字段',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人姓名',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`ROLEUSERID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色关联表';
+
+-- 权限关系类型表
+CREATE TABLE `t_limitrelation_type` (
+  `id` bigint(20) NOT NULL COMMENT '主键id',
+  `rightvalue` varchar(255) DEFAULT NULL COMMENT '权限值',
+  `limit_relationId` bigint(20) DEFAULT NULL COMMENT '权限关联id',
+  `add` int(5) NOT NULL DEFAULT '0' COMMENT '新增权限',
+  `delete` int(5) NOT NULL DEFAULT '0' COMMENT '删除权限',
+  `editor` int(5) NOT NULL DEFAULT '0' COMMENT '编辑权限',
+  `check` int(5) NOT NULL DEFAULT '0' COMMENT '查看权限',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限关系类型表';
+
+-- 权限类型表
+CREATE TABLE `t_limit_type` (
+  `id` bigint(20) NOT NULL COMMENT '主键id',
+  `limitId` bigint(20) DEFAULT NULL COMMENT '权限id',
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `code` varchar(255) DEFAULT NULL COMMENT '编码',
+  `type` int(5) DEFAULT NULL COMMENT '类型(1：新增2：删除3：编辑4：查看)',
+  `status` int(5) DEFAULT '0' COMMENT '状态',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人姓名',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限类型表';
+
+-- 站点信息表
+CREATE TABLE `websiteinfo` (
+  `SITEID` bigint(20) NOT NULL COMMENT '主键id',
+  `COMPANYID` bigint(20) DEFAULT NULL COMMENT '所属企业id',
+  `SITENAME` varchar(255) DEFAULT NULL COMMENT '站点名称',
+  `SITEDESC` varchar(255) DEFAULT NULL COMMENT '备注',
+  `DATAPATH` varchar(255) DEFAULT NULL COMMENT '站点发布的目录',
+  `WEBURL` varchar(255) DEFAULT NULL COMMENT '站点url',
+  `STATUS` int(5) DEFAULT NULL COMMENT '创建状态',
+  `SITEORDER` int(5) DEFAULT NULL COMMENT '站点顺序',
+  `HOMETEMPLATEID` varchar(255) DEFAULT NULL COMMENT '首页模板id',
+  `LASTMODIFYTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后操作时间',
+  `SEOINFO` varchar(255) DEFAULT NULL COMMENT 'seo描述',
+  `SEOTITLE` varchar(255) DEFAULT NULL COMMENT 'seo标题',
+  `SEOKEYWORDS` varchar(255) DEFAULT NULL COMMENT 'seo关键字',
+  `PLATFORM` varchar(255) DEFAULT NULL COMMENT '发布平台',
+  `YPUBLISH` varchar(255) DEFAULT NULL COMMENT '适合发布的类型',
+  `CPYNAME` varchar(255) DEFAULT NULL COMMENT '企业信息表公司名称',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL,
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`SITEID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点信息';
+
+-- 栏目信息
+CREATE TABLE `channelinfo` (
+  `CHANNELID` bigint(20) NOT NULL COMMENT '主键id',
+  `SITEID` bigint(20) DEFAULT NULL COMMENT '站点id',
+  `CHNLNAME` varchar(255) DEFAULT NULL COMMENT '栏目名称',
+  `CHNLDESC` varchar(255) DEFAULT NULL COMMENT '描述',
+  `PARENTID` bigint(20) DEFAULT NULL COMMENT '父栏目id',
+  `CHNLORDER` int(5) DEFAULT NULL COMMENT '排序',
+  `CHNLDATAPATH` varchar(255) DEFAULT NULL COMMENT '栏目存放位置',
+  `STATUS` int(5) DEFAULT '0' COMMENT '栏目状态，逻辑删除用',
+  `CHNLOUTLINETEMP` bigint(20) DEFAULT NULL COMMENT '概览模板（模板表主键）',
+  `CHNLDETAILTEMP` bigint(20) DEFAULT NULL COMMENT '细览模板',
+  `OPERUSER` varchar(255) DEFAULT NULL COMMENT '删除栏目的用户',
+  `OPERTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '被删除的时间',
+  `EDITPAGE` varchar(255) DEFAULT NULL COMMENT '自定义编辑页面（默认：页面路径）',
+  `LISTPAGE` varchar(255) DEFAULT NULL COMMENT '自定义列表页面',
+  `SHOWPAGE` varchar(255) DEFAULT NULL COMMENT '自定义查看页面',
+  `STATICFILE` int(2) DEFAULT NULL COMMENT '生成静态文件（1：是，0：否）',
+  `TENTTYPE` bigint(20) DEFAULT NULL COMMENT '内容类型',
+  `ELSES` varchar(255) DEFAULT NULL COMMENT '其他模板',
+  `SAVERULES` varchar(255) DEFAULT NULL COMMENT '文章页存储规则',
+  `SITENAME` varchar(255) DEFAULT NULL COMMENT '站点名',
+  `SKUNUMBER` varchar(255) DEFAULT NULL COMMENT '唯一标识',
+  `REMARK` varchar(255) DEFAULT NULL COMMENT '备注',
+  `TABLEID` bigint(20) DEFAULT NULL COMMENT '元数据表标识',
+  `CONDITION` varchar(255) DEFAULT NULL COMMENT '栏目检索条件',
+  `CRUSER` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+  `CRNUMBER` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `CRTIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_by` bigint(20) DEFAULT NULL COMMENT '最后修改人id',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`CHANNELID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='栏目信息';
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+<!--弹出层模板 编辑-->
+<script type="text/html" id="detailTemplate">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="detailForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label">副词：</label>
+                <div class="layui-input-block">
+                    <p>{{d.fuci}}</p>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">词条来源：</label>
+                <div class="layui-input-block">
+                    <p>{{d.source}}</p>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">词条状态：</label>
+                <div class="layui-input-block">
+                    <p>{{d.docstatus}}</p>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">创建时间：</label>
+                <div class="layui-input-block">
+                    <p>{{d.crtime}}</p>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">修改时间：</label>
+                <div class="layui-input-block">
+                    <p>{{d.opertime}}</p>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">修改人：</label>
+                <div class="layui-input-block">
+                    <p>{{d.operuser}}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>

@@ -1,0 +1,456 @@
+﻿<title>机构管理</title>
+
+<style>
+    #page {margin: 20px;}
+    .limit-tablelist{display: none}
+</style>
+
+
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>用户</cite></a>
+        <a><cite>后台管理员</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 md2-left">
+        <div class="layui-card h100">
+            <div class="layui-card-header">
+                <div class="layui-col-md2">机构</div>
+            </div>
+            <div id="siteTree" class="ztree"></div>
+        </div>
+    </div>
+    <div class="layui-col-md9 md2-right h100">
+        <div class="layui-card h100">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="top_btn">
+                    <button class="layui-btn limit-add" data-type="add">新建机构</button>
+                    <button class="layui-btn limit-del" data-type="del1">删除机构</button>
+                </div>
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">机构名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">注册日期</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="regtime" id="searchDate" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline top_search_btn">
+                            <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="searchData">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body">
+                <div class="table-area">
+                    <table class="layui-hide" id="test" lay-filter='test'></table>
+                </div>
+                <div id="page"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="fieldTemplate">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>父级机构：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input showTree" value="{{d.name}}" name="parentName" readonly onclick="showCompanyTree()">
+                        <input type="hidden" name="parentId" value="{{d.id}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>公司名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="name" lay-verify="required" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">注册日期：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="registDate" placeholder="yyyy-MM-dd" name="regtime" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>负责人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" lay-verify="required" name="principal" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="sign_required">*</span>企业电话：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" lay-verify="required|companyPhone" name="cpytel" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input hidden="hidden" name="id">
+        <input type="hidden" name="status" value="1"/>
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addCompany">确定</button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="layer.closeAll()">取消</button>
+        </div>
+    </form>
+
+</script>
+<script type="text/html" id="operations">
+    <a class="layui-btn layui-btn-normal layui-btn-xs limit-tablelist" limit-type="edit" limit-id="{{d.id}}" lay-event="edit">编辑</a>
+<!--    <a class="layui-btn layui-btn-danger layui-btn-xs limit-tablelist" limit-type="del" limit-id="{{d.id}}" lay-event="del">删除</a>-->
+    <a class="layui-btn layui-btn-disabled layui-btn-xs">删除</a>
+</script>
+
+
+<!--jquery-->
+<script>
+    var id = "";
+
+    function del() {
+        var data = checkChecked('test');
+        if (data) {
+            for (var i in data) {
+                deleteCompanyInfo(1, data[i]);
+            }
+        }
+
+    }
+
+    function showCompanyTree(){
+        var openZTreeObj;
+        columnTreeIndex = layer.open({
+            title: "选择父级机构"
+            , area: ['355px', '500px']
+            , content: '<ul id="ydTree" class="ztree openTree"></ul>'
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                var node = getCheckNodes(openZTreeObj)[0];
+                layui.form.val("editForm",{parentId:node.id,parentName:node.name})
+                layui.form.render();
+                layer.close(columnTreeIndex);
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+        })
+        getCompanyTreeData(function(data){
+            function ajaxTreeDataFilter1(treeId, parentNode, responseData) {
+                if (responseData) {
+                    for(var o of responseData){
+                        var flag = false;
+                        for(var k in checks){
+                            if (o[k] != checks[k]){
+                                flag = true;
+                            }
+                        }
+                        for(var k in noChecks){
+                            if (o[k] == noChecks[k]){
+                                flag = true;
+                            }
+                        }
+                        o.nocheck = flag;
+                        if(checked.indexOf(o.id) >= 0) o.checked = true;
+                    }
+                }
+                return responseData;
+            }
+            var settingss = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    }
+                },
+                view: {
+                    showLine: false,
+                    showIcon: false
+                },
+                check: {                    //表示tree的节点在点击时的相关设置
+                    enable: true,           //是否显示radio/checkbox
+                    autoCheckTrigger: false,
+                    chkStyle: "radio",      //值为checkbox或者radio表示
+                    // radioType:"all",
+                    chkboxType: {"Y": "", "N": ""},  //表示父子节点的联动效果，不联动
+                    nocheckInherit: false
+                }
+            }
+            openZTreeObj = $.fn.zTree.init($("#ydTree"), settingss, data);
+            openZTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+        })
+    }
+
+    $(function () {
+        getCompanyTree();
+        layui.form.render();
+    })
+    //企业电话验证
+    form.verify({
+        companyPhone: function(value, item){ //value：表单的值、item：表单的DOM对象
+            var isPhone = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
+            var isMob= /^0?1[3|4|5|8][0-9]\d{8}$/;
+            var isTrue = isMob.test(value)||isPhone.test(value);
+            if(!isTrue){
+                return '格式错误，请重新输入';
+            }
+        }
+    });
+    layui.form.on("submit(addCompany)", function (data) {
+        if (data.field.id) {
+            editCompanyInfo(1, data.field)
+        } else {
+            addCompanyInfo(1, data.field);
+        }
+        return false;
+    })
+    layui.form.on("submit(searchData)", function (data) {
+        data.field.parentId = zTreeObj.getSelectedNodes()[0].id;
+        getCompanyInfo(1,15,data.field);
+        return false;
+    })
+
+    setDate('#searchDate','date');
+    setDate('#registDate','date');
+    function add() {
+        var node = zTreeObj.getSelectedNodes()[0];
+        layer.open({
+            type: 1,
+            area: ['552px', '450px'],
+            title: '新建机构',
+            maxmin: false,
+            content: '<div id="fieldForm"></div>'
+        })
+        layui.laytpl($("#fieldTemplate").html()).render(node, function (html) {
+            $("#fieldForm").html(html);
+        })
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#registDate'
+                , theme: 'molv'
+            });
+        })
+    }
+
+    //批量删除
+    active.del1 = function () {
+        var checkStatus = layui.table.checkStatus("test"),
+            data = checkStatus.data;
+        var ids = "";
+        for (var i in data) {
+            ids = ids + data[i].id;
+            if (i < data.length - 1) {
+                ids = ids + ",";
+            }
+        }
+        // console.log(ids)
+        if (ids.length === 0) {
+            layer.alert('请选择要删除的机构')
+            return
+        }
+        layer.alert("是否确定删除,该操作不可撤回", function () {
+            var dataIds = {
+                "ids": ids
+            };
+            ajax(service_prefix.member, "/company/delByIds" + id, "get", dataIds).then(function (data) {
+                layer.alert(data.msg);
+                getCompanyInfo(1);
+                getCompanyTree();
+            });
+
+        })
+    }
+
+
+    function deleteCompanyInfo(pageNo, data) {
+        ajax(service_prefix.member, "/company/" + data, "delete").then(function (data) {
+            if (data.success) {
+                layer.closeAll();
+                getCompanyInfo(1);
+                getCompanyTree();
+            }
+        });
+    }
+
+    function editCompanyInfo(pageNo, data) {
+        ajax(service_prefix.member, "/company/" + id, "put",JSON.stringify(data)).then(function (data) {
+            layer.closeAll();
+            getCompanyInfo(1);
+            getCompanyTree();
+        });
+    }
+
+    function addCompanyInfo(pageNo, data) {
+        ajax(service_prefix.member, "/company/add", "post", JSON.stringify(data)).then(function (data) {
+            if(data.success){
+                layer.closeAll();
+                getCompanyInfo(1);
+                getCompanyTree();
+            }else{
+                layer.msg(data.msg);
+            }
+        });
+
+    }
+/*
+* 机构管理左侧树
+* */
+    function getCompanyTreeData(fn){
+        ajaxGet("/member/company/treeList",function(data){
+            data.obj.push({id:"0",name:"根机构",parentId:"-1",iconSkin:"companyTreeIcon1"});
+            fn(data.obj);
+        })
+    }
+    var zTreeObj;
+    function getCompanyTree() {
+        getCompanyTreeData(function(data){
+            console.log(data);
+            var settingss = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: "-1" //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    }
+                },
+                view: {
+                    showLine: false,
+                    showIcon: true
+                },
+                callback: {
+                    onClick: function(event, treeId, treeNode){
+                        changeLimitShow(treeNode.id,treeNode.parentId)
+                        getCompanyInfo(1,12,{parentId:treeNode.id});
+                    }
+                }
+            };
+            showTree(data,settingss)
+
+
+        })
+    }
+    //渲染树结构
+    function showTree(data,settingss,selectedId) {
+        zTreeObj = $.fn.zTree.init($("#siteTree"), settingss, data); //初始化树
+        zTreeObj.expandAll(true);//true 节点全部展开、false节点收缩
+        console.log("zTreeObj",zTreeObj)
+        if(selectedId){
+            var node = zTreeObj.getNodesByParam("id", selectedId, null)[0];
+            console.log("node",node)
+            $("#"+node.tId + "_a").trigger("click")
+        }else{
+            $("#siteTree_1_a").trigger("click");
+        }
+    }
+
+    function getCompanyInfo(pageNo,pageSize,entity) {
+        if(!pageNo) pageNo = 1;
+        if(!pageSize) pageSize = 15;
+        if(!entity && zTreeObj.getSelectedNodes()[0]) entity = {parentId: zTreeObj.getSelectedNodes()[0].id};
+        var jsonData = {
+            "pager": {
+                "current": pageNo,
+                "size": pageSize
+            },
+            entity: entity
+        }
+        ajax(service_prefix.member, "/company/listByPermission", "post", JSON.stringify(jsonData)).then(function (data) {
+            if (data.success) {
+                layui.use('table', function () {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#test'
+                        , data: data.records
+                        , limit: pageSize
+                        , cols: [[
+                            {type: "checkbox", fixed: 'left'}
+                            , {type: 'numbers', width: 60, title: '序号', fixed: 'left'}
+                            , {field: 'name', width: 200, title: '公司名称', fixed: 'left'}
+                            , {field: 'regtime', width: 120, title: '注册日期'}
+                            , {field: 'principal', width: 100, title: '负责人'}
+                            , {field: 'crUser', title: '创建人'}
+                            , {field: 'createTime', title: '创建时间'}
+                            , {field: 'modifyUser', title: '操作人'}
+                            , {field: 'modifyTime', title: '操作时间'}
+                            , {field: 'cpytel', width: 120, title: '企业电话'}
+                            , {field: 'operation', width: 120, title: '操作', templet: "#operations", fixed: 'right'}
+                        ]]
+                        ,done: function(){
+                            limitShowTableList("company");
+                        }
+                    });
+                })
+                loadPage3("page",data.obj,entity,getCompanyInfo);
+                layui.table.reload('test', {
+                    data: data.obj.records
+                })
+            }else{
+                getCompanyInfo(1,15);
+            }
+        });
+    }
+
+
+    layui.use('table', function () {
+        var table = layui.table;
+
+        layui.table.on('row(LAY-app-content-tags)', function (obj) {
+            var data = obj.data;
+            console, log(data, "hahha");
+            //标注选中样式
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        });
+        //监听操作列工具条
+        layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if (layEvent === 'del') { //删除
+                layer.alert("确定删除机构:[" + data.name + "]", function () {
+//                doDeleteByIds([data.id]);
+                    deleteCompanyInfo(1, data.id);
+                })
+            } else if (layEvent === 'edit') { //编辑
+                console.log(data);
+                id = data.id;
+                data.editType = 1;
+                setOpenData(data, data.editType);
+                setDate('#registDate','date');
+            }
+        });
+    })
+
+    function setOpenData(data, type) {
+        layui.layer.open({
+            type: 1,
+            title: "修改机构信息",
+            area: ['552px', '412px'],
+            anim: 2,
+            content: '<div id="table_data" class="open_layer_form""></div>',
+        });
+        layui.laytpl($("#fieldTemplate").html()).render(data, function (html) {
+            $("#table_data").html(html)
+            layui.form.val('editForm', data);
+        });
+    }
+
+    function changeLimitShow(id,parentId){
+        limitShow("company",id,parentId);
+    }
+</script>

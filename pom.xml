@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jnetdata.msp</groupId>
+    <artifactId>jnetdata-msp-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1</version>
+
+    <!-- nexus私服配置 -->
+    <repositories>
+        <repository>
+            <id>msp-releases</id>
+            <url>http://36.133.193.160:31439/repository/msp-releases/</url>
+        </repository>
+        <repository>
+            <id>cms-releases</id>
+            <url>http://36.133.193.160:31439/repository/cms-releases/</url>
+        </repository>
+        <repository>
+            <id>maven-releases</id>
+            <url>http://36.133.193.160:31439/repository/maven-releases/</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <jdk.version>1.8</jdk.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <spring.version>5.2.6.RELEASE</spring.version>
+        <spring.boot.version>2.3.0.RELEASE</spring.boot.version>
+        <skipTests>true</skipTests>
+        <flowable.version>6.4.2</flowable.version>
+        <thenicesys.version>0.3.1.RELEASE</thenicesys.version>
+        <jnetdata-msp.version>1.1.7.RELEASE</jnetdata-msp.version>
+    </properties>
+
+    <modules>
+        <module>projects-common</module>
+        <module>projects-generator</module>
+        <module>projects-config</module>
+        <module>projects-log</module>
+        <module>projects-member</module>
+        <module>projects-manage</module>
+        <module>projects-metadata</module>
+        <module>projects-metasite</module>
+        <module>projects-flowable</module>
+        <module>projects-resources</module>
+        <module>projects-verifycodesaver</module>
+        <module>projects-messages</module>
+        <module>projects-util</module>
+        <module>projects-document</module>
+        <module>projects-visual</module>
+        <module>projects-tlujy</module>
+        <module>projects-media</module>
+        <module>projects-dict3</module>
+        <module>projects-zsk</module>
+        <module>projects-ui</module>
+        <module>projects-zdff</module>
+        <module>projects-pdf</module>
+        <module>projects-publish</module>
+        <module>projects-exercise</module>
+        <module>run</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.thenicesys.store</groupId>
+                <artifactId>thenicesys-store-dependencies</artifactId>
+                <version>${thenicesys.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <includePom>true</includePom>
+                    <excludeResources>true</excludeResources>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <distributionManagement>
+        <repository>
+            <id>msp-releases</id>
+            <url>http://36.133.193.160:31439/repository/msp-releases/</url>
+        </repository>
+    </distributionManagement>
+</project>

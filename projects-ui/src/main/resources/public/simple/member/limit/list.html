@@ -1,0 +1,281 @@
+﻿<title>权限操作管理</title>
+<style>
+    .open_layer_form .layui-unselect.layui-form-select {width: 100%;}
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="nav">
+        <a><i class="layui-icon layui-icon-prev"></i></a>
+        <a lay-href=''><i class="layui-icon layui-icon-home"></i></a>
+        <a>权限操作<i class="layui-icon layui-icon-close" style="margin-left: 50px"></i></a>
+        <div class="right">
+            <a><i class="layui-icon layui-icon-next"></i></a>
+            <a><i class="layui-icon layui-icon-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card h100" id="index">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="top_btn">
+                <button type="button" class="layui-btn" data-type="add">新建权限操作</button>
+                <!--<button type="button" class="layui-btn layui-btn-sm" data-type="edit"><i class="layui-icon">&#xe642;</i> 修改</button>-->
+                <button type="button" class="layui-btn" data-type="delLimit">删除权限操作</button>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div class="table-area">
+                <table id="test" lay-filter="test"></table>
+            </div>    
+            <div id="page"></div>        
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="titleTpl">
+    <a href="javascript:void(0);" class="layui-table-link" style="color:#000" onclick="go()">{{d.content}}</a>
+</script>
+<script type="text/html" id="fieldTemplate">
+    <div class="layui-card-body">
+        <form class='layui-form open_layer_form' lay-filter="editForm"  style="width: 440px;margin: 0 auto;margin-top: 10px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="sign_required">*</span>权限名称</label>
+                <div class="layui-input-block">
+                    <input id="person" type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input" style="width:100%">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限分类</label>
+                <div class="layui-input-block" id='select'>
+                    <select name="type" id="limitType" lay-filter="aihao">
+                        <option value="0" selected>请选择权限分类</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限值</label>
+                <div class="layui-input-block">
+                    <input type="text" name="value" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="width:100%">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限描述</label>
+                <div class="layui-input-block">
+                    <textarea name="ldesc" placeholder="请输入描述" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <input hidden="hidden" name="id">
+            <div class="button-bar">
+                <button class='layui-btn' type="button" lay-submit lay-filter="addLimit">确定</button>
+                <button class="layui-btn" type="button" data-type="close">取消</button>
+            </div>
+        </form>
+    </div>
+</script>
+
+<!--操作列模板-->
+<script type="text/html" id="barDemo">
+    {{# if(d.system == 1){ }}
+        <a class="layui-btn layui-btn-disabled layui-btn-xs">编辑</a>
+        <a class="layui-btn layui-btn-disabled layui-btn-xs">删除</a>
+    {{# }else{ }}
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
+    {{# } }}
+    <!--{{# if(d. status == 1){ }}-->
+    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+    <!--<a class="layui-btn layui-btn-disabled layui-btn-xs">删除</a>-->
+    <!--<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="changeStatus">已禁用</a>-->
+
+    <!--{{#} else  if(d. status == 0){ }}-->
+    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
+    <!--<a class="layui-btn layui-btn-xs" lay-event="changeStatus">已开启</a>-->
+
+    <!--{{# } }}-->
+</script>
+
+<script type="text/html" id="timeToDate">
+    {{ d.createTime.split(" ")[0] }}
+</script>
+
+<!--<script id="checkBoxTpl" type="text/html">
+ <div class="layui-table-cell laytable-cell-12-0-0 laytable-cell-checkbox">
+   <input type="checkbox" disabled name="layTableCheckbox" lay-skin="primary">
+ </div>
+</script>-->
+
+<script>
+    var limitIndex;
+    var defaultPageSize = 15;
+    $(function () {
+        doList(1);
+    })
+
+    function refreshList() {
+        doList(1);
+    }
+
+    layui.form.on("submit(addLimit)", function (data) {
+        var id = data.field.id;
+        if (id === "" || id === null) {
+            var thisUrl = "/limit";
+            var type = "post";
+            var msg = "新建成功"
+        } else {
+            thisUrl = "/limit/" + id;
+            type = "put";
+            msg = "修改成功"
+        }
+        ajax(service_prefix.member,thisUrl, type, JSON.stringify(data.field)).then(res => {
+            if (res.success) {
+//            res.msgConfig=msgConfig;
+//            layer.alert(res.msgConfig)
+                layer.close(limitIndex)
+                doList(1)
+            } else {
+                layer.alert(msg)
+            }
+        })
+        return false;
+    })
+
+    function changeStatus(data) {
+
+        ajax(service_prefix.member,"/limit/getStatus", "post", JSON.stringify(data.id)).then(res => {
+
+            doList(1);
+        })
+
+    }
+
+    //加载数据
+    function doList(pageNo) {
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": defaultPageSize
+                // ,
+                // "sortProps": {
+                //     key: "createTime",
+                //     value: false
+                // }
+            }
+        }
+        ajax(service_prefix.member,"/limit/list","post",JSON.stringify(jsondata)).then(function (data){
+            if(data.success){
+                console.log(data);
+                layui.use(['table', 'laypage'], function () {
+                    var table = layui.table,
+                        laypage = layui.laypage;
+                    table.render({
+                        elem: "#test"
+                        , data: data.obj.records
+                        , cols: [[
+                            {type: 'checkbox',fixed: 'left'}
+                            , {type: 'numbers', title: '序号',fixed: 'left',width: 50}
+                            , {field: 'name', title: '权限名称',fixed: 'left'}
+                            , {field: 'typename', title: '权限分类', width: 100}
+                            , {field: 'value', title: '权限值', width: 100}
+                            , {field: 'ldesc', title: '权限描述'}
+                            , {field: 'system', title: '是否系统定义', width: 115, templet: "<div>{{d.system==1?'系统定义':'否'}}</div>"}
+                            , {field: 'crUser', title: '创建人', width: 75}
+                            , {field: 'createTime', title: '创建时间', width: 160}
+                            , {field: 'modifyUser', title: '操作人', width: 75}
+                            , {field: 'modifyTime', title: '操作时间', width: 160}
+                            , {field: '', title: '操作', width: 120, toolbar: '#barDemo', fixed: 'right'}
+                        ]]
+
+                        , limit: defaultPageSize
+                        , done: function () {
+                            data.obj.records.forEach(function (v) {
+                                if (v.system == 1) {
+                                    $("input:checkbox:eq(" + (v.LAY_TABLE_INDEX + 1) + ")").prop("disabled", true);
+                                }
+                            })
+
+                        }
+                    });
+                    page(data.obj.total,data.obj.current,defaultPageSize);
+                })
+            }
+        })
+    }
+
+    // 删除
+    function delById(id) {
+        ajax(service_prefix.member,"/limit/" + id,"delete").then(function (data){
+            if(data.success){
+                doList(1)
+            }
+        })
+    }
+
+    //批量删除
+    active.delLimit = function () {
+        var ids = checkChecked("test");
+        if (ids) {
+            layer.alert("是否确定删除,该操作不可撤回", function (index) {
+                var dataIds = {
+                    "ids": ids.join()
+                };
+                ajax(service_prefix.member,"/limit/delByIds","get",dataIds).then(function (data){
+                    if(data.success){
+                        layer.close(index);
+                        doList(1)
+                    }
+                })
+            })
+        }
+    }
+
+    function add() {
+        limitIndex = layerOpen("新建权限操作",552,370);
+        lodTpl("fieldTemplate","openDiv",{});
+        ajax(service_prefix.member,"/limit/type/all", "post", {}).then(data => {
+            data.obj.forEach(function (item) {
+                if (item.status == 1) {
+                    $("#limitType").append("<option value='" + item.id + "'>" + "</option>");
+                } else {
+                    $("#limitType").append("<option value='" + item.id + "'>" + item.name + "</option>");
+                }
+            })
+            layui.form.render();
+        })
+    }
+
+    function edit(data) {
+        limitIndex = layerOpen("新建权限操作",552,400);
+        lodTpl("fieldTemplate","openDiv",{system: data.system});
+        ajax(service_prefix.member,"/limit/type/all", "post", {}).then(res => {
+            res.obj.forEach(function (item) {
+                if (item.status == 1) {
+                    $("#limitType").append("<option value='" + item.id + "'>" + "</option>");
+                } else {
+                    $("#limitType").append("<option value='" + item.id + "'>" + item.name + "</option>");
+                }
+            })
+            layui.form.val('editForm', data);
+            layui.form.render();
+        })
+    }
+
+    //监听操作列工具条
+    layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+        if (layEvent === 'del') { //删除
+            layer.alert("确定删除:[" + data.name + "]", function (index) {
+                delById(data.id)
+                layer.close(index);
+            })
+        } else if (layEvent === 'edit') { //编辑
+            edit(data)
+        } else if (layEvent === 'changeStatus') { //编辑
+            changeStatus(data);
+
+        }
+    });
+
+</script>

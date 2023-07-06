@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>一体化系统</title>
+    <script src="../lib/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../lib/jquery/jquery-ui.min.js"></script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../js/common.js"></script>
+    <script src="../js/config.js"></script>
+</head>
+
+<style>
+    @import "../css/common1.css";
+    @import "../css/login.css";
+    @import "../css/editor.css";
+</style>
+
+<style id="css_content">
+    .css_holder{}
+</style>
+
+<body>
+<div id="editor_content" style="display: flex;top: 0">
+    <div id="sidebar"><sidebar_holder></sidebar_holder></div>
+    <div id=right_zone>
+        <div id="navbar"><navbar_holder></navbar_holder></div>
+        <div id="app">
+            <app_holder></app_holder>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    let commonData = {};
+    let zoom = document.body.clientWidth / 1920;
+    $("html").css({zoom: zoom});
+</script>
+
+<script id="js_content">
+    <app_js_holder></app_js_holder>
+</script>
+</html>

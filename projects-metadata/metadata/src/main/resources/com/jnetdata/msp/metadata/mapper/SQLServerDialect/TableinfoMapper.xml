@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.metadata.tableinfo.mapper.TableinfoMapper">
+    <update id="createTable">
+    CREATE TABLE ${tablename} (
+	ID bigint  NOT NULL identity( 1, 1 )  PRIMARY KEY,
+	CRUSER nchar ( 255 ),
+	CRTIME DATETIME,
+	CRNUMBER bigint,
+	DOCCHANNELID bigint,
+	DOCSTATUS int DEFAULT '0',
+	SINGLETEMPKATE bigint,
+	SITEID bigint,
+	DOCVALID DATE,
+	DOCPUBTIME DATETIME,
+	OPERUSER nchar ( 255 ),
+	OPERTIME DATETIME,
+	DOCTITLE nchar ( 255 ),
+	DOCRELTIME DATETIME,
+	DOCPUBURL nchar ( 255 ),
+	LINKURL nchar ( 255 ),
+	CLASSINFOID bigint ,
+	STATUS smallint DEFAULT 0,
+	COMPANYID bigint,
+	WEBSITEID bigint,
+	COLUMNID bigint,
+	MODIFY_BY bigint,
+	MODIFY_USER nchar ( 255 ),
+	SEQENCING int,
+	MODIFY_TIME datetime ,
+	FLOW_ID nchar( 255 ),
+	FLOW_USER nchar( 255 ),
+	QUOTAINFO text,
+COPYFROMID bigint
+)
+    </update>
+
+    <select id="existsTable" resultType="String">
+     select table_name from information_schema.tables where table_name  = #{tablename}
+    </select>
+
+    <update id="dropTable">
+      DROP TABLE ${tablename}
+    </update>
+
+    <update id="updateTablename">
+        ALTER TABLE ${oldname} RENAME ${tablename}
+    </update>
+
+    <insert id="insertInfo" parameterType="java.util.List">
+        insert into ${tablename} (${fieldnames})
+        values (
+        <foreach collection="list" item="item" index="index" separator=",">
+            <choose>
+                <when test="item == ''">
+                    null
+                </when>
+                <otherwise>
+                    #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        )
+    </insert>
+
+
+    <update id="createView">
+create view ${ViewTable.viewname}
+as select
+        <choose>
+            <when test="list != null and list.size > 0">
+                <foreach collection="list" item="item" index="index" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                *
+            </otherwise>
+        </choose>
+        FROM ${ViewTable.tablename}
+    </update>
+
+    <update id="totop">
+        UPDATE ${tablename} a,(SELECT IFNULL(MAX(SEQENCING),0)+1 topno FROM ${tablename}) b set a.SEQENCING = b.topno where id = #{dataId}
+    </update>
+
+    <select id="getViewFields" resultType="com.jnetdata.msp.metadata.vo.TableField">
+select syscolumns.name as field  ,systypes.name as type  from syscolumns INNER JOIN systypes on syscolumns.xtype = systypes.xtype   where id=object_id(#{viewname})
+    </select>
+</mapper>

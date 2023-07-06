@@ -1,0 +1,63 @@
+<style type="text/css">
+    table tr:nth-of-type(2n) {
+        background-color: #f8f8f8;
+    }
+    .xgc .layui-form-select {
+        width: 140px !important;
+    }
+    .box{
+        height: 20px;
+        width: 20px;
+    }
+    .layui-upload-img{
+        width: 50px;
+        height: 50px;
+    }
+    .border{
+        border-top: rgb(219, 219, 219) solid 1px;
+        margin: 10px 0 0 0;
+    }
+    .title{
+        margin-left: 10px;
+    }
+    .icon{
+        margin-top: -5px;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-card h100">
+        <!-- 搜索开始 -->
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="top_btn">
+                <button class="layui-btn layuiadmin-btn-admin" data-type="addDict" data-layer-html="add.html" onclick="addClass()">添加</button>
+                <button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="delDict">批量删除</button>
+            </div>
+            <img class="icon" src="../../../common/img/process_Icon.png" alt="">
+            <span class="title">流程分类管理</span>
+        </div>
+        <!-- 搜索结束 -->
+        <div class="layui-card-body border">
+            <!-- 列表开始 -->
+            <div class="table-area">
+                <table id="tableData" lay-filter="tableData"></table>
+            </div>
+            <div id="page"></div>
+            <!-- 列表结束 -->
+        </div>
+
+    </div>
+</div>
+
+<div id="editOpenDiv"></div>
+<div id="deatilOpenDiv"></div>
+
+<!-- 表格操作按钮 -->
+<script type="text/html" id="operateTemplate">
+    <button class="layui-btn layui-btn-xs" lay-event="editClass">编辑</button>
+    <button class="layui-btn layui-btn-xs" lay-event="moveUp">上移</button>
+    <button class="layui-btn layui-btn-xs" lay-event="moveDown">下移</button>
+</script>
+
+<script src="common/js/list.js"></script>
+<script src="simple/flowable/js/flowable.js"></script>
+<script src="simple/flowable/classification/list.js"></script>

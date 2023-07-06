@@ -1,0 +1,2746 @@
+﻿<title>栏目管理</title>
+<link rel="stylesheet" href="common/css/column.css">
+<script src="common/js/column.js"></script>
+ <!--添加按钮-->
+ <script src="thirdparty/ueditor/dialogs/customizeDialog/addCustomizeDialog.js"></script>
+<style>
+    .drwb {
+        color: #333
+    }
+    .drwb #reson {
+        width: 335px;
+        height: 125px;
+    }
+
+    .edui-for-autotypeset .edui-icon {
+        width: 58px !important;
+        background-image: none !important;
+    }
+
+</style>
+<div class="layui-fluid">
+
+    <div class="layui-col-md3 md2-left">
+        <div class="layui-card h100">
+            <div class="layui-card-header">
+                栏目管理
+            </div>
+            <div class="layui-card-body">
+                <div style="overflow: hidden;">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md9 md2-right">
+        <div class="layui-card h100">
+            <div class="layui-card-body">
+                <div class="layui-tab layui-tab-card">
+                    <div class="layui-tab-content" style="height: 735px;overflow-y: auto;">
+                        <div class="layui-tab-item">
+                            <form class="layui-form" id="metadataForm11">
+
+                            </form>
+                            <div class="search-bar search-bar1">
+                                <button class="layui-btn" data-type="addMetadata">新建元数据信息</button>
+                                <button class="layui-btn" data-type="editMetadata">修改元数据信息</button>
+                                <button class="layui-btn" data-type="delMetadata">删除元数据信息</button>
+                                <button class="layui-btn" id="fbbtn" data-type="generatorHtml">发布前端页面</button>
+                                <button class="layui-btn" type="button" id="importMetadata">导入元数据</button>
+                                <button class="layui-btn" data-type="exportMetadata" id="exportMetadata">导出元数据</button>
+                                <button class="layui-btn" data-type="pussAll" id="pussAll">审核</button>
+                                <button class="layui-btn" data-type="ysjyy">元数据引用</button>
+                                <button class="layui-btn" data-type="ysjfz">元数据复制</button>
+                                <button class="layui-btn" data-type="ysjyd">元数据移动</button>
+                                <!-- <button class="layui-btn" data-type="unpussAll" id="unpussAll">推送</button> -->
+                            </div>
+                            <form class="layui-form show-less" id="searchForm" action="">
+                            </form>
+                            <table id="metadataTable" lay-filter="metadataTable" style="clear: both;"></table>
+                            <div id="metadataPager" align="left"></div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div id="fieldTableInfo"></div>
+                            <div>
+                                <table id="fieldTabel"></table>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item" id="columnDetail">
+                        </div>
+                        <div class="layui-tab-item layui-show" style="position: relative" id="main">
+                            <div class="search-bar">
+                                <button class="layui-btn" data-type="showAddColumn">新建栏目</button>
+                                <button class="layui-btn" onclick="editByIds()">修改栏目</button>
+                                <button class="layui-btn" onclick="delColumn2()">删除栏目</button>
+                                <button class="layui-btn" id="import">导入栏目</button>
+                                <button class="layui-btn" style="margin-left:10px;" id="export" onclick="exportExc()">导出栏目</button>
+                                <!-- <button class="layui-btn" onclick="delmove()">移动</button>
+                                <button class="layui-btn" onclick="delLeis()">类似创建</button> -->
+                                <form class="layui-form" action="" style="display: inline-block;float: right;">
+                                    <input type="text" name="title" placeholder="请输入栏目名称" autocomplete="off" class="layui-input search-input" id="val">
+                                    <button class="layui-btn" type="button" onclick="searchColumn()"><i class="layui-icon">&#xe615;</i></button>
+                                </form>
+                            </div>
+                            <ul class="uls" id="first" style="height: 625px;overflow-y: auto;clear: both;">
+                            </ul>
+                            <div id="demo8" align="left"></div>
+                        </div>
+
+                        <!--<div class="layui-tab-item">
+                            <table class="layui-hide" id="test1"></table>
+                            <div id="demo2"></div>
+                        </div>-->
+                        <div class="layui-tab-item" id="item">
+                            <button class="layui-btn layuiadmin-btn-admin">引入用户</button>
+                            <button class="layui-btn layuiadmin-btn-admin">引入用户组</button>
+                            <button class="layui-btn layuiadmin-btn-admin">新建角色</button>
+                            <button class="layui-btn layuiadmin-btn-admin">编辑</button>
+                            <button class="layui-btn layuiadmin-btn-admin">删除</button>
+                            <div class="rightList">
+                                <span>站点操作权限</span><span>文档操作权限</span><span>模板操作权限</span><span>工作流操作权限</span>
+                            </div>
+                            <table class="layui-hide" id="test3"></table>
+                            <div id="demo3"></div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="box" style="overflow:auto;height: 600px;;">
+                                <div id="state">
+                                    <div class="title">可发布文档的状态：</div>
+                                    <div class="input">
+                                        <input type="checkbox">再审
+                                        <input type="checkbox">撤销审批中
+                                        <input type="checkbox">已受理
+                                        <input type="checkbox">未受理
+                                        <input type="checkbox">正常
+                                        <input type="checkbox">已签
+                                        <input type="checkbox">已发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox">已编&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox">新稿
+                                    </div>
+                                    <div class="selectState">
+                                        <span style="margin-left: 20px;">文档被引用到当前站点后的状态：</span>
+                                        <select name="" id="" style="background: #ffffff;color:#000;margin-top: -5px;position: relative;">
+                                            <option value="0">新稿</option>
+                                            <option value="1">已编</option>
+                                            <option value="2">返工</option>
+                                            <option value="3">已否</option>
+                                            <option value="4">已签</option>
+                                            <option value="5">正审</option>
+                                        </select>
+                                    </div>
+                                    <div class="radio">
+                                        <p><input type="radio">不设置计划发布</p>
+                                        <p><input type="radio">每天运行一次</p>
+                                        <p><input type="radio">每天运行多次</p>
+                                    </div>
+                                </div>
+                                <div id="task" style="margin: 20px 0 0 10px;">
+                                    <div class="title">定时任务：</div>
+                                    <form action="" style="margin-left: 20px; margin-top: 10px;">
+                                        <label>定时全量发布启用状态:
+                                            <input type="radio">&nbsp;启用
+                                            <input type="radio">&nbsp;停用
+                                        </label>
+                                        <label>定时全量发布起始时间:
+                                            <input type="date">
+                                        </label>
+                                        <label>定时发布执行周期:
+                                            每隔&nbsp;<input type="text" style="height: 25px!important;width: 71px;">
+                                            <select name="" id="" style="height: 29px;width: 71px;">
+                                                <option value="hour">小时</option>
+                                                <option value="minutes">分钟</option>
+                                            </select>
+                                        </label>
+                                        <label>启用定时下线:
+                                            <input type="radio">&nbsp;启用
+                                            <input type="radio">&nbsp;停用
+                                        </label>
+                                        <label>定时全量发布起始时间:
+                                            <input type="text">&nbsp;月
+                                        </label>
+                                    </form>
+                                </div>
+                                <div id="search" style="margin: 20px 0 0 10px;">
+                                    <div class="title">全文检索设置:</div>
+                                    <form action="" style="margin: 10px 0 0 20px;">
+                                        <label>是否开启检索:
+                                            <input type="radio">&nbsp;启用
+                                            <input type="radio">&nbsp;停用
+                                        </label>
+                                    </form>
+                                </div>
+                                <div id="hotwords" style="margin: 20px 0 0 10px;">
+                                    <div class="title">热词设置</div>
+                                    <form action="" style="margin: 10px 0 0 20px;">
+                                        <label>热词分类：
+                                            <select name="" id="">
+                                                <option value="1">分类1</option>
+                                                <option value="2">分类2</option>
+                                            </select>
+                                        </label>
+                                    </form>
+                                </div>
+                                <div id="extension" style="margin: 20px 0 0 10px;">
+                                    <div class="title">扩展字段设置</div>
+                                    <form action="" style="margin: 10px 0 0 20px;">
+                                        <label>扩展字段：
+                                            <input type="text">
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="layui-tab-item">
+                            <select name="city" lay-verify="required" style="width: 116px;height: 38px;">
+                                <option value="" disabled selected hidden>发布</option>
+                                <option value="">首页发布</option>
+                                <option value="">增量发布</option>
+                                <option value="">完全发布</option>
+                                <option value="">栏目设置发布</option>
+                                <option value="">撤销发布</option>
+                            </select>
+                            <div style="padding-bottom: 10px; display: inline-block; margin-left: 160px;">
+                                <button class="layui-btn layuiadmin-btn-admin" id="import">新建分发点</button>
+                                <button class="layui-btn layuiadmin-btn-admin">启用</button>
+                                <button class="layui-btn layuiadmin-btn-admin" id="export">禁用</button>
+                            </div>
+                            <select name="city" lay-verify="required" style="width: 116px;height: 38px;">
+                                <option value="" disabled selected hidden>更多</option>
+                                <option value="">新建站点</option>
+                                <option value="">修改这个站点</option>
+                                <option value="">预览这个站点</option>
+                                <option value="">删除站点</option>
+                                <option value="">类似创建</option>
+                                <option value="">同步模板到栏目</option>
+                                <option value="">文档附件大小</option>
+                                <option value="">管理关键词</option>
+                                <option value="">批量删除</option>
+                            </select>
+                            <select name="city" lay-verify="required" style="margin-left: 400px;width: 80px;">
+                                <option value="" disabled selected hidden>全部</option>
+                            </select>
+                            <form class="layui-form" action=""
+                                  style="display: inline-block;margin-left: 370px;">
+                                <div class="layui-form-item" style="display: inline-block">
+                                    <div class="layui-input-block" class="input">
+                                        <input type="text" name="title" required lay-verify="required"
+                                               placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                            <button class="layui-btn" style="margin-left:-5px"><i
+                                    class="layui-icon">&#xe615;</i></button>
+                            <div class="rightList">
+                                <span style="margin-left: 15px;">全部服务</span><span>已启用</span><span>未启用</span>
+                            </div>
+                            <table class="layui-hide" id="test4"></table>
+                            <div id="demo4"></div>
+                        </div>
+                        <!--<div class="layui-tab-item">
+                            <div style="padding-bottom: 10px; display: inline-block; margin-left: 20px;">
+                                <button class="layui-btn layuiadmin-btn-admin" id="import" onclick="reset()">还原
+                                </button>
+                                <button class="layui-btn layuiadmin-btn-admin" id="export"
+                                        onclick="clearAllSites()">清空回收站
+                                </button>
+                            </div>
+                            <select name="city" lay-verify="required" style="margin-left: 400px;width: 80px;">
+                                <option value="" disabled selected hidden>全部</option>
+                            </select>
+                            <form class="layui-form" style="display: inline-block;margin-left: 370px;">
+                                <div class="layui-form-item" style="display: inline-block">
+                                    <div class="layui-input-block" class="input">
+                                        <input type="text" id="ColumnName" name="title" required
+                                               lay-verify="required"
+                                               placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                            <button class="layui-btn" style="margin-left:-5px" onclick="getDelColumns(1,10)"><i
+                                    class="layui-icon">&#xe615;</i></button>
+                            <table class="layui-hide" id="test2" lay-filter="test"></table>
+                            <div id="demo5"></div>
+                        </div>-->
+                        <div class="layui-tab-item">
+                            <div class="search-bar">
+                                <button class="layui-btn" data-type="resetMetadata">恢复元数据信息</button>
+                                <button class="layui-btn" data-type="delMetadataT">删除元数据信息</button>
+                                <button class="layui-btn" data-type="clearRecycle">清空回收站</button>
+                            </div>
+                            <table id="metadataTable2" lay-filter="metadataTable2" style="clear: both;"></table>
+                            <div id="metadataPager2" align="left"></div>
+                        </div>
+                    </div>
+
+                    <ul class="layui-tab-title">
+                        <li id="metadataListTab">元数据列表</li>
+                        <li id="metadataFieldTab">元数据管理</li>
+                        <li id="infoTab" onclick="getColumnByIds()">基本信息</li>
+                        <li id="columnTab" class="layui-this">子栏目管理</li>
+                        <!--<li>工作流管理</li>-->
+                        <li>权限管理</li>
+                        <li>高级属性</li>
+                        <li>栏目分发</li>
+                        <li id="metadataRecycle">元数据回收站</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space12" id="addMetadataView" style="display:none;">
+        <div class="layui-card h100" id="addMetadataBody">
+        </div>
+    </div>
+</div>
+<script type="text/html" id="addMetadataBodyTpl">
+    <form class="layui-form h100" lay-filter="addMetadataForm">
+        <div class="layui-tab layui-tab-card" style="overflow-y: auto;height: 840px;background:#f2f2f2 ">
+            <ul class="layui-tab-title">
+                {{# var i = 0;
+                layui.each(d.fields, function(index, item){ }}
+                <li class="{{i==0?'layui-this':''}}">{{index}}</li>
+                {{# i++ }) }}
+                {{# if(d.id){ }}
+                <li onclick='loadHtml("simple/manage/column/img.html","metadataImgBody");'>图片</li>
+                <li onclick='loadHtml("simple/manage/column/file.html","metadataImgBody");'>文件</li>
+                <li onclick='loadHtml("simple/manage/column/audio.html","metadataImgBody");'>音频</li>
+                <li onclick='loadHtml("simple/manage/column/video.html","metadataImgBody");'>视频</li>
+                {{#}}}
+            </ul>
+            <div class="layui-tab-content" style="min-height: 666px;width:1200px;margin:0 auto;background:#fff;">
+                {{# var j = 0; layui.each(d.fields, function(index, item){ }}
+                <div class="layui-tab-item {{j==0?'layui-show':''}}">
+                    <div class="layui-card-body">
+                        {{# layui.each(item, function(index1, item1){ }}
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{item1.anothername}}:</label>
+                            <div class="layui-input-block">
+                                {{# switch(item1.fieldtype){
+                                case 1:
+                                }}
+                                <input type="text" name="{{item1.proName}}" placeholder="请输入" autocomplete="off" class="layui-input">
+                                {{# break;
+                                case 2:
+                                }}
+                                <input type="password" name="{{item1.proName}}" placeholder="请输入" autocomplete="off" class="layui-input">
+                                {{# break;
+                                case 3:
+                                }}
+                                <textarea name="{{item1.proName}}" placeholder="请输入" class="layui-textarea"></textarea>
+                                {{# break;
+                                case 4:
+                                }}
+                                <input type="text" name="{{item1.proName}}" id="date_edit_{{item1.proName}}" lay-verify="date_edit_{{item1.proName}}" placeholder="yyyy-MM-dd HH:mm:ss"
+                                       autocomplete="off"
+                                       class="layui-input">
+                                {{# break;
+                                case 6:
+                                var enmvalue = item1.enmvalue.split(",");
+                                for(var i in enmvalue){
+                                }}
+                                <input type="radio" name="{{item1.proName}}" value="{{enmvalue[i]}}" title="{{enmvalue[i]}}">
+                                {{#
+                                }
+                                break;
+                                case 7:
+                                var enmvalue = item1.enmvalue.split(",");
+                                for(var i in enmvalue){
+                                }}
+                                <input type="checkbox" name="check_{{item1.proName}}_{{enmvalue[i]}}" lay-skin="primary" title="{{enmvalue[i]}}">
+                                {{#
+                                }
+                                break;
+                                case 8:
+                                }}
+                                <select name="{{item1.proName}}" lay-filter="{{item1.proName}}">
+                                    {{#
+                                    var enmvalue = item1.enmvalue.split(",");
+                                    for(var i in enmvalue){
+                                    }}
+                                    <option value="{{enmvalue[i]}}">{{enmvalue[i]}}</option>
+                                    {{#
+                                    }
+                                    }}
+                                </select>
+                                {{# break;
+                                case 15:
+                                }}
+                                <div class="layui-upload-list">
+                                    <img class="layui-upload-img" style="max-width: 200px;max-height: 200px;" id="img_{{item1.proName}}">
+                                    <p id="demoText"></p>
+                                </div>
+                                <button type="button" class="layui-btn" id="upbtn_{{item1.proName}}">上传图片</button>
+                                <input type="hidden" id="up_{{item1.proName}}" name="{{item1.proName}}">
+                                {{# break;
+                                case 18:
+                                }}
+                                <textarea style="width: 1026px;min-height:300px" name="{{item1.proName}}" id="ue_{{item1.proName}}" placeholder="请输入"></textarea>
+
+                                {{# break;
+                                case 13:
+                                }}
+                                <div id="class_{{item1.proName}}_div"></div>
+                                {{# break;
+                                default:
+                                }}
+                                <input type="text" name="{{item1.proName}}" placeholder="请输入" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </div>
+                        </div>
+                        {{# }) }}
+                    </div>
+                </div>
+                {{# j++ }) }}
+                <div class="layui-tab-item" id="metadataImgBody">
+
+                </div>
+            </div>
+        </div>
+        <div class="button-bar" style='position:absolute;top:-40px;right:800px'>
+            <button class="layui-btn sjbtn" lay-submit lay-filter="addMetadataBtn">发布</button>
+            <button class="layui-btn sjbtn" lay-submit lay-filter="addMetadataBtn">保存</button>
+            <button class="layui-btn sjbtn" type="button" data-type="close">关闭</button>
+        </div>
+        <input type="hidden" name="id">
+    </form>
+</script>
+<script type="text/html" id="columnTpl">
+    <form class="layui-form" lay-filter="columnForm">
+        <div class="layui-card-body">
+            <div class="layui-form-item helf-form-item">
+                <label class="layui-form-label">状态:</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="stop" checked value="0" title="启用">
+                    <input type="radio" name="stop" value="1" title="停用">
+                </div>
+            </div>
+            <div class="layui-form-item helf-form-item">
+                <label class="layui-form-label">所属站点:</label>
+                <div class="layui-input-block">
+                    <span>{{d.siteName}}</span>
+                </div>
+            </div>
+            <div class="layui-form-item helf-form-item">
+                <label class="layui-form-label">父栏目:</label>
+                <div class="layui-input-block">
+                    <select id="parentSelect" name="parentId" class="layui-input" required lay-verify="required">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item helf-form-item">
+                <label class="layui-form-label">栏目类型:</label>
+                <div class="layui-input-block">
+                    <select name="" class="layui-input" required lay-verify="required">
+                        <option value="1">普通栏目</option>
+                        <option value="2">图片新闻</option>
+                        <option value="3">头条栏目</option>
+                        <option value="4">链接栏目</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item helf-form-item">
+                <label class="layui-form-label">唯一标识:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="skuNumber" required lay-verify="required" placeholder="请输入"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item helf-form-item">
+                <label class="layui-form-label">栏目名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" placeholder="请输入"
+                           autocomplete="off" class="layui-input" style="width: 192px">
+                </div>
+            </div>
+            <div class="layui-form-item helf-form-item">
+                <label class="layui-form-label">前一个栏目:</label>
+                <div class="layui-input-block">
+                    <select class="layui-input" id="chnlOrder" name="chnlOrder">
+                    </select>
+                </div>
+            </div>
+            {{# if(!d.stop || d.stop!=1){ }}
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding-left: 0">首页展示模板:</label>
+                <div class="layui-input-block">
+                    <span onclick="selectTemp('listtpl')" style="cursor: pointer;">
+                        <i class="layui-icon layui-icon-app" style="float: left;"></i>
+                        <span id="listtpl">{{d.listtplName?d.listtplName:"请选择模板"}}</span>
+                    </span>
+                    <input type="hidden" name="listtpl">
+                    {{#if(d.listtplName){ }}
+                    <button class="layui-btn layui-btn-sm cancel1" id="listtpl1" style="margin-left: 20px;" onclick="cancelSelect('{{event}}')" type="button">取消所选模板</button>
+                    {{#} }}
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding-left: 0">详情编辑模板:</label>
+                <div class="layui-input-block">
+                    <span onclick="selectTemp('edittpl')" style="cursor: pointer;">
+                        <i class="layui-icon layui-icon-app" style="float: left;"></i>
+                        <span id="edittpl">{{d.edittplName?d.edittplName:"请选择模板"}}</span>
+                    </span>
+                    <input type="hidden" name="edittpl">
+                    {{#if(d.edittplName){ }}
+                    <button class="layui-btn layui-btn-sm " style="margin-left: 20px;" id="edittpl1" onclick="cancelSelect('{{event}}')" type="button">取消所选模板</button>
+                    {{#} }}
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px;padding-left: 0">详情展示模板:</label>
+                <div class="layui-input-block">
+                    <span onclick="selectTemp('detailtpl')" style="cursor: pointer;">
+                        <i class="layui-icon layui-icon-app" style="float: left;"></i>
+                        <span id="detailtpl">{{d.detailtplName?d.detailtplName:"请选择模板"}}</span>
+                    </span>
+                    <input type="hidden" name="detailtpl">
+                    {{#if(d.detailtplName){ }}
+                    <button class="layui-btn layui-btn-sm " style="margin-left: 20px;" id="detailtpl1" onclick="cancelSelect('{{event}}')" type="button">取消所选模板</button>
+                    {{#} }}
+                </div>
+            </div>
+            {{# } }}
+            <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">元数据类型:</label>-->
+            <!--<div class="layui-input-block">-->
+            <!--<select name="metadataType" class="layui-input" id="metadataType" lay-filter="metadataType">-->
+            <!--<option value="table" selected>元数据表</option>-->
+            <!--<option value="view">元数据视图</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
+            <div id="metadataOrView">
+                <div class="layui-form-item" id="mv_table">
+                    <label class="layui-form-label">元数据表:</label>
+                    <div class="layui-input-block">
+                        <select name="tableId" class="layui-input" id="tableId" lay-filter="test">
+                            <option value="" selected>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <!--<div class="layui-form-item" id="mv_view">-->
+                <!--<label class="layui-form-label">元数据视图:</label>-->
+                <!--<div class="layui-input-block">-->
+                <!--<select name="tableId" class="layui-input" id="viewId" lay-filter="test">-->
+                <!--<option value="" selected>请选择</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片栏目:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="imgColumn" readonly id="imgColumn" onclick="getAddFileColumn('imgColumn',3)" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">文件栏目:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="fileColumn" readonly id="fileColumn" onclick="getAddFileColumn('fileColumn',4)" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">音频栏目:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="audioColumn" readonly id="audioColumn" onclick="getAddFileColumn('audioColumn',5)" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">视频栏目:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="videoColumn" readonly id="videoColumn" onclick="getAddFileColumn('videoColumn',6)" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">工作流:</label>
+                <div class="layui-input-block">
+                    <select name="workFlow" class="layui-input" id="workFlow" lay-filter="test">
+                        <option value="" selected>请选择</option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="id">
+            <div class="button-bar">
+                <button type="button" class="layui-btn" lay-submit lay-filter="addColumn">确定</button>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="layer.closeAll();">取消</button>
+            </div>
+        </div>
+        <input type="hidden" name="siteId">
+        <input type="hidden" name="parentId">
+        <input type="hidden" name="id">
+    </form>
+</script>
+
+<script type="text/html" id="columnListTmpl">
+    {{#layui.each(d, function(index, item){}}
+    <li id="{{item.id}}" order="{{item.chnlOrder}}">
+        <form class="layui-form" action="">
+            <div class="layui-form-item" pane="">
+                <div class="layui-input-block">
+                    <input type="checkbox" name="ids" lay-skin="primary" id="check" value="{{item.id}}">
+                </div>
+            </div>
+            <div class="chanelName">{{item.name}}</div>
+        </form>
+        <div class="bottom">
+            <img src="common/img/u5722.png" alt="" onclick="editColumn('{{item.id}}')">
+            <img src="common/img/u5725.png" alt="" onclick="getColumnById('{{item.id}}')">
+            <img onclick="delColumn1('{{item.id}}',1)" src="common/img/u5729.png" alt="" srcset="">
+        </div>
+    </li>
+    {{#}) }}
+    <li>
+        <button data-type="showAddColumn" type="button" class="layui-btn"></button>
+    </li>
+</script>
+
+<!--选择元数据模板-->
+<script type="text/html" id="tempContent">
+    <form class="layui-form">
+        <div class="layui-card">
+            <div class="layui-card-body" style="height: 470px;overflow-y: auto;padding-left: 70px;">
+                {{# layui.each(d.records,function(index,item){ }}
+                <div class="layui-col-xs6">
+                    <input type="radio" name="templetId" value="{{item.id}}" title="{{item.tempname}}">
+                </div>
+                {{#}) }}
+            </div>
+        </div>
+        <div class="button-bar">
+            <button type="button" class="layui-btn" lay-submit lay-filter="setTemple">确定</button>
+            <button type="button" class="layui-btn" onclick="layer.close({{d.index}})">取消</button>
+        </div>
+        <input type="hidden" name="tplId" value="{{d.tplId}}">
+        <input type="hidden" name="index" value="{{d.index}}">
+    </form>
+</script>
+
+<script type="text/html" id="metadataDetailTpl">
+    <div class="layui-tab layui-tab-card" style="height: 707px; ">
+        <ul class="layui-tab-title">
+            {{# var i = 0;
+            layui.each(d.fields, function(index, item){}}
+            <li class="{{i==0?'layui-this':''}}">{{index}}</li>
+            {{# i++; }) }}
+            <li onclick='loadHtml("simple/manage/column/img.html","metadataImgBody");'>图片</li>
+            <li onclick='loadHtml("simple/manage/column/file.html","metadataImgBody");'>文件</li>
+            <li onclick='loadHtml("simple/manage/column/audio.html","metadataImgBody");'>音频</li>
+            <li onclick='loadHtml("simple/manage/column/video.html","metadataImgBody");'>视频</li>
+        </ul>
+        <div class="layui-tab-content" style="overflow-y: auto;height: 666px;">
+            {{# var j = 0; layui.each(d.fields, function(index, item){ }}
+            <div class="layui-tab-item {{j==0?'layui-show':''}}">
+                <table class="layui-table" lay-even="" lay-skin="row" id="metadataDetailTable">
+                    <colgroup>
+                        <col width="50">
+                        <col width="150">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                    {{#layui.each(item, function(index1, item1){
+                    if(item1.showDetail == 1){
+                    }}
+                    <tr>
+                        <td>{{item1.anothername}}</td>
+                        <td class="{{item1.fieldtype == 13?'classTd':''}}">{{d.data[item1.proName]}}</td>
+                    </tr>
+                    {{# } }) }}
+                    </tbody>
+                </table>
+            </div>
+            {{# j++; }) }}
+            <div class="layui-tab-item" id="metadataImgBody">
+
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="toYulanTpl">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" onclick="toYulan('{{d.id}}')">详情页</button>
+        <button class="layui-btn layui-btn-sm" onclick="toEditHtml('{{d.id}}')">编辑页</button>
+        <button class="layui-btn layui-btn-sm" onclick="toListHtml()">列表页</button>
+    </div>
+</script>
+<!--元数据回收站操作栏-->
+<script type="text/html" id="toYulanTpl2">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="reset">还原</button>
+        <button class="layui-btn layui-btn-sm" lay-event="delT">删除</button>
+    </div>
+</script>
+
+<script type="text/html" id="toTop">
+    置顶
+</script>
+
+<script type="text/html" id="searchTpl">
+    <div class="layui-form-item">
+        <label class="layui-form-label">搜索范围</label>
+        <div class="layui-input-block" class="input">
+            <select class="layui-input" id="range">
+                <option value="0">本栏目搜索</option>
+                <option value="1">同元数据搜索</option>
+            </select>
+        </div>
+    </div>
+    {{# var ifSearch = false;
+        var fieldCount = 0;
+    layui.each(d, function(index, item){
+    layui.each(item, function(index1, item1){
+    if(item1.showSearch == 1 && item1.fieldtype != 2  && item1.fieldtype != 15){
+    fieldCount++;
+    ifSearch = true;
+    var anothername = item1.anothername;
+    var thisAName = anothername.length>8?anothername.substring(0,7):anothername.substring(0,8);
+    if(anothername.length>8){
+    thisAName += "…";
+    }
+    if(anothername.length>4){
+    thisAName = thisAName.slice(0, 4) + "<br>" + thisAName.slice(4);
+    }
+    }}
+    <div class="layui-form-item">
+        <label class="layui-form-label {{anothername.length>4?'hiteLable':''}}" title="{{anothername}}">{{thisAName}}</label>
+        <div class="layui-input-block" class="input">
+            {{# switch(item1.fieldtype){
+            case 1:
+            }}
+            <input type="text" name="{{item1.proName}}" autocomplete="off" class="layui-input">
+            {{# if(item1.matchType == 7){ }}
+            -<input type="text" name="{{item1.proName}}BT2" autocomplete="off" class="layui-input">
+            {{# } }}
+            {{# break;
+            case 2:
+            }}
+            {{# break;
+            case 3:
+            }}
+            <input type="text" name="{{item1.proName}}" autocomplete="off" class="layui-input">
+            {{# break;
+            case 4:
+            }}
+            <input type="text" name="{{item1.proName}}" id="date_search_{{item1.proName}}" lay-verify="date_search_{{item1.proName}}" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off"
+                   class="layui-input">
+            {{#if(item1.matchType == 7){ }}
+            -<input type="text" name="{{item1.proName}}BT2" id="date_search_{{item1.proName}}BT2" lay-verify="date_search_{{item1.proName}}BT2" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off"
+                    class="layui-input">
+            {{# } }}
+            {{# break;
+            case 6:
+            }}
+            <select class="layui-input" name="{{item1.proName}}" lay-filter="{{item1.proName}}">
+                <option value="">--请选择--</option>
+                {{#
+                var enmvalue = item1.enmvalue.split(",");
+                for(var i in enmvalue){
+                }}
+                <option value="{{enmvalue[i]}}">{{enmvalue[i]}}</option>
+                {{#
+                }
+                }}
+            </select>
+            {{# break;
+            case 7:
+            }}
+            <select class="layui-input" name="{{item1.proName}}" lay-filter="{{item1.proName}}">
+                <option value="">--请选择--</option>
+                {{#
+                var enmvalue = item1.enmvalue.split(",");
+                for(var i in enmvalue){
+                }}
+                <option value="{{enmvalue[i]}}">{{enmvalue[i]}}</option>
+                {{#
+                }
+                }}
+            </select>
+            {{# break;
+            case 8:
+            }}
+            <select class="layui-input" name="{{item1.proName}}" lay-filter="{{item1.proName}}">
+                <option value="">--请选择--</option>
+                {{#
+                var enmvalue = item1.enmvalue.split(",");
+                for(var i in enmvalue){
+                }}
+                <option value="{{enmvalue[i]}}">{{enmvalue[i]}}</option>
+                {{#
+                }
+                }}
+            </select>
+            {{# break;
+            case 15:
+            }}
+            </select>
+            {{# break;
+            case 8:
+            }}
+            <select name="{{item1.proName}}" lay-filter="{{item1.proName}}">
+                <option value="">--请选择--</option>
+                {{#
+                var enmvalue = item1.enmvalue.split(",");
+                for(var i in enmvalue){
+                }}
+                <option value="{{enmvalue[i]}}">{{enmvalue[i]}}</option>
+                {{#
+                }
+                }}
+            </select>
+            {{# break;
+            case 15:
+            }}
+            {{# break;
+            case 18:
+            }}
+            <input type="text" name="{{item1.proName}}" autocomplete="off" class="layui-input">
+            {{# break;
+            case 13:
+            }}
+            <div id="class_{{item1.proName}}_search"></div>
+            {{# break;
+            default:
+            }}
+            <input type="text" name="{{item1.proName}}" placeholder="请输入" autocomplete="off" class="layui-input">
+            {{# } }}
+        </div>
+    </div>
+    {{# } }) }) }}
+    {{# if(ifSearch){ }}
+    <div class="layui-input-block" style="display: inline-block" class="input">
+        <button class="layui-btn" lay-submit lay-filter="searchMetadata"><i class="layui-icon">&#xe615;</i></button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        {{# if(fieldCount > 2){ }}
+            <button type="button" class="layui-btn layui-btn-primary" onclick="toggleSearchBar(this)">展开</button>
+        {{# } }}
+    </div>
+    {{# } }}
+</script>
+
+<script type="text/html" id="shenHeStateTpl">
+    {{d.status == 10?"通过":d.status == 20?"未通过":d.status == 40?"引用":d.status == 0?"待审核":d.status == 5?"审核中":""}}
+</script>
+
+<script type="text/html" id="shenHeTpl">
+    {{#if(d.status == 0){ }}
+        <button class="layui-btn layui-btn-xs" lay-event="startSH">发起审核</button>
+    {{# }else if(!d.flowUser){ }}
+        <button class="layui-btn layui-btn-xs" lay-event="tijiaoSH">提交审核</button>
+        <!--<button class="layui-btn layui-btn-xs" lay-event="statusPass">通过</button>-->
+        <!--<button class="layui-btn layui-btn-xs" lay-event="statusNoPass">不通过</button>-->
+    {{# }else if(d.status == 5 && d.flowUser == $("#currUser").text()){ }}
+        <button class="layui-btn layui-btn-xs" lay-event="showSH">审核</button>
+        <!--<button class="layui-btn layui-btn-xs" lay-event="statusPass">通过</button>-->
+        <!--<button class="layui-btn layui-btn-xs" lay-event="statusNoPass">不通过</button>-->
+    {{# } }}
+</script>
+
+<script type="text/html" id="listClassTpl">
+
+</script>
+
+
+
+<script>
+    var siteObj = {};
+    var columnObj = {};
+    var metadataUri = "";
+    var fields = [];
+    var classFields = [];
+    var pageSize = 17;
+    var metadataSize = 12;
+    var zTreeObj;
+    var createPath;
+    var editMetadataId;
+    var sortField;
+    var tableName;
+    var ue;
+    var searchObj = {
+        "entity": {
+            status: 0,
+            parentId: 0
+        },
+        "pager": {
+            current: 1,
+            size: pageSize
+        }
+    }
+
+    $(function () {
+        getTreeData();
+        columnList(1, siteObj.id, columnObj.id);
+    })
+
+    function getTreeData() {
+        getColumnTreeData(1).then(function (res) {
+            initTree(res)
+        })
+    }
+
+    function cancelSelect(tplId) {
+        var id = event.target.previousElementSibling.getAttribute("name")
+        $("#" + id).text("请选择模板");
+        var params = {};
+        params[id] = "";
+        layui.form.val("columnForm", params);
+        event.target.style.display = "none"
+
+    }
+
+    function selectTemp(id) {
+        var jsondata = {
+            "entity": {
+                "tempname": ""
+            },
+            pager: {
+                current: 1,
+                size: 1000
+            }
+        }
+
+        ajax(service_prefix.manage, "/template/list", "post", JSON.stringify(jsondata)).then(function (data) {
+            data.obj.index = layerOpen("选择模板", "800", "600", "openDiv2");
+            data.obj.tplId = id;
+            lodTpl("tempContent", "openDiv2", data.obj);
+        })
+    }
+
+    function getAddMetadatas(tableId) {
+        ajax(service_prefix.metadata, "/all", "post", {}).then(function (res) {
+            var records = res.obj;
+            var metadatasStr;
+
+            for (var i in records) {
+                metadatasStr += '<option value="' + records[i].id + '">' + records[i].anothername + '</option>'
+            }
+            $("#tableId").append(metadatasStr);
+
+            if (tableId) {
+                layui.form.val("columnForm", {tableId: tableId});
+            }
+            layui.form.render();
+        })
+    }
+
+    var fileColumnTreeObj;
+    var fileColumnIndex;
+
+    function getAddFileColumn(objid, type) {
+        fileColumnIndex = layerOpen('选择栏目', 300, 452, "treeDiv", "<ul class='ztree' style='height: 340px;width: auto;' id='treeUl'></ul><div class=\"button-bar\">\n" +
+            "        <button class=\"layui-btn\" type=\"button\" onclick=\"setFileColumn('" + objid + "')\">确认</button>\n" +
+            "        <button class=\"layui-btn\" type=\"button\" onclick='layer.close(fileColumnIndex)'>取消</button>\n" +
+            "    </div>");
+        ajax2(service_prefix.manage, "/programa/getTreeData", "post", {webclass: type}).then(function (data) {
+            var nodes = data.obj;
+            var settings = {
+                data: {
+                    simpleData: {
+                        enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                        idKey: "id", //节点数据中保存唯一标识的属性名称
+                        pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                        rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+                    },
+                    key: {
+                        name: "name" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+                    }
+                },
+                view: {
+                    showLine: false,
+                    showIcon: true
+                }
+            };
+            fileColumnTreeObj = $.fn.zTree.init($("#treeUl"), settings, nodes); //初始化树
+            fileColumnTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+        })
+    }
+
+    function setFileColumn(objid) {
+        var node = fileColumnTreeObj.getSelectedNodes()[0];
+        if (node.level < 2) {
+            layer.alert("请选择栏目!");
+            return false;
+        }
+        $("#" + objid).val(node.id);
+        layer.close(fileColumnIndex);
+    }
+
+    function getDetailRelation(columnInfo) {
+        if (columnInfo.tableId) {
+            getTableInfoById(columnInfo.tableId).then(function (res) {
+                $("#columnTableName").text(res.anothername);
+            })
+        }
+        if (columnInfo.siteId) {
+            getSiteInfoById(columnInfo.siteId).then(function (res) {
+                $("#columnSiteName").text(res.name);
+            })
+        }
+    }
+
+    function getTableInfoById(id) {
+        return new Promise(function (resovle, reject) {
+            ajax(service_prefix.metadata, "/" + id, "get", {}).then(function (res) {
+                resovle(res.obj);
+            })
+        })
+    }
+
+    function getSiteInfoById(id) {
+        return new Promise(function (resovle, reject) {
+            ajax(service_prefix.manage, "/site/" + id, "get", {}).then(function (res) {
+                resovle(res.obj);
+            })
+        })
+    }
+
+    function refreshList() {
+        getMetadataList();
+    }
+
+    function getMetadataList(pageNo, paramsStr) {
+        if (paramsStr) {
+            paramsStr = "&" + paramsStr;
+        } else {
+            paramsStr = '';
+        }
+        if (!pageNo) {
+            pageNo = 1;
+        }
+        var sortProps = [{key: "seqencing", value: false}, {key: "createTime", value: false}];
+        if (sortField) {
+            sortProps = [{key: "seqencing", value: false}, {key: sortField, value: false}];
+        }
+        var params = {size: metadataSize, current: pageNo, sortProps: sortProps};
+        if (metadataUri) {
+            if($("#range").val() != 1){
+                paramsStr += "&columnid="+columnObj.id;
+            }
+            ajax("", metadataUri + "/list?docstatus=0" + paramsStr, "post", JSON.stringify(params)).then(function (datas) {
+                if (datas.success) {
+                    showMetadataTableDate(datas.obj.records);
+                    showMetadataPage(datas.obj.current, datas.obj.total);
+                } else {
+                    showMetadataTableDate();
+                    showMetadataPage();
+                }
+            }).catch(function (res) {
+                layer.alert("接口未生成！");
+                showMetadataTableDate();
+                showMetadataPage();
+            })
+        }
+    }
+
+    function showMetadataTable() {
+        var cols = getTableCols();
+        layui.table.render({
+            elem: '#metadataTable'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , limit: metadataSize
+            , cols: [cols]
+        });
+    }
+
+    function showMetadataTableDate(data) {
+        data = data ? data : [];
+        setClassName(data, classFields).then(function (rrrr) {
+            layui.table.reload("metadataTable", {
+                data: data,
+                limit: metadataSize
+            })
+        })
+    }
+
+    function showMetadataPage(current, total) {
+        layui.laypage.render({
+            elem: 'metadataPager'
+            , limit: metadataSize
+            , curr: current ? current : 0
+            , count: total ? total : 0 //数据总数，从服务端得到
+            , limits: [14, 28, 42, 1000]
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , jump: function (obj, first) {
+                if (!first) {
+                    metadataSize = obj.limit;
+                    getMetadataList(obj.curr, "");
+                }
+            }
+        });
+    }
+
+    function getMetadataList2(pageNo) {
+        return false;
+        var cols = getTableCols();
+        cols.push({field: '', title: "操作", align: "left", minWidth: 210, templet: toYulanTpl2});
+        var params = {size: 15, current: pageNo};
+        if (metadataUri) {
+            ajax("", metadataUri + "/list" + "?docstatus=1", "post", JSON.stringify(params)).then(function (datas) {
+                var records = datas.obj.records;
+                setClassName(records, classFields).then(function (rrrr) {
+                    layui.table.render({
+                        elem: '#metadataTable2'
+                        , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        , limit: 15
+                        , cols: [cols]
+                        , data: records
+                    });
+                    layui.laypage.render({
+                        elem: 'metadataPager2'
+                        , limit: 15
+                        , curr: pageNo
+                        , count: datas.obj.total //数据总数，从服务端得到
+                        , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                getMetadataList2(obj.curr);
+                            }
+                        }
+                    });
+                })
+            })
+        }
+    }
+
+    function getTableCols() {
+        sortField = "";
+        var cols = [{type: 'checkbox', field: "id"}, {field: 'id', title: '编号', width: 80, align: "center"}];
+        for (var i in fields) {
+            fields[i].forEach(function (f, index) {
+                if (f.showList == 1) {
+                    var col = {field: f.proName, title: f.anothername, align: "left", minWidth: f.width};
+                    if (index == 0) {
+                        col.event = 'showMetadataInfo';
+                        col.style = 'color:blue';
+                    }
+                    cols.push(col);
+                }
+                if (f.issort == 1) {
+                    sortField = f.proName;
+                }
+            });
+        }
+        cols.push({field: "seqencing", title: "排序", align: "left", minWidth: 60, edit: 'text', style: "color:blue;text-decoration:underline;cusor:pointer;"});
+        cols.push({field: '', title: "操作", align: "left", event: 'toTop', minWidth: 80, style: 'color:blue', templet: toTop, fixed: "right"});
+        // cols.push({field: '', title: "发布预览", align: "left", minWidth: 210, templet: toYulanTpl});
+        cols.push({field: '', title: "状态", align: "left", width: 90, templet: "#shenHeStateTpl", fixed: "right"});
+        if (columnObj.workFlow) {
+            cols.push({field: 'flowUser', title: "审核人", align: "left", width: 90, fixed: "right"});
+            cols.push({field: '', title: "审核", align: "left", width: 125, templet: "#shenHeTpl", fixed: "right"});
+        }
+        return cols;
+    }
+
+    //元数据管理
+    function showFieldList() {
+        var datas = [];
+        for (var i in fields) {
+            datas.push.apply(datas, fields[i]);
+        }
+        layui.table.render({
+            elem: '#fieldTabel'
+            , data: datas
+            , cols: [[
+                {type: 'numbers', title: '序号'}
+                , {field: 'fieldname', title: '英文名称'}
+                , {field: 'fieldTypeStr', title: '字段类型'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {field: 'dbTypeStr', title: '库中类型',}
+                , {field: 'groupname', title: '所属分组'}
+            ]]
+            , limit: datas.length
+        });
+    }
+
+    function showSearchBar() {
+        lodTpl("searchTpl", "searchForm", fields);
+        for (var i in fields) {
+            fields[i].forEach(function (res) {
+                if (res.fieldtype == 13) {
+                    ajax("/class/all", "post", JSON.stringify({parentId: res.classid})).then(function (res2) {
+                        var html = "";
+                        html += '<select class="layui-input" name="' + res.proName + '">';
+                        html += '<option value="">--请选择--</option>';
+                        res2.obj.forEach(function (res1) {
+                            html += '<option value="' + res1.id + '">' + res1.className + '</option>';
+                        })
+                        html += '</select>';
+                        $("#class_" + res.proName + "_search").html(html);
+                        layui.form.render();
+                    })
+                } else if (res.fieldtype == 4) {
+                    layui.laydate.render({elem: '#date_search_' + res.proName, type: 'datetime'});
+                    if (res.matchType == 7) {
+                        layui.laydate.render({elem: '#date_search_' + res.proName + "BT2", type: 'datetime'});
+                    }
+                }
+            })
+        }
+    }
+
+    function columnInfo(id) {
+        ajax(service_prefix.manage, "/programa/" + id, "get", {}).then(function (data) {
+            columnObj = data.obj;
+            if (columnObj.stop == 1) {
+                $("#fbbtn").hide();
+            } else {
+                $("#fbbtn").show();
+            }
+            if (columnObj.status != 0) {
+                $(".search-bar1").hide();
+            }
+            if (data.success) {
+                if (columnObj.tableId && columnObj.tableId != 0) {
+                    getMetadataUri(columnObj.tableId).then(function (result) {
+                        metadataUri = result;
+                        ajax(service_prefix.metadata, "/fieldinfo/all", "get", {tableId: columnObj.tableId}).then(function (res) {
+                            if (res.success) {
+                                fields = res.obj;
+                                classFields = getClassFields(fields);
+                            } else {
+                                fields = [];
+                                classFields = [];
+                            }
+                            showMetadataTable();
+                            showSearchBar();
+                            showFieldList();
+                            getMetadataList(1);
+                            getMetadataList2(1);
+                        })
+                        getTableInfoById(columnObj.tableId).then(function (ti) {
+                            if (ti) {
+                                tableName = ti.tablename;
+                                $("#fieldTableInfo").html("<span>元数据:" + ti.anothername + "</span> <span>表名:" + ti.tablename + "</span>  <span>创建人:" + ti.cruser + "</span> <span>创建时间:" + ti.crtime + "</span>")
+                            }
+                        })
+                    })
+                } else {
+//                    layer.alert("请先新建元数据");
+                }
+            } else {
+                layer.alert(data.msg);
+            }
+            if (columnObj.tableId) {
+                $("#importMetadata").show();
+                $("#exportMetadata").show();
+            } else {
+                $("#importMetadata").hide();
+                $("#exportMetadata").hide();
+            }
+            importMetadataBtn.reload({
+                url: getAjaxUrl(service_prefix.metadata, "/import?id=" + columnObj.tableId + "&columnid=" + columnObj.id)
+            })
+        })
+    }
+
+    function showAddMetadataView(boo) {
+        if (boo) {
+            $("#addMetadataView").show();
+            $("#mainView").hide();
+        } else {
+            $("#addMetadataView").hide();
+            $("#mainView").show();
+        }
+    }
+
+    function showMetadataForm(datas) {
+        layerOpenFull("新建元数据信息");
+        var params = {}
+        params.fields = fields;
+        params.id = datas ? datas.id : '';
+        lodTpl("addMetadataBodyTpl", "openDiv", params);
+        console.log(fields)
+        for (var i in fields) {
+            fields[i].forEach(function (res) {
+                if (res.fieldtype == 4) {
+                    layui.laydate.render({elem: '#date_edit_' + res.proName, type: 'datetime'});
+                } else if (res.fieldtype == 15) {
+                    layui.upload.render({
+                        elem: '#upbtn_' + res.proName
+                        , url: getAjaxUrl(service_prefix.member, "/user/importHead")
+                        , before: function (obj) {
+                            //预读本地文件示例，不支持ie8
+                            obj.preview(function (index, file, result) {
+                                $('#img_' + res.proName).attr('src', result); //图片链接（base64）git
+                            });
+                        }, done: function (res1) {
+                            if (res1.success) {
+                                $("#up_" + res.proName).val(res1.obj.url);
+                            } else {
+                                layer.alert(res1.msg);
+                            }
+                        }
+                    });
+                } else if (res.fieldtype == 18) {
+
+                    UE.delEditor('ue_' + res.proName);
+                    ue = UE.getEditor('ue_' + res.proName);
+                    // if (datas) {
+                    //     if (datas[res.proName]) {
+                    //         ue.addListener("ready", function () {
+                    //             //赋值
+                    //             ue.setContent(datas[res.proName]);
+                    //         });
+                    //     }
+                    // }
+                    var str1 = '<div class="layui-form-item"> <label class="layui-form-label">关键词:</label> <div class="layui-input-block">  <textarea name="" id="keyword" rows="10" placeholder="请输入关键词或提取关键词"></textarea> </div> </div>'
+                    $('#ue_' + res.proName).parents('.layui-form-item').after(str1);
+                    if (datas) {
+                        if (datas[res.proName]) {
+                            ue.addListener("ready", function () {
+                                $('.edui-editor-bottomContainer').html('');
+                                var str = '<div class="uebot"><div class="btn1" onclick="mgcfun()">敏感词提醒</div><div class="btn1" onclick="gjcfun()">提取关键词</div></div>';
+                                //赋值
+                                $('.edui-editor-bottomContainer').html(str);
+                                ue.setContent(datas[res.proName]);
+                            });
+                        }
+                    }
+                } else if (res.fieldtype == 13) {
+                    ajax(service_prefix.metadata, "/class/all", "post", JSON.stringify({parentId: res.classid})).then(function (res2) {
+                        var html = "";
+                        if (res.classtype == 1) {
+                            res2.obj.forEach(function (res1) {
+                                html += '<input type="checkbox" name="check_' + res.proName + '_' + res1.id + '" lay-skin="primary" title="' + res1.className + '"><br>';
+                            })
+                            $("#class_" + res.proName + "_div").html(html);
+                            valFormCheck(datas, res.proName);
+                        } else {
+                            res2.obj.forEach(function (res1) {
+                                html += '<input type="radio" name="' + res.proName + '" value="' + res1.id + '" title="' + res1.className + '"><br>';
+                            })
+                            $("#class_" + res.proName + "_div").replaceWith(html);
+                            if (datas && datas[res.proName]) {
+                                $("input[name='" + res.proName + "'][value='" + datas[res.proName] + "']").prop("checked", true);
+                            }
+                        }
+                        layui.form.render();
+                    })
+                } else if (res.fieldtype == 7) {
+                    valFormCheck(datas, res.proName);
+                }
+            })
+        }
+        $(".edui-for-autotypeset .edui-icon").text("一键排版");
+        if (datas) {
+            layui.form.val("addMetadataForm", datas);
+            layui.form.render();
+        }
+    }
+
+    layui.form.on("submit(addMetadataBtn)", function (data) {
+        var fields = data.field;
+        console.log(fields);
+        var checks = {};
+        for (var i in fields) {
+            if (i.indexOf("check_") == 0) {
+                var vals = i.split("_");
+                if (!checks[vals[1]]) {
+                    checks[vals[1]] = [];
+                }
+                checks[vals[1]].push(vals[2]);
+            }
+        }
+        for (var i in checks) {
+            fields[i] = checks[i].join(",");
+        }
+        var url = "";
+        var type = "";
+        if (fields.id) {
+            url = metadataUri + "/" + fields.id;
+            type = "put";
+        } else {
+            url = metadataUri;
+            type = "post";
+        }
+        fields.columnid = columnObj.id;
+        fields.docstatus = 0;
+        ajax("", url, type, JSON.stringify(fields)).then(function (res) {
+            if (!res.success) {
+                layer.alert(res.msg);
+            } else {
+                getMetadataList(1);
+                layer.closeAll();
+            }
+        })
+        return false;
+    })
+
+    function valFormCheck(datas, proName) {
+        if (datas) {
+            if (datas[proName]) {
+                var ids = datas[proName].split(",");
+                ids.forEach(function (id) {
+                    $("input[name='check_" + proName + "_" + id + "']").prop("checked", true);
+                })
+            }
+            layui.form.render();
+        }
+    }
+
+    function toggleSearchBar(obj) {
+        $('#searchForm').toggleClass('show-less');
+        if ($("#searchForm").hasClass('show-less')) {
+            $(obj).text("展开");
+        } else {
+            $(obj).text("收起");
+        }
+    }
+
+    function toYulan(id) {
+        window.open(columnObj.detailUrl + "?id=" + id);
+    }
+
+    function toEditHtml(id) {
+        if (id) {
+            window.open(columnObj.editUrl + "?id=" + id);
+        } else {
+            window.open(columnObj.editUrl);
+        }
+    }
+
+    function toListHtml() {
+        window.open(columnObj.listUrl);
+    }
+</script>
+
+<!--layui-->
+<script>
+    layui.table.on('tool(metadataTable)', function (obj) {
+        var data = obj.data;
+        if (obj.event == "showMetadataInfo") {
+            var param = {data: data, fields: fields};
+            layerOpenFull("查看元数据信息");
+            editMetadataId = data.id;
+            lodTpl("metadataDetailTpl", "openDiv", param);
+            $(".classTd").each(function () {
+                var ids = $(this).text();
+                ajax(service_prefix.metadata, "/class/classNames", "get", {ids: ids}).then(function (res) {
+                    $(this).text(res.msg);
+                })
+            })
+        } else if (obj.event == "toTop") {
+            ajax3(service_prefix.metadata, "/toTop", "get", {tableId: columnObj.tableId, dataId: data.id}).then(function (res) {
+                reflashData(1);
+            })
+        } else if (obj.event == "statusPass") {
+            finishWork(data.flowId,data.id);
+            // ajax3("", metadataUri + "/" + data.id, "put", JSON.stringify({status: 10})).then(function (res) {
+            //     reflashData();
+            // })
+        } else if (obj.event == "statusNoPass") {
+            ajax3("", metadataUri + "/" + data.id, "put", JSON.stringify({status: 20})).then(function (res) {
+                reflashData();
+            })
+        } else if (obj.event == "tijiaoSH") {
+            finishWork(data.flowId,data.id);
+        } else if (obj.event == "startSH") {
+            // var parm = {};
+            // var variables = [];
+            // parm.processDefinitionId = columnObj.workFlow;
+            // variables.push({name:"dataid",value:data.id});
+            // parm.variables = variables;
+            // ajax2(service_prefix.flowable,"/start","post",{data:JSON.stringify(parm)}).then(function (res) {
+            ajax2(service_prefix.flowable,"/start","post",{id:columnObj.workFlow}).then(function (res) {
+                if(res.success){
+                    ajax2(service_prefix.flowable,"/taskByInstance","post",{id:res.obj.id}).then(function (res1) {
+                        ajax3("", metadataUri + "/" + data.id, "put", JSON.stringify({flowId: res.obj.id,status:5,flowUser:res1.obj.assignee})).then(function (res) {
+                            reflashData();
+                        })
+                    })
+                }
+            })
+        } else if (obj.event == "showSH") {
+            showSH(data.flowId,data.id);
+        }
+    })
+
+    function showSH(id,dataId){
+        ajax2(service_prefix.flowable,"/taskByInstance","post",{id:id}).then(function (res) {
+            ajax(service_prefix.flowable,"/taskForm","get",{id:res.obj.id}).then(res => {
+                if(res.obj.fields){
+                    layer.open({
+                        type: 1 //此处以iframe举例
+                        ,title: '主办'
+                        ,area: ['400px', '348px']
+                        ,maxmin: false
+                        ,content: "<div id='finishTaskView'></div>"
+                    });
+                    layui.laytpl($("#finishTaskViewTpl").html()).render({id:data.id,data:res.obj.fields}, function(html){
+                        $("#finishTaskView").html(html);
+                        layui.form.render();
+                    })
+                }else{
+                    finishWork(data.id,{});
+                }
+            })
+        })
+    }
+
+    function finishWork(id,dataId){
+        var params = {action : "complete"};
+        ajax2(service_prefix.flowable,"/taskByInstance","post",{id:id}).then(function (res) {
+            ajax2(service_prefix.flowable,"/completeTask","post",{id:res.obj.id,body:JSON.stringify(params)}).then(res => {
+                if(res.success){
+                    ajax2(service_prefix.flowable,"/taskByInstance","post",{id:id}).then(function (res) {
+                        if(res.success){
+                            ajax3("", metadataUri + "/" + dataId, "put", JSON.stringify({status:5,flowUser:res.obj.assignee})).then(function (res) {
+                                reflashData();
+                            })
+                        }else{
+                            ajax3("", metadataUri + "/" + dataId, "put", JSON.stringify({status:10})).then(function (res) {
+                                reflashData();
+                            })
+                        }
+                    })
+                    layer.closeAll();
+                }else{
+                    layer.alert(res.msg);
+                }
+            });
+        })
+
+    }
+
+    layui.table.on('tool(metadataTable2)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if (layEvent === 'delT') { //查看
+            layer.alert("确定删除该数据吗?", function () {
+                var ids = [];
+                ids.push(data.id);
+                ajax("", metadataUri + "/" + ids.join() + "/batch", "delete", {}).then(function (res) {
+                    if (!res.success) {
+                        layer.alert(res.msg);
+                    } else {
+                        getMetadataList2(1);
+                        layer.closeAll();
+                    }
+                })
+            })
+        } else if (layEvent === 'reset') {
+            layer.alert("确定还原该数据吗", function () {
+                var ids = [];
+                ids.push(data.id);
+                var docstatus = 0;
+                if (ids) {
+                    ajax("", metadataUri + "/updateDocStatus?docstatus=" + docstatus, "post", JSON.stringify(ids)).then(function (res) {
+                        if (!res.success) {
+                            layer.alert(res.msg);
+                        } else {
+                            reflashData(1);
+                            getMetadataList2(1);
+                            layer.closeAll();
+                        }
+                    })
+                }
+            })
+        }
+    });
+
+    //监听修改排序
+    layui.table.on('edit(metadataTable)', function (obj) {
+        var value = obj.value //得到修改后的值
+            , data = obj.data //得到所在行所有键值
+            , field = obj.field; //得到字段
+        ajax3("", metadataUri + "/" + data.id, "put", JSON.stringify({seqencing: value})).then(function (res) {
+            console.log(res);
+        })
+    });
+
+    active.generatorHtml = function () {
+        createPath = "";
+        if (columnObj.listtpl) {
+            ajax(service_prefix.manage, "/template/" + columnObj.listtpl, "get", {}).then(function (res) {
+                if (res.success && res.obj) {
+                    var tplHtml = res.obj.temphtml;
+                    var repHtml = "<";
+                    repHtml += "script>var columnId = '"+ columnObj.id +"';<";
+                    repHtml += "/script>";
+                    tplHtml = tplHtml.replace("</html>",repHtml);
+                    ajax(service_prefix.generator, "/html/createHtml1", "post", JSON.stringify({
+                        template: tplHtml,
+                        path: createPath,
+                        fileName: res.obj.outputfilename,
+                        tempext: res.obj.tempext
+                    })).then(data => {
+                        ajax(service_prefix.manage, "/programa/" + columnObj.id, "put", JSON.stringify({listUrl: data.obj.path})).then(data => {
+                            console.log(data)
+                        })
+                    })
+                    ajax(service_prefix.log, "/publish", "post", JSON.stringify({
+                        path: "/pub" + createPath + "/" + res.obj.outputfilename + "." + res.obj.tempext,
+                        pathName: res.obj.outputfilename + "." + res.obj.tempext,
+                        column: columnObj.name,
+                        crUser: $("#currUser").text()
+                    })).then(function (res) {
+                    })
+                }
+            })
+        }
+        if (columnObj.detailtpl) {
+            ajax(service_prefix.manage, "/template/" + columnObj.detailtpl, "get", {}).then(function (res) {
+                var tplHtml = res.obj.temphtml;
+                var repHtml = "<";
+                repHtml += "script>var columnId = '"+ columnObj.id +"';<";
+                repHtml += "/script>";
+                tplHtml = tplHtml.replace("</html>",repHtml);
+                ajax(service_prefix.generator, "/html/createHtml1", "post", JSON.stringify({
+                    template: tplHtml,
+                    path: createPath,
+                    fileName: res.obj.outputfilename,
+                    tempext: res.obj.tempext
+                })).then(data => {
+                    console.log(data)
+                })
+                ajax(service_prefix.manage, "/programa/" + columnObj.id, "put", JSON.stringify({detailUrl: "/pub" + createPath + "/" + res.obj.outputfilename + "." + res.obj.tempext})).then(data => {
+                    console.log(data)
+                })
+                ajax(service_prefix.log, "/publish", "post", JSON.stringify({
+                    path: "/pub" + createPath + "/" + res.obj.outputfilename + "." + res.obj.tempext,
+                    pathName: res.obj.outputfilename + "." + res.obj.tempext,
+                    column: columnObj.name,
+                    crUser: $("#currUser").text()
+                })).then(function (res) {
+                })
+            })
+        }
+        if (columnObj.edittpl) {
+            ajax(service_prefix.manage, "/template/" + columnObj.edittpl, "get", {}).then(res => {
+                var tplHtml = res.obj.temphtml;
+                var repHtml = "<";
+                repHtml += "script>var columnId = '"+ columnObj.id +"';<";
+                repHtml += "/script>";
+                tplHtml = tplHtml.replace("</html>",repHtml);
+                ajax2(service_prefix.generator, "/html/createHtml1", "post", {
+                    template: tplHtml,
+                    path: createPath,
+                    fileName: res.obj.outputfilename,
+                    tempext: res.obj.tempext
+                }).then(data => {
+                    layer.alert("生成成功");
+                    console.log(data)
+                })
+                ajax(service_prefix.manage, "/programa/" + columnObj.id, "put", JSON.stringify({editUrl: "/pub" + createPath + "/" + res.obj.outputfilename + "." + res.obj.tempext})).then(data => {
+                    console.log(data)
+                })
+                ajax(service_prefix.log, "/publish", "post", JSON.stringify({
+                    path: "/pub" + createPath + "/" + res.obj.outputfilename + "." + res.obj.tempext,
+                    pathName: res.obj.outputfilename + "." + res.obj.tempext,
+                    column: columnObj.name,
+                    crUser: $("#currUser").text()
+                })).then(res => {
+                })
+            })
+        }
+        ajax(service_prefix.manage, "/programa/" + columnObj.id, "put", JSON.stringify({chnlDataPath: createPath})).then(res => {
+            console.log(res);
+        })
+    }
+
+    active.generatorModel = function () {
+        var tplObj = {};
+        tplObj.tempname = columnObj.name + "编辑模板";
+        tplObj.tempext = "html";
+        var html = "";
+        for (var i in fields) {
+            fields[i].forEach(function (res) {
+                html += '<div class="layui-form-item" pane="">' +
+                    '<label class="layui-form-label">' + res.anothername + '</label>' +
+                    '<div class="layui-input-block">' +
+                    '    <input class="layui-input" type="text" name="' + res.proName + '" lay-skin="primary" id="check">' +
+                    '</div>' +
+                    '</div>';
+            })
+        }
+        tplObj.temphtml = html;
+        tplObj.outputfilename = "html";
+
+        ajax(service_prefix.manage, "/template", "post", JSON.stringify(tplObj)).then(function (data) {
+            layer.alert("生成成功");
+        })
+    }
+
+    active.reFlashMetaDataList = function () {
+        reflashData(1);
+    }
+
+    layui.form.on("submit(searchMetadata)", function (data) {
+        var params = urlEncode(data.field);
+        getMetadataList(1, params);
+        return false;
+    })
+
+    layui.form.on("submit(setTemple)", function (data) {
+        $("#" + data.field.tplId).text($("input:radio:checked[value='" + data.field.templetId + "']").attr("title"));
+        $("#" + data.field.tplId + "1").show()
+        var params = {};
+        params[data.field.tplId] = data.field.templetId;
+        layui.form.val("columnForm", params);
+        layer.close(data.field.index);
+        return false;
+    })
+    layui.form.on('select(metadataType)', function (data) {
+        $("#metadataOrView #mv_" + data.value).show().siblings().hide();
+    });
+
+    var uploadLoadIndex;
+    var importMetadataBtn = layui.upload.render({
+        elem: '#importMetadata'
+        , url: getAjaxUrl(service_prefix.metadata, "/import?id=" + columnObj.tableId + "&columnid=" + columnObj.id)
+        , accept: 'file' //普通文件
+        , before: function (res) {
+            uploadLoadIndex = layer.load();
+        }
+        , done: function (res) {
+            if (res.success) {
+                layer.alert(res.msg);
+                getMetadataList(1);
+            } else {
+                layer.alert(res.msg);
+                getMetadataList(1);
+            }
+        },
+        error: function () {
+            layer.close(uploadLoadIndex);
+        }
+    });
+</script>
+
+<script type="text/html" id="templetTpl">
+    <form class="layui-form" lay-filter="templetForm">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 25px 15px;    height: 780px;">
+
+                <div class="layui-form-item form-item-inline" style="width: 500px">
+                    <label class="layui-form-label">模板名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tempname" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">模板类型:</label>
+                    <div class="layui-input-block">
+                        <select name="temptype" class="layui-input" required lay-verify="required">
+                            <option value="1">概览模板</option>
+                            <option value="2">细览模板</option>
+                            <option value="3">嵌套模板</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">输出文件名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="outputfilename" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">扩展名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tempext" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item form-item-inline">
+                    <label class="layui-form-label">站点:</label>
+                    <div class="layui-input-block">
+                        <span>{{d.siteName}}</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">模板描述:</label>
+                    <div class="layui-input-block" style="display: inline-block;margin-left: 0">
+                        <textarea class="layui-textarea" style="height: 55px;min-height: 0;width: 1010px;" name="tempdesc"></textarea>
+                    </div>
+                    <div class="layui-upload" style="    position: absolute;display: inline-block; margin-left: 50px; margin-top: 12px;">
+                        <button type="button" class="layui-btn" id="test1" style="display: inline-block">上传模板缩略图</button>
+                        <div class="layui-upload-list" style="display: inline-block;position: absolute; left: 140px; top: -20px; height: 50px; width: 120px; border: 1px solid; margin-left: 10px">
+                            <img class="layui-upload-img" id="demos1" style="width: 100%;height: 100%">
+                            <p id="demoText"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">模板文本:</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" style="height: 673px;padding-top: 7px;line-height: 18px!important;" name="temphtml" id="text1"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addTemplet">提交</button>
+            <button class="layui-btn" type="button" data-type="close">返回</button>
+        </div>
+        <input type="hidden" name="id">
+        <input type="hidden" name="siteid">
+    </form>
+</script>
+
+<!--ztree-->
+<script>
+    var columnData;
+    var settingss = {
+        data: {
+            simpleData: {
+                enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id", //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: -1 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            },
+            key: {
+                name: "name" //zTree 节点数据保存节点名称的属性名称  默认值："name"
+            }
+        },
+        view: {
+            showLine: false,
+            showIcon: true
+        },
+        callback: {
+            onClick: zTreeOnClick
+        }
+    };
+
+    function initTree(data) {
+        columnData = data;
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), settingss, data); //初始化树
+        var node = zTreeObj.getNodeByTId("treeDemo_3");
+        zTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+        zTreeObj.selectNode(node);
+        settingss.callback.onClick(null, zTreeObj.setting.treeId, node);
+    }
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        createPath = "";
+        var parentss = treeNode.getPath();
+        parentss.forEach(function (res) {
+            if (res.skuNumber) {
+                createPath += "/" + res.skuNumber;
+            }
+        })
+        if (treeNode.isSite == 1) {
+            siteObj = treeNode;
+            columnObj = {};
+            showTab("columnTab");
+        } else if (treeNode.isSite == 2) {
+            columnObj = treeNode;
+            var parents = treeNode.getPath();
+            parents.forEach(function (res) {
+                if (res.level == 1) {
+                    siteObj = res;
+                }
+            })
+            columnInfo(treeNode.id);
+            showTab("metadataListTab");
+        }
+        columnList(1, siteObj.id, columnObj.id);
+
+    }
+</script>
+
+<!--模板类型显示-->
+<script type="text/html" id="typeDemo">
+    {{# if(d.temptype==1){ }}
+    细览
+    {{#} else if(d.temptype==2){ }}
+    概览
+    {{#} else { }}
+    其他
+    {{#} }}
+</script>
+<script>
+    var chnlObj, colimnObj;
+
+    function reset() {
+        var data = checkChecked('test2');
+        if (data) {
+            delColumn1(data, 0)
+        }
+    }
+
+    function clearAllSites() {
+        if (chnlObj.length === 0) return;
+
+        layer.alert("确认清空回收站吗？", function () {
+            clearSites()
+        })
+    }
+
+    function delColumnTrue(delId) {
+        ajax(service_prefix.manage, "/programa/" + delId, "delete").then(function (data) {
+            if (data.success) {
+                if (data.success) {
+                    layer.closeAll();
+                    // getDelColumns(1, 10);
+                    getTreeData();
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        })
+    }
+
+    function clearSites() {
+        ajax(service_prefix.manage, '/programa/delPrograma', 'post').then(function (res) {
+            if (res.success) {
+                layer.closeAll();
+                // getDelColumns(1, 10)
+                columnList(1, siteObj.id, columnObj.id);
+                getTreeData();
+            }
+        })
+    }
+
+    function searchPage(data) {
+        layui.laytpl($("#columnListTmpl").html()).render(data.obj.records, function (html) {
+            $("#first").html(html);
+            layui.form.render();
+        })
+        columnPage(data);
+    }
+
+    //下拉框选中事件
+    function getChange() {
+        var obj = document.getElementById("changeId");
+        var value = obj.options[obj.selectedIndex].value;
+        if (value === '批量删除') {
+            delByIds();
+        }
+        obj.value = "更多";
+    }
+
+    //回收站
+    function getDelColumns(pageNo, size) {
+        var jsondata = {
+            "pager": {"current": pageNo, "size": size},
+            "entity": {"status": 1, "name": document.getElementById("ColumnName").value}
+        }
+        ajax(service_prefix.manage, "/programa/getDelList", "post", JSON.stringify(jsondata)).then(function (data) {
+            if (data.success) {
+                if (data.success || data.obj.records.length > 0) {
+                    chnlObj = data.obj.records;
+                    layui.use(['laypage', 'table'], function () {
+                        var table = layui.table,
+                            laypage = layui.laypage;
+                        table.render({
+                            elem: '#test2'
+                            , data: data.obj.records
+                            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                            , cols: [[
+                                {type: 'checkbox', field: "id"}
+                                , {type: 'numbers', title: '序号', align: "center", width: '77'}
+                                , {field: 'name', title: '显示名称', align: "left", width: '200'}
+                                , {field: 'skuNumber', title: '唯一标识', align: "left", width: '200'}
+                                , {field: 'chnlDataPath', title: '原位置', align: "left", width: '200'}
+                                , {field: 'operTime', title: '删除时间', align: "left", width: '200'}
+                                , {field: 'operUser', title: '删除者', align: "left", width: '200'}
+                                , {field: 'look', width: 130, title: '操作', toolbar: '#barDemo', align: "center"}
+                            ]]
+                        });
+                        table.on('row(LAY-app-content-tags)', function (obj) {
+                            var data = obj.data;
+                            //标注选中样式
+                            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                        });
+                        layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                            var data = obj.data; //获得当前行数据
+                            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                            var tr = obj.tr; //获得当前行 tr 的DOM对象
+                            if (layEvent === 'delete') { //查看
+                                layer.alert("确定删除:[" + data.name + "]?", function () {
+                                    delColumnTrue(data.id);
+
+                                })
+                            } else if (layEvent === 'reset') {
+                                layer.alert("确定还原:[" + data.name + "]?", function () {
+                                    resetColumn(data.id);
+                                })
+                            }
+                        })
+                        laypage.render({
+                            elem: 'demo5'
+                            , count: data.obj.total
+                            , curr: data.obj.current
+                            , limit: data.obj.size
+                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                            , jump: function (obj, first) {
+                                if (!first) {
+                                    pageNo = obj.curr
+                                    size = obj.limit
+                                    // getDelColumns(pageNo, size)
+                                }
+
+                            }
+                        });
+                    });
+                }
+            }
+        })
+    }
+
+    function resetColumn(id) {
+        delColumn1(id, 0)
+    }
+
+    layui.use('form', function () { //声明使用layUI的form
+        var form = layui.form;
+        form.render(); //刷新所有渲染效果，也可以单独熟悉某个效果
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+    layui.use('element', function () {
+        var $ = layui.jquery,
+            element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //触发事件
+        var active = {
+            tabAdd: function () {
+                //新增一个Tab项
+                element.tabAdd('demo', {
+                    title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                    ,
+                    content: '内容' + (Math.random() * 1000 | 0),
+                    id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+            },
+            tabDelete: function (othis) {
+                //删除指定Tab项
+                element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+                othis.addClass('layui-btn-disabled');
+            },
+            tabChange: function () {
+                //切换到指定Tab项
+                element.tabChange('demo', '22'); //切换到：用户管理
+            }
+        };
+
+        $('.site-demo-active').on('click', function () {
+            var othis = $(this),
+                type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+        $("li").on('click', function (e) {
+            var others = $(this).siblings();
+
+            if ($(this).hasClass('black')) {
+
+                $(this).removeClass('black');
+                $(this).addClass('white');
+                others.addClass('black');
+            }
+        })
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#test=/, '');
+        element.tabChange('test', layid);
+
+        element.on('tab(test)', function (elem) {
+            location.hash = 'test=' + $(this).attr('lay-id');
+        });
+
+    });
+
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#test1',
+            data: [{
+                number: 1,
+                type: "业务部门人才招聘栏目发文工作流",
+                name: "业务部门人才招聘栏目发文工作流",
+                location: "中科院[站点-10]",
+                updators: "2019-01-09 16:52:15",
+                time: "admin",
+                look: ""
+            },
+                {
+                    number: 2,
+                    type: "业务部门党建工作栏目发文工作流",
+                    name: "业务部门党建工作栏目发文工作流",
+                    location: "中科院[站点-10]",
+                    updators: "2019-01-08 15:12:15",
+                    time: "admin",
+                    look: ""
+                },
+                {
+                    number: 3,
+                    type: "业务部门国标意见征求栏目发文工作流",
+                    name: "业务部门国标意见征求栏目发文工作流",
+                    location: "中科院[站点-10]",
+                    updators: "2019-01-08 10:52:36",
+                    time: "admin",
+                    look: ""
+                },
+                {
+                    number: 4,
+                    type: "职能部门发文工作流",
+                    name: "",
+                    location: "中科院[站点-10]",
+                    updators: "2019-01-07 14:52:00",
+                    time: "admin",
+                    look: ""
+                },
+                {
+                    number: 5,
+                    type: "业务部门综合新闻栏目发文工作流",
+                    name: "业务部门综合新闻栏目发文工作流",
+                    location: "中科院[站点-10]",
+                    updators: "2019-01-07 10:12:15",
+                    time: "admin",
+                    look: ""
+                }
+            ],
+            cols: [
+                [{
+                    type: 'checkbox'
+                }, {
+                    field: 'number',
+                    width: 80,
+                    title: '序号',
+                    align: "center"
+                }, {
+                    field: 'type',
+                    width: 150,
+                    title: '工作流名称',
+                    align: "left"
+                }, {
+                    field: 'name',
+                    width: 280,
+                    title: '工作流描述',
+                    align: "left"
+                }, {
+                    field: 'location',
+                    width: 160,
+                    title: '所属位置',
+                    align: "left"
+                }, {
+                    field: 'updators',
+                    title: '创建时间',
+                    width: 200,
+                    align: "left"
+                }, {
+                    field: 'time',
+                    width: 150,
+                    title: '创建者',
+                    align: "left"
+                }, {
+                    field: 'look',
+                    width: 100,
+                    title: '配置情况',
+                    templet: "#pic1",
+                    align: "left"
+                }]
+            ]
+        });
+        table.render({
+            elem: '#test3',
+            data: [{
+                id: 1,
+                username: "用户组",
+                sex: "办公室",
+                city: "1",
+                sign: "1",
+                experience: "0",
+                score: "1",
+                classify: "1",
+                wealth: "1",
+                classifys: "1",
+                wealths: "1"
+            },
+                {
+                    id: 2,
+                    username: "用户",
+                    sex: "分院",
+                    city: "0",
+                    sign: "0",
+                    experience: "0",
+                    score: "0",
+                    classify: "0",
+                    wealth: "0",
+                    classifys: "0",
+                    wealths: "0"
+                },
+                {
+                    id: 3,
+                    username: "用户",
+                    sex: "IHIJI",
+                    city: "1",
+                    sign: "1",
+                    experience: "0",
+                    score: "1",
+                    classify: "1",
+                    wealth: "1",
+                    classifys: "1",
+                    wealths: "1"
+                },
+                {
+                    id: 4,
+                    username: "角色",
+                    sex: "编辑人员",
+                    city: "1",
+                    sign: "1",
+                    experience: "0",
+                    score: "1",
+                    classify: "1",
+                    wealth: "1",
+                    classifys: "1",
+                    wealths: "1"
+                },
+                {
+                    id: 5,
+                    username: "角色",
+                    sex: "领导",
+                    city: "1",
+                    sign: "1",
+                    experience: "0",
+                    score: "1",
+                    classify: "1",
+                    wealth: "1",
+                    classifys: "1",
+                    wealths: "1"
+                },
+                {
+                    id: 6,
+                    username: "角色",
+                    sex: "网站发布人员",
+                    city: "1",
+                    sign: "1",
+                    experience: "0",
+                    score: "1",
+                    classify: "1",
+                    wealth: "1",
+                    classifys: "1",
+                    wealths: "1"
+                },
+                {
+                    id: 7,
+                    username: "角色",
+                    sex: "办公室编辑人员",
+                    city: "1",
+                    sign: "1",
+                    experience: "0",
+                    score: "1",
+                    classify: "1",
+                    wealth: "1",
+                    classifys: "1",
+                    wealths: "1"
+                },
+                {
+                    id: 8,
+                    username: "角色",
+                    sex: "办公室编辑人员",
+                    city: "1",
+                    sign: "1",
+                    experience: "0",
+                    score: "1",
+                    classify: "1",
+                    wealth: "1",
+                    classifys: "1",
+                    wealths: "1"
+                }
+            ],
+            cols: [
+                [{type: "checkbox"}, {
+                    field: 'id',
+                    width: 85,
+                    title: '序号',
+                    align: "center"
+                }, {
+                    field: 'username',
+                    width: 125,
+                    title: '类型',
+                    align: "left"
+                }, {
+                    field: 'sex',
+                    width: 135,
+                    title: '名称',
+                    align: "left"
+                }, {
+                    field: 'city',
+                    width: 220,
+                    title: '修改站点',
+                    templet: "#pic2",
+                    align: "center"
+                }, {
+                    field: 'sign',
+                    title: '删除站点',
+                    width: 220,
+                    templet: "#pic3",
+                    align: "center"
+                }, {
+                    field: 'experience',
+                    width: 220,
+                    title: '预览站点',
+                    templet: "#pic4",
+                    align: "center"
+                }, {
+                    field: 'wealth',
+                    width: 220,
+                    title: '设置权限',
+                    templet: "#pic7",
+                    align: "center"
+                }
+                ]
+            ]
+        });
+        table.render({
+            elem: '#test4'
+            ,
+            data: [{
+                id: 1,
+                username: "已启用",
+                sex: "SFTP",
+                city: "/home/zhongkeyuan/",
+                sign: "10.2.1.168",
+                experience: "admin"
+            }]
+            ,
+            cols: [[
+                {type: 'checkbox'}
+                , {field: 'id', width: 80, title: '序号', align: "center"}
+                , {field: 'username', width: 100, title: '状态', align: "left"}
+                , {field: 'sex', width: 150, title: '分发类型', align: "left"}
+                , {field: 'city', width: 200, title: '存放目录', align: "left"}
+                , {field: 'sign', title: '服务器地址', width: 200, align: "left"}
+                , {field: 'experience', width: 200, title: '用户名', align: "left"}
+                , {field: 'score', width: 190, title: '操作', templet: "#operation"}
+            ]]
+        });
+    });
+    layui.form.on("submit(addTemplet)", function (data) {
+        ajax(service_prefix.manage, "/template/" + data.field.id, "put", JSON.stringify(data.field)).then(res => {
+            layer.closeAll();
+        })
+        return false;
+    })
+</script>
+<!--基本信息-->
+<script type="text/html" id="columnDetailTpl">
+    <button class="layui-btn" type="button" onclick="editColumn('{{d.id}}',1)">修改栏目</button>
+    <button class="layui-btn" type="button" data-type="generatorHtml">发布前端页面</button>
+    <table class="layui-table" style="margin-top: 50px" lay-even="" lay-skin="row" id="info">
+        <colgroup>
+            <col width="20%">
+            <col width="">
+            <col>
+        </colgroup>
+        <tbody>
+        <tr>
+            <td>状态：</td>
+            <td>{{d.stop==1?"停用":"启用"}}</td>
+            <td style="width: 160px">所属站点：</td>
+            <td id="columnSiteName"></td>
+        </tr>
+        <tr>
+            <td>唯一标识：</td>
+            <td>{{d.skuNumber}}</td>
+            <td>栏目名称：</td>
+            <td>{{d.name}}</td>
+        </tr>
+        <tr>
+            <td>首页展示模板：</td>
+            <td style="cursor: pointer;" onclick="editTemplate('{{d.listtpl}}')">{{d.listtplName}}</td>
+            <td>详情编辑模板：</td>
+            <td style="cursor: pointer;" onclick="editTemplate('{{d.edittpl}}')">{{d.edittplName}}</td>
+        </tr>
+        <tr>
+            <td>详情展示模板：</td>
+            <td style="cursor: pointer;" onclick="editTemplate('{{d.detailtpl}}')">{{d.detailtplName}}</td>
+            <td>元数据名称：</td>
+            <td style="cursor: pointer;" id="columnTableName" onclick="showTab('metadataFieldTab');"></td>
+        </tr>
+        <tr>
+            <td>发布地址：</td>
+            <td><a target="_blank" href="{{d.listUrl}}">{{d.listUrl}}</a></td>
+            <td>详情接口：</td>
+            <td id="json1" onclick="goDetail(event)" style="cursor: pointer"></td>
+        </tr>
+        <tr>
+            <td>列表接口：</td>
+            <td id="json2" onclick="goDetail1(event)" style="cursor: pointer"></td>
+            <td>移入回收站接口：</td>
+            <td id="json3" onclick="goDetail1(event)" style="cursor: pointer"></td>
+        </tr>
+        <tr>
+            <td>删除接口：</td>
+            <td id="json4" onclick="goDetail2(event)" style="cursor: pointer"></td>
+            <td>图片栏目：</td>
+            <td id="imgColumnName"></td>
+        </tr>
+        <tr>
+            <td>文件栏目：</td>
+            <td id="fileColumnName"></td>
+            <td>音频栏目：</td>
+            <td id="audioColumnName"></td>
+        </tr>
+        <tr>
+            <td>视频栏目：</td>
+            <td id="videoColumnName"></td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="reset">还原</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+</script>
+<script type="text/html" id="operation">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="pic">
+    <a class="layui-btn-xs" lay-event="edit"><img src="common/img/u7586.png" alt=""></a>
+</script>
+<script type="text/html" id="pic1">
+    <a class="layui-btn-xs" lay-event="edit"><img src="common/img/u5839.png" alt=""></a>
+</script>
+<script type="text/html" id="pic2">
+    {{#  if(d.city === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic3">
+    {{#  if(d.sign === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic4">
+    {{#  if(d.experience === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic5">
+    {{#  if(d.score === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic6">
+    {{#  if(d.classify === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic7">
+    {{#  if(d.wealth === "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic8">
+    {{#  if(d.classifys=== "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script type="text/html" id="pic9">
+    {{#  if(d.wealths=== "0"){ }}
+    <span class="right"></span>
+    {{#  } else{ }}
+    <span class="err"></span>
+    {{#  } }}
+</script>
+<script id='treet' type="text/html">
+    <div id="tdtree"></div>
+</script>
+<script>
+    function goDetail(event) {
+        var group = event.target.innerText.split("/")[1];
+        ajax("/v2/api-docs?group=" + group, "get").then(function (res) {
+            ajax("/swagger-resources/configuration/security", "get").then(function (data) {
+                for (var i in res.paths) {
+                    if (i === event.target.innerText) {
+                        window.open("/swagger-ui.html#!/" + res.paths[i].get.tags[0] + "/" + res.paths[i].get.operationId, "", "width=1000px,height=800px")
+                    }
+                }
+            })
+        })
+    }
+
+    function goDetail1(event) {
+        var group = event.target.innerText.split("/")[1];
+        ajax("/v2/api-docs?group=" + group, "get").then(function (res) {
+            ajax("/swagger-resources/configuration/security", "get").then(function (data) {
+                for (var i in res.paths) {
+                    if (i === event.target.innerText) {
+                        window.open("/swagger-ui.html#!/" + res.paths[i].post.tags[0] + "/" + res.paths[i].post.operationId, "", "width=1000px,height=800px")
+                    }
+                }
+            })
+        })
+    }
+
+    function goDetail2(event) {
+        var group = event.target.innerText.split("/")[1];
+        ajax("/v2/api-docs?group=" + group, "get").then(function (res) {
+
+            ajax("/swagger-resources/configuration/security", "get").then(function (data) {
+                for (var i in res.paths) {
+                    if (i === event.target.innerText) {
+                        window.open("/swagger-ui.html#!/" + res.paths[i].delete.tags[0] + "/" + res.paths[i].delete.operationId, "", "width=1000px,height=800px")
+                    }
+                }
+            })
+        })
+    }
+</script>
+<script id='shTemplate' type="text/html">
+    <form action="" class='layui-form'>
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="审核通过" title="审核通过" checked="">
+                <input type="radio" name="sex" value="审核不通过" title="审核不通过">
+            </div>
+        </div>
+        <label class="layui-form-label">审核理由：</label>
+        <textarea name="" id="reson" placeholder='请输入描述理由'></textarea>
+    </form>
+</script>
+<script>
+    $("#pussAll").click(function (data) {
+        layer.open({
+            title: '审核'
+            , area: ['500px', '320px']
+            , content: '<div class="drwb"></div>'
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                console.log(1)
+                if ($(".drwb input:checked").val() == '审核通过') {
+                    var data = checkChecked('metadataTable');
+                    ajax(service_prefix.metadata, "/statusPass?status=10&tableName=" + tableName, "post", JSON.stringify(checkChecked("metadataTable"))).then(function (res) {
+                        reflashData();
+                    })
+                }
+                if ($(".drwb input:checked").val() == '审核不通过') {
+                    ajax(service_prefix.metadata, "/statusPass?status=20&tableName=" + tableName, "post", JSON.stringify(checkChecked("metadataTable"))).then(function (res) {
+                        reflashData();
+                    })
+                }
+                layer.close(index);
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+
+            , cancel: function (index, layero) {
+                layer.close(index);
+            }
+        })
+        layui.laytpl($("#shTemplate").html()).render(data, function (html) {
+            $(".drwb").html(html)
+            setRender();
+        });
+    })
+</script>
+<script id="tuisongTemplate" type="text/html">
+
+    <form class="layui-form">
+        <p>请选择推送渠道:</p>
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <select name="">
+                    <option value="">请选择</option>
+                    <option value="">推送到网站渠道</option>
+                    <option value="">推送到第三方渠道</option>
+                </select>
+            </div>
+        </div>
+        <p>请选择推送站点:</p>
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <select name="">
+                    <option value="">请选择</option>
+                    <option value="">中科聚网公众号</option>
+                    <option value="">中科聚网微博号</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</script>
+<script>
+    $("#unpussAll").click(function (data) {
+        layer.open({
+            title: '推送'
+            , area: ['500px', '320px']
+            , content: '<div class="tuisong"></div>'
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                console.log(1)
+                layer.close(index);
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+
+            , cancel: function (index, layero) {
+                layer.close(index);
+            }
+        })
+        layui.laytpl($("#tuisongTemplate").html()).render(data, function (html) {
+
+            $(".tuisong").html(html)
+            setRender();
+        });
+    });
+
+    //敏感词提醒
+    function mgcfun() {
+        var content = ue.getContentTxt();
+        var J = {"str": content};
+        ajax(service_prefix.manage, "/programa/extractmingganwords", "post", JSON.stringify(J)).then(function (res) {
+            if (res) {
+                if (res.join("").replace(/\s/g,"") != content.replace(/\s/g,"")) {
+                    layer.msg("存在敏感词:" + res.join());
+                } else {
+                    layer.msg("未检测到敏感词！");
+                }
+            } else {
+                layer.msg("未检测到敏感词！");
+            }
+        });
+    }
+
+    //关键词提醒
+    function gjcfun() {
+        var content = ue.getContentTxt();
+        var J = {"str": content};
+        ajax(service_prefix.manage, "/programa/extractKeywords", "post", JSON.stringify(J)).then(function (res) {
+            if (res != null) {
+                if (res[0] != content) {
+                    $("#keyword").text(res.join());
+                    layer.msg("存在关键词:" + con.substring(1));
+                } else {
+                    layer.msg("未找到关键词！");
+                }
+            } else {
+                layer.msg("未找到关键词！");
+            }
+        });
+
+    }
+
+    function delmove() {
+        var channlId = $("#main .checkDiv input:checked").val();
+        if ($("#first input:checked").length < 1) {
+            layer.msg('请选择一个栏目');
+            return false
+        }
+        if ($("#first input:checked").length > 2) {
+            layer.msg('请选择一个栏目');
+            return false
+        }
+        layer.open({
+            title: '移动栏目'
+            , area: ['355px', '500px']
+            , content: '<div id="ydTree"></div>'
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                console.log(1)
+                var siteId = $("#ComAndSite .checkDiv input:checked").val();
+                var zuZi = $(".bgcolore").attr("data_cid")
+                var dataCode = $("#ComAndSite .checkDiv input:checked").attr('data-code');
+                console.log('siteId', siteId, 'zuZi', zuZi)
+                var data = {
+                    "code": dataCode,
+                    "companyId": zuZi
+                }
+                ajax(service_prefix.manage, "/site/" + siteId, "put", JSON.stringify(data)).then(function (data) {
+                    if (data.success) {
+                        layer.msg(data.msg)
+                        getTreeData();
+                    }
+                })
+                layer.close(index);
+            }
+            , btn2: function (index, layero) {
+                layer.close(index);
+            }
+
+            , cancel: function (index, layero) {
+                layer.close(index);
+            }
+        })
+
+
+        getColumnTreeData(1).then(function (res) {
+            var columnData;
+            ajax2(service_prefix.manage, "/programa/getTreeData", "post", {webclass: res}).then(function (data) {
+                for (var i in data.obj) {
+                    switch (data.obj[i].isSite) {
+                        case 0 :
+                            data.obj[i].icon = "common/img/u5548.png";
+                            break;
+                        case 1 :
+                            data.obj[i].icon = "common/img/u5554.png";
+                            break;
+                        case 2 :
+                            data.obj[i].icon = "common/img/u2615.png";
+                            break;
+                    }
+
+                }
+
+                columnData = data.obj;
+                zTreeObj = $.fn.zTree.init($("#ydTree"), settingss, columnData); //初始化树
+                var node = zTreeObj.getNodeByTId("treeDemo_3");
+                zTreeObj.expandAll(true); //true 节点全部展开、false节点收缩
+                zTreeObj.selectNode(node);
+                settingss.callback.onClick(null, zTreeObj.setting.treeId, node);
+            })
+
+        })
+
+
+    }
+</script>
+
+<script type="text/html" id="applyTemplate">
+    <form class="layui-form">
+        <ul id="treeDemo1" class="ztree" style="width:370px;height:500px;"></ul>
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit="" lay-filter="apply_submit" type="button">确认</button>
+
+        </div>
+    </form>
+</script>
+<script>
+    form.on("submit(apply_submit)", function (data) {
+        var nodes = zTreeObj.getCheckedNodes(true);
+        console.log(nodes[0].id);
+        // ajax(service_prefix.visual,"/template/" + tempId,"get").then(function (data) {
+        // 	if (!data || !data.success) {
+        // 		showWinTips('数据获取失败');
+        // 		return;
+        // 	}
+        // 	console.log(data);
+        // ajax(service_prefix.manage,"/template","post", JSON.stringify(param)).then(function (datas) {
+        // 	// /manage/template
+        // 	console.log(datas);
+        // 	var id = datas.obj.id;
+        // 	ajax(service_prefix.manage,"/programa/updateColumn?id="+id,"post",JSON.stringify(ids)).then(function(data){
+        // 		layer.msg('应用模板成功', function(){
+        // 			closeLayer();
+        // 		});
+        // 	})
+        // });
+        //});
+        layer.closeAll();
+    });
+</script>
+<script type="text/javascript" src="../thirdparty/tree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="../thirdparty/tree/js/jquery.ztree.excheck.js"></script>

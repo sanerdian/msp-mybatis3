@@ -1,0 +1,9 @@
+.visual_swiper_pic .swiper_container{width:100%;}
+.visual_swiper_pic .swiper-slide{width:100%;height:100%;}
+.visual_swiper_pic .swiper-slide img{width:100%;height:100%;}
+.visual_swiper_pic .swiper-slide h3{height:40px;line-height:40px;font-size:14px;padding:0 0 0 10px;position:absolute;left:0;bottom:0;z-index:3;}
+.visual_swiper_pic .swiper-slide h3 a{color:#fff;}
+.visual_swiper_pic .swiper-slide .visual_bg{width:100%;height:40px;background:#000;opacity:0.5;position:absolute;left:0;bottom:0;}
+.visual_swiper_pic .swiper-pagination{width:auto;right:20px;bottom:15px;left:inherit;}
+.visual_swiper_pic .swiper-pagination-bullet{background:#fff;}
+.visual_swiper_pic .swiper-pagination-bullet-active{background:#007aff;}

@@ -1,0 +1,836 @@
+﻿<title>元数据分类法管理</title>
+<style>
+    .addColor {background: rgba(218, 250, 162, 1)}
+    .left-list .layui-form-label {padding: 0px;width: auto;}
+    .left-list .layui-input-block {margin-left: 20px;line-height: 33px;}
+    .left-list .layui-form-item .layui-form-checkbox[lay-skin=primary] {margin-top: 5px;}
+    .left-list .layui-form-item .layui-form-radio {margin: 2px -8px 0 0;}
+    .left-list .active {background: rgba(218, 250, 162, 1)}
+    .left-list .active2 {background: rgba(218, 250, 162, 1)}
+    .left-list .layui-form-item {padding: 5px 10px;margin-bottom: 0px;cursor: pointer;}
+    .left-list .layui-btn-container {/* padding-left: 25px; */}
+    .layui-tab-item {position: relative;}
+    .layui-form select option {color: black;}
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(1) {width: 80px;}
+    li .layui-form-checkbox[lay-skin=primary] div span:nth-of-type(2) {width: 80px;margin-left: 45px;}
+    .layui-table td, .layui-table th {font-size: 12px;}
+    .k_TitleCreatedtime {display: flex;justify-content: space-between;border-bottom: 1px solid #f6f6f6}
+    .k_TitleCreatedtime .k_Title {border-bottom: none;}
+    .k_TitleCreatedtime .createdTime {padding: 0 15px;height: 42px;line-height: 42px;}
+    #uploadDemoView {margin:-30px;}
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-col-md3 md3-left left-list h100">
+        <div class="layui-card h100">
+            <div class="layui-card-header">分类法名称
+                <div class="layui-btn-container" style="float: right;">
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" data-type="addfu"
+                        style="background: url(common/img/icon/u13151.svg) no-repeat center;" title="新建"></button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" data-type="editfu"
+                        style="background: url(common/img/icon/u13153.svg) no-repeat center;" title="修改"></button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" data-type="delfu"
+                        style="background: url(common/img/icon/u13152.svg) no-repeat center;" title="删除"></button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" id="import" title="导入分类法"
+                        style="background: url(common/img/icon/u14899.svg) no-repeat center;"> </button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" onclick="doexport()"
+                        title="导出分类法"
+                        style="background: url(common/img/icon/u14898.svg) no-repeat center;"></button>
+                </div>
+            </div>
+            <div class="layui-card-header jnet-search-left">
+                <div class="layui-col-md11">
+                    <input type="text" id="searchclass" placeholder="请输入分类法名称" class="layui-input">
+                </div>
+                <div class="layui-col-md1">
+                    <button class="layui-btn layui-btn-sm" onclick="getParentTree(1)"><img src="common/img/u11881.svg"></button>
+                </div>
+            </div>
+            <div class="layui-card-body" style="overflow:auto;">
+                <!-- <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-sm allButton" data-type="addfu"><i class="layui-icon">&#xe608;</i> <span style="display: none;">新建</span></button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton" data-type="editfu"><i class="layui-icon">&#xe642;</i> <span style="display: none;">修改</span></button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton" data-type="delfu"><i class="layui-icon">&#xe640;</i> <span style="display: none;">删除</span></button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton" id="import"> 导入分类法</button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton" onclick="doexport()"> 导出分类法</button>
+                </div> -->
+                <!-- <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-sm" onclick="doexport()"> 导出分类法</button>
+                </div> -->
+                <form class="layui-form" action="" id="treeDemo0" style='position: relative;'>
+                </form>
+            </div>
+            <div class="" id="pageleft" style="padding-left: 10px"></div>
+        </div>
+    </div>
+    <div class="layui-col-md3 md3-left md3-right h100" style="width: 25%">
+        <div class="layui-card h100">
+            <div class="layui-card-header">分类法树
+                <div class="layui-btn-container" style="float: right;">
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" data-type="add"
+                        title="新建" style="background: url(common/img/icon/u13151.svg) no-repeat center;">
+
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" data-type="edit"
+                        title="修改" style="background: url(common/img/icon/u13153.svg) no-repeat center;">
+
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" data-type="del"
+                        title="删除" style="background: url(common/img/icon/u13152.svg) no-repeat center;">
+
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-sm allButton k_secondBtn" id="importCate"
+                        title="导入分类法分类" style="background: url(common/img/icon/u14899.svg) no-repeat center;">
+
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="layui-card-body" style="height: 90%; padding: 0px;">
+                <div style="overflow: hidden;">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md3 md3-right h100" style="width: 50%">
+        <div class="layui-card h100">
+            <div class="k_TitleCreatedtime">
+                <div class="layui-card-header k_Title">分类法详细信息</div>
+                <div class="createdTime" id="createdTime"></div>
+            </div>
+            <div class="layui-card-body">
+                <div class="layui-tab-item" id="detail" style="height: 300px;">
+                    <table class="layui-table" lay-even="" lay-skin="row" id="info">
+                    </table>
+                </div>
+                <p>订阅记录</p>
+                <br/>
+                <div>共<span id="total1" style="color: red"></span>条订阅记录，订阅<span id = "dingyue" style="color: red"></span>条，取消订阅<span id = "qxdingyue" style="color: red"></span>条</div>
+                <table class="layui-hide" id="subscribeTabel" lay-filter="monitorTest"></table>
+                <div id="tablepage" ></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="subtype">
+    <a>{{d.type == 1 ? "订阅" : "取消订阅"}}</a>
+</script>
+<script type="text/html" id="siteDetail">
+    {{#layui.each(d,function(index,item){}}
+    <colgroup>
+        <col width="50">
+        <col width="150">
+        <col>
+    </colgroup>
+    <tbody>
+       <!-- <tr>
+            <td>分类法ID：</td>
+            <td>{{item.id}}</td>
+        </tr>-->
+       <tr>
+           <td>编码id：</td>
+           <td>{{item.methodid}}</td>
+       </tr>
+        <tr>
+            <td>分类法名称：</td>
+            <td>{{item.className}}</td>
+        </tr>
+        <tr>
+            <td>分类法描述：</td>
+            <td>{{item.classDesc}}</td>
+        </tr>
+        <tr>
+            <td>所属模块：</td>
+            <td>{{item.moduleName}}</td>
+        </tr>
+        <tr>
+            <td>标签匹配词组：</td>
+            <td>{{item.matchg}}</td>
+        </tr>
+        <tr>
+            <td>编码规则：</td>
+            <td>{{item.bmname}}</td>
+        </tr>
+        <tr>
+            <td>图标：</td>
+            <td><img src="{{item.iconUrl}}"></td>
+        </tr>
+        <tr>
+            <td>创建人：</td>
+            <td>{{item.createUser}}</td>
+        </tr>
+        <tr>
+            <td>创建时间：</td>
+            <td>{{item.createTime}}</td>
+        </tr>
+    </tbody>
+    <!--{{#}) }}-->
+</script>
+<!--弹出层模板（新增，查看，编辑）-->
+<script type="text/html" id="editTemplate">
+    <form class="layui-form" lay-filter="editForm">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">父级分类:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="parentName" readonly autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类法名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="className" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类法描述:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="classDesc" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!--<div class="layui-form-item">
+                    <label class="layui-form-label">分类法模块:</label>
+                    <div class="layui-input-block">
+                        <select name="moduleId" id="select_module" lay-filter="select_module"></select>
+                    </div>
+                </div>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">编码规则:</label>
+                    <div class="layui-input-block">
+                        <select name="moduleId" id="select_module" lay-filter="select_module"></select>
+                    </div>
+                </div>
+                <input type="hidden" name="moduleName">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类法图标:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload-drag" id="test10">
+                            <div id="upicon">
+                                <i class="layui-icon"></i>
+                                <p>点击上传，或将文件拖拽到此处</p>
+                            </div>
+                            <div class="layui-hide" id="uploadDemoView">
+                                <img src="" alt="图标" style="width: 228px">
+                            </div>
+                        </div>
+                        <input type="hidden" id="iconUrl" name="iconUrl" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input hidden="hidden" name="id">
+        <input hidden="hidden" name="parentId">
+        <div class="button-bar">
+            <button class="layui-btn" lay-submit lay-filter="addBtn">确认</button>
+            <button class="layui-btn" type="button" data-type="close">取消</button>
+        </div>
+    </form>
+</script>
+<script>
+    var listObj = {};
+    var modelObj = {id:0,className:"根分类"};
+    var limit = 15;
+    var url = "/class";
+    layui.use('table', function () {
+        var table = layui.table
+            , upload = layui.upload
+            , $ = layui.$;
+
+        //导入分类法
+        upload.render({
+            elem: '#import'
+            , url: getAjaxUrl("","/metadata"+url+"/import")
+            , accept: 'file' //excel文件
+            ,before:function(){
+                layer.load();
+            }
+            , done: function (res) {
+                layer.alert(res.msg,function(index){
+                    getParentTree(1);
+                    layer.close(index)
+                });
+            },
+        });
+        //导入分类法的分类layui
+        /*upload.render({
+            elem: '#importCate'
+            , url: url+'/importCategory?id='+modelObj.id
+            , accept: 'file' //excel文件
+            /!*,data: {
+                "id": modelObj.id/!*function(){
+                    var data = layui.table.checkStatus("classTable").data;
+                    if(data[0]){
+                        return data[0].id;
+                    }else{
+                        return -1;
+                    }
+                }*!/
+            }*!/
+            ,before:function(){
+                layer.load();
+            }
+            , done: function (res) {
+                layer.alert(res.msg,function(){
+                    getParentTree(1);
+                });
+            },
+
+        });*/
+    });
+    function getsubscribe(id) {
+        var jsondata = {
+            "entity": {
+                "classid": id
+            },
+            "pager": {
+                "current": 1,
+                "size": 10
+            }
+        }
+        ajax(service_prefix.metadata, '/subscribe/listuser', "post", JSON.stringify(jsondata)).then(data => {
+
+            layui.use('table', function () {
+                var table = layui.table;
+                table.render({
+                    elem: '#subscribeTabel',
+                    data: data.obj.records,
+                    cols: [
+                        [ {
+                            type: 'numbers',
+                            title: '序号',
+                            width: 100
+                        }, {
+                            field: 'username',
+                            title: '订阅用户',
+                            width: 220
+                        }, {
+                            field: 'subscribetime',
+                            title: '订阅时间',
+                        },{
+                            field: 'createUser',
+                            title: '创建人',
+                        },{
+                            field: '',
+                            width: 200,
+                            title: '订阅类型',
+                            toolbar:'#subtype1'
+                        }]
+                    ],
+                    done: function (res) {
+                        var subscribe = 0;
+                        var dissubcribe = 0;
+                        for (var i in res.data){
+                            var type = res.data[i].type;
+                            if(type == 1){
+                                subscribe+=1;
+                            }else{
+                                dissubcribe +=1;
+                            }
+                        }
+                        /*  alert(subscribe)*/
+                        $("#dingyue").html(subscribe);
+                        $("#qxdingyue").html(dissubcribe);
+                        $("#total1").html(subscribe+dissubcribe)
+                    }
+                    ,id: "subscribeTabel",
+                     limit: 10
+
+                });
+            });
+            layui.laypage.render({
+                elem: 'tablepage'
+                , count: data.obj.total //数据总数
+                , curr: data.obj.current
+                , prev: '<i class="layui-icon">&#xe603;</i>'
+                , next: '<i class="layui-icon">&#xe602;</i>'
+                , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                , limit: 5
+            });
+        })
+
+    }
+
+    function doexport() {
+        window.location.href = getAjaxUrl("","/metadata/class/exportList?current=1&size=15");
+    }
+
+    function doSearch(pageNo) {
+        var jsondata = {
+            "entity": {
+                "className": $("#search").val(),
+                "parentId": modelObj.id
+            },
+            "pager": {
+                "current": pageNo,
+                "size": limit
+            }
+        }
+        ajax(service_prefix.metadata, url + "/list", "POST", JSON.stringify(jsondata)).then(res => {
+            layui.use(['laypage', 'table'], function () {
+                var table = layui.table
+                    , laypage = layui.laypage;
+                laypage.render({
+                    elem: 'demo8',
+                    count: res.obj.total, //数据总条数
+                    limit: limit, //每页条数
+                    prev: '<i class="layui-icon">&#xe603;</i>',
+                    next: '<i class="layui-icon">&#xe602;</i>',
+                    curr: res.obj.current, //当前页码
+                    jump: function (obj, first) {
+                        if (!first) {
+                            doSearch(obj.curr);
+                        }
+                    }
+                })
+                table.render({
+                    elem: '#classTable'
+                    , data: res.obj.records
+                    , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    , cols: [[
+                        {type: 'checkbox',width:'3%'}
+                        , {type: 'numbers', width: '7%', title: '序号'}
+                        , {field: 'className', width: '24%', title: '名称'}
+                        , {field: 'classDesc', width: '40%', title: '描述'}
+                        , {field: 'createUser', width: '13%', title: '创建人'}
+                        , {field: 'createTime', width: '13%', title: '创建时间'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ]]
+                    , limit: 15
+
+                });
+                table.on('row(LAY-app-content-tags)', function (obj) {
+                    var data = obj.data;
+                    //标注选中样式
+                    obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                });
+            });
+        }).catch(function(res){
+
+        })
+    }
+
+    function delAll(){
+        var data = checkChecked('classTable');
+        if(data){
+            ajax(service_prefix.metadata,url+"/delByIds","post",JSON.stringify(data)).then(res=>{
+                layer.alert("删除成功", function (index) {
+                    getParentTree(1);
+                    layer.closeAll();
+                })
+            }).catch(function(res){
+                layer.alert(res.msg);
+            })
+        }
+    }
+
+    function add(){
+        openEditView({parentId:modelObj.id,parentName:modelObj.className});
+    }
+    active.addfu = function(){
+        openEditView({parentId:0,parentName:"根分类"});
+    }
+
+    function openEditView(data){
+        layerOpenHtml("分类法",385,585,"simple/metadata/class/form.html",function(){
+            setFormData(data);
+            setFormDataa(data);
+        })
+    }
+
+    function edit(){
+        if(modelObj.id == 0){
+            layer.alert("请选择分类");
+        }else{
+            openEditView(modelObj);
+        }
+    }
+    active.editfu = function () {
+        if(modelObj.id == 0){
+            layer.alert("请选择分类");
+        }else{
+            openEditView(modelObj);
+        }
+    }
+    active.delfu = function () {
+        delfuall();
+    }
+
+    function delfuall() {
+        var ids = [];
+        $("input[name='treedemo0']:checked").each(function () {
+            ids.push($(this).val());
+        })
+        if (ids.length <= 0) {
+            layer.alert("请选择元数据");
+            return false;
+        }
+        layer.open({
+            content: "确认删除该分类法吗？"
+            ,btn: ['确认',"取消"]
+            ,yes: function(index, layero){
+                ajax(service_prefix.metadata,"/class/delByIds","post",JSON.stringify(ids)).then(data=>{
+                    if(data.success){
+                        getParentTree(1);
+                        getChildTree(modelObj.id);
+                        layer.closeAll();
+                    }else{
+                        layer.alert("删除失败！");
+                    }
+                }).catch(function(res){
+
+                })
+            }
+            ,btn2: function(index, layero){
+                layer.closeAll();
+            }
+        });
+    }
+
+    function del(){
+        /*if(modelObj.parentName == "根分类"){
+            layer.alert("请选择分类法");
+        }else{*/
+            layer.open({
+                content: "确认删除分类法:["+modelObj.className+"]及该分类法下级分类吗"
+                ,btn: ['确认',"取消"]
+                ,yes: function(index, layero){
+                    ajax(service_prefix.metadata,url+"/"+modelObj.id,"delete",{}).then(res=>{
+                        if(res.success){
+                            res.msg = "删除成功";
+                        }
+                        layer.alert(res.msg,function(){
+                            getParentTree(1);
+                            layer.closeAll();
+                        });
+                    }).catch(function(res){
+
+                    })
+                }
+                ,btn2: function(index, layero){
+                    layer.closeAll();
+                }
+            });
+
+    }
+
+    function getParentTree(pageNo){
+        var jsondata = {
+            "pager": {
+                "current": pageNo,
+                "size": 15
+            },
+            "entity": {
+                "parentid": 0,
+                "className": $("#searchclass").val(),
+            }
+        }
+        ajax(service_prefix.metadata,url+"/list","post",JSON.stringify(jsondata)).then(data=>{
+            if(data.success){
+                if(data.obj.records.length>0){
+                    getChildTree(data.obj.records[0].id);
+                    modelObj = data.obj.records[0];
+                }
+                var html = "";
+                for(var i in data.obj.records) {
+
+                    var obj = data.obj.records[i];
+                    var activeClass = "";
+                    var activeinputc = "";
+                    if (i == 0) {
+                        activeClass = "active";
+                        activeinputc = "checked";
+                    }
+                    html += '<div class="layui-form-item ' + activeClass + '" data_id="' + obj.id +
+                        '" data_created_time="' + (obj.createTime?obj.createTime.substr(0, 10):'') + '"  data_name="' + obj.className +
+                        '" data_iconUrl="'+obj.iconUrl+'" data_moduleId= "'+obj.moduleId+'" data_moduleName="'+obj.moduleName+'" data_desc="' + obj.classDesc + '" pane="">' +
+                        '              <div class="layui-form-label"><input type="radio" name="treedemo0" value="' +
+                        obj.id + '" lay-skin="primary" ' + activeinputc + '></div>' +
+                        '              <div class="layui-input-block">' +
+                        '                <p>' + obj.className + '[' + obj.id + ']</p>' +
+                        // '                <p>创建时间:' + obj.createTime.substr(0, 10) + '</p>' +
+                        '              </div>' +
+                        '            </div>';
+                }
+                $(".createdTime").html("创建时间：" + (data.obj.records[0].createTime?data.obj.records[0].createTime.substr(0, 10):""));
+
+                $("#treeDemo0").html(html);
+                var laypage = layui.laypage
+                    ,layer = layui.layer;
+                layui.use(['laypage', 'layer'], function(){
+                    laypage.render({
+                        elem: 'pageleft',
+                        count: data.obj.total, //数据总数
+                        limit: 15,
+                        curr: data.obj.current,
+                        prev: '<i class="layui-icon">&#xe603;</i>',
+                        next: '<i class="layui-icon">&#xe602;</i>',
+                        jump: function (obj, first) {
+                            if (!first) {
+                                getParentTree(obj.curr)
+                            }
+                        }
+                    });
+                });
+                layui.form.render();
+            }
+        })
+    }
+    //获得子树
+    function getChildTree(id) {
+        var jsondata = {
+            "parentId": id
+        }
+        ajax(service_prefix.metadata,"/class/tree","post",JSON.stringify(jsondata)).then(data=>{
+            var res = data.obj;
+            if(res){
+                getSelectMess(res[0].id);
+                getsubscribe(res[0].id);
+            }else{
+                getSelectMess(id);
+                getsubscribe(id);
+            }
+            showTree(res);
+        })
+    }
+
+    function getSelectMess(id){
+        var jsondata = {
+            "pager": {
+                "current": 1,
+                "size": 10
+            },"entity": {
+                "id": id
+            }
+        }
+
+        var html1 = "";
+        ajax(service_prefix.metadata, url + "/list", "post", JSON.stringify(jsondata)).then(data => {
+            var res = data.obj.records;
+
+            html1 += '<p>创建时间：' + (res[0].createTime?res[0].createTime.substr(0, 10):"") + '</p>'
+            $("#createdTime").html(html1)
+
+            if (data.success) {
+                var d = [];
+                d.push(data.obj.records[0]);
+                layui.laytpl($("#siteDetail").html()).render(d, function (html) {
+                    $("#info").html(html);
+                    layui.form.render();
+                })
+                document.getElementById("detail").className = "layui-tab-item layui-show";
+            }
+        });
+        getsubscribe(modelObj.id)
+    }
+
+
+    $(function () {
+        $(".left-list").on("mouseover",".layui-form-item",function(){
+            $(this).addClass("active2").siblings().removeClass("active2");
+        })
+        $(".left-list").on("mouseleave",".layui-form-item",function(){
+            $(this).removeClass("active2");
+        })
+        $(".left-list").on("click", ".layui-form-item", function () {
+
+            var createdTime = $(this).attr("data_created_time");
+            $(".createdTime").html("创建时间：" + createdTime)
+
+            $(".left-list input").prop("checked", false);
+            $(this).find("input").prop("checked", true);
+            layui.form.render();
+            $(this).addClass("active").siblings().removeClass("active");
+            modelObj.id = $(this).attr("data_id");
+            modelObj.className = $(this).attr("data_name");
+            modelObj.classDesc = $(this).attr("data_desc");
+            modelObj.iconUrl = $(this).attr("data_iconUrl");
+            modelObj.moduleId = $(this).attr("data_moduleId");
+            modelObj.moduleName = $(this).attr("data_moduleName");
+            getChildTree($(this).attr("data_id"));
+
+
+        })
+        layui.form.render();
+        getParentTree(1);
+    })
+</script>
+<script>
+    layui.table.on('tool(monitorTest)',function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        console.log("...............")
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得当前行 tr 的DOM对象
+        if(layEvent === 'delSubscription'){
+            layer.alert("确定删除:["+data.username+"]",function(){
+                doDeleteByIdssfMonitor(data.id,data.classid);
+            })
+        }
+    });
+    function doDeleteByIdssfMonitor(id,classes) {
+        layer.alert("是否确定删除,该操作不可撤回",function () {
+            ajax("","/metadata/subscribe/dele/"+id,"get",{}).then(res=>{
+                if(res.success){
+                    layer.alert("取消订阅成功")
+                    getsubscribe(classes)
+                    /*  doListt1(1);*/
+                     layer.closeAll();
+                }
+            }).catch(res=>{
+                layer.alert("取消订阅失败")
+                layer.closeAll();
+            })
+        })
+    }
+</script>
+<script type="text/html" id="subtype1">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delSubscription">取消订阅</a>
+</script>
+
+<script>
+    var zTreeObj;
+    //ztree
+    var settings = {
+        edit: {
+            enable: true,
+            drag: {
+                isCopy: false,
+                isMove: true,
+                prev: true,
+                next: true,
+                inner: false
+            },
+            showRemoveBtn: false,
+            showRenameBtn: false
+        },
+        data: {
+            keep: {
+                leaf: true,
+                parent: true
+            },
+            simpleData: {
+                enable: true, //true 、 false 分别表示 使用 、 不使用 简单数据模式
+                idKey: "id", //节点数据中保存唯一标识的属性名称
+                pIdKey: "parentId", //节点数据中保存其父节点唯一标识的属性名称
+                rootPId: 0 //用于修正根节点父节点数据，即 pIdKey 指定的属性值
+            },
+            key: {
+                name: "className"
+            }
+        },
+        view: {
+            showLine: false,
+            showIcon: true
+        },
+        callback: {
+            onClick: zTreeOnClick,
+            onDrop: zTreeOnDrop,
+            beforeDrop:beforeDrop
+        },
+        async: {
+            enable: true,
+            autoParam: ["id"],
+            type: "get",
+            url: com.jnetdata.url_prefix+"/metadata/class/asyncTree",
+            dataFilter: ajaxTreeDataFilter,
+            xhrFields: {withCredentials: true}
+        },
+    };
+
+    function zTreeOnDrop(event, treeId, treeNodes, targetNode, moveType){
+        var nodes;
+        if(targetNode.getParentNode()){
+            nodes = targetNode.getParentNode().children;
+        }else{
+            nodes = zTreeObj.getNodesByParam("level", 0, null);
+        }
+        var sortNodes = [];
+        for(var i in nodes){
+            sortNodes.push({id:nodes[i].id,seqencing:i});
+        }
+        ajax("","/metadata/class/batchUpdate","post",JSON.stringify(sortNodes)).then(function(){})
+    }
+
+    function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+        return treeNodes[0].parentId == targetNode.parentId;
+    }
+
+    function ajaxTreeDataFilter(treeId, parentNode, responseData) {
+        if (responseData) {
+            responseData.forEach(function(res){
+                delete res.children;
+            })
+        }
+        return responseData;
+    }
+
+    //渲染树结构
+    function showTree(data) {
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), settings, data); //初始化树
+        // zTreeObj.expandAll(false);    //true 节点全部展开、false节点收缩、
+    }
+
+    var uploadClass4Tree;
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        console.log(treeNode);
+        modelObj = treeNode;
+        if(treeNode.getParentNode()){
+            modelObj.parentName = treeNode.getParentNode().className;
+        }else{
+            modelObj.parentName = $(".active").attr("data_name");
+            modelObj.parentId = $(".active").attr("data_id");
+        }
+        getSelectMess(modelObj.id);
+        //getParentTree(1);
+        if(uploadClass4Tree){
+            uploadClass4Tree.reload({
+                url: getAjaxUrl("",'/metadata'+url+'/importCategory?id='+getCurrTreeNode().id)
+            });
+        }else{
+            uploadClass4Tree = layui.upload.render({
+                elem: '#importCate'
+                , url: getAjaxUrl("",'/metadata'+url+'/importCategory?id='+getCurrTreeNode().id)
+                , accept: 'file' //普通文件
+                ,before:function(){
+                    if(!getCurrTreeNode()){
+                        layer.alert("请选择节点");
+                        return false;
+                    }else{
+                        layer.load();
+                    }
+                }
+                , done: function (res) {
+                    layer.alert(res.msg,function(){
+                        getParentTree(1);
+                        layer.closeAll();
+                    });
+                }
+            });
+        }
+    };
+</script>
+
+<script>
+    function asyncParent(){
+        var currNode = getCurrTreeNode().getParentNode();
+        currNode.isParent = true;
+        zTreeObj.reAsyncChildNodes(currNode, "refresh", false);
+        zTreeObj.selectNode(currNode);
+        settings.callback.onClick(null, zTreeObj.setting.treeId, currNode);
+    }
+    function asyncChild(){
+        $(".active").trigger("click");
+        var currNode = getCurrTreeNode();
+        currNode.isParent = true;
+        zTreeObj.reAsyncChildNodes(currNode, "refresh", false);
+    }
+    function reflashTree(){
+        $(".active").trigger("click");
+    }
+    function getCurrTreeNode(){
+        return zTreeObj.getSelectedNodes()[0];
+    }
+</script>

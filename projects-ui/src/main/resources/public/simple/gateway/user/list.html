@@ -1,0 +1,132 @@
+<style>
+.layui-table th{text-align:center;font-size:16px;}
+</style>
+<div class="layui-fluid" id="list">
+	<div class="layui-card h100">
+		<!-- 标签切换开始 -->
+		<div class="layui-tab layui-tab-brief">
+			<ul class="layui-tab-title">
+				<li class="layui-this">用户授权</li>
+				<li>部门授权</li>
+			</ul>
+			<div class="layui-tab-content">
+				<!-- 标签内容开始：用户授权 -->
+				<div class="layui-tab-item layui-show">
+					<!-- 搜索开始 -->
+					<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+						<form class="layui-form" id="formSearch">
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<label class="layui-form-label">用户名</label>
+									<div class="layui-input-block">
+										<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label">真实姓名</label>
+									<div class="layui-input-block">
+										<input type="text" name="trueName" placeholder="请输入" autocomplete="off" class="layui-input">
+									</div>
+								</div>
+								<!--
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">电子邮箱</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">手机号</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="mobile" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                -->
+								<div class="layui-inline top_search_btn">
+									<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-data-back-search">
+										<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+									</button>
+								</div>
+
+							</div>
+						</form>
+						<div class="top_btn">
+							<button class="layui-btn layuiadmin-btn-admin" data-type="exportExcel"  data-layer-html="exportExcel.html" data-layer-path="simple/gateway/export/">Excel导出全部数据</button>
+							<!--<button class="layui-btn layuiadmin-btn-admin" data-type="add" data-layer-html="add.html" >新建用户</button>
+                            <button class="layui-btn layuiadmin-btn-admin layui-btn-danger" data-type="del">删除用户</button>
+                            <button class="layui-btn layuiadmin-btn-admin" data-type="resetPass" data-layer-html="resetPass.html" >重置密码</button>-->
+						</div>
+					</div>
+					<!-- 搜索结束 -->
+					<div class="layui-card-body">
+						<!-- 列表开始 -->
+						<div class="table-area">
+							<table id="tableData" lay-filter="tableData"></table>
+						</div>
+						<div id="pageData"></div>
+						<!-- 列表结束 -->
+					</div>
+				</div>
+				<!-- 标签内容结束：用户授权 -->
+				<!-- 标签内容开始：部门授权 -->
+				<div class="layui-tab-item">
+					<div class="layui-card-body" style="height: 100%;">
+						<div style="overflow: hidden;">
+							<ul id="treeDemo1" class="ztree"></ul>
+						</div>
+					</div>
+				</div>
+				<!-- 标签内容结束：部门授权 -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="simple/gateway/user/list.js"></script>
+<script src="simple/gateway/export/exportExcel.js"></script>
+<!-- 详情页 -->
+<div id="DetailDiv"></div>
+<!--操作 模板-->
+<script type="text/html" id="permissionTemplate">
+	{{#  if(d.locktimes >= 10){ }}
+	<a class="layui-btn layui-btn-xs" lay-event="permission">应用授权</a>
+	<a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="unlock">用户解锁</a>
+	{{#  } else { }}
+    <a class="layui-btn layui-btn-xs" lay-event="permission">应用授权</a>
+	{{#  } }}
+</script>
+
+<script type="text/html" id="setLimitTpl">
+	<div class="h100 layui-card-body" id="temp">
+	<p><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;{{d.label}}</p>
+		<form class="layui-form limit_form" lay-filter="limitForm">
+			<div class="apiAppRightInfo">
+				<table id="apiAppRightInfo"></table>
+				<div class="layui-btn-container">
+					<div class="button-bar">
+						<button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>
+						<button class="layui-btn" type="button" data-type="close" onclick="layer.closeAll()">取消</button>
+					</div>
+				</div>
+			</div>
+<!--			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">-->
+<!--				<ul class="layui-tab-title" id="getAllLimit">-->
+<!--					<li class="layui-this">api网关应用权限</li>-->
+<!--				</ul>-->
+<!--				<div class="layui-tab-content">-->
+<!--					<div class="layui-tab-item apiAppRightInfo layui-show">-->
+<!--						<table id="apiAppRightInfo"></table>-->
+<!--						<div class="layui-btn-container">-->
+<!--							<div class="button-bar">-->
+<!--								<button class="layui-btn" lay-submit lay-filter="addRightInfo">确认</button>-->
+<!--								<button class="layui-btn" type="button" data-type="close">取消</button>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+			<input type="hidden" name="id" value="{{d.id}}">
+			<input type="hidden" name="type" value="{{d.type}}">
+		</form>
+	</div>
+</script>

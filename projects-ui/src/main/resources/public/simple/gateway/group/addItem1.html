@@ -1,0 +1,59 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateItem1">
+	<form class="layui-form" lay-filter="editFormItem1">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">参数中文名:</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">运行状态</label>
+					<div class="layui-input-block">
+						<select name="runType" lay-verify="required">
+							<option value=""></option>
+							<option value="dev">开发</option>
+							<option value="test" selected>测试</option>
+							<option value="pre">预运行</option>
+							<option value="pro">生产</option>
+						</select>
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">参数名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="argName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">参数值:</label>
+					<div class="layui-input-block">
+						<input type="text" name="argValue" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注:</label>
+					<div class="layui-input-block">
+						<input type="text" name="remark" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+
+				</div>
+				<input hidden="hidden" name="id">
+				<input hidden="hidden" name="groupId">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item1-back-add">确认</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</script>

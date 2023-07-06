@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnetdata.msp.flowable.mapper.FlowMetadataMapper">
+
+    <update id="updateMetadata" parameterType="java.util.HashMap">
+        update ${tableName}
+        <trim prefix="set" suffixOverrides=",">
+            <choose>
+                <when test="taskId == null">${columnTaskId}=null,</when>
+                <otherwise>${columnTaskId}=#{taskId},</otherwise>
+            </choose>
+            <choose>
+                <when test="auditorId == null">${columnAuditorId}=null, ${columnAuditorName}=null,</when>
+                <otherwise>${columnAuditorId}=#{auditorId}, ${columnAuditorName}=#{auditorName},</otherwise>
+            </choose>
+            <if test="auditTime != null">${columnAuditTime}=#{auditTime},</if>
+            <if test="auditStatus != null">${columnAuditStatus}=#{auditStatus},</if>
+            <if test="issueStatus != null">${columnIssueStatus}=#{issueStatus},</if>
+            <if test="finalResult != null">${columnFinalResult}=#{finalResult},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateMetadata2" parameterType="java.util.HashMap">
+        update ${tableName}
+        <trim prefix="set" suffixOverrides=",">
+            <if test="taskId != null">${columnTaskId}=#{taskId},</if>
+            <if test="auditorId != null">${columnAuditorId}=#{auditorId},</if>
+            <if test="auditTime != null">${columnAuditTime}=#{auditTime},</if>
+            <if test="auditStatus != null">${columnAuditStatus}=#{auditStatus},</if>
+            <if test="issueStatus != null">${columnIssueStatus}=#{issueStatus},</if>
+            <if test="finalResult != null">${columnFinalResult}=#{finalResult},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="addMsg" parameterType="java.util.HashMap">
+        insert into customernewslog(newsid, newstype, newscontext, addressee,
+          configid, range, crtime, modify_time, isdisplay, parentid)
+        values((select max(newsid) + 1 from customernewslog b), #{type}, #{content}, #{receptionId},
+          #{configid}, #{range}, #{createTime}, #{modityTime}, 1, 0)
+    </insert>
+
+    <select id="getPoById" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select id, ${columnTaskId}, ${columnAuditorId}, ${columnAuditTime}, ${columnAuditStatus}, ${columnIssueStatus}, ${columnFinalResult}
+        from ${tableName}
+        where id = #{id}
+    </select>
+</mapper>

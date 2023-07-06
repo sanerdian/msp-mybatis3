@@ -1,0 +1,47 @@
+<!--弹出层模板（新增，编辑）-->
+<script type="text/html"  id="templateSignature">
+	<div id="list">
+		<div class="layui-card h100">
+			<!-- 搜索开始 -->
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<form class="layui-form" id="formSearch">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">名称</label>
+							<div class="layui-input-block">
+								<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">签名</label>
+							<div class="layui-input-block">
+								<input type="text" name="signatureKey" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline top_search_btn">
+							<button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-signature-back-search">
+								<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 搜索结束 -->
+
+			<div class="layui-card-body">
+				<!-- 列表开始 -->
+				<div>
+					<table id="tableSignature" lay-filter="tableSignature"></table>
+					<div id="page_tableSignature"></div>
+				</div>
+				<!-- 列表结束 -->
+			</div>
+			<div class="button-bar">
+				<button class="layui-btn" type="button" lay-submit lay-filter="LAY-signature-back-add">确认</button>
+				<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+			</div>
+		</div>
+	</div>
+
+
+</script>

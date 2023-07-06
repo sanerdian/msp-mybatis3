@@ -1,0 +1,97 @@
+<script type="text/html"  id="templateItem3">
+	<form id="syncDetailForm" class="layui-form"  lay-filter="formSyncAdd">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称:</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">源应用:</label>
+					<div class="layui-input-block">
+						<select name="sourceAppId" id="addSync_optionSourceApp" lay-filter="LAY-add-sync-select-sourceAppId">
+							<option></option>
+						</select>
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">源API:</label>
+					<div class="layui-input-block">
+						<select name="sourceApiId" id="addSync_optionSourceApi">
+							<option></option>
+						</select>
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">同步类型:</label>
+					<div class="layui-input-block">
+						<span title="只要源API被调用，就执行数据同步方法">
+							<input type="radio" name="type" value="always"  title="始终执行" lay-filter="LAY-add-sync-radio-type" checked >
+						</span>
+						<span title="源API被调用时，只有满足下方设置的条件，才执行数据同步方法">
+							<input type="radio" name="type" value="condition" title="指定条件下执行" lay-filter="LAY-add-sync-radio-type">
+						</span>
+						<span title="源API被调用，也不会触发数据同步方法">
+							<input type="radio" name="type" value="stop" title="不执行" lay-filter="LAY-add-sync-radio-type">
+						</span>
+					</div>
+				</div>
+				<div id="syncCondition" style="display: none">
+					<div class="layui-form-item">
+						<label class="layui-form-label">条件字段:</label>
+						<div class="layui-input-block">
+							<input type="text" name="conditionField" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">条件符号:</label>
+						<div class="layui-input-block">
+							<select name="conditionOperator" style="width: 100px;">
+								<option value=""></option>
+								<option value="equal">等于</option>
+								<option value="like">(文字中)包含</option>
+								<option value="inList">在数组中</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">条件取值:</label>
+						<div class="layui-input-block">
+							<input type="text" name="conditionValue" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">目标应用:</label>
+					<div class="layui-input-block">
+						<select name="targetAppId" id="addSync_optionTargeApp" disabled>
+						</select>
+<!--						<span class="bitianspan">必填</span>-->
+					</div>
+				</div>
+				<input hidden="hidden" name="targetAppId">
+				<div class="layui-form-item">
+					<label class="layui-form-label">目标API:</label>
+					<div class="layui-input-block">
+						<select name="targetApiId" id="addSync_optionTargeApi">
+						</select>
+						<span class="bitianspan">必填</span>
+					</div>
+				</div>
+				<input hidden="hidden" name="id">
+
+				<div class="button-bar">
+					<button class="layui-btn" type="button" lay-submit lay-filter="LAY-item3-back-add">保存</button>
+					<button class="layui-btn" type="reset" data-type="close" onclick="layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</script>
